@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/digit_components/melos_digit_components.iml" filepath="$PROJECT_DIR$/packages/digit_components/melos_digit_components.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mason_templates/digit_entity/hooks/melos_digit_entity_hooks.iml" filepath="$PROJECT_DIR$/mason_templates/digit_entity/hooks/melos_digit_entity_hooks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/forms_engine/melos_forms_engine.iml" filepath="$PROJECT_DIR$/packages/forms_engine/melos_forms_engine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mason_templates/freezed_bloc/hooks/melos_freezed_bloc_hooks.iml" filepath="$PROJECT_DIR$/mason_templates/freezed_bloc/hooks/melos_freezed_bloc_hooks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apps/health_campaign_field_worker_app/melos_health_campaign_field_worker_app.iml" filepath="$PROJECT_DIR$/apps/health_campaign_field_worker_app/melos_health_campaign_field_worker_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_digit_flutter.iml" filepath="$PROJECT_DIR$/melos_digit_flutter.iml" />
+    </modules>
+  </component>
+</project>

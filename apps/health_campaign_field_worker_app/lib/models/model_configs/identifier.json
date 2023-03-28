@@ -1,0 +1,22 @@
+{
+  "name": "identifier",
+  "attributes": [
+    {
+      "name": "id",
+      "type": "String",
+      "includeForQuery": true,
+      "nullable": true
+    },
+    {
+      "name": "identifierType",
+      "type": "String",
+      "includeForQuery": true
+    },
+    {
+      "name": "identifierId",
+      "type": "String",
+      "includeForQuery": true
+    }
+  ],
+  "isEnum": false
+}

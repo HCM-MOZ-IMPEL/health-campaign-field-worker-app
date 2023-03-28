@@ -1,0 +1,25 @@
+{
+  "name": "projectProductVariant",
+  "createRepository": true,
+  "ignoreFields": [
+    "clientReferenceId"
+  ],
+  "attributes": [
+    {
+      "name": "productVariantId",
+      "type": "String",
+      "includeForQuery": true,
+      "nullable": false,
+      "isPk": true
+    },
+    {
+      "name": "type",
+      "type": "String"
+    },
+    {
+      "name": "isBaseUnitVariant",
+      "type": "bool"
+    }
+  ],
+  "isEnum": false
+}

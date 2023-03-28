@@ -1,0 +1,27 @@
+{
+  "name": "target",
+  "ignoreFields": [
+    "clientReferenceId"
+  ],
+  "attributes": [
+    {
+      "name": "id",
+      "type": "String",
+      "nullable": false,
+      "isPk": true
+    },
+    {
+      "name": "beneficiaryType",
+      "type": "String"
+    },
+    {
+      "name": "baseline",
+      "type": "String"
+    },
+    {
+      "name": "target",
+      "type": "String"
+    }
+  ],
+  "isEnum": false
+}

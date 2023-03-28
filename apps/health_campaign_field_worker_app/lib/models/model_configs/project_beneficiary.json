@@ -1,0 +1,36 @@
+{
+  "name": "projectBeneficiary",
+  "createRepository": true,
+  "isSearchResponsePlural": true,
+  "attributes": [
+    {
+      "name": "id",
+      "type": "String",
+      "includeForQuery": true
+    },
+    {
+      "name": "projectId",
+      "type": "String",
+      "includeForQuery": true
+    },
+    {
+      "name": "beneficiaryId",
+      "type": "String",
+      "includeForQuery": true
+    },
+    {
+      "name": "beneficiaryClientReferenceId",
+      "type": "String",
+      "includeForQuery": true
+    }
+  ],
+  "dateTimeAttributes": [
+    {
+      "name": "dateOfRegistration",
+      "type": "DateTime",
+      "includeForQuery": true,
+      "nullable": false
+    }
+  ],
+  "isEnum": false
+}
