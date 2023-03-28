@@ -44,12 +44,12 @@ part 'app_router.gr.dart';
       page: UnauthenticatedPageWrapper,
       path: '/',
       children: [
-        AutoRoute(
-          page: LanguageSelectionPage,
-          path: 'language_selection',
-          initial: true,
-        ),
-        AutoRoute(page: LoginPage, path: 'login'),
+        // AutoRoute(
+        //   page: LanguageSelectionPage,
+        //   path: 'language_selection',
+        //   initial: true,
+        // ),
+        AutoRoute(page: LoginPage, path: 'login', initial: true),
       ],
     ),
     AutoRoute(

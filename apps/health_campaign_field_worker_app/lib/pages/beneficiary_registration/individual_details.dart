@@ -242,42 +242,42 @@ class _IndividualDetailsPageState
                               value: widget.isHeadOfHousehold,
                             ),
                           ),
-                          BlocBuilder<AppInitializationBloc,
-                              AppInitializationState>(
-                            builder: (context, state) => state.maybeWhen(
-                              orElse: () => const Offstage(),
-                              initialized: (appConfiguration, _) {
-                                final idTypeOptions =
-                                    appConfiguration.idTypeOptions ??
-                                        <IdTypeOptions>[];
-
-                                return DigitDropdown<String>(
-                                  isRequired: true,
-                                  label: localizations.translate(
-                                    i18.individualDetails.idTypeLabelText,
-                                  ),
-                                  valueMapper: (e) => e,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value == 'DEFAULT') {
-                                        form.control(_idNumberKey).value =
-                                            IdGen.i.identifier.toString();
-                                      } else {
-                                        form.control(_idNumberKey).value = null;
-                                      }
-                                    });
-                                  },
-                                  initialValue: idTypeOptions.firstOrNull?.name,
-                                  menuItems: idTypeOptions.map(
-                                    (e) {
-                                      return localizations.translate(e.name);
-                                    },
-                                  ).toList(),
-                                  formControlName: _idTypeKey,
-                                );
-                              },
-                            ),
-                          ),
+                          // BlocBuilder<AppInitializationBloc,
+                          //     AppInitializationState>(
+                          //   builder: (context, state) => state.maybeWhen(
+                          //     orElse: () => const Offstage(),
+                          //     initialized: (appConfiguration, _) {
+                          //       final idTypeOptions =
+                          //           appConfiguration.idTypeOptions ??
+                          //               <IdTypeOptions>[];
+                          //
+                          //       return DigitDropdown<String>(
+                          //         isRequired: true,
+                          //         label: localizations.translate(
+                          //           i18.individualDetails.idTypeLabelText,
+                          //         ),
+                          //         valueMapper: (e) => e,
+                          //         onChanged: (value) {
+                          //           setState(() {
+                          //             if (value == 'DEFAULT') {
+                          //               form.control(_idNumberKey).value =
+                          //                   IdGen.i.identifier.toString();
+                          //             } else {
+                          //               form.control(_idNumberKey).value = null;
+                          //             }
+                          //           });
+                          //         },
+                          //         initialValue: idTypeOptions.firstOrNull?.name,
+                          //         menuItems: idTypeOptions.map(
+                          //           (e) {
+                          //             return localizations.translate(e.name);
+                          //           },
+                          //         ).toList(),
+                          //         formControlName: _idTypeKey,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
