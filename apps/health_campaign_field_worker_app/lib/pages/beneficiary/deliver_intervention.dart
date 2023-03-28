@@ -39,9 +39,11 @@ class DeliverInterventionPage extends LocalizedStatefulWidget {
 
 class _DeliverInterventionPageState
     extends LocalizedState<DeliverInterventionPage> {
-  static const _resourceDeliveredKey = 'resourceDelivered';
+  // static const _resourceDeliveredKey = 'resourceDelivered';
   static const _quantityDistributedKey = 'quantityDistributed';
   static const _deliveryCommentKey = 'deliveryComment';
+  int count = 0;
+  late ProductVariantModel productVariantModel;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,35 @@ class _DeliverInterventionPageState
                         footer: DigitCard(
                           child: DigitElevatedButton(
                             onPressed: () async {
+                              final formValue = form
+                                  .control(
+                                    'quantityDistributed',
+                                  )
+                                  .value;
+                              if (formValue != count) {
+                                setState(() {
+                                  form
+                                      .control(_deliveryCommentKey)
+                                      .setValidators(
+                                    [Validators.required],
+                                    updateParent: true,
+                                    autoValidate: true,
+                                  );
+                                  form.control(_deliveryCommentKey).touched;
+                                });
+                              } else {
+                                form.markAsPristine();
+                                setState(() {
+                                  form
+                                      .control(_deliveryCommentKey)
+                                      .setValidators(
+                                    [],
+                                    updateParent: true,
+                                    autoValidate: true,
+                                  );
+                                });
+                              }
+
                               form.markAllAsTouched();
                               if (!form.valid) return;
                               final router = context.router;
@@ -139,13 +170,15 @@ class _DeliverInterventionPageState
                                                         )
                                                         .value
                                                         .toString(),
-                                                    productVariantId: (form
-                                                                .control(
-                                                                  'resourceDelivered',
-                                                                )
-                                                                .value
-                                                            as ProductVariantModel)
-                                                        .id,
+                                                    // productVariantId: (form
+                                                    //             .control(
+                                                    //               'resourceDelivered',
+                                                    //             )
+                                                    //             .value
+                                                    //         as ProductVariantModel)
+                                                    //     .id,
+                                                    productVariantId:
+                                                        productVariantModel.id,
                                                     deliveryComment: form
                                                         .control(
                                                           'deliveryComment',
@@ -361,7 +394,7 @@ class _DeliverInterventionPageState
                                     localizations.translate(i18
                                         .deliverIntervention
                                         .noOfResourcesForDelivery): () {
-                                      final count = householdMemberWrapper
+                                      count = householdMemberWrapper
                                               .household.memberCount ??
                                           householdMemberWrapper.members.length;
 
@@ -383,6 +416,8 @@ class _DeliverInterventionPageState
                                             ?.firstOrNull
                                             ?.productVariantId;
 
+                                        productVariantModel =
+                                            productVariants[0];
                                         final variant = productState.whenOrNull(
                                           fetched: (productVariants) {
                                             return productVariants
@@ -394,30 +429,31 @@ class _DeliverInterventionPageState
                                           },
                                         );
 
-                                        form
-                                            .control(_resourceDeliveredKey)
-                                            .value = variant;
-
-                                        return DigitDropdown<
-                                            ProductVariantModel>(
-                                          label: localizations.translate(
-                                            i18.deliverIntervention
-                                                .resourceDeliveredLabel,
-                                          ),
-                                          isRequired: true,
-                                          valueMapper: (value) {
-                                            return localizations.translate(
-                                              value.sku ?? value.id,
-                                            );
-                                          },
-                                          menuItems: productVariants,
-                                          validationMessages: {
-                                            'required': (object) =>
-                                                'Field is required',
-                                          },
-                                          formControlName:
-                                              _resourceDeliveredKey,
-                                        );
+                                        return Container();
+                                        // form
+                                        //     .control(_resourceDeliveredKey)
+                                        //     .value = variant;
+                                        //
+                                        // return DigitDropdown<
+                                        //     ProductVariantModel>(
+                                        //   label: localizations.translate(
+                                        //     i18.deliverIntervention
+                                        //         .resourceDeliveredLabel,
+                                        //   ),
+                                        //   isRequired: true,
+                                        //   valueMapper: (value) {
+                                        //     return localizations.translate(
+                                        //       value.sku ?? value.id,
+                                        //     );
+                                        //   },
+                                        //   menuItems: productVariants,
+                                        //   validationMessages: {
+                                        //     'required': (object) =>
+                                        //         'Field is required',
+                                        //   },
+                                        //   formControlName:
+                                        //       _resourceDeliveredKey,
+                                        // );
                                       },
                                     );
                                   },
@@ -477,9 +513,9 @@ class _DeliverInterventionPageState
     final state = context.read<HouseholdOverviewBloc>().state;
 
     return fb.group(<String, Object>{
-      _resourceDeliveredKey: FormControl<ProductVariantModel>(
-        validators: [Validators.required],
-      ),
+      // _resourceDeliveredKey: FormControl<ProductVariantModel>(
+      //   validators: [Validators.required],
+      // ),
       _quantityDistributedKey: FormControl<int>(
         value: state.householdMemberWrapper.task?.resources?.first.quantity !=
                 null
