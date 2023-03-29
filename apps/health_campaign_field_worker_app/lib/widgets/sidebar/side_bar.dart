@@ -1,14 +1,11 @@
 import 'package:digit_components/digit_components.dart';
-import 'package:digit_components/models/digit_row_card/digit_row_card_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../utils/i18_key_constants.dart' as i18;
-import '../../blocs/app_initialization/app_initialization.dart';
-import '../../blocs/auth/auth.dart';
-import '../../blocs/localization/localization.dart';
-import '../../router/app_router.dart';
+
 import '../../../blocs/localization/app_localization.dart';
-import '../../utils/constants.dart';
+import '../../blocs/auth/auth.dart';
+import '../../router/app_router.dart';
+import '../../utils/i18_key_constants.dart' as i18;
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
@@ -163,7 +160,7 @@ class SideBar extends StatelessWidget {
               ),
             ],
           ),
-              const PoweredByDigit(),
+          const PoweredByDigit(),
         ],
       );
     });
