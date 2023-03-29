@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import '../../../blocs/localization/app_localization.dart';
+
 import '../../../blocs/facility/facility.dart';
+import '../../../blocs/localization/app_localization.dart';
 import '../../../blocs/product_variant/product_variant.dart';
 import '../../../blocs/project/project.dart';
 import '../../../blocs/stock_reconciliation/stock_reconciliation.dart';
@@ -37,24 +38,31 @@ class _StockReconciliationPageState
   static const _productVariantKey = 'productVariant';
   static const _manualCountKey = 'manualCountKey';
   static const _reconciliationCommentsKey = 'reconciliationCommentsKey';
+  late ProductVariantModel productVariantModel;
+
+  int stockCount = 0;
 
   FormGroup _form() {
     return fb.group({
       _facilityKey: FormControl<FacilityModel>(
         validators: [Validators.required],
       ),
-      _productVariantKey: FormControl<ProductVariantModel>(
-        validators: [Validators.required],
-      ),
+      // _productVariantKey: FormControl<ProductVariantModel>(
+      //   validators: [Validators.required],
+      // ),
       _manualCountKey: FormControl<String>(
-        value: '0',
+        // value: '0',
         validators: [
           Validators.number,
           Validators.required,
           CustomValidator.validStockCount,
         ],
       ),
-      _reconciliationCommentsKey: FormControl<String>(),
+      _reconciliationCommentsKey: FormControl<String>(
+        validators: [
+          Validators.required,
+        ],
+      ),
     });
   }
 
@@ -141,9 +149,12 @@ class _StockReconciliationPageState
                                                   .control(_facilityKey)
                                                   .value as FacilityModel;
 
-                                              final productVariant = form
-                                                  .control(_productVariantKey)
-                                                  .value as ProductVariantModel;
+                                              // final productVariant = form
+                                              //     .control(_productVariantKey)
+                                              //     .value as ProductVariantModel;
+
+                                              final productVariant =
+                                                  productVariantModel;
 
                                               final calculatedCount = form
                                                   .control(_manualCountKey)
@@ -322,41 +333,57 @@ class _StockReconciliationPageState
                                           return state.maybeWhen(
                                             orElse: () => const Offstage(),
                                             fetched: (productVariants) {
-                                              return DigitDropdown<
-                                                  ProductVariantModel>(
-                                                formControlName:
-                                                    _productVariantKey,
-                                                label: localizations.translate(
-                                                  i18.stockReconciliationDetails
-                                                      .productLabel,
-                                                ),
-                                                isRequired: true,
-                                                onChanged: (value) {
-                                                  ctx
-                                                      .read<
-                                                          StockReconciliationBloc>()
-                                                      .add(
-                                                        StockReconciliationSelectProductEvent(
-                                                          value.id,
-                                                        ),
-                                                      );
-                                                },
-                                                valueMapper: (value) {
-                                                  return localizations
-                                                      .translate(
-                                                    value.sku ?? value.id,
+                                              stockCount = stockState
+                                                  .stockInHand
+                                                  .toInt();
+                                              productVariantModel =
+                                                  productVariants[0];
+                                              ctx
+                                                  .read<
+                                                      StockReconciliationBloc>()
+                                                  .add(
+                                                    StockReconciliationSelectProductEvent(
+                                                      productVariantModel.id,
+                                                    ),
                                                   );
-                                                },
-                                                menuItems: productVariants,
-                                                validationMessages: {
-                                                  'required': (object) =>
-                                                      AppLocalizations.of(
-                                                        context,
-                                                      ).translate(i18
-                                                          .stockReconciliationDetails
-                                                          .fieldRequired),
-                                                },
-                                              );
+
+                                              return Container();
+
+                                              // return DigitDropdown<
+                                              //     ProductVariantModel>(
+                                              //   formControlName:
+                                              //       _productVariantKey,
+                                              //   label: localizations.translate(
+                                              //     i18.stockReconciliationDetails
+                                              //         .productLabel,
+                                              //   ),
+                                              //   isRequired: true,
+                                              //   onChanged: (value) {
+                                              //     ctx
+                                              //         .read<
+                                              //             StockReconciliationBloc>()
+                                              //         .add(
+                                              //           StockReconciliationSelectProductEvent(
+                                              //             value.id,
+                                              //           ),
+                                              //         );
+                                              //   },
+                                              //   valueMapper: (value) {
+                                              //     return localizations
+                                              //         .translate(
+                                              //       value.sku ?? value.id,
+                                              //     );
+                                              //   },
+                                              //   menuItems: productVariants,
+                                              //   validationMessages: {
+                                              //     'required': (object) =>
+                                              //         AppLocalizations.of(
+                                              //           context,
+                                              //         ).translate(i18
+                                              //             .stockReconciliationDetails
+                                              //             .fieldRequired),
+                                              //   },
+                                              // );
                                             },
                                           );
                                         },
@@ -486,6 +513,42 @@ class _StockReconciliationPageState
                                           "max": (object) => i18
                                               .stockReconciliationDetails
                                               .manualCountMaxError,
+                                        },
+                                        onChanged: (control) {
+                                          final manualStockCount =
+                                              control.value;
+
+                                          if (manualStockCount !=
+                                              stockCount.toString()) {
+                                            setState(() {
+                                              form
+                                                  .control(
+                                                _reconciliationCommentsKey,
+                                              )
+                                                  .setValidators(
+                                                [Validators.required],
+                                                updateParent: true,
+                                                autoValidate: true,
+                                              );
+                                              form
+                                                  .control(
+                                                    _reconciliationCommentsKey,
+                                                  )
+                                                  .touched;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              form
+                                                  .control(
+                                                _reconciliationCommentsKey,
+                                              )
+                                                  .setValidators(
+                                                [],
+                                                updateParent: true,
+                                                autoValidate: true,
+                                              );
+                                            });
+                                          }
                                         },
                                       ),
                                       DigitTextFormField(

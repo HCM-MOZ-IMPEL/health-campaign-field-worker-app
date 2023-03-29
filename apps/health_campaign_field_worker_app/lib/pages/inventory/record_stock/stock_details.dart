@@ -29,7 +29,7 @@ class StockDetailsPage extends LocalizedStatefulWidget {
 }
 
 class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
-  static const _productVariantKey = 'productVariant';
+  // static const _productVariantKey = 'productVariant';
   static const _transactingPartyKey = 'transactingParty';
   static const _transactionQuantityKey = 'quantity';
   static const _transactionReasonKey = 'transactionReason';
@@ -38,27 +38,42 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   static const _vehicleNumberKey = 'vehicleNumber';
   static const _typeOfTransportKey = 'typeOfTransport';
   static const _commentsKey = 'comments';
+  late ProductVariantModel productVariantModel;
 
   FormGroup _form() {
     return fb.group({
-      _productVariantKey: FormControl<ProductVariantModel>(
-        validators: [Validators.required],
-      ),
+      // _productVariantKey: FormControl<ProductVariantModel>(
+      //   validators: [Validators.required],
+      // ),
       _transactingPartyKey: FormControl<FacilityModel>(
         validators: [Validators.required],
       ),
-      _transactionQuantityKey: FormControl<String>(validators: [
+      _transactionQuantityKey: FormControl<int>(validators: [
         Validators.number,
         Validators.required,
+        Validators.min(1),
       ]),
       _transactionReasonKey: FormControl<TransactionReason>(),
       _waybillNumberKey: FormControl<String>(),
-      _waybillQuantityKey: FormControl<String>(
-        validators: [Validators.number],
-        value: '0',
+      _waybillQuantityKey: FormControl<int>(
+        validators: [
+          Validators.number,
+          Validators.required,
+          Validators.min(1),
+        ],
+
+        // value: '0',
       ),
-      _vehicleNumberKey: FormControl<String>(),
-      _typeOfTransportKey: FormControl<String>(),
+      _vehicleNumberKey: FormControl<String>(
+        validators: [
+          Validators.required,
+        ],
+      ),
+      _typeOfTransportKey: FormControl<String>(
+        validators: [
+          Validators.required,
+        ],
+      ),
       _commentsKey: FormControl<String>(),
     });
   }
@@ -89,6 +104,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
               String? transactionReasonLabel;
               TransactionType transactionType;
               TransactionReason? transactionReason;
+              String quantityValidationMessage;
 
               List<TransactionReason>? reasons;
 
@@ -97,18 +113,21 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   pageTitle = module.receivedPageTitle;
                   transactionPartyLabel = module.selectTransactingPartyReceived;
                   quantityCountLabel = module.quantityReceivedLabel;
+                  quantityValidationMessage = module.quantityReceivedValidation;
                   transactionType = TransactionType.received;
                   break;
                 case StockRecordEntryType.dispatch:
                   pageTitle = module.issuedPageTitle;
                   transactionPartyLabel = module.selectTransactingPartyIssued;
                   quantityCountLabel = module.quantitySentLabel;
+                  quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.dispatched;
                   break;
                 case StockRecordEntryType.returned:
                   pageTitle = module.returnedPageTitle;
                   transactionPartyLabel = module.selectTransactingPartyReturned;
                   quantityCountLabel = module.quantityReturnedLabel;
+                  quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.received;
                   break;
                 case StockRecordEntryType.loss:
@@ -117,6 +136,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                       module.selectTransactingPartyReceivedFromLost;
                   quantityCountLabel = module.quantityLostLabel;
                   transactionType = TransactionType.dispatched;
+                  quantityValidationMessage = module.quantitySentValidation;
                   transactionReasonLabel = module.transactionReasonLost;
                   reasons = [
                     TransactionReason.lostInStorage,
@@ -129,6 +149,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                       module.selectTransactingPartyReceivedFromDamaged;
                   quantityCountLabel = module.quantityDamagedLabel;
                   transactionType = TransactionType.dispatched;
+                  quantityValidationMessage = module.quantitySentValidation;
                   transactionReasonLabel = module.transactionReasonDamaged;
                   reasons = [
                     TransactionReason.damagedInStorage,
@@ -165,9 +186,10 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     final bloc =
                                         context.read<RecordStockBloc>();
 
-                                    final productVariant = form
-                                        .control(_productVariantKey)
-                                        .value as ProductVariantModel;
+                                    // final productVariant = form
+                                    //     .control(_productVariantKey)
+                                    //     .value as ProductVariantModel;
+                                    final productVariant = productVariantModel;
 
                                     switch (entryType) {
                                       case StockRecordEntryType.receipt:
@@ -194,7 +216,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
 
                                     final quantity = form
                                         .control(_transactionQuantityKey)
-                                        .value as String;
+                                        .value as int?;
 
                                     final waybillNumber = form
                                         .control(_waybillNumberKey)
@@ -202,7 +224,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
 
                                     final waybillQuantity = form
                                         .control(_waybillQuantityKey)
-                                        .value as String?;
+                                        .value as int?;
 
                                     final vehicleNumber = form
                                         .control(_vehicleNumberKey)
@@ -358,23 +380,27 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 return state.maybeWhen(
                                   orElse: () => const Offstage(),
                                   fetched: (productVariants) {
-                                    return DigitDropdown<ProductVariantModel>(
-                                      formControlName: _productVariantKey,
-                                      label: localizations.translate(
-                                        module.selectProductLabel,
-                                      ),
-                                      isRequired: true,
-                                      valueMapper: (value) {
-                                        return localizations.translate(
-                                          value.sku ?? value.id,
-                                        );
-                                      },
-                                      menuItems: productVariants,
-                                      validationMessages: {
-                                        'required': (object) =>
-                                            'Field is required',
-                                      },
-                                    );
+                                    productVariantModel = productVariants[0];
+
+                                    return Container();
+
+                                    // return DigitDropdown<ProductVariantModel>(
+                                    //   formControlName: _productVariantKey,
+                                    //   label: localizations.translate(
+                                    //     module.selectProductLabel,
+                                    //   ),
+                                    //   isRequired: true,
+                                    //   valueMapper: (value) {
+                                    //     return localizations.translate(
+                                    //       value.sku ?? value.id,
+                                    //     );
+                                    //   },
+                                    //   menuItems: productVariants,
+                                    //   validationMessages: {
+                                    //     'required': (object) =>
+                                    //         'Field is required',
+                                    //   },
+                                    // );
                                   },
                                 );
                               },
@@ -441,6 +467,19 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               label: localizations.translate(
                                 quantityCountLabel,
                               ),
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                  quantityValidationMessage,
+                                ),
+                                'number': (object) => localizations.translate(
+                                  quantityValidationMessage,
+                                ),
+                                'minValueOne': (object) =>
+                                    localizations.translate(
+                                      quantityValidationMessage,
+                                    ),
+                              },
+
                             ),
                             DigitTextFormField(
                               label: localizations.translate(
@@ -454,6 +493,22 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     .quantityOfProductIndicatedOnWaybillLabel,
                               ),
                               formControlName: _waybillQuantityKey,
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                  module
+                                      .quantityIndicatedOnWaybillValidation,
+                                ),
+                                'number': (object) => localizations.translate(
+                                  module
+                                      .quantityIndicatedOnWaybillValidation,
+                                ),
+                                'minValueOne': (object) =>
+                                    localizations.translate(
+                                      module
+                                          .quantityIndicatedOnWaybillValidation,
+                                    ),
+                              },
+
                             ),
                             BlocBuilder<AppInitializationBloc,
                                 AppInitializationState>(
@@ -483,6 +538,13 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       },
                                     ).toList(),
                                     formControlName: _typeOfTransportKey,
+                                    validationMessages: {
+                                      'required': (object) =>
+                                          localizations.translate(
+                                            module.transportTypeValidation,
+                                          ),
+                                    },
+
                                   );
                                 },
                               ),
@@ -492,6 +554,12 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 i18.stockDetails.vehicleNumberLabel,
                               ),
                               formControlName: _vehicleNumberKey,
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                  module.vehicleNumberValidation,
+                                ),
+                              },
+
                             ),
                             DigitTextFormField(
                               label: localizations.translate(
