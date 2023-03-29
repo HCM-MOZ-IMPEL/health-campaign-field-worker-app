@@ -83,34 +83,34 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                     ),
                   ),
                 ),
-                DigitListView(
-                  title: localizations
-                      .translate(i18.manageStock.recordstockDamagedLabel),
-                  description: localizations.translate(
-                    i18.manageStock.recordstockDamagedDescription,
-                  ),
-                  prefixIcon: Icons.store,
-                  sufixIcon: Icons.arrow_circle_right,
-                  onPressed: () => context.router.push(
-                    RecordStockWrapperRoute(
-                      type: StockRecordEntryType.damaged,
-                    ),
-                  ),
-                ),
-                DigitListView(
-                  title: localizations
-                      .translate(i18.manageStock.recordstockLossLabel),
-                  description: localizations.translate(
-                    i18.manageStock.recordstockDamagedDescription,
-                  ),
-                  prefixIcon: Icons.store,
-                  sufixIcon: Icons.arrow_circle_right,
-                  onPressed: () => context.router.push(
-                    RecordStockWrapperRoute(
-                      type: StockRecordEntryType.loss,
-                    ),
-                  ),
-                ),
+                // DigitListView(
+                //   title: localizations
+                //       .translate(i18.manageStock.recordstockDamagedLabel),
+                //   description: localizations.translate(
+                //     i18.manageStock.recordstockDamagedDescription,
+                //   ),
+                //   prefixIcon: Icons.store,
+                //   sufixIcon: Icons.arrow_circle_right,
+                //   onPressed: () => context.router.push(
+                //     RecordStockWrapperRoute(
+                //       type: StockRecordEntryType.damaged,
+                //     ),
+                //   ),
+                // ),
+                // DigitListView(
+                //   title: localizations
+                //       .translate(i18.manageStock.recordstockLossLabel),
+                //   description: localizations.translate(
+                //     i18.manageStock.recordstockDamagedDescription,
+                //   ),
+                //   prefixIcon: Icons.store,
+                //   sufixIcon: Icons.arrow_circle_right,
+                //   onPressed: () => context.router.push(
+                //     RecordStockWrapperRoute(
+                //       type: StockRecordEntryType.loss,
+                //     ),
+                //   ),
+                // ),
               ]),
               const SizedBox(height: 16),
             ],

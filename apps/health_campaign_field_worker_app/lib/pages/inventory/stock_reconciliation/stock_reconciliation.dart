@@ -59,9 +59,9 @@ class _StockReconciliationPageState
         ],
       ),
       _reconciliationCommentsKey: FormControl<String>(
-        validators: [
-          Validators.required,
-        ],
+        // validators: [
+        //   Validators.required,
+        // ],
       ),
     });
   }
@@ -98,17 +98,18 @@ class _StockReconciliationPageState
             return FacilityBlocWrapper(
               child: ProductVariantBlocWrapper(
                 child: BlocProvider(
-                  create: (context) => StockReconciliationBloc(
-                    stockRepository:
+                  create: (context) =>
+                      StockReconciliationBloc(
+                        stockRepository:
                         context.repository<StockModel, StockSearchModel>(),
-                    stockReconciliationRepository: context.repository<
-                        StockReconciliationModel,
-                        StockReconciliationSearchModel>(),
-                    StockReconciliationState(
-                      projectId: projectId,
-                      dateOfReconciliation: DateTime.now(),
-                    ),
-                  ),
+                        stockReconciliationRepository: context.repository<
+                            StockReconciliationModel,
+                            StockReconciliationSearchModel>(),
+                        StockReconciliationState(
+                          projectId: projectId,
+                          dateOfReconciliation: DateTime.now(),
+                        ),
+                      ),
                   child: BlocConsumer<StockReconciliationBloc,
                       StockReconciliationState>(
                     listener: (context, stockState) {
@@ -136,123 +137,123 @@ class _StockReconciliationPageState
                                   child: ReactiveFormConsumer(
                                     builder: (ctx, form, child) =>
                                         DigitElevatedButton(
-                                      onPressed: !form.valid
-                                          ? null
-                                          : () async {
-                                              form.markAllAsTouched();
-                                              if (!form.valid) return;
+                                          onPressed: !form.valid
+                                              ? null
+                                              : () async {
+                                            form.markAllAsTouched();
+                                            if (!form.valid) return;
 
-                                              final bloc = ctx.read<
-                                                  StockReconciliationBloc>();
+                                            final bloc = ctx.read<
+                                                StockReconciliationBloc>();
 
-                                              final facilityId = form
-                                                  .control(_facilityKey)
-                                                  .value as FacilityModel;
+                                            final facilityId = form
+                                                .control(_facilityKey)
+                                                .value as FacilityModel;
 
-                                              // final productVariant = form
-                                              //     .control(_productVariantKey)
-                                              //     .value as ProductVariantModel;
+                                            // final productVariant = form
+                                            //     .control(_productVariantKey)
+                                            //     .value as ProductVariantModel;
 
-                                              final productVariant =
-                                                  productVariantModel;
+                                            final productVariant =
+                                                productVariantModel;
 
-                                              final calculatedCount = form
-                                                  .control(_manualCountKey)
-                                                  .value as String;
+                                            final calculatedCount = form
+                                                .control(_manualCountKey)
+                                                .value as String;
 
-                                              final comments = form
-                                                  .control(
-                                                    _reconciliationCommentsKey,
-                                                  )
-                                                  .value as String?;
+                                            final comments = form
+                                                .control(
+                                              _reconciliationCommentsKey,
+                                            )
+                                                .value as String?;
 
-                                              final model =
-                                                  StockReconciliationModel(
-                                                clientReferenceId:
-                                                    IdGen.i.identifier,
-                                                dateOfReconciliation: stockState
-                                                    .dateOfReconciliation
-                                                    .millisecondsSinceEpoch,
-                                                facilityId: facilityId.id,
-                                                productVariantId:
-                                                    productVariant.id,
-                                                calculatedCount: stockState
-                                                    .stockInHand
-                                                    .toInt(),
-                                                commentsOnReconciliation:
-                                                    comments,
-                                                physicalCount: int.tryParse(
-                                                      calculatedCount,
-                                                    ) ??
-                                                    0,
-                                                auditDetails: AuditDetails(
-                                                  createdBy:
-                                                      context.loggedInUserUuid,
-                                                  createdTime: context
-                                                      .millisecondsSinceEpoch(),
+                                            final model =
+                                            StockReconciliationModel(
+                                              clientReferenceId:
+                                              IdGen.i.identifier,
+                                              dateOfReconciliation: stockState
+                                                  .dateOfReconciliation
+                                                  .millisecondsSinceEpoch,
+                                              facilityId: facilityId.id,
+                                              productVariantId:
+                                              productVariant.id,
+                                              calculatedCount: stockState
+                                                  .stockInHand
+                                                  .toInt(),
+                                              commentsOnReconciliation:
+                                              comments,
+                                              physicalCount: int.tryParse(
+                                                calculatedCount,
+                                              ) ??
+                                                  0,
+                                              auditDetails: AuditDetails(
+                                                createdBy:
+                                                context.loggedInUserUuid,
+                                                createdTime: context
+                                                    .millisecondsSinceEpoch(),
+                                              ),
+                                            );
+
+                                            final submit =
+                                            await DigitDialog.show<bool>(
+                                              context,
+                                              options: DigitDialogOptions(
+                                                titleText:
+                                                localizations.translate(
+                                                  i18.stockReconciliationDetails
+                                                      .dialogTitle,
                                                 ),
-                                              );
-
-                                              final submit =
-                                                  await DigitDialog.show<bool>(
-                                                context,
-                                                options: DigitDialogOptions(
-                                                  titleText:
-                                                      localizations.translate(
-                                                    i18.stockReconciliationDetails
-                                                        .dialogTitle,
+                                                contentText:
+                                                localizations.translate(
+                                                  i18.stockReconciliationDetails
+                                                      .dialogContent,
+                                                ),
+                                                primaryAction:
+                                                DigitDialogActions(
+                                                  label:
+                                                  localizations.translate(
+                                                    i18.common
+                                                        .coreCommonSubmit,
                                                   ),
-                                                  contentText:
-                                                      localizations.translate(
-                                                    i18.stockReconciliationDetails
-                                                        .dialogContent,
+                                                  action: (context) {
+                                                    Navigator.of(
+                                                      context,
+                                                      rootNavigator: true,
+                                                    ).pop(true);
+                                                  },
+                                                ),
+                                                secondaryAction:
+                                                DigitDialogActions(
+                                                  label:
+                                                  localizations.translate(
+                                                    i18.common
+                                                        .coreCommonCancel,
                                                   ),
-                                                  primaryAction:
-                                                      DigitDialogActions(
-                                                    label:
-                                                        localizations.translate(
-                                                      i18.common
-                                                          .coreCommonSubmit,
-                                                    ),
-                                                    action: (context) {
+                                                  action: (context) =>
                                                       Navigator.of(
                                                         context,
                                                         rootNavigator: true,
-                                                      ).pop(true);
-                                                    },
-                                                  ),
-                                                  secondaryAction:
-                                                      DigitDialogActions(
-                                                    label:
-                                                        localizations.translate(
-                                                      i18.common
-                                                          .coreCommonCancel,
-                                                    ),
-                                                    action: (context) =>
-                                                        Navigator.of(
-                                                      context,
-                                                      rootNavigator: true,
-                                                    ).pop(false),
-                                                  ),
+                                                      ).pop(false),
+                                                ),
+                                              ),
+                                            );
+
+                                            if (submit ?? false) {
+                                              bloc.add(
+                                                StockReconciliationCreateEvent(
+                                                  model,
                                                 ),
                                               );
-
-                                              if (submit ?? false) {
-                                                bloc.add(
-                                                  StockReconciliationCreateEvent(
-                                                    model,
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                      child: Center(
-                                        child: Text(
-                                          localizations.translate(
-                                            i18.common.coreCommonSubmit,
+                                            }
+                                          },
+                                          child: Center(
+                                            child: Text(
+                                              localizations.translate(
+                                                i18.common.coreCommonSubmit,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
                                   ),
                                 ),
                               ),
@@ -260,7 +261,7 @@ class _StockReconciliationPageState
                                 DigitCard(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
@@ -268,28 +269,30 @@ class _StockReconciliationPageState
                                           i18.stockReconciliationDetails
                                               .reconciliationPageTitle,
                                         ),
-                                        style: Theme.of(context)
+                                        style: Theme
+                                            .of(context)
                                             .textTheme
                                             .displayMedium,
                                       ),
                                       BlocConsumer<FacilityBloc, FacilityState>(
                                         listener: (context, state) =>
                                             state.whenOrNull(
-                                          empty: () =>
-                                              NoFacilitiesAssignedDialog.show(
-                                            context,
-                                          ),
-                                        ),
+                                              empty: () =>
+                                                  NoFacilitiesAssignedDialog
+                                                      .show(
+                                                    context,
+                                                  ),
+                                            ),
                                         builder: (context, state) {
                                           final facilities = state.whenOrNull(
-                                                fetched: (facilities, _) =>
-                                                    facilities,
-                                              ) ??
+                                            fetched: (facilities, _) =>
+                                            facilities,
+                                          ) ??
                                               [];
 
                                           return DigitTextFormField(
                                             valueAccessor:
-                                                FacilityValueAccessor(
+                                            FacilityValueAccessor(
                                               facilities,
                                             ),
                                             label: localizations.translate(
@@ -313,16 +316,18 @@ class _StockReconciliationPageState
                                               );
 
                                               if (facility == null) return;
-                                              form.control(_facilityKey).value =
+                                              form
+                                                  .control(_facilityKey)
+                                                  .value =
                                                   facility;
                                               context
                                                   .read<
-                                                      StockReconciliationBloc>()
+                                                  StockReconciliationBloc>()
                                                   .add(
-                                                    StockReconciliationSelectFacilityEvent(
-                                                      facility,
-                                                    ),
-                                                  );
+                                                StockReconciliationSelectFacilityEvent(
+                                                  facility,
+                                                ),
+                                              );
                                             },
                                           );
                                         },
@@ -337,15 +342,15 @@ class _StockReconciliationPageState
                                                   .stockInHand
                                                   .toInt();
                                               productVariantModel =
-                                                  productVariants[0];
+                                              productVariants[0];
                                               ctx
                                                   .read<
-                                                      StockReconciliationBloc>()
+                                                  StockReconciliationBloc>()
                                                   .add(
-                                                    StockReconciliationSelectProductEvent(
-                                                      productVariantModel.id,
-                                                    ),
-                                                  );
+                                                StockReconciliationSelectProductEvent(
+                                                  productVariantModel.id,
+                                                ),
+                                              );
 
                                               return Container();
 
@@ -393,9 +398,9 @@ class _StockReconciliationPageState
                                         gap: kPadding,
                                         element: {
                                           localizations.translate(i18
-                                                  .stockReconciliationDetails
-                                                  .dateOfReconciliation):
-                                              DateFormat('dd MMMM yyyy').format(
+                                              .stockReconciliationDetails
+                                              .dateOfReconciliation):
+                                          DateFormat('dd MMMM yyyy').format(
                                             stockState.dateOfReconciliation,
                                           ),
                                         },
@@ -476,9 +481,9 @@ class _StockReconciliationPageState
                                         margin: EdgeInsets.zero,
                                         icon: Icons.info,
                                         backgroundColor:
-                                            theme.colorScheme.tertiaryContainer,
+                                        theme.colorScheme.tertiaryContainer,
                                         iconColor:
-                                            theme.colorScheme.surfaceTint,
+                                        theme.colorScheme.surfaceTint,
                                         description: localizations.translate(
                                           i18.stockReconciliationDetails
                                               .infoCardContent,
@@ -501,16 +506,20 @@ class _StockReconciliationPageState
                                           decimal: false,
                                         ),
                                         validationMessages: {
-                                          "required": (object) => i18
+                                          "required": (object) =>
+                                          i18
                                               .stockReconciliationDetails
                                               .manualCountRequiredError,
-                                          "number": (object) => i18
+                                          "number": (object) =>
+                                          i18
                                               .stockReconciliationDetails
                                               .manualCountInvalidType,
-                                          "min": (object) => i18
+                                          "min": (object) =>
+                                          i18
                                               .stockReconciliationDetails
                                               .manualCountMinError,
-                                          "max": (object) => i18
+                                          "max": (object) =>
+                                          i18
                                               .stockReconciliationDetails
                                               .manualCountMaxError,
                                         },
@@ -532,8 +541,8 @@ class _StockReconciliationPageState
                                               );
                                               form
                                                   .control(
-                                                    _reconciliationCommentsKey,
-                                                  )
+                                                _reconciliationCommentsKey,
+                                              )
                                                   .touched;
                                             });
                                           } else {
@@ -557,8 +566,15 @@ class _StockReconciliationPageState
                                               .commentsLabel,
                                         ),
                                         formControlName:
-                                            _reconciliationCommentsKey,
+                                        _reconciliationCommentsKey,
+                                        validationMessages: {
+                                          "required": (object) =>
+                                          i18
+                                              .stockReconciliationDetails
+                                              .reconciliationCommentRequiredError,
+                                        },
                                       ),
+
                                     ],
                                   ),
                                 ),
