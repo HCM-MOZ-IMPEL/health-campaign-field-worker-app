@@ -36,8 +36,8 @@ class IndividualDetailsPage extends LocalizedStatefulWidget {
 class _IndividualDetailsPageState
     extends LocalizedState<IndividualDetailsPage> {
   static const _individualNameKey = 'individualName';
-  static const _idTypeKey = 'idType';
-  static const _idNumberKey = 'idNumber';
+  // static const _idTypeKey = 'idType';
+  // static const _idNumberKey = 'idNumber';
   static const _dobKey = 'dob';
   static const _genderKey = 'gender';
   static const _mobileNumberKey = 'mobileNumber';
@@ -242,68 +242,68 @@ class _IndividualDetailsPageState
                               value: widget.isHeadOfHousehold,
                             ),
                           ),
-                          BlocBuilder<AppInitializationBloc,
-                              AppInitializationState>(
-                            builder: (context, state) => state.maybeWhen(
-                              orElse: () => const Offstage(),
-                              initialized: (appConfiguration, _) {
-                                final idTypeOptions =
-                                    appConfiguration.idTypeOptions ??
-                                        <IdTypeOptions>[];
-
-                                return DigitDropdown<String>(
-                                  isRequired: true,
-                                  label: localizations.translate(
-                                    i18.individualDetails.idTypeLabelText,
-                                  ),
-                                  valueMapper: (e) => e,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value == 'DEFAULT') {
-                                        form.control(_idNumberKey).value =
-                                            IdGen.i.identifier.toString();
-                                      } else {
-                                        form.control(_idNumberKey).value = null;
-                                      }
-                                    });
-                                  },
-                                  initialValue: idTypeOptions.firstOrNull?.name,
-                                  menuItems: idTypeOptions.map(
-                                    (e) {
-                                      return localizations.translate(e.name);
-                                    },
-                                  ).toList(),
-                                  formControlName: _idTypeKey,
-                                );
-                              },
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ReactiveFormConsumer(
-                                builder: (context, formGroup, child) {
-                                  return DigitTextFormField(
-                                    readOnly: form.control(_idTypeKey).value ==
-                                        'DEFAULT',
-                                    isRequired: form
-                                        .control(_idNumberKey)
-                                        .validators
-                                        .isNotEmpty,
-                                    formControlName: _idNumberKey,
-                                    label: localizations.translate(
-                                      i18.individualDetails.idNumberLabelText,
-                                    ),
-                                    validationMessages: {
-                                      'required': (object) =>
-                                          'ID Number is required',
-                                    },
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 4),
-                            ],
-                          ),
+                          // BlocBuilder<AppInitializationBloc,
+                          //     AppInitializationState>(
+                          //   builder: (context, state) => state.maybeWhen(
+                          //     orElse: () => const Offstage(),
+                          //     initialized: (appConfiguration, _) {
+                          //       final idTypeOptions =
+                          //           appConfiguration.idTypeOptions ??
+                          //               <IdTypeOptions>[];
+                          //
+                          //       return DigitDropdown<String>(
+                          //         isRequired: true,
+                          //         label: localizations.translate(
+                          //           i18.individualDetails.idTypeLabelText,
+                          //         ),
+                          //         valueMapper: (e) => e,
+                          //         onChanged: (value) {
+                          //           setState(() {
+                          //             if (value == 'DEFAULT') {
+                          //               form.control(_idNumberKey).value =
+                          //                   IdGen.i.identifier.toString();
+                          //             } else {
+                          //               form.control(_idNumberKey).value = null;
+                          //             }
+                          //           });
+                          //         },
+                          //         initialValue: idTypeOptions.firstOrNull?.name,
+                          //         menuItems: idTypeOptions.map(
+                          //           (e) {
+                          //             return localizations.translate(e.name);
+                          //           },
+                          //         ).toList(),
+                          //         formControlName: _idTypeKey,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     ReactiveFormConsumer(
+                          //       builder: (context, formGroup, child) {
+                          //         return DigitTextFormField(
+                          //           readOnly: form.control(_idTypeKey).value ==
+                          //               'DEFAULT',
+                          //           isRequired: form
+                          //               .control(_idNumberKey)
+                          //               .validators
+                          //               .isNotEmpty,
+                          //           formControlName: _idNumberKey,
+                          //           label: localizations.translate(
+                          //             i18.individualDetails.idNumberLabelText,
+                          //           ),
+                          //           validationMessages: {
+                          //             'required': (object) =>
+                          //                 'ID Number is required',
+                          //           },
+                          //         );
+                          //       },
+                          //     ),
+                          //     const SizedBox(height: 4),
+                          //   ],
+                          // ),
                           DigitDobPicker(
                             datePickerFormControl: _dobKey,
                             datePickerLabel: localizations.translate(
@@ -425,12 +425,12 @@ class _IndividualDetailsPageState
               .byName(form.control(_genderKey).value.toString().toLowerCase()),
       mobileNumber: form.control(_mobileNumberKey).value,
       dateOfBirth: dobString,
-      identifiers: [
-        identifier.copyWith(
-          identifierId: form.control(_idNumberKey).value,
-          identifierType: form.control(_idTypeKey).value,
-        ),
-      ],
+      // identifiers: [
+      //   identifier.copyWith(
+      //     identifierId: form.control(_idNumberKey).value,
+      //     identifierType: form.control(_idTypeKey).value,
+      //   ),
+      // ],
     );
 
     return individual;
@@ -454,14 +454,14 @@ class _IndividualDetailsPageState
         validators: [Validators.required, CustomValidator.requiredMin],
         value: individual?.name?.givenName ?? searchQuery,
       ),
-      _idTypeKey: FormControl<String>(
-        validators: [Validators.required],
-        value: individual?.identifiers?.firstOrNull?.identifierType,
-      ),
-      _idNumberKey: FormControl<String>(
-        validators: [Validators.required],
-        value: individual?.identifiers?.firstOrNull?.identifierId,
-      ),
+      // _idTypeKey: FormControl<String>(
+      //   validators: [Validators.required],
+      //   value: individual?.identifiers?.firstOrNull?.identifierType,
+      // ),
+      // _idNumberKey: FormControl<String>(
+      //   validators: [Validators.required],
+      //   value: individual?.identifiers?.firstOrNull?.identifierId,
+      // ),
       _dobKey: FormControl<DateTime>(
         value: individual?.dateOfBirth != null
             ? DateFormat('dd/MM/yyyy').parse(

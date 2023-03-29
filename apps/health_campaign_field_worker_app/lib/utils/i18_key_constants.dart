@@ -398,6 +398,22 @@ class StockDetails {
 
   String get quantityDamagedLabel => 'STOCK_DETAILS_QUANTITY_DAMAGED';
 
+  /// Validation Messages
+  String get quantityReceivedValidation =>
+      'STOCK_DETAILS_QUANTITY_RECEIVED_VALIDATION';
+
+  String get quantitySentValidation => 'STOCK_DETAILS_QUANTITY_SENT_VALIDATION';
+
+  String get quantityReturnedValidation =>
+      'STOCK_DETAILS_QUANTITY_RETURNED_VALIDATION';
+
+  String get quantityIndicatedOnWaybillValidation =>
+      'STOCK_DETAILS_QUANTITY_ON_WAYBILL_VALIDATION';
+
+  String get transportTypeValidation => 'TRANSPORT_TYPE_VALIDATION';
+
+  String get vehicleNumberValidation => 'VEHICLE_NUMBER_VALIDATION';
+
   /// Waybill number label
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
 
@@ -461,6 +477,9 @@ class StockReconciliationDetails {
   String get manualCountRequiredError =>
       'STOCK_RECONCILIATION_COUNT_IS_REQUIRED';
 
+  String get reconciliationCommentRequiredError =>
+      'RECONCILIATION_COMMENT_IS_REQUIRED';
+
   String get manualCountInvalidType =>
       'STOCK_RECONCILIATION_COUNT_EXPECTS_NUMBER';
 
@@ -483,20 +502,24 @@ class ManageStock {
 
   String get recordstockReceiptDescription =>
       'MANAGE_STOCK_RECEIPT_DESCRIPTION';
+
   String get recordstockIssuedLabel => 'MANAGE_STOCK_RECORDSTOCK_ISSUED_LABEL';
 
   String get recordstockIssuedtDescription =>
       'MANAGE_STOCK_RECORDSTOCK_ISSUED_DESCRIPTION';
+
   String get recordstockReturnedLabel =>
       'MANAGE_STOCK_RECORDSTOCK_RETURNED_LABEL';
 
   String get recordstockReturnedtDescription =>
       'MANAGE_STOCK_RECORDSTOCK_RETURNED_DESCRIPTION';
+
   String get recordstockDamagedLabel =>
       'MANAGE_STOCK_RECORDSTOCK_DAMAGED_LABEL';
 
   String get recordstockDamagedDescription =>
       'MANAGE_STOCK_RECORDSTOCK_DAMAGED_DESCRIPTION';
+
   String get recordstockLossLabel => 'MANAGE_STOCK_RECORDSTOCK_LOSS_LABEL';
 
   String get recordstockLossDescription =>

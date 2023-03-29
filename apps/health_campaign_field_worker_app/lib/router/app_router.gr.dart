@@ -29,12 +29,6 @@ class _$AppRouter extends RootStackRouter {
         child: const AuthenticatedPageWrapper(),
       );
     },
-    LanguageSelectionRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const LanguageSelectionPage(),
-      );
-    },
     LoginRoute.name: (routeData) {
       final args = routeData.argsAs<LoginRouteArgs>(
           orElse: () => const LoginRouteArgs());
@@ -299,13 +293,8 @@ class _$AppRouter extends RootStackRouter {
               '#redirect',
               path: '',
               parent: UnauthenticatedRouteWrapper.name,
-              redirectTo: 'language_selection',
+              redirectTo: 'login',
               fullMatch: true,
-            ),
-            RouteConfig(
-              LanguageSelectionRoute.name,
-              path: 'language_selection',
-              parent: UnauthenticatedRouteWrapper.name,
             ),
             RouteConfig(
               LoginRoute.name,
@@ -493,18 +482,6 @@ class AuthenticatedRouteWrapper extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthenticatedRouteWrapper';
-}
-
-/// generated route for
-/// [LanguageSelectionPage]
-class LanguageSelectionRoute extends PageRouteInfo<void> {
-  const LanguageSelectionRoute()
-      : super(
-          LanguageSelectionRoute.name,
-          path: 'language_selection',
-        );
-
-  static const String name = 'LanguageSelectionRoute';
 }
 
 /// generated route for
