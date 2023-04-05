@@ -34,28 +34,29 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    // return Center(child: CircularProgressIndicator());
     return Scaffold(
       body: ScrollableContent(
-        header: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const BackNavigationHelpHeaderWidget(
-              showLogoutCTA: true,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
-              child: Text(
-                localizations.translate(
-                  i18.projectSelection.projectDetailsLabelText,
-                ),
-                style: theme.textTheme.displayMedium,
-              ),
-            ),
-          ],
-        ),
+        // header: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     const BackNavigationHelpHeaderWidget(
+        //       showLogoutCTA: true,
+        //     ),
+        //     Padding(
+        //       padding: const EdgeInsets.symmetric(
+        //         horizontal: 16,
+        //         vertical: 16,
+        //       ),
+        //       child: Text(
+        //         localizations.translate(
+        //           i18.projectSelection.projectDetailsLabelText,
+        //         ),
+        //         style: theme.textTheme.displayMedium,
+        //       ),
+        //     ),
+        //   ],
+        // ),
         children: [
           BlocConsumer<ProjectBloc, ProjectState>(
             listener: (context, state) {
@@ -64,6 +65,7 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
                   return;
                 },
                 fetched: (projects, selectedProject) {
+                  // print('------- selecting project ------ done ------');
                   if (selectedProject != null) {
                     final boundary = selectedProject.address?.boundary;
                     if (boundary != null) {
@@ -89,47 +91,65 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
             },
             builder: (context, state) {
               return state.maybeMap(
-                orElse: () => Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Column(
-                      children: [
-                        Text(localizations.translate(
-                          i18.projectSelection.noProjectsAssigned,
-                        )),
-                        Text(localizations.translate(
-                          i18.projectSelection.contactSysAdmin,
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
-                          child: SizedBox(
-                            width: 300,
-                            child: DigitElevatedButton(
-                              onPressed: () {
-                                context
-                                    .read<AuthBloc>()
-                                    .add(const AuthLogoutEvent());
-                              },
-                              child: Center(
-                                child: Text(
-                                  localizations.translate(
-                                    i18.common.coreCommonOk,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                orElse: (){
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                ),
+                  );
+                },
+                // orElse: () => Center(
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(vertical: 30),
+                //     child: Column(
+                //       children: [
+                //         Text(localizations.translate(
+                //           i18.projectSelection.noProjectsAssigned,
+                //         )),
+                //         Text(localizations.translate(
+                //           i18.projectSelection.contactSysAdmin,
+                //         )),
+                //         Padding(
+                //           padding: const EdgeInsets.symmetric(vertical: 30),
+                //           child: SizedBox(
+                //             width: 300,
+                //             child: DigitElevatedButton(
+                //               onPressed: () {
+                //                 context
+                //                     .read<AuthBloc>()
+                //                     .add(const AuthLogoutEvent());
+                //               },
+                //               child: Center(
+                //                 child: Text(
+                //                   localizations.translate(
+                //                     i18.common.coreCommonOk,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 loading: (value) => const Expanded(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
                 ),
-                fetched: (ProjectSelectionFetchedState value) => Column(
+                fetched: (ProjectSelectionFetchedState value) {
+                  context.read<ProjectBloc>().add(
+                    ProjectSelectProjectEvent(value.projects[0]),
+                  );
+
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+
+                  return Column(
                   children: value.projects
                       .map(
                         (element) => DigitProjectCell(
@@ -140,7 +160,7 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
                         ),
                       )
                       .toList(),
-                ),
+                );},
               );
             },
           ),
