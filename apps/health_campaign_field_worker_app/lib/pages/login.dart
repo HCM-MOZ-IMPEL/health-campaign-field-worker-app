@@ -186,14 +186,14 @@ class _LoginPageState extends LocalizedState<LoginPage> {
           // value: 'distributorUlongue',
           // value: 'wmgrUlongue',
           // value: 'QA-WAREHOUSE-MANAGER',
-          value: 'QA-REGISTRAR',
+          // value: 'QA-REGISTRAR',
           // value: 'QA-PROVINCIAL-SUPERVISOR',
           // value: 'QA-DISTRIBUTOR',
 
           validators: [Validators.required],
         ),
         _password: FormControl<String>(
-          value: 'eGov@1234',
+          // value: 'eGov@1234',
           // value: 'eGov@1234',
 
           validators: [Validators.required],
