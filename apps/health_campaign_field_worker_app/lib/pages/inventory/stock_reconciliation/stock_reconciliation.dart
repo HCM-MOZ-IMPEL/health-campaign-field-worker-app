@@ -442,30 +442,30 @@ class _StockReconciliationPageState
                                         },
                                       ),
                                       const DigitDivider(),
-                                      DigitTableCard(
-                                        fraction: 2.5,
-                                        gap: kPadding,
-                                        element: {
-                                          localizations.translate(
-                                            i18.stockReconciliationDetails
-                                                .stockLost,
-                                          ): stockState.stockLost
-                                              .toStringAsFixed(0),
-                                        },
-                                      ),
-                                      const DigitDivider(),
-                                      DigitTableCard(
-                                        fraction: 2.5,
-                                        gap: kPadding,
-                                        element: {
-                                          localizations.translate(
-                                            i18.stockReconciliationDetails
-                                                .stockDamaged,
-                                          ): stockState.stockDamaged
-                                              .toStringAsFixed(0),
-                                        },
-                                      ),
-                                      const DigitDivider(),
+                                      // DigitTableCard(
+                                      //   fraction: 2.5,
+                                      //   gap: kPadding,
+                                      //   element: {
+                                      //     localizations.translate(
+                                      //       i18.stockReconciliationDetails
+                                      //           .stockLost,
+                                      //     ): stockState.stockLost
+                                      //         .toStringAsFixed(0),
+                                      //   },
+                                      // ),
+                                      // const DigitDivider(),
+                                      // DigitTableCard(
+                                      //   fraction: 2.5,
+                                      //   gap: kPadding,
+                                      //   element: {
+                                      //     localizations.translate(
+                                      //       i18.stockReconciliationDetails
+                                      //           .stockDamaged,
+                                      //     ): stockState.stockDamaged
+                                      //         .toStringAsFixed(0),
+                                      //   },
+                                      // ),
+                                      // const DigitDivider(),
                                       DigitTableCard(
                                         fraction: 2.5,
                                         gap: kPadding,
@@ -507,21 +507,21 @@ class _StockReconciliationPageState
                                         ),
                                         validationMessages: {
                                           "required": (object) =>
-                                          i18
+                                              localizations.translate(i18
                                               .stockReconciliationDetails
-                                              .manualCountRequiredError,
+                                              .manualCountRequiredError),
                                           "number": (object) =>
-                                          i18
+                                              localizations.translate(i18
                                               .stockReconciliationDetails
-                                              .manualCountInvalidType,
+                                              .manualCountRequiredError),
                                           "min": (object) =>
-                                          i18
+                                              localizations.translate(i18
                                               .stockReconciliationDetails
-                                              .manualCountMinError,
+                                              .manualCountRequiredError),
                                           "max": (object) =>
-                                          i18
+                                              localizations.translate(i18
                                               .stockReconciliationDetails
-                                              .manualCountMaxError,
+                                              .manualCountRequiredError),
                                         },
                                         onChanged: (control) {
                                           final manualStockCount =
@@ -569,9 +569,9 @@ class _StockReconciliationPageState
                                         _reconciliationCommentsKey,
                                         validationMessages: {
                                           "required": (object) =>
-                                          i18
+                                              localizations.translate(i18
                                               .stockReconciliationDetails
-                                              .reconciliationCommentRequiredError,
+                                              .reconciliationCommentRequiredError),
                                         },
                                       ),
 

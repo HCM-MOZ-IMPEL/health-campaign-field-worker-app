@@ -36,7 +36,7 @@ class BeneficiaryCard extends StatelessWidget {
         ),
         Offstage(
           offstage: status == null,
-          child: status == 'delivered'
+          child: status == 'é entregue'
               ? DigitIconButton(
                   icon: Icons.check_circle,
                   iconText:

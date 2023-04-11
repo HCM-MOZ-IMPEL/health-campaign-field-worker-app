@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_checkbox.dart';
-import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:digit_components/widgets/digit_dob_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +35,7 @@ class IndividualDetailsPage extends LocalizedStatefulWidget {
 class _IndividualDetailsPageState
     extends LocalizedState<IndividualDetailsPage> {
   static const _individualNameKey = 'individualName';
+
   // static const _idTypeKey = 'idType';
   // static const _idNumberKey = 'idNumber';
   static const _dobKey = 'dob';
@@ -230,7 +230,8 @@ class _IndividualDetailsPageState
                             maxLength: 200,
                             isRequired: true,
                             validationMessages: {
-                              'required': (object) => 'Name is required',
+                              'required': (object) => localizations.translate(
+                                  i18.individualDetails.nameIsRequiredError,),
                             },
                           ),
                           Offstage(
@@ -425,12 +426,14 @@ class _IndividualDetailsPageState
               .byName(form.control(_genderKey).value.toString().toLowerCase()),
       mobileNumber: form.control(_mobileNumberKey).value,
       dateOfBirth: dobString,
-      // identifiers: [
-      //   identifier.copyWith(
-      //     identifierId: form.control(_idNumberKey).value,
-      //     identifierType: form.control(_idTypeKey).value,
-      //   ),
-      // ],
+      identifiers: [
+        identifier.copyWith(
+          // identifierId: form.control(_idNumberKey).value,
+          // identifierType: form.control(_idTypeKey).value,
+          identifierId: 'DEFAULT',
+          identifierType: 'DEFAULT',
+        ),
+      ],
     );
 
     return individual;

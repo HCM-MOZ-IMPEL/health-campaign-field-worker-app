@@ -327,32 +327,32 @@ class _DeliverInterventionPageState
                                         householdMemberWrapper.headOfHousehold
                                                 .name?.givenName ??
                                             '',
-                                    localizations.translate(
-                                      i18.deliverIntervention.idTypeText,
-                                    ): () {
-                                      final identifiers = householdMemberWrapper
-                                          .headOfHousehold.identifiers;
-                                      if (identifiers == null ||
-                                          identifiers.isEmpty) {
-                                        return '';
-                                      }
-
-                                      return identifiers.first.identifierType ??
-                                          '';
-                                    }(),
-                                    localizations.translate(
-                                      i18.deliverIntervention.idNumberText,
-                                    ): () {
-                                      final identifiers = householdMemberWrapper
-                                          .headOfHousehold.identifiers;
-                                      if (identifiers == null ||
-                                          identifiers.isEmpty) {
-                                        return '';
-                                      }
-
-                                      return identifiers.first.identifierId ??
-                                          '';
-                                    }(),
+                                    // localizations.translate(
+                                    //   i18.deliverIntervention.idTypeText,
+                                    // ): () {
+                                    //   final identifiers = householdMemberWrapper
+                                    //       .headOfHousehold.identifiers;
+                                    //   if (identifiers == null ||
+                                    //       identifiers.isEmpty) {
+                                    //     return '';
+                                    //   }
+                                    //
+                                    //   return identifiers.first.identifierType ??
+                                    //       '';
+                                    // }(),
+                                    // localizations.translate(
+                                    //   i18.deliverIntervention.idNumberText,
+                                    // ): () {
+                                    //   final identifiers = householdMemberWrapper
+                                    //       .headOfHousehold.identifiers;
+                                    //   if (identifiers == null ||
+                                    //       identifiers.isEmpty) {
+                                    //     return '';
+                                    //   }
+                                    //
+                                    //   return identifiers.first.identifierId ??
+                                    //       '';
+                                    // }(),
                                     localizations.translate(
                                       i18.common.coreCommonAge,
                                     ): () {
@@ -492,6 +492,12 @@ class _DeliverInterventionPageState
                                           deliveryCommentOptions.map((e) {
                                         return localizations.translate(e.name);
                                       }).toList(),
+                                      validationMessages: {
+                                        'required': (object) =>
+                                            localizations.translate(i18
+                                                .deliverIntervention
+                                                .deliveryCommentRequired),
+                                      },
                                       formControlName: _deliveryCommentKey,
                                     );
                                   },

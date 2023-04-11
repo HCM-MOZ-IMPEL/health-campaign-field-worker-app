@@ -4,13 +4,12 @@ import 'package:digit_components/widgets/digit_project_cell.dart';
 import 'package:digit_components/widgets/scrollable_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../utils/i18_key_constants.dart' as i18;
 
 import '../blocs/auth/auth.dart';
 import '../blocs/boundary/boundary.dart';
 import '../blocs/project/project.dart';
 import '../router/app_router.dart';
-import '../utils/i18_key_constants.dart' as i18;
-import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/localized.dart';
 
 class ProjectSelectionPage extends LocalizedStatefulWidget {
@@ -91,48 +90,48 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
             },
             builder: (context, state) {
               return state.maybeMap(
-                orElse: (){
-                  return const Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                },
-                // orElse: () => Center(
-                //   child: Padding(
-                //     padding: const EdgeInsets.symmetric(vertical: 30),
-                //     child: Column(
-                //       children: [
-                //         Text(localizations.translate(
-                //           i18.projectSelection.noProjectsAssigned,
-                //         )),
-                //         Text(localizations.translate(
-                //           i18.projectSelection.contactSysAdmin,
-                //         )),
-                //         Padding(
-                //           padding: const EdgeInsets.symmetric(vertical: 30),
-                //           child: SizedBox(
-                //             width: 300,
-                //             child: DigitElevatedButton(
-                //               onPressed: () {
-                //                 context
-                //                     .read<AuthBloc>()
-                //                     .add(const AuthLogoutEvent());
-                //               },
-                //               child: Center(
-                //                 child: Text(
-                //                   localizations.translate(
-                //                     i18.common.coreCommonOk,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ],
+                // orElse: (){
+                //   return const Expanded(
+                //     child: Center(
+                //       child: CircularProgressIndicator(),
                 //     ),
-                //   ),
-                // ),
+                //   );
+                // },
+                orElse: () => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30),
+                    child: Column(
+                      children: [
+                        Text(localizations.translate(
+                          i18.projectSelection.noProjectsAssigned,
+                        )),
+                        Text(localizations.translate(
+                          i18.projectSelection.contactSysAdmin,
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: SizedBox(
+                            width: 300,
+                            child: DigitElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthLogoutEvent());
+                              },
+                              child: Center(
+                                child: Text(
+                                  localizations.translate(
+                                    i18.common.coreCommonOk,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 loading: (value) => const Expanded(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -140,8 +139,8 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
                 ),
                 fetched: (ProjectSelectionFetchedState value) {
                   context.read<ProjectBloc>().add(
-                    ProjectSelectProjectEvent(value.projects[0]),
-                  );
+                        ProjectSelectProjectEvent(value.projects[0]),
+                      );
 
                   return const Expanded(
                     child: Center(
@@ -150,17 +149,18 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
                   );
 
                   return Column(
-                  children: value.projects
-                      .map(
-                        (element) => DigitProjectCell(
-                          projectText: element.name,
-                          onTap: () => context.read<ProjectBloc>().add(
-                                ProjectSelectProjectEvent(element),
-                              ),
-                        ),
-                      )
-                      .toList(),
-                );},
+                    children: value.projects
+                        .map(
+                          (element) => DigitProjectCell(
+                            projectText: element.name,
+                            onTap: () => context.read<ProjectBloc>().add(
+                                  ProjectSelectProjectEvent(element),
+                                ),
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
               );
             },
           ),

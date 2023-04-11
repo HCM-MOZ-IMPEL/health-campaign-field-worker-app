@@ -216,11 +216,11 @@ class _HouseholdOverviewPageState
                                               .householdOverViewNotDeliveredIconLabel,
                                     ),
                                     iconTextColor: state.task?.status ==
-                                            'delivered'
+                                            'é entregue'
                                         ? DigitTheme.instance.colorScheme
                                             .onSurfaceVariant
                                         : DigitTheme.instance.colorScheme.error,
-                                    iconColor: state.task?.status == 'delivered'
+                                    iconColor: state.task?.status == 'é entregue'
                                         ? DigitTheme.instance.colorScheme
                                             .onSurfaceVariant
                                         : DigitTheme.instance.colorScheme.error,

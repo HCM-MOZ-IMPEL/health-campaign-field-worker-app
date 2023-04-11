@@ -493,6 +493,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     .quantityOfProductIndicatedOnWaybillLabel,
                               ),
                               formControlName: _waybillQuantityKey,
+                              isRequired: true,
+
                               validationMessages: {
                                 'required': (object) => localizations.translate(
                                   module
@@ -553,6 +555,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               label: localizations.translate(
                                 i18.stockDetails.vehicleNumberLabel,
                               ),
+                              isRequired: true,
                               formControlName: _vehicleNumberKey,
                               validationMessages: {
                                 'required': (object) => localizations.translate(

@@ -22,17 +22,38 @@ const manageStock = ManageStock();
 class Common {
   const Common();
 
-  String get coreCommonContinue => 'CORE_COMMON_CONTINUE';
+  //CORE_COMMON_CLOSE
+  //CORE_COMMON_SYNC_COMPLETE
+  //CORE_COMMON_SYNC_IN_PROGRESS
+  //CORE_COMMON_SYNC_FAILED
+  //CORE_COMMON_DATA_SYNCED
+  //CORE_COMMON_IS_REQUIRED
+
+  String get coreCommonSyncComplete => 'CORE_COMMON_SYNC_COMPLETE';
+
+  String get coreCommonSyncInProgress => 'CORE_COMMON_SYNC_IN_PROGRESS';
+
+  String get coreCommonSyncFailed => 'CORE_COMMON_SYNC_FAILED';
+
+  String get coreCommonSyncRetry => 'CORE_COMMON_SYNC_RETRY';
+
+  String get coreCommonClose => 'CORE_COMMON_CLOSE';
+
+  String get coreCommonSave => 'CORE_COMMON_SAVE';
+
+  String get coreCommonBeneficiary => 'CORE_COMMON_BENEFICIARY';
 
   String get coreCommonAge => 'CORE_COMMON_AGE';
 
   String get coreCommonGender => 'CORE_COMMON_GENDER';
 
+  String get coreCommonIsRequired => 'CORE_COMMON_IS_REQUIRED';
+
+  String get coreCommonContinue => 'CORE_COMMON_CONTINUE';
+
   String get coreCommonMobileNumber => 'CORE_COMMON_MOBILE_NUMBER';
 
   String get coreCommonSubmit => 'CORE_COMMON_SUBMIT';
-
-  String get coreCommonSave => 'CORE_COMMON_SAVE';
 
   String get coreCommonCancel => 'CORE_COMMON_CANCEL';
 
@@ -63,6 +84,8 @@ class Login {
   String get passwordPlaceholder => 'PASSWORD_PLACEHOLDER';
 
   String get actionLabel => 'LOGIN_ACTION_LABEL';
+
+  String get loginError => 'LOGIN_ERROR';
 }
 
 class Checklist {
@@ -148,6 +171,11 @@ class SearchBeneficiary {
   String get beneficiaryAddActionLabel => 'BENEFICIARY_ADD_ACTION_LABEL';
 
   String get iconLabel => 'ICON_LABEL';
+
+  String get interventionDelivered => 'INTERVENTION_DELIVERED';
+
+  String get interventionNotDelivered => 'INTERVENTION_NOT_DELIVERED';
+
 }
 
 class IndividualDetails {
@@ -179,6 +207,10 @@ class IndividualDetails {
 
   String get mobileNumberInvalidFormatValidationMessage =>
       'INDIVIDUAL_DETAILS_INVALID_MOBILE_NUMBER';
+
+  String get nameIsRequiredError => 'NAME_REQUIRED_ERROR_MESSAGE';
+
+  String get ageInvalidError => 'INDIVIDUAL_DETAILS_INVALID_AGE';
 }
 
 class HouseholdLocation {
@@ -319,6 +351,9 @@ class DeliverIntervention {
   String get dialogTitle => 'DELIVER_INTERVENTION_DIALOG_TITLE';
 
   String get dialogContent => 'DELIVER_INTERVENTION_DIALOG_CONTENT';
+
+  String get deliveryCommentRequired => 'DELIVERY_COMMENT_REQUIRED';
+
 }
 
 class ProjectSelection {
@@ -441,6 +476,7 @@ class StockDetails {
 class StockReconciliationDetails {
   const StockReconciliationDetails();
 
+  // 'FACILITY_SEARCH_TEXT';
   String get reconciliationPageTitle => 'STOCK_RECONCILIATION_PAGE_TITLE';
 
   String get facilityLabel => 'STOCK_RECONCILIATION_FACILITY_LABEL';
@@ -473,15 +509,21 @@ class StockReconciliationDetails {
   String get dialogTitle => 'STOCK_RECONCILIATION_DIALOG_TITLE';
 
   String get dialogContent => 'STOCK_RECONCILIATION_DIALOG_CONTENT';
+  String get facilitySearchText => 'FACILITY_SEARCH_TEXT';
 
   String get manualCountRequiredError =>
-      'STOCK_RECONCILIATION_COUNT_IS_REQUIRED';
+      // 'STOCK_RECONCILIATION_COUNT_IS_REQUIRED';
+      'Por favor introduza um número';
 
   String get reconciliationCommentRequiredError =>
       'RECONCILIATION_COMMENT_IS_REQUIRED';
 
+  // 'Por favor introduza o Comentário antes de enviar';
+
   String get manualCountInvalidType =>
       'STOCK_RECONCILIATION_COUNT_EXPECTS_NUMBER';
+
+  // 'Por favor introduza um número';
 
   String get manualCountMinError => 'STOCK_RECONCILIATION_COUNT_BELOW_MIN';
 

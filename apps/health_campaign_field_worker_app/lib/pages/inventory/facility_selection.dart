@@ -43,7 +43,7 @@ class FacilitySelectionPage extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: DigitTextFormField(
-                        label: 'Facility Search Text',
+                        label: 'Texto de pesquisa de facilidades',
                         formControlName: _facilityName,
                       ),
                     ),

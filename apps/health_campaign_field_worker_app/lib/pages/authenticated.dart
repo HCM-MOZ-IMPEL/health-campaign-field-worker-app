@@ -180,7 +180,7 @@ class AuthenticatedPageWrapperState extends State<AuthenticatedPageWrapper> {
                                                     context.router
                                                         .replace(HomeRoute());
                                                   },
-                                            child: const Text('Submit'),
+                                            child: const Text('Submeter'),
                                           ),
                                         ),
                                       ),

@@ -93,8 +93,8 @@ class MainApplication extends StatelessWidget {
             ],
             child: BlocBuilder<AppInitializationBloc, AppInitializationState>(
               builder: (context, appConfigState) {
-                const defaultLocale = Locale('en', 'IN');
-                // const defaultLocale = Locale('pt', 'MZ');
+                // const defaultLocale = Locale('en', 'IN');
+                const defaultLocale = Locale('pt', 'MZ');
 
                 return BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, authState) {
@@ -146,6 +146,7 @@ class MainApplication extends StatelessWidget {
                         ),
                         BlocProvider(
                           create: (ctx) => ProjectBloc(
+
                             facilityLocalRepository: ctx.read<
                                 LocalRepository<FacilityModel,
                                     FacilitySearchModel>>(),
@@ -195,6 +196,8 @@ class MainApplication extends StatelessWidget {
                             projectResourceRemoteRepository: ctx.read<
                                 RemoteRepository<ProjectResourceModel,
                                     ProjectResourceSearchModel>>(),
+
+
                           ),
                         ),
                       ],

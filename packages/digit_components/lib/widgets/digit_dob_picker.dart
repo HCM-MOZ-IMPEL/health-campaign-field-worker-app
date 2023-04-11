@@ -66,7 +66,7 @@ class DigitDobPicker extends StatelessWidget {
                           .toStringAsFixed(0);
                   return int.parse(value) <= 150
                       ? null
-                      : {'Age Shoud be less than 150': true};
+                      : {'A idade deve ser inferior a 150 anos': true};
                 }
 
                 formControl.setValidators([requiredTrue]);

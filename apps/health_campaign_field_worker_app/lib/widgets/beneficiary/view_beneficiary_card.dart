@@ -27,9 +27,18 @@ class ViewBeneficiaryCard extends LocalizedStatefulWidget {
 class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   late HouseholdMemberWrapper householdMember;
 
+  late String member;
+  // String member = 'Membro';
+  // String memberLabel = 'Membros';
   @override
   void initState() {
     householdMember = widget.householdMember;
+    if(householdMember.household.memberCount!>1){
+      member = 'Membros';
+    }else{
+      member = 'Membro';
+
+    }
     super.initState();
   }
 
@@ -44,6 +53,9 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   bool get isCardExpanded => _isCardExpanded;
 
   set isCardExpanded(bool value) => setState(() => _isCardExpanded = value);
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +80,10 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                     householdMember.household.address?.pincode,
                   ].whereNotNull().take(2).join(' '),
                   subtitle:
-                      '${householdMember.household.memberCount ?? 1} ${'Members'}',
+                      '${householdMember.household.memberCount ?? 1} ${member}',
                   status: householdMember.task?.status != null
-                      ? 'delivered'
-                      : 'Not Delivered',
+                      ? 'é entregue'
+                      : 'não entregue',
                   title: [
                     householdMember.headOfHousehold.name?.givenName,
                     householdMember.headOfHousehold.name?.familyName,
@@ -92,7 +104,7 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
             child: DigitTable(
               headerList: [
                 TableHeader(
-                  'Beneficiary',
+                  'Beneficiário',
                   cellKey: 'beneficiary',
                 ),
                 // TableHeader(
@@ -100,11 +112,11 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                 //   cellKey: 'delivery',
                 // ),
                 TableHeader(
-                  'Age',
+                  'Idade',
                   cellKey: 'age',
                 ),
                 TableHeader(
-                  'Gender',
+                  'Género',
                   cellKey: 'gender',
                 ),
               ],

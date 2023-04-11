@@ -56,15 +56,18 @@ class _HomePageState extends LocalizedState<HomePage> {
             const BackNavigationHelpHeaderWidget(
               showBackNavigation: false,
             ),
-            ProgressIndicatorContainer(
-              label: localizations.translate(
-                i18.home.progressIndicatorTitle,
+            Visibility(
+              visible: true,
+              child: ProgressIndicatorContainer(
+                label: localizations.translate(
+                  i18.home.progressIndicatorTitle,
+                ),
+                prefixLabel: localizations.translate(
+                  i18.home.progressIndicatorPrefixLabel,
+                ),
+                suffixLabel: '200',
+                value: .08,
               ),
-              prefixLabel: localizations.translate(
-                i18.home.progressIndicatorPrefixLabel,
-              ),
-              suffixLabel: '200',
-              value: .08,
             ),
           ],
         ),
@@ -79,7 +82,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                   context,
                   type: DigitSyncDialogType.inProgress,
                   // TODO: Localization pending
-                  label: 'Sync in Progress', barrierDismissible: false,
+                  label: 'Sincronização em curso', barrierDismissible: false,
                 ),
                 completedSync: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -88,10 +91,10 @@ class _HomePageState extends LocalizedState<HomePage> {
                     context,
                     type: DigitSyncDialogType.complete,
                     // TODO: Localization Pending
-                    label: 'Data Synced',
+                    label: 'Sincronização de dados',
                     primaryAction: DigitDialogActions(
                       // TODO: Localization Pending
-                      label: 'Close',
+                      label: 'Fechar',
                       action: (ctx) {
                         Navigator.pop(ctx);
                       },
@@ -105,10 +108,10 @@ class _HomePageState extends LocalizedState<HomePage> {
                     context,
                     type: DigitSyncDialogType.failed,
                     // TODO: Localization Pending
-                    label: 'Sync Failed !',
+                    label: 'Sincronização falhada!',
                     primaryAction: DigitDialogActions(
                       // TODO: Localization Pending
-                      label: 'Retry',
+                      label: 'Tentativa',
                       action: (ctx) {
                         Navigator.pop(ctx);
                         _attemptSyncUp(context);
@@ -116,7 +119,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                     ),
                     secondaryAction: DigitDialogActions(
                       // TODO: Localization Pending
-                      label: 'Close',
+                      label: 'Fechar',
                       action: (ctx) => Navigator.pop(ctx),
                     ),
                   );
@@ -298,40 +301,40 @@ class _HomePageState extends LocalizedState<HomePage> {
           label: i18.home.syncDataLabel,
           onPressed: () => _attemptSyncUp(context),
         ),
-        HomeItemCard(
-          icon: Icons.call,
-          label: i18.home.callbackLabel,
-        ),
-        HomeItemCard(
-          icon: Icons.table_chart,
-          label: 'DB',
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DriftDbViewer(
-                  context.read<LocalSqlDataStore>(),
-                ),
-              ),
-            );
-          },
-        ),
-        HomeItemCard(
-          icon: Icons.delete_forever,
-          label: 'Delete all',
-          onPressed: () async {
-            final sql = context.read<LocalSqlDataStore>();
-            final isar = context.read<Isar>();
-            int count = 0;
-            for (var element in sql.allTables) {
-              final selector = sql.delete(element)
-                ..where((_) => const Constant(true));
-              count += await selector.go();
-            }
-            debugPrint('deleted: $count');
-
-            await isar.writeTxn(() async => await isar.opLogs.clear());
-          },
-        ),
+        // HomeItemCard(
+        //   icon: Icons.call,
+        //   label: i18.home.callbackLabel,
+        // ),
+        // HomeItemCard(
+        //   icon: Icons.table_chart,
+        //   label: 'DB',
+        //   onPressed: () {
+        //     Navigator.of(context).push(
+        //       MaterialPageRoute(
+        //         builder: (context) => DriftDbViewer(
+        //           context.read<LocalSqlDataStore>(),
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // ),
+        // HomeItemCard(
+        //   icon: Icons.delete_forever,
+        //   label: 'Delete all',
+        //   onPressed: () async {
+        //     final sql = context.read<LocalSqlDataStore>();
+        //     final isar = context.read<Isar>();
+        //     int count = 0;
+        //     for (var element in sql.allTables) {
+        //       final selector = sql.delete(element)
+        //         ..where((_) => const Constant(true));
+        //       count += await selector.go();
+        //     }
+        //     debugPrint('deleted: $count');
+        //
+        //     await isar.writeTxn(() async => await isar.opLogs.clear());
+        //   },
+        // ),
       ],
     );
 
