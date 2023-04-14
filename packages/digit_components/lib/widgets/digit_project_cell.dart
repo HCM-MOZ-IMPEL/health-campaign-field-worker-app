@@ -44,7 +44,7 @@ class DigitProjectCell extends StatelessWidget {
                         Flexible(
                           child: Text(
                             projectText,
-                            style: Theme.of(context).textTheme.headlineLarge,
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         )
                       ],

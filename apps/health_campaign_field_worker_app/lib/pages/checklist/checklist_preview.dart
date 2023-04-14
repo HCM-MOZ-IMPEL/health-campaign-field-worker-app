@@ -72,11 +72,12 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                           Align(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
-                                              DateFormat('dd MMMM yyyy').format(
-                                                DateFormat('dd/MM/yyyy').parse(
-                                                  e.createdAt.toString(),
-                                                ),
-                                              ),
+                                              e.createdAt.toString(),
+                                              // DateFormat('dd MMMM yyyy').format(
+                                              //   DateFormat('dd/MM/yyyy').parse(
+                                              //     e.createdAt.toString(),
+                                              //   ),
+                                              // ),
                                               style: theme
                                                   .textTheme.headlineMedium,
                                             ),

@@ -522,7 +522,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                           <TransportTypes>[];
 
                                   return DigitDropdown<String>(
-                                    isRequired: false,
+                                    isRequired: true,
                                     label: localizations.translate(
                                       i18.stockDetails.transportTypeLabel,
                                     ),

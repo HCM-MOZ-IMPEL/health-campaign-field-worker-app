@@ -77,71 +77,76 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
 
                             return Column(
                               children: values
-                                  .map((e) => DigitProjectCell(
-                                        projectText: localizations
-                                            .translate('${e.code}'),
-                                        onTap: () {
-                                          context
-                                              .read<ServiceDefinitionBloc>()
-                                              .add(
-                                                ServiceDefinitionSelectionEvent(
-                                                  serviceDefinition: e,
+                                  .map((e) => Column(
+                                    children: [
+                                      DigitProjectCell(
+                                            projectText: localizations
+                                                .translate('${e.code}'),
+                                            onTap: () {
+                                              context
+                                                  .read<ServiceDefinitionBloc>()
+                                                  .add(
+                                                    ServiceDefinitionSelectionEvent(
+                                                      serviceDefinition: e,
+                                                    ),
+                                                  );
+
+                                              DigitActionDialog.show(
+                                                context,
+                                                widget: ActionCard(
+                                                  items: [
+                                                    ActionCardModel(
+                                                      icon: Icons.edit_calendar,
+                                                      label:
+                                                          localizations.translate(
+                                                        i18.checklist
+                                                            .checklistCreateActionLabel,
+                                                      ),
+                                                      action: () {
+                                                        context.router.push(
+                                                          ChecklistBoundaryViewRoute(),
+                                                        );
+                                                        Navigator.of(
+                                                          context,
+                                                          rootNavigator: true,
+                                                        ).pop();
+                                                      },
+                                                    ),
+                                                    ActionCardModel(
+                                                      icon: Icons.visibility,
+                                                      label:
+                                                          localizations.translate(
+                                                        i18.checklist
+                                                            .checklistViewActionLabel,
+                                                      ),
+                                                      action: () {
+                                                        context
+                                                            .read<ServiceBloc>()
+                                                            .add(
+                                                              ServiceSearchEvent(
+                                                                serviceSearchModel:
+                                                                    ServiceSearchModel(
+                                                                  id: e.id,
+                                                                ),
+                                                              ),
+                                                            );
+                                                        context.router.push(
+                                                          ChecklistPreviewRoute(),
+                                                        );
+                                                        Navigator.of(
+                                                          context,
+                                                          rootNavigator: true,
+                                                        ).pop();
+                                                      },
+                                                    ),
+                                                  ],
                                                 ),
                                               );
-
-                                          DigitActionDialog.show(
-                                            context,
-                                            widget: ActionCard(
-                                              items: [
-                                                ActionCardModel(
-                                                  icon: Icons.edit_calendar,
-                                                  label:
-                                                      localizations.translate(
-                                                    i18.checklist
-                                                        .checklistCreateActionLabel,
-                                                  ),
-                                                  action: () {
-                                                    context.router.push(
-                                                      ChecklistBoundaryViewRoute(),
-                                                    );
-                                                    Navigator.of(
-                                                      context,
-                                                      rootNavigator: true,
-                                                    ).pop();
-                                                  },
-                                                ),
-                                                ActionCardModel(
-                                                  icon: Icons.visibility,
-                                                  label:
-                                                      localizations.translate(
-                                                    i18.checklist
-                                                        .checklistViewActionLabel,
-                                                  ),
-                                                  action: () {
-                                                    context
-                                                        .read<ServiceBloc>()
-                                                        .add(
-                                                          ServiceSearchEvent(
-                                                            serviceSearchModel:
-                                                                ServiceSearchModel(
-                                                              id: e.id,
-                                                            ),
-                                                          ),
-                                                        );
-                                                    context.router.push(
-                                                      ChecklistPreviewRoute(),
-                                                    );
-                                                    Navigator.of(
-                                                      context,
-                                                      rootNavigator: true,
-                                                    ).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      ))
+                                            },
+                                          ),
+                                      const SizedBox(height: 8,),
+                                    ],
+                                  ))
                                   .toList(),
                             );
                           },
