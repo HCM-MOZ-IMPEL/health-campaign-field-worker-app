@@ -482,7 +482,7 @@ class _IndividualDetailsPageState
                 return options
                     .map((e) => localizations.translate(e.code))
                     .firstWhereOrNull(
-                      (element) => element == individual?.gender?.name,
+                      (element) => element.toLowerCase() == individual?.gender?.name,
                     );
               },
             ),
