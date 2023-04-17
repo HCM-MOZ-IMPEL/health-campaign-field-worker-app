@@ -330,11 +330,13 @@ class _IndividualDetailsPageState
                                   label: localizations.translate(
                                     i18.individualDetails.genderLabelText,
                                   ),
-                                  valueMapper: (value) => value,
+                                  // valueMapper: (value) => value,
+                                  valueMapper: (value) => localizations
+                                      .translate(value,),
                                   initialValue: genderOptions.firstOrNull?.name,
                                   menuItems: genderOptions.map(
                                     (e) {
-                                      return localizations.translate(e.name);
+                                      return e.code;
                                     },
                                   ).toList(),
                                   formControlName: _genderKey,
@@ -480,7 +482,7 @@ class _IndividualDetailsPageState
                     appConfiguration.genderOptions ?? <GenderOptions>[];
 
                 return options
-                    .map((e) => localizations.translate(e.code))
+                    .map((e) => e.code)
                     .firstWhereOrNull(
                       (element) => element.toLowerCase() == individual?.gender?.name,
                     );

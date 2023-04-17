@@ -367,11 +367,17 @@ class _DeliverInterventionPageState
 
                                       return date.age.toString();
                                     }(),
+                                    // localizations.translate(
+                                    //   i18.common.coreCommonGender,
+                                    // ): householdMemberWrapper.headOfHousehold
+                                    //         .gender?.name.sentenceCase ??
+                                    //     '',
                                     localizations.translate(
                                       i18.common.coreCommonGender,
-                                    ): householdMemberWrapper.headOfHousehold
-                                            .gender?.name.sentenceCase ??
-                                        '',
+                                    ): localizations
+                                        .translate(householdMemberWrapper
+                                        .headOfHousehold.gender?.name
+                                        .toUpperCase() ?? ''),
                                     localizations.translate(
                                       i18.common.coreCommonMobileNumber,
                                     ): householdMemberWrapper
