@@ -375,7 +375,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           ServiceCreateEvent(
                                             serviceModel: ServiceModel(
                                               createdAt:
-                                                  DateFormat('dd/MM/yyyy')
+                                                  DateFormat('dd/MM/yyyy hh:mm')
                                                       .format(DateTime.now()),
                                               tenantId: value
                                                   .selectedServiceDefinition!
