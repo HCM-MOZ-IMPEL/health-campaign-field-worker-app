@@ -51,6 +51,7 @@ class _LoginPageState extends LocalizedState<LoginPage> {
               Loaders.showLoadingDialog(context);
             },
             error: (message) {
+              FocusManager.instance.primaryFocus?.unfocus();
               Navigator.of(context, rootNavigator: true).pop();
               DigitToast.show(
                 context,

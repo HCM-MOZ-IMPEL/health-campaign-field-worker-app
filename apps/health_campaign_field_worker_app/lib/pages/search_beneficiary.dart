@@ -165,9 +165,9 @@ class _SearchBeneficiaryPageState
                   final searchQuery = state.searchQuery;
                   VoidCallback? onPressed;
 
-                  onPressed = state.loading ||
-                          searchQuery == null ||
-                          searchQuery.isEmpty
+                  onPressed = state.loading
+                          // searchQuery == null ||
+                          // searchQuery.isEmpty
                       ? null
                       : () => router.push(BeneficiaryRegistrationWrapperRoute(
                             initialState: BeneficiaryRegistrationCreateState(

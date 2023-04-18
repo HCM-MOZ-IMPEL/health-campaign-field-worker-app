@@ -152,7 +152,9 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                           cellKey: 'age',
                         ),
                         TableData(
-                          e.gender?.name ?? '',
+                          localizations
+                              .translate(e.gender?.name.toUpperCase() ?? ''),
+                          // e.gender?.name ?? '',
                           cellKey: 'gender',
                         ),
                       ],
