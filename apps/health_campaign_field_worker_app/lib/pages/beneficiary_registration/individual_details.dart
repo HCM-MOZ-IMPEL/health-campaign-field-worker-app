@@ -353,6 +353,10 @@ class _IndividualDetailsPageState
                               'mobileNumber': (object) =>
                                   localizations.translate(i18.individualDetails
                                       .mobileNumberInvalidFormatValidationMessage),
+                              'number': (object) =>
+                                  localizations.translate(i18.individualDetails
+                                      .mobileNumberInvalidFormatValidationMessage),
+
                             },
                           ),
                         ],
@@ -489,7 +493,7 @@ class _IndividualDetailsPageState
       ),
       _mobileNumberKey:
           FormControl<String>(value: individual?.mobileNumber, validators: [
-        CustomValidator.validMobileNumber,
+        CustomValidator.validMobileNumber, Validators.number
       ]),
     });
   }

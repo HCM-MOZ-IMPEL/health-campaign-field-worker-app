@@ -39,15 +39,6 @@ class DigitDobPicker extends StatelessWidget {
         ),
         child: Column(
           children: [
-            DigitDateFormPicker(
-              label: datePickerLabel,
-              formControlName: datePickerFormControl,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              separatorLabel,
-              style: theme.textTheme.bodyLarge,
-            ),
             DigitTextFormField(
               maxLength: 3,
               valueAccessor: DobValueAccessor(),
@@ -71,7 +62,16 @@ class DigitDobPicker extends StatelessWidget {
 
                 formControl.setValidators([requiredTrue]);
               },
-            )
+            ),
+            const SizedBox(height: 16),
+            Text(
+              separatorLabel,
+              style: theme.textTheme.bodyLarge,
+            ),
+            DigitDateFormPicker(
+              label: datePickerLabel,
+              formControlName: datePickerFormControl,
+            ),
           ],
         ),
       ),
