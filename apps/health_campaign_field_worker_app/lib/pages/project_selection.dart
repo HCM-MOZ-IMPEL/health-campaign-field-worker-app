@@ -90,48 +90,48 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
             },
             builder: (context, state) {
               return state.maybeMap(
-                orElse: (){
-                  return const Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                },
-                // orElse: () => Center(
-                //   child: Padding(
-                //     padding: const EdgeInsets.symmetric(vertical: 30),
-                //     child: Column(
-                //       children: [
-                //         Text(localizations.translate(
-                //           i18.projectSelection.noProjectsAssigned,
-                //         )),
-                //         Text(localizations.translate(
-                //           i18.projectSelection.contactSysAdmin,
-                //         )),
-                //         Padding(
-                //           padding: const EdgeInsets.symmetric(vertical: 30),
-                //           child: SizedBox(
-                //             width: 300,
-                //             child: DigitElevatedButton(
-                //               onPressed: () {
-                //                 context
-                //                     .read<AuthBloc>()
-                //                     .add(const AuthLogoutEvent());
-                //               },
-                //               child: Center(
-                //                 child: Text(
-                //                   localizations.translate(
-                //                     i18.common.coreCommonOk,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ],
+                // orElse: (){
+                //   return const Expanded(
+                //     child: Center(
+                //       child: CircularProgressIndicator(),
                 //     ),
-                //   ),
-                // ),
+                //   );
+                // },
+                orElse: () => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30),
+                    child: Column(
+                      children: [
+                        Text(localizations.translate(
+                          i18.projectSelection.noProjectsAssigned,
+                        )),
+                        Text(localizations.translate(
+                          i18.projectSelection.contactSysAdmin,
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: SizedBox(
+                            width: 300,
+                            child: DigitElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthLogoutEvent());
+                              },
+                              child: Center(
+                                child: Text(
+                                  localizations.translate(
+                                    i18.common.coreCommonOk,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 loading: (value) => const Expanded(
                   child: Center(
                     child: CircularProgressIndicator(),

@@ -102,10 +102,10 @@ class _HouseholdLocationPageState
                             isHeadOfHousehold,
                           ) {
                             var addressModel = AddressModel(
-                              addressLine1: addressLine1,
-                              addressLine2: addressLine2,
+                              addressLine1: 'addressLine1',
+                              addressLine2: 'addressLine2',
                               landmark: landmark,
-                              pincode: postalCode,
+                              pincode: 'postalCode',
                               type: AddressType.correspondence,
                               latitude: form.control(_latKey).value,
                               longitude: form.control(_lngKey).value,
@@ -134,10 +134,10 @@ class _HouseholdLocationPageState
                             loading,
                           ) {
                             var addressModel = address.copyWith(
-                              addressLine1: addressLine1,
-                              addressLine2: addressLine2,
+                              addressLine1: 'addressLine1',
+                              addressLine2: 'addressLine2',
                               landmark: landmark,
-                              pincode: postalCode,
+                              pincode: 'postalCode',
                               type: AddressType.correspondence,
                               latitude: form.control(_latKey).value,
                               longitude: form.control(_lngKey).value,
@@ -190,22 +190,22 @@ class _HouseholdLocationPageState
                                   ),
                             },
                           ),
-                          DigitTextFormField(
-                            formControlName: _addressLine1Key,
-                            label: localizations.translate(
-                              i18.householdLocation
-                                  .householdAddressLine1LabelText,
-                            ),
-                            maxLength: 64,
-                          ),
-                          DigitTextFormField(
-                            formControlName: _addressLine2Key,
-                            label: localizations.translate(
-                              i18.householdLocation
-                                  .householdAddressLine2LabelText,
-                            ),
-                            maxLength: 64,
-                          ),
+                          // DigitTextFormField(
+                          //   formControlName: _addressLine1Key,
+                          //   label: localizations.translate(
+                          //     i18.householdLocation
+                          //         .householdAddressLine1LabelText,
+                          //   ),
+                          //   maxLength: 64,
+                          // ),
+                          // DigitTextFormField(
+                          //   formControlName: _addressLine2Key,
+                          //   label: localizations.translate(
+                          //     i18.householdLocation
+                          //         .householdAddressLine2LabelText,
+                          //   ),
+                          //   maxLength: 64,
+                          // ),
                           DigitTextFormField(
                             formControlName: _landmarkKey,
                             label: localizations.translate(
@@ -213,14 +213,14 @@ class _HouseholdLocationPageState
                             ),
                             maxLength: 64,
                           ),
-                          DigitTextFormField(
-                            keyboardType: TextInputType.text,
-                            formControlName: _postalCodeKey,
-                            label: localizations.translate(
-                              i18.householdLocation.postalCodeFormLabel,
-                            ),
-                            maxLength: 64,
-                          ),
+                          // DigitTextFormField(
+                          //   keyboardType: TextInputType.text,
+                          //   formControlName: _postalCodeKey,
+                          //   label: localizations.translate(
+                          //     i18.householdLocation.postalCodeFormLabel,
+                          //   ),
+                          //   maxLength: 64,
+                          // ),
                         ]),
                         const SizedBox(height: 16),
                       ],

@@ -73,11 +73,11 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                 child: BeneficiaryCard(
                   description: [
                     householdMember.household.address?.doorNo,
-                    householdMember.household.address?.addressLine1,
-                    householdMember.household.address?.addressLine2,
+                    // householdMember.household.address?.addressLine1,
+                    // householdMember.household.address?.addressLine2,
                     householdMember.household.address?.landmark,
                     householdMember.household.address?.city,
-                    householdMember.household.address?.pincode,
+                    // householdMember.household.address?.pincode,
                   ].whereNotNull().take(2).join(' '),
                   subtitle:
                       '${householdMember.household.memberCount ?? 1} ${member}',

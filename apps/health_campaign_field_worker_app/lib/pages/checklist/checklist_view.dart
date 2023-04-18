@@ -31,6 +31,20 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   String isStateChanged = '';
 
   @override
+  void initState() {
+    context.read<ServiceBloc>().add(
+      ServiceChecklistEvent(
+        value: Random()
+            .nextInt(100)
+            .toString(),
+        submitTriggered:
+        true,
+      ),
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     GlobalKey<FormState> abcKey = GlobalKey<FormState>();
