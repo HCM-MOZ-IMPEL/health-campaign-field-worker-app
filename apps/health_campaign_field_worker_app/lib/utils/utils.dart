@@ -40,7 +40,7 @@ class IdGen {
 class CustomValidator {
   /// Validates that control's value must be `true`
   static Map<String, dynamic>? requiredMin(AbstractControl<dynamic> control) {
-    return control.value == null || control.value.toString().length >= 2
+    return control.value == null || control.value.toString().trim().length >= 2
         ? null
         : {'Mínimo 2 caracteres necessários': true};
   }

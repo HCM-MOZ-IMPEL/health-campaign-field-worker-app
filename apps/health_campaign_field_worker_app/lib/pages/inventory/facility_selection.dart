@@ -27,7 +27,8 @@ class FacilitySelectionPage extends StatelessWidget {
           body: ReactiveFormConsumer(
             builder: (context, form, _) {
               final filteredFacilities = facilities.where((element) {
-                final query = form.control(_facilityName).value as String?;
+                final query = (form.control(_facilityName)
+                    .value as String?)?.trim();
                 if (query == null || query.isEmpty) return true;
                 if (element.id.toLowerCase().contains(query.toLowerCase())) {
                   return true;
