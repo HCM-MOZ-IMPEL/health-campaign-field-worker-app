@@ -218,17 +218,17 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         .control(_transactionQuantityKey)
                                         .value as int?;
 
-                                    final waybillNumber = form
+                                    final waybillNumber = (form
                                         .control(_waybillNumberKey)
-                                        .value as String?;
+                                        .value as String?)?.trim();
 
                                     final waybillQuantity = form
                                         .control(_waybillQuantityKey)
                                         .value as int?;
 
-                                    final vehicleNumber = form
+                                    final vehicleNumber = (form
                                         .control(_vehicleNumberKey)
-                                        .value as String?;
+                                        .value as String?)?.trim();
 
                                     final lat = locationState.latitude;
                                     final lng = locationState.longitude;
@@ -236,9 +236,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     final hasLocationData =
                                         lat != null && lng != null;
 
-                                    final comments = form
+                                    final comments = (form
                                         .control(_commentsKey)
-                                        .value as String?;
+                                        .value as String?)?.trim();
 
                                     String? transactingPartyType;
 

@@ -181,7 +181,7 @@ class _StockReconciliationPageState
                                                   .stockInHand
                                                   .toInt(),
                                               commentsOnReconciliation:
-                                              comments,
+                                              comments?.trim(),
                                               physicalCount: int.tryParse(
                                                 calculatedCount,
                                               ) ??
