@@ -100,7 +100,7 @@ class BoundarySelectionPage extends StatelessWidget {
                               : () {
                                   context.router.pop();
                                 },
-                          child: const Text('Submit'),
+                          child: const Text('Submeter'),
                         ),
                       ),
                     ),
