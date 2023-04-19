@@ -19,19 +19,20 @@ mixin _$BoundaryEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String code) search,
-    required TResult Function(String selectedBoundary) select,
+    required TResult Function(String label, BoundaryModel selectedBoundary)
+        select,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String code)? search,
-    TResult? Function(String selectedBoundary)? select,
+    TResult? Function(String label, BoundaryModel selectedBoundary)? select,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String code)? search,
-    TResult Function(String selectedBoundary)? select,
+    TResult Function(String label, BoundaryModel selectedBoundary)? select,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -140,7 +141,8 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String code) search,
-    required TResult Function(String selectedBoundary) select,
+    required TResult Function(String label, BoundaryModel selectedBoundary)
+        select,
   }) {
     return search(code);
   }
@@ -149,7 +151,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String code)? search,
-    TResult? Function(String selectedBoundary)? select,
+    TResult? Function(String label, BoundaryModel selectedBoundary)? select,
   }) {
     return search?.call(code);
   }
@@ -158,7 +160,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String code)? search,
-    TResult Function(String selectedBoundary)? select,
+    TResult Function(String label, BoundaryModel selectedBoundary)? select,
     required TResult orElse(),
   }) {
     if (search != null) {
@@ -215,7 +217,7 @@ abstract class _$$BoundarySelectEventCopyWith<$Res> {
           $Res Function(_$BoundarySelectEvent) then) =
       __$$BoundarySelectEventCopyWithImpl<$Res>;
   @useResult
-  $Res call({String selectedBoundary});
+  $Res call({String label, BoundaryModel selectedBoundary});
 }
 
 /// @nodoc
@@ -229,13 +231,18 @@ class __$$BoundarySelectEventCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? label = null,
     Object? selectedBoundary = null,
   }) {
     return _then(_$BoundarySelectEvent(
+      label: null == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String,
       selectedBoundary: null == selectedBoundary
           ? _value.selectedBoundary
           : selectedBoundary // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BoundaryModel,
     ));
   }
 }
@@ -243,14 +250,17 @@ class __$$BoundarySelectEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$BoundarySelectEvent implements BoundarySelectEvent {
-  const _$BoundarySelectEvent({required this.selectedBoundary});
+  const _$BoundarySelectEvent(
+      {required this.label, required this.selectedBoundary});
 
   @override
-  final String selectedBoundary;
+  final String label;
+  @override
+  final BoundaryModel selectedBoundary;
 
   @override
   String toString() {
-    return 'BoundaryEvent.select(selectedBoundary: $selectedBoundary)';
+    return 'BoundaryEvent.select(label: $label, selectedBoundary: $selectedBoundary)';
   }
 
   @override
@@ -258,12 +268,13 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BoundarySelectEvent &&
+            (identical(other.label, label) || other.label == label) &&
             (identical(other.selectedBoundary, selectedBoundary) ||
                 other.selectedBoundary == selectedBoundary));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedBoundary);
+  int get hashCode => Object.hash(runtimeType, label, selectedBoundary);
 
   @JsonKey(ignore: true)
   @override
@@ -276,29 +287,30 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String code) search,
-    required TResult Function(String selectedBoundary) select,
+    required TResult Function(String label, BoundaryModel selectedBoundary)
+        select,
   }) {
-    return select(selectedBoundary);
+    return select(label, selectedBoundary);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String code)? search,
-    TResult? Function(String selectedBoundary)? select,
+    TResult? Function(String label, BoundaryModel selectedBoundary)? select,
   }) {
-    return select?.call(selectedBoundary);
+    return select?.call(label, selectedBoundary);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String code)? search,
-    TResult Function(String selectedBoundary)? select,
+    TResult Function(String label, BoundaryModel selectedBoundary)? select,
     required TResult orElse(),
   }) {
     if (select != null) {
-      return select(selectedBoundary);
+      return select(label, selectedBoundary);
     }
     return orElse();
   }
@@ -336,10 +348,12 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
 }
 
 abstract class BoundarySelectEvent implements BoundaryEvent {
-  const factory BoundarySelectEvent({required final String selectedBoundary}) =
-      _$BoundarySelectEvent;
+  const factory BoundarySelectEvent(
+      {required final String label,
+      required final BoundaryModel selectedBoundary}) = _$BoundarySelectEvent;
 
-  String get selectedBoundary;
+  String get label;
+  BoundaryModel get selectedBoundary;
   @JsonKey(ignore: true)
   _$$BoundarySelectEventCopyWith<_$BoundarySelectEvent> get copyWith =>
       throw _privateConstructorUsedError;
@@ -347,55 +361,13 @@ abstract class BoundarySelectEvent implements BoundaryEvent {
 
 /// @nodoc
 mixin _$BoundaryState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)
-        fetched,
-    required TResult Function() empty,
-  }) =>
+  bool get loading => throw _privateConstructorUsedError;
+  List<BoundaryModel> get boundaryList => throw _privateConstructorUsedError;
+  Map<String, BoundaryModel?> get selectedBoundaryMap =>
       throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult? Function()? empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(BoundaryLoadingState value) loading,
-    required TResult Function(BoundaryFetchedState value) fetched,
-    required TResult Function(BoundaryEmptyState value) empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(BoundaryLoadingState value)? loading,
-    TResult? Function(BoundaryFetchedState value)? fetched,
-    TResult? Function(BoundaryEmptyState value)? empty,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(BoundaryLoadingState value)? loading,
-    TResult Function(BoundaryFetchedState value)? fetched,
-    TResult Function(BoundaryEmptyState value)? empty,
-    required TResult orElse(),
-  }) =>
+
+  @JsonKey(ignore: true)
+  $BoundaryStateCopyWith<BoundaryState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -404,6 +376,11 @@ abstract class $BoundaryStateCopyWith<$Res> {
   factory $BoundaryStateCopyWith(
           BoundaryState value, $Res Function(BoundaryState) then) =
       _$BoundaryStateCopyWithImpl<$Res, BoundaryState>;
+  @useResult
+  $Res call(
+      {bool loading,
+      List<BoundaryModel> boundaryList,
+      Map<String, BoundaryModel?> selectedBoundaryMap});
 }
 
 /// @nodoc
@@ -415,176 +392,91 @@ class _$BoundaryStateCopyWithImpl<$Res, $Val extends BoundaryState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? loading = null,
+    Object? boundaryList = null,
+    Object? selectedBoundaryMap = null,
+  }) {
+    return _then(_value.copyWith(
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      boundaryList: null == boundaryList
+          ? _value.boundaryList
+          : boundaryList // ignore: cast_nullable_to_non_nullable
+              as List<BoundaryModel>,
+      selectedBoundaryMap: null == selectedBoundaryMap
+          ? _value.selectedBoundaryMap
+          : selectedBoundaryMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, BoundaryModel?>,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$BoundaryLoadingStateCopyWith<$Res> {
-  factory _$$BoundaryLoadingStateCopyWith(_$BoundaryLoadingState value,
-          $Res Function(_$BoundaryLoadingState) then) =
-      __$$BoundaryLoadingStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$BoundaryLoadingStateCopyWithImpl<$Res>
-    extends _$BoundaryStateCopyWithImpl<$Res, _$BoundaryLoadingState>
-    implements _$$BoundaryLoadingStateCopyWith<$Res> {
-  __$$BoundaryLoadingStateCopyWithImpl(_$BoundaryLoadingState _value,
-      $Res Function(_$BoundaryLoadingState) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$BoundaryLoadingState implements BoundaryLoadingState {
-  const _$BoundaryLoadingState();
-
+abstract class _$$_BoundaryStateCopyWith<$Res>
+    implements $BoundaryStateCopyWith<$Res> {
+  factory _$$_BoundaryStateCopyWith(
+          _$_BoundaryState value, $Res Function(_$_BoundaryState) then) =
+      __$$_BoundaryStateCopyWithImpl<$Res>;
   @override
-  String toString() {
-    return 'BoundaryState.loading()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$BoundaryLoadingState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)
-        fetched,
-    required TResult Function() empty,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult? Function()? empty,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(BoundaryLoadingState value) loading,
-    required TResult Function(BoundaryFetchedState value) fetched,
-    required TResult Function(BoundaryEmptyState value) empty,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(BoundaryLoadingState value)? loading,
-    TResult? Function(BoundaryFetchedState value)? fetched,
-    TResult? Function(BoundaryEmptyState value)? empty,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(BoundaryLoadingState value)? loading,
-    TResult Function(BoundaryFetchedState value)? fetched,
-    TResult Function(BoundaryEmptyState value)? empty,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class BoundaryLoadingState implements BoundaryState {
-  const factory BoundaryLoadingState() = _$BoundaryLoadingState;
-}
-
-/// @nodoc
-abstract class _$$BoundaryFetchedStateCopyWith<$Res> {
-  factory _$$BoundaryFetchedStateCopyWith(_$BoundaryFetchedState value,
-          $Res Function(_$BoundaryFetchedState) then) =
-      __$$BoundaryFetchedStateCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {List<BoundaryModel> boundaryList,
-      List<String> boundaryMapperList,
-      String? selectedBoundary});
+      {bool loading,
+      List<BoundaryModel> boundaryList,
+      Map<String, BoundaryModel?> selectedBoundaryMap});
 }
 
 /// @nodoc
-class __$$BoundaryFetchedStateCopyWithImpl<$Res>
-    extends _$BoundaryStateCopyWithImpl<$Res, _$BoundaryFetchedState>
-    implements _$$BoundaryFetchedStateCopyWith<$Res> {
-  __$$BoundaryFetchedStateCopyWithImpl(_$BoundaryFetchedState _value,
-      $Res Function(_$BoundaryFetchedState) _then)
+class __$$_BoundaryStateCopyWithImpl<$Res>
+    extends _$BoundaryStateCopyWithImpl<$Res, _$_BoundaryState>
+    implements _$$_BoundaryStateCopyWith<$Res> {
+  __$$_BoundaryStateCopyWithImpl(
+      _$_BoundaryState _value, $Res Function(_$_BoundaryState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? loading = null,
     Object? boundaryList = null,
-    Object? boundaryMapperList = null,
-    Object? selectedBoundary = freezed,
+    Object? selectedBoundaryMap = null,
   }) {
-    return _then(_$BoundaryFetchedState(
+    return _then(_$_BoundaryState(
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
       boundaryList: null == boundaryList
           ? _value._boundaryList
           : boundaryList // ignore: cast_nullable_to_non_nullable
               as List<BoundaryModel>,
-      boundaryMapperList: null == boundaryMapperList
-          ? _value._boundaryMapperList
-          : boundaryMapperList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      selectedBoundary: freezed == selectedBoundary
-          ? _value.selectedBoundary
-          : selectedBoundary // ignore: cast_nullable_to_non_nullable
-              as String?,
+      selectedBoundaryMap: null == selectedBoundaryMap
+          ? _value._selectedBoundaryMap
+          : selectedBoundaryMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, BoundaryModel?>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$BoundaryFetchedState implements BoundaryFetchedState {
-  const _$BoundaryFetchedState(
-      {final List<BoundaryModel> boundaryList = const [],
-      final List<String> boundaryMapperList = const [],
-      this.selectedBoundary})
+class _$_BoundaryState extends _BoundaryState {
+  const _$_BoundaryState(
+      {this.loading = false,
+      final List<BoundaryModel> boundaryList = const [],
+      final Map<String, BoundaryModel?> selectedBoundaryMap = const {}})
       : _boundaryList = boundaryList,
-        _boundaryMapperList = boundaryMapperList;
+        _selectedBoundaryMap = selectedBoundaryMap,
+        super._();
 
+  @override
+  @JsonKey()
+  final bool loading;
   final List<BoundaryModel> _boundaryList;
   @override
   @JsonKey()
@@ -593,248 +485,56 @@ class _$BoundaryFetchedState implements BoundaryFetchedState {
     return EqualUnmodifiableListView(_boundaryList);
   }
 
-  final List<String> _boundaryMapperList;
+  final Map<String, BoundaryModel?> _selectedBoundaryMap;
   @override
   @JsonKey()
-  List<String> get boundaryMapperList {
+  Map<String, BoundaryModel?> get selectedBoundaryMap {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_boundaryMapperList);
-  }
-
-  @override
-  final String? selectedBoundary;
-
-  @override
-  String toString() {
-    return 'BoundaryState.fetched(boundaryList: $boundaryList, boundaryMapperList: $boundaryMapperList, selectedBoundary: $selectedBoundary)';
+    return EqualUnmodifiableMapView(_selectedBoundaryMap);
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BoundaryFetchedState &&
+            other is _$_BoundaryState &&
+            (identical(other.loading, loading) || other.loading == loading) &&
             const DeepCollectionEquality()
                 .equals(other._boundaryList, _boundaryList) &&
             const DeepCollectionEquality()
-                .equals(other._boundaryMapperList, _boundaryMapperList) &&
-            (identical(other.selectedBoundary, selectedBoundary) ||
-                other.selectedBoundary == selectedBoundary));
+                .equals(other._selectedBoundaryMap, _selectedBoundaryMap));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      loading,
       const DeepCollectionEquality().hash(_boundaryList),
-      const DeepCollectionEquality().hash(_boundaryMapperList),
-      selectedBoundary);
+      const DeepCollectionEquality().hash(_selectedBoundaryMap));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$BoundaryFetchedStateCopyWith<_$BoundaryFetchedState> get copyWith =>
-      __$$BoundaryFetchedStateCopyWithImpl<_$BoundaryFetchedState>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)
-        fetched,
-    required TResult Function() empty,
-  }) {
-    return fetched(boundaryList, boundaryMapperList, selectedBoundary);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult? Function()? empty,
-  }) {
-    return fetched?.call(boundaryList, boundaryMapperList, selectedBoundary);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) {
-    if (fetched != null) {
-      return fetched(boundaryList, boundaryMapperList, selectedBoundary);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(BoundaryLoadingState value) loading,
-    required TResult Function(BoundaryFetchedState value) fetched,
-    required TResult Function(BoundaryEmptyState value) empty,
-  }) {
-    return fetched(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(BoundaryLoadingState value)? loading,
-    TResult? Function(BoundaryFetchedState value)? fetched,
-    TResult? Function(BoundaryEmptyState value)? empty,
-  }) {
-    return fetched?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(BoundaryLoadingState value)? loading,
-    TResult Function(BoundaryFetchedState value)? fetched,
-    TResult Function(BoundaryEmptyState value)? empty,
-    required TResult orElse(),
-  }) {
-    if (fetched != null) {
-      return fetched(this);
-    }
-    return orElse();
-  }
+  _$$_BoundaryStateCopyWith<_$_BoundaryState> get copyWith =>
+      __$$_BoundaryStateCopyWithImpl<_$_BoundaryState>(this, _$identity);
 }
 
-abstract class BoundaryFetchedState implements BoundaryState {
-  const factory BoundaryFetchedState(
-      {final List<BoundaryModel> boundaryList,
-      final List<String> boundaryMapperList,
-      final String? selectedBoundary}) = _$BoundaryFetchedState;
+abstract class _BoundaryState extends BoundaryState {
+  const factory _BoundaryState(
+          {final bool loading,
+          final List<BoundaryModel> boundaryList,
+          final Map<String, BoundaryModel?> selectedBoundaryMap}) =
+      _$_BoundaryState;
+  const _BoundaryState._() : super._();
 
+  @override
+  bool get loading;
+  @override
   List<BoundaryModel> get boundaryList;
-  List<String> get boundaryMapperList;
-  String? get selectedBoundary;
+  @override
+  Map<String, BoundaryModel?> get selectedBoundaryMap;
+  @override
   @JsonKey(ignore: true)
-  _$$BoundaryFetchedStateCopyWith<_$BoundaryFetchedState> get copyWith =>
+  _$$_BoundaryStateCopyWith<_$_BoundaryState> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$BoundaryEmptyStateCopyWith<$Res> {
-  factory _$$BoundaryEmptyStateCopyWith(_$BoundaryEmptyState value,
-          $Res Function(_$BoundaryEmptyState) then) =
-      __$$BoundaryEmptyStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$BoundaryEmptyStateCopyWithImpl<$Res>
-    extends _$BoundaryStateCopyWithImpl<$Res, _$BoundaryEmptyState>
-    implements _$$BoundaryEmptyStateCopyWith<$Res> {
-  __$$BoundaryEmptyStateCopyWithImpl(
-      _$BoundaryEmptyState _value, $Res Function(_$BoundaryEmptyState) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$BoundaryEmptyState implements BoundaryEmptyState {
-  const _$BoundaryEmptyState();
-
-  @override
-  String toString() {
-    return 'BoundaryState.empty()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$BoundaryEmptyState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)
-        fetched,
-    required TResult Function() empty,
-  }) {
-    return empty();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult? Function()? empty,
-  }) {
-    return empty?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<BoundaryModel> boundaryList,
-            List<String> boundaryMapperList, String? selectedBoundary)?
-        fetched,
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(BoundaryLoadingState value) loading,
-    required TResult Function(BoundaryFetchedState value) fetched,
-    required TResult Function(BoundaryEmptyState value) empty,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(BoundaryLoadingState value)? loading,
-    TResult? Function(BoundaryFetchedState value)? fetched,
-    TResult? Function(BoundaryEmptyState value)? empty,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(BoundaryLoadingState value)? loading,
-    TResult Function(BoundaryFetchedState value)? fetched,
-    TResult Function(BoundaryEmptyState value)? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class BoundaryEmptyState implements BoundaryState {
-  const factory BoundaryEmptyState() = _$BoundaryEmptyState;
 }

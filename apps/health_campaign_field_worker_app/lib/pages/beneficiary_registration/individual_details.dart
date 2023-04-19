@@ -252,7 +252,7 @@ class _IndividualDetailsPageState
                           //           appConfiguration.idTypeOptions ??
                           //               <IdTypeOptions>[];
                           //
-                          //       return DigitDropdown<String>(
+                          //       return DigitReactiveDropdown<String>(
                           //         isRequired: true,
                           //         label: localizations.translate(
                           //           i18.individualDetails.idTypeLabelText,
@@ -326,7 +326,7 @@ class _IndividualDetailsPageState
                                     appConfiguration.genderOptions ??
                                         <GenderOptions>[];
 
-                                return DigitDropdown<String>(
+                                return DigitReactiveDropdown<String>(
                                   label: localizations.translate(
                                     i18.individualDetails.genderLabelText,
                                   ),

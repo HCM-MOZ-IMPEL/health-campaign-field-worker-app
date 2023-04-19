@@ -354,7 +354,7 @@ class _StockReconciliationPageState
 
                                               return Container();
 
-                                              // return DigitDropdown<
+                                              // return DigitReactiveDropdown<
                                               //     ProductVariantModel>(
                                               //   formControlName:
                                               //       _productVariantKey,

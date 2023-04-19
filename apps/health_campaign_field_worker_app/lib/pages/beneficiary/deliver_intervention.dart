@@ -440,7 +440,7 @@ class _DeliverInterventionPageState
                                         //     .control(_resourceDeliveredKey)
                                         //     .value = variant;
                                         //
-                                        // return DigitDropdown<
+                                        // return DigitReactiveDropdown<
                                         //     ProductVariantModel>(
                                         //   label: localizations.translate(
                                         //     i18.deliverIntervention
@@ -486,7 +486,7 @@ class _DeliverInterventionPageState
                                             .deliveryCommentOptions ??
                                         <DeliveryCommentOptions>[];
 
-                                    return DigitDropdown<String>(
+                                    return DigitReactiveDropdown<String>(
                                       label: localizations.translate(
                                         i18.deliverIntervention
                                             .deliveryCommentLabel,
