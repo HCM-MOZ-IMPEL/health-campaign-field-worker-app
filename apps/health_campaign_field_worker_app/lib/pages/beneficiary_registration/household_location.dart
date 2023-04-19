@@ -104,7 +104,7 @@ class _HouseholdLocationPageState
                             var addressModel = AddressModel(
                               addressLine1: 'addressLine1',
                               addressLine2: 'addressLine2',
-                              landmark: landmark,
+                              landmark: landmark?.trim(),
                               pincode: 'postalCode',
                               type: AddressType.correspondence,
                               latitude: form.control(_latKey).value,

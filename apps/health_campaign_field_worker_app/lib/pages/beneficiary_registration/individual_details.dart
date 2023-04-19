@@ -424,7 +424,7 @@ class _IndividualDetailsPageState
 
     individual = individual.copyWith(
       name: name.copyWith(
-        givenName: form.control(_individualNameKey).value,
+        givenName: (form.control(_individualNameKey).value as String).trim(),
       ),
       gender: form.control(_genderKey).value == null
           ? null
@@ -461,7 +461,7 @@ class _IndividualDetailsPageState
     return fb.group(<String, Object>{
       _individualNameKey: FormControl<String>(
         validators: [Validators.required, CustomValidator.requiredMin],
-        value: individual?.name?.givenName ?? searchQuery,
+        value: individual?.name?.givenName ?? searchQuery?.trim(),
       ),
       // _idTypeKey: FormControl<String>(
       //   validators: [Validators.required],
