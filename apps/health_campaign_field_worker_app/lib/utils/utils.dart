@@ -54,6 +54,11 @@ class CustomValidator {
 
     const pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
 
+    if (control.value.toString().length!=10){
+      return {'mobileNumber': true};
+
+    }
+
     if (RegExp(pattern).hasMatch(control.value.toString())) return null;
 
     return {'mobileNumber': true};

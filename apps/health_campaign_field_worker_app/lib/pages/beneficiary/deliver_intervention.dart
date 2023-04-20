@@ -238,6 +238,7 @@ class _DeliverInterventionPageState
                                                   : true,
                                             ),
                                           );
+                                      (router.parent() as StackRouter).pop();
 
                                       Navigator.of(context, rootNavigator: true)
                                           .pop(true);

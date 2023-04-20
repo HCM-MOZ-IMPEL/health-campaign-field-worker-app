@@ -255,7 +255,7 @@ class _HouseholdLocationPageState
       ),
       _landmarkKey:
           FormControl<String>(value: addressModel?.landmark, validators: [
-        CustomValidator.requiredMin,
+        // CustomValidator.requiredMin,
       ]),
       _postalCodeKey:
           FormControl<String>(value: addressModel?.pincode, validators: [
