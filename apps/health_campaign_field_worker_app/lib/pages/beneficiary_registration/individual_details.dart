@@ -58,7 +58,7 @@ class _IndividualDetailsPageState
                 if (value.navigateToRoot) {
                   (router.parent() as StackRouter).pop();
                 } else {
-                  (router.parent() as StackRouter).pop();
+                  // (router.parent() as StackRouter).pop();
                   // context.read<SearchHouseholdsBloc>().add(
                   //       SearchHouseholdsByHouseholdsEvent(
                   //         householdModel: value.householdModel,
