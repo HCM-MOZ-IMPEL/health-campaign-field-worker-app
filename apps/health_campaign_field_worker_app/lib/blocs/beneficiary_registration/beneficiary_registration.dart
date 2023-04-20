@@ -8,6 +8,7 @@ import '../../models/data_model.dart';
 import '../../utils/environment_config.dart';
 import '../../utils/typedefs.dart';
 import '../../utils/utils.dart';
+import '../search_households/search_households.dart';
 
 part 'beneficiary_registration.freezed.dart';
 
@@ -22,8 +23,12 @@ class BeneficiaryRegistrationBloc
   final HouseholdMemberDataRepository householdMemberRepository;
 
   final ProjectBeneficiaryDataRepository projectBeneficiaryRepository;
+  late String householdClientRefId;
+  late HouseholdModel householdModel;
+  late HouseholdMemberWrapper householdMemberWrapper;
 
   // final TaskDataRepository taskDataRepository;
+  late ProjectBeneficiaryModel projectBeneficiaryModel;
 
   BeneficiaryRegistrationBloc(
     super.initialState, {
@@ -73,6 +78,7 @@ class BeneficiaryRegistrationBloc
         ));
       },
       create: (value) {
+        householdModel = event.household;
         emit(value.copyWith(
           householdModel: event.household,
           registrationDate: event.registrationDate,
@@ -112,6 +118,8 @@ class BeneficiaryRegistrationBloc
         throw const InvalidRegistrationStateException();
       },
       create: (value) async {
+        emit(value.copyWith(loading: true));
+
         final individual = value.individualModel;
         final household = value.householdModel;
         final address = value.addressModel;
@@ -159,20 +167,20 @@ class BeneficiaryRegistrationBloc
               ],
             ),
           );
-
-          await projectBeneficiaryRepository.create(
-            ProjectBeneficiaryModel(
-              rowVersion: 1,
-              tenantId: envConfig.variables.tenantId,
-              clientReferenceId: IdGen.i.identifier,
-              dateOfRegistration: dateOfRegistration.millisecondsSinceEpoch,
-              projectId: event.projectId,
-              beneficiaryClientReferenceId: household.clientReferenceId,
-              auditDetails: AuditDetails(
-                createdBy: event.userUuid,
-                createdTime: createdAt,
-              ),
+          projectBeneficiaryModel = ProjectBeneficiaryModel(
+            rowVersion: 1,
+            tenantId: envConfig.variables.tenantId,
+            clientReferenceId: IdGen.i.identifier,
+            dateOfRegistration: dateOfRegistration.millisecondsSinceEpoch,
+            projectId: event.projectId,
+            beneficiaryClientReferenceId: household.clientReferenceId,
+            auditDetails: AuditDetails(
+              createdBy: event.userUuid,
+              createdTime: createdAt,
             ),
+          );
+          await projectBeneficiaryRepository.create(
+            projectBeneficiaryModel,
           );
 
           await householdMemberRepository.create(
@@ -188,6 +196,13 @@ class BeneficiaryRegistrationBloc
                 createdTime: createdAt,
               ),
             ),
+          );
+
+          householdMemberWrapper = HouseholdMemberWrapper(
+            household: householdModel!,
+            headOfHousehold: individual!,
+            members: [individual!],
+            projectBeneficiary: projectBeneficiaryModel,
           );
         } catch (error) {
           rethrow;

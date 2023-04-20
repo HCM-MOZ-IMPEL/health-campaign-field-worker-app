@@ -9,7 +9,6 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../blocs/app_initialization/app_initialization.dart';
 import '../../blocs/beneficiary_registration/beneficiary_registration.dart';
-import '../../blocs/search_households/search_households.dart';
 import '../../data/local_store/no_sql/schema/app_configuration.dart';
 import '../../models/data_model.dart';
 import '../../router/app_router.dart';
@@ -60,13 +59,15 @@ class _IndividualDetailsPageState
                   (router.parent() as StackRouter).pop();
                 } else {
                   (router.parent() as StackRouter).pop();
-                  context.read<SearchHouseholdsBloc>().add(
-                        SearchHouseholdsByHouseholdsEvent(
-                          householdModel: value.householdModel,
-                          projectId: context.projectId,
-                        ),
-                      );
-                  router.push(AcknowledgementRoute());
+                  // context.read<SearchHouseholdsBloc>().add(
+                  //       SearchHouseholdsByHouseholdsEvent(
+                  //         householdModel: value.householdModel,
+                  //         projectId: context.projectId,
+                  //       ),
+                  //     );
+                  router.push(BeneficiaryWrapperRoute(
+                    wrapper: bloc.householdMemberWrapper,
+                  ));
                 }
               },
             );
@@ -106,54 +107,68 @@ class _IndividualDetailsPageState
                             form: form,
                             oldIndividual: null,
                           );
-
                           bloc.add(
                             BeneficiaryRegistrationSaveIndividualDetailsEvent(
                               model: individual,
                               isHeadOfHousehold: widget.isHeadOfHousehold,
                             ),
                           );
-
-                          final submit = await DigitDialog.show<bool>(
-                            context,
-                            options: DigitDialogOptions(
-                              titleText: localizations.translate(
-                                i18.deliverIntervention.dialogTitle,
-                              ),
-                              contentText: localizations.translate(
-                                i18.deliverIntervention.dialogContent,
-                              ),
-                              primaryAction: DigitDialogActions(
-                                label: localizations.translate(
-                                  i18.common.coreCommonSubmit,
-                                ),
-                                action: (context) {
-                                  Navigator.of(
-                                    context,
-                                    rootNavigator: true,
-                                  ).pop(true);
-                                },
-                              ),
-                              secondaryAction: DigitDialogActions(
-                                label: localizations.translate(
-                                  i18.common.coreCommonCancel,
-                                ),
-                                action: (context) => Navigator.of(
-                                  context,
-                                  rootNavigator: true,
-                                ).pop(false),
-                              ),
+                          bloc.add(
+                            BeneficiaryRegistrationCreateEvent(
+                              projectId: projectId,
+                              userUuid: userId,
                             ),
                           );
 
-                          if (submit ?? false) {
-                            bloc.add(
-                              BeneficiaryRegistrationCreateEvent(
-                                projectId: projectId,
-                                userUuid: userId,
-                              ),
-                            );
-                          }
+                          // bloc.findWrapper(projectId, householdModel!.clientReferenceId);
+                          // final wrapper =  HouseholdMemberWrapper(
+                          //    household: householdModel!,
+                          //    headOfHousehold: individualModel!,
+                          //    members: [individualModel!],
+                          //    projectBeneficiary: projectBeneficiaryModel,
+                          //  );
+                          //
+
+                          // final submit = await DigitDialog.show<bool>(
+                          //   context,
+                          //   options: DigitDialogOptions(
+                          //     titleText: localizations.translate(
+                          //       i18.deliverIntervention.dialogTitle,
+                          //     ),
+                          //     contentText: localizations.translate(
+                          //       i18.deliverIntervention.dialogContent,
+                          //     ),
+                          //     primaryAction: DigitDialogActions(
+                          //       label: localizations.translate(
+                          //         i18.common.coreCommonSubmit,
+                          //       ),
+                          //       action: (context) {
+                          //         Navigator.of(
+                          //           context,
+                          //           rootNavigator: true,
+                          //         ).pop(true);
+                          //       },
+                          //     ),
+                          //     secondaryAction: DigitDialogActions(
+                          //       label: localizations.translate(
+                          //         i18.common.coreCommonCancel,
+                          //       ),
+                          //       action: (context) => Navigator.of(
+                          //         context,
+                          //         rootNavigator: true,
+                          //       ).pop(false),
+                          //     ),
+                          //   ),
+                          // );
+
+                          // if (submit ?? false) {
+                          //   bloc.add(
+                          //     BeneficiaryRegistrationCreateEvent(
+                          //       projectId: projectId,
+                          //       userUuid: userId,
+                          //     ),
+                          //   );
+                          // }
                         },
                         editIndividual: (
                           householdModel,
@@ -231,7 +246,8 @@ class _IndividualDetailsPageState
                             isRequired: true,
                             validationMessages: {
                               'required': (object) => localizations.translate(
-                                  i18.individualDetails.nameIsRequiredError,),
+                                    i18.individualDetails.nameIsRequiredError,
+                                  ),
                             },
                           ),
                           Offstage(
@@ -331,8 +347,10 @@ class _IndividualDetailsPageState
                                     i18.individualDetails.genderLabelText,
                                   ),
                                   // valueMapper: (value) => value,
-                                  valueMapper: (value) => localizations
-                                      .translate(value,),
+                                  valueMapper: (value) =>
+                                      localizations.translate(
+                                    value,
+                                  ),
                                   initialValue: genderOptions.firstOrNull?.name,
                                   menuItems: genderOptions.map(
                                     (e) {
@@ -355,10 +373,9 @@ class _IndividualDetailsPageState
                               'mobileNumber': (object) =>
                                   localizations.translate(i18.individualDetails
                                       .mobileNumberInvalidFormatValidationMessage),
-                              'number': (object) =>
-                                  localizations.translate(i18.individualDetails
-                                      .mobileNumberInvalidFormatValidationMessage),
-
+                              'number': (object) => localizations.translate(i18
+                                  .individualDetails
+                                  .mobileNumberInvalidFormatValidationMessage),
                             },
                           ),
                         ],
@@ -485,18 +502,16 @@ class _IndividualDetailsPageState
                 final options =
                     appConfiguration.genderOptions ?? <GenderOptions>[];
 
-                return options
-                    .map((e) => e.code)
-                    .firstWhereOrNull(
-                      (element) => element.toLowerCase() == individual?.gender?.name,
+                return options.map((e) => e.code).firstWhereOrNull(
+                      (element) =>
+                          element.toLowerCase() == individual?.gender?.name,
                     );
               },
             ),
       ),
-      _mobileNumberKey:
-          FormControl<String>(value: individual?.mobileNumber, validators: [
-        CustomValidator.validMobileNumber, Validators.number
-      ]),
+      _mobileNumberKey: FormControl<String>(
+          value: individual?.mobileNumber,
+          validators: [CustomValidator.validMobileNumber, Validators.number]),
     });
   }
 }

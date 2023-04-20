@@ -28,16 +28,14 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   late HouseholdMemberWrapper householdMember;
 
   late String member;
-  // String member = 'Membro';
-  // String memberLabel = 'Membros';
+
   @override
   void initState() {
     householdMember = widget.householdMember;
-    if(householdMember.household.memberCount!>1){
+    if (householdMember.household.memberCount! > 1) {
       member = 'Membros';
-    }else{
+    } else {
       member = 'Membro';
-
     }
     super.initState();
   }
@@ -53,9 +51,6 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   bool get isCardExpanded => _isCardExpanded;
 
   set isCardExpanded(bool value) => setState(() => _isCardExpanded = value);
-
-
-
 
   @override
   Widget build(BuildContext context) {
