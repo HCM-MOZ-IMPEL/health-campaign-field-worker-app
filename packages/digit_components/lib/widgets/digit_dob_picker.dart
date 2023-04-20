@@ -44,7 +44,8 @@ class DigitDobPicker extends StatelessWidget {
               valueAccessor: DobValueAccessor(),
               formControlName: datePickerFormControl,
               label: ageFieldLabel,
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType
+                  .numberWithOptions(decimal: false),
               readOnly: isVerified,
               onChanged: (formControl) {
                 /// Validates that control's value must be `true`
@@ -57,7 +58,7 @@ class DigitDobPicker extends StatelessWidget {
                           .toStringAsFixed(0);
                   return int.parse(value) <= 150
                       ? null
-                      : {'A idade deve ser inferior a 150 anos': true};
+                      : {'A idade não deve ser superior a 150 anos': true};
                 }
 
                 formControl.setValidators([requiredTrue]);

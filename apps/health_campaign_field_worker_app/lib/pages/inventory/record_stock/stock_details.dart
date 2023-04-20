@@ -384,7 +384,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
 
                                     return Container();
 
-                                    // return DigitDropdown<ProductVariantModel>(
+                                    // return DigitReactiveDropdown<ProductVariantModel>(
                                     //   formControlName: _productVariantKey,
                                     //   label: localizations.translate(
                                     //     module.selectProductLabel,
@@ -409,7 +409,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               StockRecordEntryType.loss,
                               StockRecordEntryType.damaged,
                             ].contains(entryType))
-                              DigitDropdown<TransactionReason>(
+                              DigitReactiveDropdown<TransactionReason>(
                                 label: localizations.translate(
                                   transactionReasonLabel ?? 'Reason',
                                 ),
@@ -522,7 +522,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       appConfiguration.transportTypes ??
                                           <TransportTypes>[];
 
-                                  return DigitDropdown<String>(
+                                  return DigitReactiveDropdown<String>(
                                     isRequired: true,
                                     label: localizations.translate(
                                       i18.stockDetails.transportTypeLabel,

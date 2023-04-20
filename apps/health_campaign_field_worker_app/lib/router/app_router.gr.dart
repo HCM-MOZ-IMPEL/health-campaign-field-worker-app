@@ -24,9 +24,11 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     AuthenticatedRouteWrapper.name: (routeData) {
+      final args = routeData.argsAs<AuthenticatedRouteWrapperArgs>(
+          orElse: () => const AuthenticatedRouteWrapperArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const AuthenticatedPageWrapper(),
+        child: AuthenticatedPageWrapper(key: args.key),
       );
     },
     LoginRoute.name: (routeData) {
@@ -156,6 +158,12 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           appLocalizations: args.appLocalizations,
         ),
+      );
+    },
+    BoundarySelectionRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const BoundarySelectionPage(),
       );
     },
     IndividualDetailsRoute.name: (routeData) {
@@ -453,6 +461,11 @@ class _$AppRouter extends RootStackRouter {
               path: 'select-project',
               parent: AuthenticatedRouteWrapper.name,
             ),
+            RouteConfig(
+              BoundarySelectionRoute.name,
+              path: 'select-boundary',
+              parent: AuthenticatedRouteWrapper.name,
+            ),
           ],
         ),
       ];
@@ -473,15 +486,30 @@ class UnauthenticatedRouteWrapper extends PageRouteInfo<void> {
 
 /// generated route for
 /// [AuthenticatedPageWrapper]
-class AuthenticatedRouteWrapper extends PageRouteInfo<void> {
-  const AuthenticatedRouteWrapper({List<PageRouteInfo>? children})
-      : super(
+class AuthenticatedRouteWrapper
+    extends PageRouteInfo<AuthenticatedRouteWrapperArgs> {
+  AuthenticatedRouteWrapper({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           AuthenticatedRouteWrapper.name,
           path: '/',
+          args: AuthenticatedRouteWrapperArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'AuthenticatedRouteWrapper';
+}
+
+class AuthenticatedRouteWrapperArgs {
+  const AuthenticatedRouteWrapperArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'AuthenticatedRouteWrapperArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -907,6 +935,18 @@ class ProjectSelectionRouteArgs {
   String toString() {
     return 'ProjectSelectionRouteArgs{key: $key, appLocalizations: $appLocalizations}';
   }
+}
+
+/// generated route for
+/// [BoundarySelectionPage]
+class BoundarySelectionRoute extends PageRouteInfo<void> {
+  const BoundarySelectionRoute()
+      : super(
+          BoundarySelectionRoute.name,
+          path: 'select-boundary',
+        );
+
+  static const String name = 'BoundarySelectionRoute';
 }
 
 /// generated route for

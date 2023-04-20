@@ -1723,6 +1723,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
   final String? longitude;
   final String? materializedPath;
   final String? auditCreatedBy;
+  final int? boundaryNum;
   final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
@@ -1737,6 +1738,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
       this.longitude,
       this.materializedPath,
       this.auditCreatedBy,
+      this.boundaryNum,
       this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
@@ -1760,6 +1762,8 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}materialized_path']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
+      boundaryNum: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}boundary_num']),
       auditCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
@@ -1797,6 +1801,9 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
     }
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
+    }
+    if (!nullToAbsent || boundaryNum != null) {
+      map['boundary_num'] = Variable<int?>(boundaryNum);
     }
     if (!nullToAbsent || auditCreatedTime != null) {
       map['audit_created_time'] = Variable<int?>(auditCreatedTime);
@@ -1837,6 +1844,9 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
+      boundaryNum: boundaryNum == null && nullToAbsent
+          ? const Value.absent()
+          : Value(boundaryNum),
       auditCreatedTime: auditCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedTime),
@@ -1869,6 +1879,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
       longitude: serializer.fromJson<String?>(json['longitude']),
       materializedPath: serializer.fromJson<String?>(json['materializedPath']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
+      boundaryNum: serializer.fromJson<int?>(json['boundaryNum']),
       auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
@@ -1888,6 +1899,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
       'longitude': serializer.toJson<String?>(longitude),
       'materializedPath': serializer.toJson<String?>(materializedPath),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
+      'boundaryNum': serializer.toJson<int?>(boundaryNum),
       'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
@@ -1905,6 +1917,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
           String? longitude,
           String? materializedPath,
           String? auditCreatedBy,
+          int? boundaryNum,
           int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
@@ -1919,6 +1932,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
         longitude: longitude ?? this.longitude,
         materializedPath: materializedPath ?? this.materializedPath,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
+        boundaryNum: boundaryNum ?? this.boundaryNum,
         auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
@@ -1936,6 +1950,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
           ..write('longitude: $longitude, ')
           ..write('materializedPath: $materializedPath, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
+          ..write('boundaryNum: $boundaryNum, ')
           ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
@@ -1955,6 +1970,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
       longitude,
       materializedPath,
       auditCreatedBy,
+      boundaryNum,
       auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
@@ -1972,6 +1988,7 @@ class BoundaryData extends DataClass implements Insertable<BoundaryData> {
           other.longitude == this.longitude &&
           other.materializedPath == this.materializedPath &&
           other.auditCreatedBy == this.auditCreatedBy &&
+          other.boundaryNum == this.boundaryNum &&
           other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
@@ -1988,6 +2005,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
   final Value<String?> longitude;
   final Value<String?> materializedPath;
   final Value<String?> auditCreatedBy;
+  final Value<int?> boundaryNum;
   final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
@@ -2002,6 +2020,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
     this.longitude = const Value.absent(),
     this.materializedPath = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
+    this.boundaryNum = const Value.absent(),
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
@@ -2017,6 +2036,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
     this.longitude = const Value.absent(),
     this.materializedPath = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
+    this.boundaryNum = const Value.absent(),
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
@@ -2032,6 +2052,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
     Expression<String?>? longitude,
     Expression<String?>? materializedPath,
     Expression<String?>? auditCreatedBy,
+    Expression<int?>? boundaryNum,
     Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
@@ -2047,6 +2068,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
       if (longitude != null) 'longitude': longitude,
       if (materializedPath != null) 'materialized_path': materializedPath,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
+      if (boundaryNum != null) 'boundary_num': boundaryNum,
       if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
@@ -2064,6 +2086,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
       Value<String?>? longitude,
       Value<String?>? materializedPath,
       Value<String?>? auditCreatedBy,
+      Value<int?>? boundaryNum,
       Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
@@ -2078,6 +2101,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
       longitude: longitude ?? this.longitude,
       materializedPath: materializedPath ?? this.materializedPath,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
+      boundaryNum: boundaryNum ?? this.boundaryNum,
       auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
@@ -2111,6 +2135,9 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
+    if (boundaryNum.present) {
+      map['boundary_num'] = Variable<int?>(boundaryNum.value);
+    }
     if (auditCreatedTime.present) {
       map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
@@ -2142,6 +2169,7 @@ class BoundaryCompanion extends UpdateCompanion<BoundaryData> {
           ..write('longitude: $longitude, ')
           ..write('materializedPath: $materializedPath, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
+          ..write('boundaryNum: $boundaryNum, ')
           ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
@@ -2196,6 +2224,12 @@ class $BoundaryTable extends Boundary
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _boundaryNumMeta =
+      const VerificationMeta('boundaryNum');
+  @override
+  late final GeneratedColumn<int?> boundaryNum = GeneratedColumn<int?>(
+      'boundary_num', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditCreatedTimeMeta =
       const VerificationMeta('auditCreatedTime');
   @override
@@ -2240,6 +2274,7 @@ class $BoundaryTable extends Boundary
         longitude,
         materializedPath,
         auditCreatedBy,
+        boundaryNum,
         auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
@@ -2287,6 +2322,12 @@ class $BoundaryTable extends Boundary
           _auditCreatedByMeta,
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
+    }
+    if (data.containsKey('boundary_num')) {
+      context.handle(
+          _boundaryNumMeta,
+          boundaryNum.isAcceptableOrUnknown(
+              data['boundary_num']!, _boundaryNumMeta));
     }
     if (data.containsKey('audit_created_time')) {
       context.handle(
