@@ -22,13 +22,6 @@ const manageStock = ManageStock();
 class Common {
   const Common();
 
-  //CORE_COMMON_CLOSE
-  //CORE_COMMON_SYNC_COMPLETE
-  //CORE_COMMON_SYNC_IN_PROGRESS
-  //CORE_COMMON_SYNC_FAILED
-  //CORE_COMMON_DATA_SYNCED
-  //CORE_COMMON_IS_REQUIRED
-
   String get coreCommonSyncComplete => 'CORE_COMMON_SYNC_COMPLETE';
 
   String get coreCommonSyncInProgress => 'CORE_COMMON_SYNC_IN_PROGRESS';
@@ -72,6 +65,8 @@ class Common {
   String get coreCommonHome => 'CORE_COMMON_HOME';
 
   String get coreCommonlanguage => 'CORE_COMMON_LANGUAGE';
+
+  String get coreCommonProceed=> 'CORE_COMMON_NEXT';
 }
 
 class Login {
@@ -175,7 +170,6 @@ class SearchBeneficiary {
   String get interventionDelivered => 'INTERVENTION_DELIVERED';
 
   String get interventionNotDelivered => 'INTERVENTION_NOT_DELIVERED';
-
 }
 
 class IndividualDetails {
@@ -353,7 +347,6 @@ class DeliverIntervention {
   String get dialogContent => 'DELIVER_INTERVENTION_DIALOG_CONTENT';
 
   String get deliveryCommentRequired => 'DELIVERY_COMMENT_REQUIRED';
-
 }
 
 class ProjectSelection {
@@ -509,6 +502,7 @@ class StockReconciliationDetails {
   String get dialogTitle => 'STOCK_RECONCILIATION_DIALOG_TITLE';
 
   String get dialogContent => 'STOCK_RECONCILIATION_DIALOG_CONTENT';
+
   String get facilitySearchText => 'FACILITY_SEARCH_TEXT';
 
   String get manualCountRequiredError =>

@@ -214,10 +214,10 @@ class _IndividualDetailsPageState
                       child: Text(
                         state.mapOrNull(
                               editIndividual: (value) => localizations
-                                  .translate(i18.common.coreCommonSave),
+                                  .translate(i18.common.coreCommonProceed),
                             ) ??
                             localizations
-                                .translate(i18.common.coreCommonSubmit),
+                                .translate(i18.householdLocation.actionLabel),
                       ),
                     ),
                   ),
