@@ -166,14 +166,25 @@ class _SearchBeneficiaryPageState
                   VoidCallback? onPressed;
 
                   onPressed = state.loading
-                          // searchQuery == null ||
-                          // searchQuery.isEmpty
+                      // searchQuery == null ||
+                      // searchQuery.isEmpty
                       ? null
-                      : () => router.push(BeneficiaryRegistrationWrapperRoute(
+                      : () async {
+                          final bloc = context.read<SearchHouseholdsBloc>();
+                          final projectId = context.projectId;
+
+                          await router.push(BeneficiaryRegistrationWrapperRoute(
                             initialState: BeneficiaryRegistrationCreateState(
                               searchQuery: state.searchQuery,
                             ),
                           ));
+                          bloc.add(
+                            SearchHouseholdsSearchByHouseholdHeadEvent(
+                              searchText: searchController.text,
+                              projectId: projectId,
+                            ),
+                          );
+                        };
 
                   return DigitElevatedButton(
                     onPressed: onPressed,

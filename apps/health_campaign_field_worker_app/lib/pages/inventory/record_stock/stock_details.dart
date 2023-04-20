@@ -469,17 +469,16 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               ),
                               validationMessages: {
                                 'required': (object) => localizations.translate(
-                                  quantityValidationMessage,
-                                ),
+                                      quantityValidationMessage,
+                                    ),
                                 'number': (object) => localizations.translate(
-                                  quantityValidationMessage,
-                                ),
+                                      quantityValidationMessage,
+                                    ),
                                 'minValueOne': (object) =>
                                     localizations.translate(
                                       quantityValidationMessage,
                                     ),
                               },
-
                             ),
                             DigitTextFormField(
                               label: localizations.translate(
@@ -492,25 +491,27 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 i18.stockDetails
                                     .quantityOfProductIndicatedOnWaybillLabel,
                               ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
                               formControlName: _waybillQuantityKey,
                               isRequired: true,
-
                               validationMessages: {
                                 'required': (object) => localizations.translate(
-                                  module
-                                      .quantityIndicatedOnWaybillValidation,
-                                ),
+                                      module
+                                          .quantityIndicatedOnWaybillValidation,
+                                    ),
                                 'number': (object) => localizations.translate(
-                                  module
-                                      .quantityIndicatedOnWaybillValidation,
-                                ),
+                                      module
+                                          .quantityIndicatedOnWaybillValidation,
+                                    ),
                                 'minValueOne': (object) =>
                                     localizations.translate(
                                       module
                                           .quantityIndicatedOnWaybillValidation,
                                     ),
                               },
-
                             ),
                             BlocBuilder<AppInitializationBloc,
                                 AppInitializationState>(
@@ -546,7 +547,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                             module.transportTypeValidation,
                                           ),
                                     },
-
                                   );
                                 },
                               ),
@@ -559,10 +559,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               formControlName: _vehicleNumberKey,
                               validationMessages: {
                                 'required': (object) => localizations.translate(
-                                  module.vehicleNumberValidation,
-                                ),
+                                      module.vehicleNumberValidation,
+                                    ),
                               },
-
                             ),
                             DigitTextFormField(
                               label: localizations.translate(
