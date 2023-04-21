@@ -56,6 +56,7 @@ class CustomValidator {
 
     if (control.value.toString().length!=10){
       return {'mobileNumber': true};
+
     }
 
     if (RegExp(pattern).hasMatch(control.value.toString())) return null;

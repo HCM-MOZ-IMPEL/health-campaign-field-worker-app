@@ -67,7 +67,6 @@ class _IndividualDetailsPageState
                   //     );
                   router.push(BeneficiaryWrapperRoute(
                     wrapper: bloc.householdMemberWrapper,
-                    isComingFromRegistration: true,
                   ));
                 }
               },
@@ -369,7 +368,6 @@ class _IndividualDetailsPageState
                             label: localizations.translate(
                               i18.individualDetails.mobileNumberLabelText,
                             ),
-                            maxLength: 10,
                             validationMessages: {
                               'mobileNumber': (object) =>
                                   localizations.translate(i18.individualDetails
@@ -511,9 +509,8 @@ class _IndividualDetailsPageState
             ),
       ),
       _mobileNumberKey: FormControl<String>(
-        value: individual?.mobileNumber,
-        validators: [CustomValidator.validMobileNumber],
-      ),
+          value: individual?.mobileNumber,
+          validators: [CustomValidator.validMobileNumber],),
     });
   }
 }
