@@ -366,13 +366,14 @@ class _IndividualDetailsPageState
                             label: localizations.translate(
                               i18.individualDetails.mobileNumberLabelText,
                             ),
+                            maxLength: 10,
                             validationMessages: {
                               'mobileNumber': (object) =>
                                   localizations.translate(i18.individualDetails
                                       .mobileNumberInvalidFormatValidationMessage),
-                              'number': (object) => localizations.translate(i18
-                                  .individualDetails
-                                  .mobileNumberInvalidFormatValidationMessage),
+                              // 'number': (object) => localizations.translate(i18
+                              //     .individualDetails
+                              //     .mobileNumberInvalidFormatValidationMessage),
                             },
                           ),
                         ],
