@@ -28,6 +28,7 @@ class SearchHouseholdsBloc
   final HouseholdMemberDataRepository householdMember;
   final ProjectBeneficiaryDataRepository projectBeneficiary;
   final TaskDataRepository taskDataRepository;
+  late HouseholdMemberWrapper householdMemberWrapper;
 
   SearchHouseholdsBloc({
     required this.userUid,

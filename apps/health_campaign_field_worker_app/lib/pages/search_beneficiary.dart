@@ -173,11 +173,21 @@ class _SearchBeneficiaryPageState
                           final bloc = context.read<SearchHouseholdsBloc>();
                           final projectId = context.projectId;
 
-                          await router.push(BeneficiaryRegistrationWrapperRoute(
+                          await router
+                              .push(BeneficiaryRegistrationWrapperRoute(
                             initialState: BeneficiaryRegistrationCreateState(
                               searchQuery: state.searchQuery,
                             ),
-                          ));
+                          ))
+                              .then((value) async {
+                            await router.push(BeneficiaryWrapperRoute(
+                              wrapper: bloc.householdMemberWrapper,
+                            ));
+                          });
+
+                          // await   router.push(BeneficiaryWrapperRoute(
+                          //     wrapper: bloc.householdMemberWrapper,
+                          //   ));
                           bloc.add(
                             SearchHouseholdsSearchByHouseholdHeadEvent(
                               searchText: searchController.text,
