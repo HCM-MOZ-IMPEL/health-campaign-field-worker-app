@@ -82,6 +82,7 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           wrapper: args.wrapper,
           isEditing: args.isEditing,
+          isComingFromRegistration: args.isComingFromRegistration,
         ),
       );
     },
@@ -659,6 +660,7 @@ class BeneficiaryWrapperRoute
     Key? key,
     required HouseholdMemberWrapper wrapper,
     bool isEditing = false,
+    bool isComingFromRegistration = false,
     List<PageRouteInfo>? children,
   }) : super(
           BeneficiaryWrapperRoute.name,
@@ -667,6 +669,7 @@ class BeneficiaryWrapperRoute
             key: key,
             wrapper: wrapper,
             isEditing: isEditing,
+            isComingFromRegistration: isComingFromRegistration,
           ),
           initialChildren: children,
         );
@@ -679,6 +682,7 @@ class BeneficiaryWrapperRouteArgs {
     this.key,
     required this.wrapper,
     this.isEditing = false,
+    this.isComingFromRegistration = false,
   });
 
   final Key? key;
@@ -687,9 +691,11 @@ class BeneficiaryWrapperRouteArgs {
 
   final bool isEditing;
 
+  final bool isComingFromRegistration;
+
   @override
   String toString() {
-    return 'BeneficiaryWrapperRouteArgs{key: $key, wrapper: $wrapper, isEditing: $isEditing}';
+    return 'BeneficiaryWrapperRouteArgs{key: $key, wrapper: $wrapper, isEditing: $isEditing, isComingFromRegistration: $isComingFromRegistration}';
   }
 }
 

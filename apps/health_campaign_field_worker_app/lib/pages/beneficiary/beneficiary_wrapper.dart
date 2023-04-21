@@ -15,11 +15,13 @@ import '../../utils/extensions/extensions.dart';
 class BeneficiaryWrapperPage extends StatelessWidget {
   final HouseholdMemberWrapper wrapper;
   final bool isEditing;
+  final bool isComingFromRegistration;
 
   const BeneficiaryWrapperPage({
     Key? key,
     required this.wrapper,
     this.isEditing = false,
+    this.isComingFromRegistration = false,
   }) : super(key: key);
 
   @override
@@ -37,47 +39,56 @@ class BeneficiaryWrapperPage extends StatelessWidget {
     final projectBeneficiary = context
         .repository<ProjectBeneficiaryModel, ProjectBeneficiarySearchModel>();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => HouseholdOverviewBloc(
-            HouseholdOverviewState(
-              householdMemberWrapper: wrapper,
+    return WillPopScope(
+      onWillPop: () async {
+        if (isComingFromRegistration) {
+          (context.router.parent() as StackRouter).pop();
+        }
+
+        return true;
+      },
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => HouseholdOverviewBloc(
+              HouseholdOverviewState(
+                householdMemberWrapper: wrapper,
+              ),
+              individualRepository: individual,
+              householdRepository: household,
+              householdMemberRepository: householdMember,
+              projectBeneficiaryRepository: projectBeneficiary,
+              taskDataRepository: task,
             ),
-            individualRepository: individual,
-            householdRepository: household,
-            householdMemberRepository: householdMember,
-            projectBeneficiaryRepository: projectBeneficiary,
-            taskDataRepository: task,
           ),
-        ),
-        BlocProvider(
-          create: (_) => DeliverInterventionBloc(
-            DeliverInterventionState(
-              isEditing: isEditing,
-            ),
-            taskRepository: task,
-          ),
-        ),
-      ],
-      child: BlocBuilder<HouseholdOverviewBloc, HouseholdOverviewState>(
-        builder: (context, houseHoldOverviewState) {
-          return BlocProvider(
-            lazy: false,
+          BlocProvider(
             create: (_) => DeliverInterventionBloc(
               DeliverInterventionState(
                 isEditing: isEditing,
               ),
               taskRepository: task,
-            )..add(DeliverInterventionSearchEvent(TaskSearchModel(
-                projectBeneficiaryClientReferenceId: houseHoldOverviewState
-                    .householdMemberWrapper
-                    .projectBeneficiary
-                    .clientReferenceId,
-              ))),
-            child: const AutoRouter(),
-          );
-        },
+            ),
+          ),
+        ],
+        child: BlocBuilder<HouseholdOverviewBloc, HouseholdOverviewState>(
+          builder: (context, houseHoldOverviewState) {
+            return BlocProvider(
+              lazy: false,
+              create: (_) => DeliverInterventionBloc(
+                DeliverInterventionState(
+                  isEditing: isEditing,
+                ),
+                taskRepository: task,
+              )..add(DeliverInterventionSearchEvent(TaskSearchModel(
+                  projectBeneficiaryClientReferenceId: houseHoldOverviewState
+                      .householdMemberWrapper
+                      .projectBeneficiary
+                      .clientReferenceId,
+                ))),
+              child: const AutoRouter(),
+            );
+          },
+        ),
       ),
     );
   }
