@@ -1,6 +1,7 @@
 import 'package:digit_components/widgets/atoms/digit_date_form_picker.dart';
 import 'package:digit_components/widgets/atoms/digit_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class DigitDobPicker extends StatelessWidget {
@@ -22,6 +23,8 @@ class DigitDobPicker extends StatelessWidget {
     required this.ageFieldLabel,
     required this.separatorLabel,
   });
+
+  static final RegExp numberRegex = RegExp(r'^-?[0-9]+$');
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,10 @@ class DigitDobPicker extends StatelessWidget {
               formControlName: datePickerFormControl,
               label: ageFieldLabel,
               keyboardType: const TextInputType
-                  .numberWithOptions(decimal: false),
+                  .numberWithOptions(decimal: true),
               readOnly: isVerified,
+              inputFormatters: [FilteringTextInputFormatter
+                  .allow(RegExp(r'^-?\d+$')),],
               onChanged: (formControl) {
                 /// Validates that control's value must be `true`
                 Map<String, dynamic>? requiredTrue(
