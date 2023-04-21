@@ -62,7 +62,7 @@ class Variables {
 
   static const _tenantId = EnvEntry(
     'TENANT_ID',
-    'default',
+    'mz',
   );
 
   const Variables({

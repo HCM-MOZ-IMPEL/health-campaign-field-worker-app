@@ -76,7 +76,11 @@ class Login {
 
   String get userIdPlaceholder => 'USER_ID_PLACEHOLDER';
 
+  String get userIdRequiredError => 'USER_ID_REQUIRED_ERROR';
+
   String get passwordPlaceholder => 'PASSWORD_PLACEHOLDER';
+
+  String get passwordRequiredError => 'PASSWORD_REQUIRED_ERROR';
 
   String get actionLabel => 'LOGIN_ACTION_LABEL';
 
@@ -426,6 +430,12 @@ class StockDetails {
 
   String get quantityDamagedLabel => 'STOCK_DETAILS_QUANTITY_DAMAGED';
 
+  String get stockReceivedSuccess => 'STOCK_RECONCILIATION_STOCK_RECEIVED_SUCCESS';
+
+  String get stockIssuedSuccess => 'STOCK_RECONCILIATION_STOCK_ISSUED_SUCCESS';
+
+  String get stockReturnedSuccess => 'STOCK_RECONCILIATION_STOCK_RETURNED_SUCCESS';
+
   /// Validation Messages
   String get quantityReceivedValidation =>
       'STOCK_DETAILS_QUANTITY_RECEIVED_VALIDATION';
@@ -502,6 +512,8 @@ class StockReconciliationDetails {
   String get dialogTitle => 'STOCK_RECONCILIATION_DIALOG_TITLE';
 
   String get dialogContent => 'STOCK_RECONCILIATION_DIALOG_CONTENT';
+
+  String get stockReconciliationSuccess => 'STOCK_RECONCILIATION_SUCCESS';
 
   String get facilitySearchText => 'FACILITY_SEARCH_TEXT';
 

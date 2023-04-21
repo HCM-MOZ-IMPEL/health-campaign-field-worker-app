@@ -493,11 +493,12 @@ class _DeliverInterventionPageState
                                             .deliveryCommentLabel,
                                       ),
                                       valueMapper: (value) => value,
-                                      initialValue: deliveryCommentOptions
-                                          .firstOrNull?.name,
+                                      initialValue: localizations
+                                          .translate(deliveryCommentOptions
+                                          .firstOrNull?.code ?? ''),
                                       menuItems:
                                           deliveryCommentOptions.map((e) {
-                                        return localizations.translate(e.name);
+                                        return localizations.translate(e.code);
                                       }).toList(),
                                       validationMessages: {
                                         'required': (object) =>

@@ -430,8 +430,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     facilities,
                                   ),
                                   label: localizations.translate(
-                                    i18.stockReconciliationDetails
-                                        .facilityLabel,
+                                    transactionPartyLabel,
                                   ),
                                   isRequired: true,
                                   suffix: const Padding(
@@ -534,10 +533,12 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       });
                                     },
                                     initialValue:
-                                        transportTypeOptions.firstOrNull?.name,
+                                  localizations
+                                      .translate(transportTypeOptions
+                                      .firstOrNull?.code ?? ''),
                                     menuItems: transportTypeOptions.map(
                                       (e) {
-                                        return localizations.translate(e.name);
+                                        return localizations.translate(e.code);
                                       },
                                     ).toList(),
                                     formControlName: _typeOfTransportKey,
