@@ -58,7 +58,7 @@ class Loaders {
                             height: 10,
                           ),
                           Text(
-                            label ?? 'Loading...',
+                            label ?? 'Carregando...',
                             style: const TextStyle(
                                 color: Color(0xffFFFFFF),
                                 fontFamily: 'Roboto',

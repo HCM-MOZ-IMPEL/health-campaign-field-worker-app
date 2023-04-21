@@ -88,7 +88,8 @@ class _LoginPageState extends LocalizedState<LoginPage> {
                         ),
                         validationMessages: {
                           "required": (control) {
-                            return '${localizations.translate(i18.login.userIdPlaceholder)} é necessário';
+                            return localizations.
+                            translate(i18.login.userIdRequiredError);
                           },
                         },
                         textCapitalization: TextCapitalization.none,
@@ -102,7 +103,8 @@ class _LoginPageState extends LocalizedState<LoginPage> {
                         ),
                         validationMessages: {
                           "required": (control) {
-                            return '${localizations.translate(i18.login.passwordPlaceholder)} é necessário';
+                            return localizations
+                                .translate(i18.login.passwordRequiredError);
                           },
                         },
                         formControlName: _password,
