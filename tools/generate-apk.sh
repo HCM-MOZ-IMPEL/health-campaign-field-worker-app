@@ -7,16 +7,16 @@ cd apps/health_campaign_field_worker_app || exit
 
 echo "Creating env configs"
 echo "--------------------"
-cp -fr .env-qa .env
+cp -fr .env-dev .env
 echo
 
 rm -rf release-apk
 mkdir release-apk
 
-echo "Generating QA APK"
+echo "Generating DEV APK"
 echo "-----------------"
 flutter build apk
-cp -fr build/app/outputs/flutter-apk/app-release.apk release-apk/apk-qa.apk
+cp -fr build/app/outputs/flutter-apk/app-release.apk release-apk/apk-dev.apk
 echo
 
 echo "Creating env configs"
