@@ -145,6 +145,8 @@ class Home {
 
   String get progressIndicatorPrefixLabel => 'PROGRESS_INDICATOR_PREFIX_LABEL';
 
+  String get progressIndicatorHelp => 'PROGRESS_INDICATOR_HELP';
+
   String get dataSyncInfoLabel => 'DATA_SYNC_INFO_LABEL';
 
   String get dataSyncInfoContent => 'DATA_SYNC_INFO_CONTENT';
