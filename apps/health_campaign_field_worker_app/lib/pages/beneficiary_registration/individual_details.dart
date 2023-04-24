@@ -186,6 +186,7 @@ class _IndividualDetailsPageState
                               model: individual,
                             ),
                           );
+                          context.router.pop();
                         },
                         addMember: (
                           addressModel,
@@ -205,6 +206,7 @@ class _IndividualDetailsPageState
                               userUuid: userId,
                             ),
                           );
+                          context.router.pop();
                         },
                       );
                     },

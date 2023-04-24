@@ -308,7 +308,7 @@ class BeneficiaryRegistrationBloc
       addMember: (value) async {
         emit(value.copyWith(loading: true));
         try {
-          await individualRepository.create(
+           individualRepository.create(
             event.individualModel.copyWith(
               address: [
                 value.addressModel.copyWith(
@@ -321,7 +321,7 @@ class BeneficiaryRegistrationBloc
 
           final createdAt = DateTime.now().millisecondsSinceEpoch;
 
-          await householdMemberRepository.create(
+           householdMemberRepository.create(
             HouseholdMemberModel(
               householdClientReferenceId:
                   value.householdModel.clientReferenceId,
