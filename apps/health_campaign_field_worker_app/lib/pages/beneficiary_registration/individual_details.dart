@@ -368,7 +368,7 @@ class _IndividualDetailsPageState
                             label: localizations.translate(
                               i18.individualDetails.mobileNumberLabelText,
                             ),
-                            maxLength: 10,
+                            maxLength: 9,
                             validationMessages: {
                               'mobileNumber': (object) =>
                                   localizations.translate(i18.individualDetails
