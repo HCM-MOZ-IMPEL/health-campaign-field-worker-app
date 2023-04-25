@@ -54,7 +54,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
         Validators.min(1),
       ]),
       _transactionReasonKey: FormControl<TransactionReason>(),
-      _waybillNumberKey: FormControl<String>(),
+      _waybillNumberKey: FormControl<String>(validators: [
+        Validators.required,
+      ]),
       _waybillQuantityKey: FormControl<int>(
         validators: [
           Validators.number,
@@ -219,16 +221,18 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         .value as int?;
 
                                     final waybillNumber = (form
-                                        .control(_waybillNumberKey)
-                                        .value as String?)?.trim();
+                                            .control(_waybillNumberKey)
+                                            .value as String?)
+                                        ?.trim();
 
                                     final waybillQuantity = form
                                         .control(_waybillQuantityKey)
                                         .value as int?;
 
                                     final vehicleNumber = (form
-                                        .control(_vehicleNumberKey)
-                                        .value as String?)?.trim();
+                                            .control(_vehicleNumberKey)
+                                            .value as String?)
+                                        ?.trim();
 
                                     final lat = locationState.latitude;
                                     final lng = locationState.longitude;
@@ -237,8 +241,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         lat != null && lng != null;
 
                                     final comments = (form
-                                        .control(_commentsKey)
-                                        .value as String?)?.trim();
+                                            .control(_commentsKey)
+                                            .value as String?)
+                                        ?.trim();
 
                                     String? transactingPartyType;
 
@@ -484,6 +489,13 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 i18.stockDetails.waybillNumberLabel,
                               ),
                               formControlName: _waybillNumberKey,
+                              isRequired: true,
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                      module
+                                          .waybillNumberValidation,
+                                    ),
+                              },
                             ),
                             DigitTextFormField(
                               label: localizations.translate(
@@ -532,10 +544,10 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         form.control(_typeOfTransportKey);
                                       });
                                     },
-                                    initialValue:
-                                  localizations
-                                      .translate(transportTypeOptions
-                                      .firstOrNull?.code ?? ''),
+                                    initialValue: localizations.translate(
+                                        transportTypeOptions
+                                                .firstOrNull?.code ??
+                                            ''),
                                     menuItems: transportTypeOptions.map(
                                       (e) {
                                         return localizations.translate(e.code);

@@ -456,6 +456,7 @@ class StockDetails {
 
   /// Waybill number label
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
+  String get waybillNumberValidation => 'WAYBILL_NUMBER_VALIDATION';
 
   /// Number of product indicated on waybill title
   String get quantityOfProductIndicatedOnWaybillLabel {
