@@ -60,7 +60,7 @@ class FacilitySelectionPage extends StatelessWidget {
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(16),
-                            child: Text(facility.name?? 'N/A'),
+                            child: Text('${facility.name}(${facility.id})'),
                           ),
                         );
                       },
