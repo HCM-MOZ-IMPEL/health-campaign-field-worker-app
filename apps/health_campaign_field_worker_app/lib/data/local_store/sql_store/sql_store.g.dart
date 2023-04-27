@@ -3014,6 +3014,7 @@ class $DocumentTable extends Document
 
 class FacilityData extends DataClass implements Insertable<FacilityData> {
   final String id;
+  final String? name;
   final bool? isPermanent;
   final String? usage;
   final int? storageCapacity;
@@ -3027,6 +3028,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
   final String? additionalFields;
   FacilityData(
       {required this.id,
+      this.name,
       this.isPermanent,
       this.usage,
       this.storageCapacity,
@@ -3043,6 +3045,8 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
     return FacilityData(
       id: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name']),
       isPermanent: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}is_permanent']),
       usage: const StringType()
@@ -3071,6 +3075,9 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String?>(name);
+    }
     if (!nullToAbsent || isPermanent != null) {
       map['is_permanent'] = Variable<bool?>(isPermanent);
     }
@@ -3110,6 +3117,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
   FacilityCompanion toCompanion(bool nullToAbsent) {
     return FacilityCompanion(
       id: Value(id),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       isPermanent: isPermanent == null && nullToAbsent
           ? const Value.absent()
           : Value(isPermanent),
@@ -3150,6 +3158,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return FacilityData(
       id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String?>(json['name']),
       isPermanent: serializer.fromJson<bool?>(json['isPermanent']),
       usage: serializer.fromJson<String?>(json['usage']),
       storageCapacity: serializer.fromJson<int?>(json['storageCapacity']),
@@ -3168,6 +3177,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String?>(name),
       'isPermanent': serializer.toJson<bool?>(isPermanent),
       'usage': serializer.toJson<String?>(usage),
       'storageCapacity': serializer.toJson<int?>(storageCapacity),
@@ -3184,6 +3194,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
 
   FacilityData copyWith(
           {String? id,
+          String? name,
           bool? isPermanent,
           String? usage,
           int? storageCapacity,
@@ -3197,6 +3208,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
           String? additionalFields}) =>
       FacilityData(
         id: id ?? this.id,
+        name: name ?? this.name,
         isPermanent: isPermanent ?? this.isPermanent,
         usage: usage ?? this.usage,
         storageCapacity: storageCapacity ?? this.storageCapacity,
@@ -3213,6 +3225,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
   String toString() {
     return (StringBuffer('FacilityData(')
           ..write('id: $id, ')
+          ..write('name: $name, ')
           ..write('isPermanent: $isPermanent, ')
           ..write('usage: $usage, ')
           ..write('storageCapacity: $storageCapacity, ')
@@ -3231,6 +3244,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
   @override
   int get hashCode => Object.hash(
       id,
+      name,
       isPermanent,
       usage,
       storageCapacity,
@@ -3247,6 +3261,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       identical(this, other) ||
       (other is FacilityData &&
           other.id == this.id &&
+          other.name == this.name &&
           other.isPermanent == this.isPermanent &&
           other.usage == this.usage &&
           other.storageCapacity == this.storageCapacity &&
@@ -3262,6 +3277,7 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
 
 class FacilityCompanion extends UpdateCompanion<FacilityData> {
   final Value<String> id;
+  final Value<String?> name;
   final Value<bool?> isPermanent;
   final Value<String?> usage;
   final Value<int?> storageCapacity;
@@ -3275,6 +3291,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
   final Value<String?> additionalFields;
   const FacilityCompanion({
     this.id = const Value.absent(),
+    this.name = const Value.absent(),
     this.isPermanent = const Value.absent(),
     this.usage = const Value.absent(),
     this.storageCapacity = const Value.absent(),
@@ -3289,6 +3306,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
   });
   FacilityCompanion.insert({
     required String id,
+    this.name = const Value.absent(),
     this.isPermanent = const Value.absent(),
     this.usage = const Value.absent(),
     this.storageCapacity = const Value.absent(),
@@ -3303,6 +3321,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
   }) : id = Value(id);
   static Insertable<FacilityData> custom({
     Expression<String>? id,
+    Expression<String?>? name,
     Expression<bool?>? isPermanent,
     Expression<String?>? usage,
     Expression<int?>? storageCapacity,
@@ -3317,6 +3336,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (name != null) 'name': name,
       if (isPermanent != null) 'is_permanent': isPermanent,
       if (usage != null) 'usage': usage,
       if (storageCapacity != null) 'storage_capacity': storageCapacity,
@@ -3333,6 +3353,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
 
   FacilityCompanion copyWith(
       {Value<String>? id,
+      Value<String?>? name,
       Value<bool?>? isPermanent,
       Value<String?>? usage,
       Value<int?>? storageCapacity,
@@ -3346,6 +3367,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
       Value<String?>? additionalFields}) {
     return FacilityCompanion(
       id: id ?? this.id,
+      name: name ?? this.name,
       isPermanent: isPermanent ?? this.isPermanent,
       usage: usage ?? this.usage,
       storageCapacity: storageCapacity ?? this.storageCapacity,
@@ -3365,6 +3387,9 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String?>(name.value);
     }
     if (isPermanent.present) {
       map['is_permanent'] = Variable<bool?>(isPermanent.value);
@@ -3406,6 +3431,7 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
   String toString() {
     return (StringBuffer('FacilityCompanion(')
           ..write('id: $id, ')
+          ..write('name: $name, ')
           ..write('isPermanent: $isPermanent, ')
           ..write('usage: $usage, ')
           ..write('storageCapacity: $storageCapacity, ')
@@ -3433,6 +3459,11 @@ class $FacilityTable extends Facility
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _isPermanentMeta =
       const VerificationMeta('isPermanent');
   @override
@@ -3502,6 +3533,7 @@ class $FacilityTable extends Facility
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        name,
         isPermanent,
         usage,
         storageCapacity,
@@ -3527,6 +3559,10 @@ class $FacilityTable extends Facility
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     }
     if (data.containsKey('is_permanent')) {
       context.handle(

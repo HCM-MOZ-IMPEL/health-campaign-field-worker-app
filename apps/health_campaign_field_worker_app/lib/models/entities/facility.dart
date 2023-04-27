@@ -8,6 +8,7 @@ import '../../data/local_store/sql_store/sql_store.dart';
 @MappableClass(ignoreNull: true)
 class FacilitySearchModel extends EntitySearchModel {
   final List<String>? id;
+  final String? name;
   final bool? isPermanent;
   final String? usage;
   final int? storageCapacity;
@@ -16,6 +17,7 @@ class FacilitySearchModel extends EntitySearchModel {
   
   FacilitySearchModel({
     this.id,
+    this.name,
     this.isPermanent,
     this.usage,
     this.storageCapacity,
@@ -31,6 +33,7 @@ class FacilityModel extends EntityModel {
   static const schemaName = 'Facility';
 
   final String id;
+  final String? name;
   final bool? isPermanent;
   final String? usage;
   final int? storageCapacity;
@@ -43,6 +46,7 @@ class FacilityModel extends EntityModel {
   FacilityModel({
     this.additionalFields,
     required this.id,
+    this.name,
     this.isPermanent,
     this.usage,
     this.storageCapacity,
@@ -61,6 +65,7 @@ class FacilityModel extends EntityModel {
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       id: Value(id),
+      name: Value(name),
       isPermanent: Value(isPermanent),
       usage: Value(usage),
       storageCapacity: Value(storageCapacity),

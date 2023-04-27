@@ -32,13 +32,15 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
     List<FacilityModel> allFacilities = [
       FacilityModel(
         id: 'N/A',
+        name: 'N/A',
         additionalFields: FacilityAdditionalFields(
           version: 1,
           fields: [const AdditionalField('type', 'NA')],
         ),
       ),
       FacilityModel(
-        id: 'Delivery Team',
+        id: 'DT',
+        name: 'Delivery Team',
         additionalFields: FacilityAdditionalFields(
           version: 1,
           fields: [const AdditionalField('type', 'DeliveryTeam')],
