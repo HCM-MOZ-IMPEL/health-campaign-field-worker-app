@@ -69,7 +69,7 @@ class _ChecklistBoundaryViewPageState
                   label: localizations.translate(
                     i18.householdLocation.administrationAreaFormLabel,
                   ),
-                  controller: TextEditingController(text: context.boundary.code),
+                  controller: TextEditingController(text: context.boundary.name),
                 ),
               ],
             ),
