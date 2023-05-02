@@ -258,20 +258,17 @@ class _HouseholdOverviewPageState
                                       editMemberAction: () async {
                                         final bloc =
                                             ctx.read<HouseholdOverviewBloc>();
-
                                         Navigator.of(
                                           context,
                                           rootNavigator: true,
                                         ).pop();
 
-                                        final address = e.address;
-                                        if (address == null ||
-                                            address.isEmpty) {
+                                        final address = e.address?.first??state.householdMemberWrapper.household.address;
+                                        if (address == null) {
                                           return;
                                         }
 
                                         final projectId = context.projectId;
-
                                         await context.router.root.push(
                                           BeneficiaryRegistrationWrapperRoute(
                                             initialState:
@@ -280,7 +277,7 @@ class _HouseholdOverviewPageState
                                               householdModel: state
                                                   .householdMemberWrapper
                                                   .household,
-                                              addressModel: address.first,
+                                              addressModel: address,
                                             ),
                                             children: [
                                               IndividualDetailsRoute(
