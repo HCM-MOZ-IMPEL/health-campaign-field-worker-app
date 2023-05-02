@@ -60,7 +60,7 @@ class FacilitySelectionPage extends StatelessWidget {
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(16),
-                            child: Text(facility.id),
+                            child: Text('${facility.name}(${facility.id})'),
                           ),
                         );
                       },
@@ -94,11 +94,12 @@ class FacilityValueAccessor
 
   @override
   String? modelToViewValue(FacilityModel? modelValue) {
-    return modelValue?.id;
+    return modelValue?.id != null ? '${modelValue?.name}(${modelValue?.id})' : null;
   }
 
   @override
   FacilityModel? viewToModelValue(String? viewValue) {
-    return models.firstWhereOrNull((element) => element.id == viewValue);
+    return models.firstWhereOrNull((element) =>
+    element.id == viewValue?.split("(")[1].split(")")[0]);
   }
 }
