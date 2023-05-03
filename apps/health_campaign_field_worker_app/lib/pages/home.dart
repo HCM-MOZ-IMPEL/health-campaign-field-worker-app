@@ -1,18 +1,13 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/digit_sync_dialog.dart';
-import 'package:drift/drift.dart' as drift;
-import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isar/isar.dart';
 import 'package:overlay_builder/overlay_builder.dart';
 
 import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
 import '../data/data_repository.dart';
-import '../data/local_store/no_sql/schema/oplog.dart';
-import '../data/local_store/sql_store/sql_store.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
@@ -389,36 +384,36 @@ class _HomePageState extends LocalizedState<HomePage> {
         //   icon: Icons.call,
         //   label: i18.home.callbackLabel,
         // ),
-        HomeItemCard(
-          icon: Icons.table_chart,
-          label: 'DB',
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DriftDbViewer(
-                  context.read<LocalSqlDataStore>(),
-                ),
-              ),
-            );
-          },
-        ),
-        HomeItemCard(
-          icon: Icons.delete_forever,
-          label: 'Delete all',
-          onPressed: () async {
-            final sql = context.read<LocalSqlDataStore>();
-            final isar = context.read<Isar>();
-            int count = 0;
-            for (var element in sql.allTables) {
-              final selector = sql.delete(element)
-                ..where((_) => const drift.Constant(true));
-              count += await selector.go();
-            }
-            debugPrint('deleted: $count');
-
-            await isar.writeTxn(() async => await isar.opLogs.clear());
-          },
-        ),
+        // HomeItemCard(
+        //   icon: Icons.table_chart,
+        //   label: 'DB',
+        //   onPressed: () {
+        //     Navigator.of(context).push(
+        //       MaterialPageRoute(
+        //         builder: (context) => DriftDbViewer(
+        //           context.read<LocalSqlDataStore>(),
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // ),
+        // HomeItemCard(
+        //   icon: Icons.delete_forever,
+        //   label: 'Delete all',
+        //   onPressed: () async {
+        //     final sql = context.read<LocalSqlDataStore>();
+        //     final isar = context.read<Isar>();
+        //     int count = 0;
+        //     for (var element in sql.allTables) {
+        //       final selector = sql.delete(element)
+        //         ..where((_) => const Constant(true));
+        //       count += await selector.go();
+        //     }
+        //     debugPrint('deleted: $count');
+        //
+        //     await isar.writeTxn(() async => await isar.opLogs.clear());
+        //   },
+        // ),
       ],
     );
 
