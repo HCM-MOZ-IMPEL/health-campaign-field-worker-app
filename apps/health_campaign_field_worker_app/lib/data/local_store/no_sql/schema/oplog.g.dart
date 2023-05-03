@@ -17,60 +17,66 @@ const OpLogSchema = CollectionSchema(
   name: r'OpLog',
   id: -5198501623161393742,
   properties: {
-    r'clientReferenceId': PropertySchema(
+    r'additionalIds': PropertySchema(
       id: 0,
+      name: r'additionalIds',
+      type: IsarType.objectList,
+      target: r'AdditionalId',
+    ),
+    r'clientReferenceId': PropertySchema(
+      id: 1,
       name: r'clientReferenceId',
       type: IsarType.string,
     ),
     r'createdAt': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
     r'createdBy': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'createdBy',
       type: IsarType.string,
     ),
     r'entityString': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'entityString',
       type: IsarType.string,
     ),
     r'entityType': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'entityType',
       type: IsarType.string,
       enumMap: _OpLogentityTypeEnumValueMap,
     ),
     r'operation': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'operation',
       type: IsarType.string,
       enumMap: _OpLogoperationEnumValueMap,
     ),
     r'serverGeneratedId': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'serverGeneratedId',
       type: IsarType.string,
     ),
     r'syncedDown': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'syncedDown',
       type: IsarType.bool,
     ),
     r'syncedDownOn': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'syncedDownOn',
       type: IsarType.dateTime,
     ),
     r'syncedUp': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'syncedUp',
       type: IsarType.bool,
     ),
     r'syncedUpOn': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'syncedUpOn',
       type: IsarType.dateTime,
     )
@@ -82,7 +88,7 @@ const OpLogSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {},
-  embeddedSchemas: {},
+  embeddedSchemas: {r'AdditionalId': AdditionalIdSchema},
   getId: _opLogGetId,
   getLinks: _opLogGetLinks,
   attach: _opLogAttach,
@@ -95,6 +101,14 @@ int _opLogEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.additionalIds.length * 3;
+  {
+    final offsets = allOffsets[AdditionalId]!;
+    for (var i = 0; i < object.additionalIds.length; i++) {
+      final value = object.additionalIds[i];
+      bytesCount += AdditionalIdSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
   {
     final value = object.clientReferenceId;
     if (value != null) {
@@ -120,17 +134,23 @@ void _opLogSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.clientReferenceId);
-  writer.writeDateTime(offsets[1], object.createdAt);
-  writer.writeString(offsets[2], object.createdBy);
-  writer.writeString(offsets[3], object.entityString);
-  writer.writeString(offsets[4], object.entityType.name);
-  writer.writeString(offsets[5], object.operation.name);
-  writer.writeString(offsets[6], object.serverGeneratedId);
-  writer.writeBool(offsets[7], object.syncedDown);
-  writer.writeDateTime(offsets[8], object.syncedDownOn);
-  writer.writeBool(offsets[9], object.syncedUp);
-  writer.writeDateTime(offsets[10], object.syncedUpOn);
+  writer.writeObjectList<AdditionalId>(
+    offsets[0],
+    allOffsets,
+    AdditionalIdSchema.serialize,
+    object.additionalIds,
+  );
+  writer.writeString(offsets[1], object.clientReferenceId);
+  writer.writeDateTime(offsets[2], object.createdAt);
+  writer.writeString(offsets[3], object.createdBy);
+  writer.writeString(offsets[4], object.entityString);
+  writer.writeString(offsets[5], object.entityType.name);
+  writer.writeString(offsets[6], object.operation.name);
+  writer.writeString(offsets[7], object.serverGeneratedId);
+  writer.writeBool(offsets[8], object.syncedDown);
+  writer.writeDateTime(offsets[9], object.syncedDownOn);
+  writer.writeBool(offsets[10], object.syncedUp);
+  writer.writeDateTime(offsets[11], object.syncedUpOn);
 }
 
 OpLog _opLogDeserialize(
@@ -140,22 +160,29 @@ OpLog _opLogDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = OpLog();
-  object.clientReferenceId = reader.readStringOrNull(offsets[0]);
-  object.createdAt = reader.readDateTime(offsets[1]);
-  object.createdBy = reader.readString(offsets[2]);
-  object.entityString = reader.readString(offsets[3]);
+  object.additionalIds = reader.readObjectList<AdditionalId>(
+        offsets[0],
+        AdditionalIdSchema.deserialize,
+        allOffsets,
+        AdditionalId(),
+      ) ??
+      [];
+  object.clientReferenceId = reader.readStringOrNull(offsets[1]);
+  object.createdAt = reader.readDateTime(offsets[2]);
+  object.createdBy = reader.readString(offsets[3]);
+  object.entityString = reader.readString(offsets[4]);
   object.entityType =
-      _OpLogentityTypeValueEnumMap[reader.readStringOrNull(offsets[4])] ??
+      _OpLogentityTypeValueEnumMap[reader.readStringOrNull(offsets[5])] ??
           DataModelType.user;
   object.id = id;
   object.operation =
-      _OpLogoperationValueEnumMap[reader.readStringOrNull(offsets[5])] ??
+      _OpLogoperationValueEnumMap[reader.readStringOrNull(offsets[6])] ??
           DataOperation.create;
-  object.serverGeneratedId = reader.readStringOrNull(offsets[6]);
-  object.syncedDown = reader.readBool(offsets[7]);
-  object.syncedDownOn = reader.readDateTimeOrNull(offsets[8]);
-  object.syncedUp = reader.readBool(offsets[9]);
-  object.syncedUpOn = reader.readDateTimeOrNull(offsets[10]);
+  object.serverGeneratedId = reader.readStringOrNull(offsets[7]);
+  object.syncedDown = reader.readBool(offsets[8]);
+  object.syncedDownOn = reader.readDateTimeOrNull(offsets[9]);
+  object.syncedUp = reader.readBool(offsets[10]);
+  object.syncedUpOn = reader.readDateTimeOrNull(offsets[11]);
   return object;
 }
 
@@ -167,28 +194,36 @@ P _opLogDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readObjectList<AdditionalId>(
+            offset,
+            AdditionalIdSchema.deserialize,
+            allOffsets,
+            AdditionalId(),
+          ) ??
+          []) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTime(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (_OpLogentityTypeValueEnumMap[reader.readStringOrNull(offset)] ??
           DataModelType.user) as P;
-    case 5:
+    case 6:
       return (_OpLogoperationValueEnumMap[reader.readStringOrNull(offset)] ??
           DataOperation.create) as P;
-    case 6:
-      return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readBool(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 9:
       return (reader.readBool(offset)) as P;
+    case 9:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 10:
+      return (reader.readBool(offset)) as P;
+    case 11:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -348,6 +383,91 @@ extension OpLogQueryWhere on QueryBuilder<OpLog, OpLog, QWhereClause> {
 }
 
 extension OpLogQueryFilter on QueryBuilder<OpLog, OpLog, QFilterCondition> {
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> additionalIdsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'additionalIds',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> additionalIdsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'additionalIds',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> additionalIdsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'additionalIds',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> additionalIdsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'additionalIds',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition>
+      additionalIdsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'additionalIds',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> additionalIdsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'additionalIds',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<OpLog, OpLog, QAfterFilterCondition> clientReferenceIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1430,7 +1550,14 @@ extension OpLogQueryFilter on QueryBuilder<OpLog, OpLog, QFilterCondition> {
   }
 }
 
-extension OpLogQueryObject on QueryBuilder<OpLog, OpLog, QFilterCondition> {}
+extension OpLogQueryObject on QueryBuilder<OpLog, OpLog, QFilterCondition> {
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> additionalIdsElement(
+      FilterQuery<AdditionalId> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'additionalIds');
+    });
+  }
+}
 
 extension OpLogQueryLinks on QueryBuilder<OpLog, OpLog, QFilterCondition> {}
 
@@ -1797,6 +1924,13 @@ extension OpLogQueryProperty on QueryBuilder<OpLog, OpLog, QQueryProperty> {
     });
   }
 
+  QueryBuilder<OpLog, List<AdditionalId>, QQueryOperations>
+      additionalIdsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'additionalIds');
+    });
+  }
+
   QueryBuilder<OpLog, String?, QQueryOperations> clientReferenceIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'clientReferenceId');
@@ -1863,3 +1997,352 @@ extension OpLogQueryProperty on QueryBuilder<OpLog, OpLog, QQueryProperty> {
     });
   }
 }
+
+// **************************************************************************
+// IsarEmbeddedGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
+const AdditionalIdSchema = Schema(
+  name: r'AdditionalId',
+  id: -6561451940232328825,
+  properties: {
+    r'id': PropertySchema(
+      id: 0,
+      name: r'id',
+      type: IsarType.string,
+    ),
+    r'idType': PropertySchema(
+      id: 1,
+      name: r'idType',
+      type: IsarType.string,
+    )
+  },
+  estimateSize: _additionalIdEstimateSize,
+  serialize: _additionalIdSerialize,
+  deserialize: _additionalIdDeserialize,
+  deserializeProp: _additionalIdDeserializeProp,
+);
+
+int _additionalIdEstimateSize(
+  AdditionalId object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.id.length * 3;
+  bytesCount += 3 + object.idType.length * 3;
+  return bytesCount;
+}
+
+void _additionalIdSerialize(
+  AdditionalId object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.id);
+  writer.writeString(offsets[1], object.idType);
+}
+
+AdditionalId _additionalIdDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = AdditionalId();
+  object.id = reader.readString(offsets[0]);
+  object.idType = reader.readString(offsets[1]);
+  return object;
+}
+
+P _additionalIdDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readString(offset)) as P;
+    case 1:
+      return (reader.readString(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension AdditionalIdQueryFilter
+    on QueryBuilder<AdditionalId, AdditionalId, QFilterCondition> {
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'id',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'id',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'id',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idTypeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'idType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'idType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'idType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idTypeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'idType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'idType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'idType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'idType',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition> idTypeMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'idType',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'idType',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AdditionalId, AdditionalId, QAfterFilterCondition>
+      idTypeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'idType',
+        value: '',
+      ));
+    });
+  }
+}
+
+extension AdditionalIdQueryObject
+    on QueryBuilder<AdditionalId, AdditionalId, QFilterCondition> {}
