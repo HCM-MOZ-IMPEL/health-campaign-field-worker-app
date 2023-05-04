@@ -5,7 +5,7 @@ import 'package:isar/isar.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/app_exception.dart';
-import '../../local_store/no_sql/schema/oplog.dart';
+import '../../local_store/no_sql/schema/oplog.dart' hide AdditionalId;
 
 abstract class OpLogManager<T extends EntityModel> {
   final Isar isar;
@@ -13,9 +13,9 @@ abstract class OpLogManager<T extends EntityModel> {
   const OpLogManager(this.isar);
 
   Future<List<OpLogEntry<T>>> getPendingUpSync(
-    DataModelType type, {
-    required String createdBy,
-  }) async {
+      DataModelType type, {
+        required String createdBy,
+      }) async {
     final createOpLogs = await isar.opLogs
         .filter()
         .entityTypeEqualTo(type)
@@ -23,6 +23,7 @@ abstract class OpLogManager<T extends EntityModel> {
         .serverGeneratedIdIsNull()
         .syncedUpEqualTo(false)
         .syncedDownEqualTo(false)
+        .createdByEqualTo(createdBy)
         .findAll();
 
     final singleCreateOpLogs = await isar.opLogs
@@ -32,6 +33,7 @@ abstract class OpLogManager<T extends EntityModel> {
         .serverGeneratedIdIsNull()
         .syncedUpEqualTo(false)
         .syncedDownEqualTo(false)
+        .createdByEqualTo(createdBy)
         .findAll();
 
     final updateOpLogs = await isar.opLogs
@@ -41,6 +43,7 @@ abstract class OpLogManager<T extends EntityModel> {
         .serverGeneratedIdIsNotNull()
         .syncedUpEqualTo(false)
         .syncedDownEqualTo(false)
+        .createdByEqualTo(createdBy)
         .findAll();
 
     final deleteOpLogs = await isar.opLogs
@@ -50,6 +53,7 @@ abstract class OpLogManager<T extends EntityModel> {
         .serverGeneratedIdIsNotNull()
         .syncedUpEqualTo(false)
         .syncedDownEqualTo(false)
+        .createdByEqualTo(createdBy)
         .findAll();
 
     var entries = [
@@ -62,16 +66,16 @@ abstract class OpLogManager<T extends EntityModel> {
     entries = entries.sortedBy((element) => element.createdAt);
 
     final groupedEntries = entries.groupListsBy(
-      (element) => element.clientReferenceId,
+          (element) => element.clientReferenceId,
     );
 
     final entriesForUpSync = groupedEntries.entries
         .map<OpLog?>((entry) {
-          if (entry.key == null) return null;
-          if (entry.value.isEmpty) return null;
+      if (entry.key == null) return null;
+      if (entry.value.isEmpty) return null;
 
-          return entry.value.first;
-        })
+      return entry.value.first;
+    })
         .whereNotNull()
         .toList();
 
@@ -79,9 +83,9 @@ abstract class OpLogManager<T extends EntityModel> {
   }
 
   Future<List<OpLogEntry<T>>> getPendingDownSync(
-    DataModelType type, {
-    required String createdBy,
-  }) async {
+      DataModelType type, {
+        required String createdBy,
+      }) async {
     var oplogs = await isar.opLogs
         .filter()
         .syncedUpEqualTo(true)
@@ -98,94 +102,89 @@ abstract class OpLogManager<T extends EntityModel> {
     await isar.writeTxn(() async {
       await isar.opLogs.put(entry
           .copyWith(
-            clientReferenceId: getClientReferenceId(entry.entity),
-            serverGeneratedId: getServerGeneratedId(entry.entity),
-          )
+        clientReferenceId: getClientReferenceId(entry.entity),
+        serverGeneratedId: getServerGeneratedId(entry.entity),
+      )
           .oplog);
     });
   }
 
-  Future<void> markSyncUp(OpLogEntry<T> entry) async {
-    await put(entry.copyWith(syncedUp: true, syncedUpOn: DateTime.now()));
-  }
-
-  Future<void> markSyncDown(OpLogEntry<T> entry) async {
-    await put(entry.copyWith(syncedDown: true, syncedDownOn: DateTime.now()));
-  }
-
-  Future<void> updateServerGeneratedIds({
-    required String clientReferenceId,
-    required String serverGeneratedId,
-    required DataOperation dataOperation,
+  Future<void> markSyncUp({
     OpLogEntry<T>? entry,
+    int? id,
+    String? clientReferenceId,
   }) async {
-    final opLogs = await isar.opLogs
-        .filter()
-        .operationEqualTo(dataOperation)
-        .clientReferenceIdEqualTo(clientReferenceId)
-        .findAll();
+    if (entry != null) {
+      await put(entry.copyWith(syncedUp: true, syncedUpOn: DateTime.now()));
+    } else if (id != null) {
+      OpLog? oplog;
 
-    for (final e in opLogs) {
-      final entry = OpLogEntry.fromOpLog<T>(e);
+      oplog = await isar.opLogs.get(id);
+      if (oplog == null) return;
+      final fetchedEntry = OpLogEntry.fromOpLog<T>(oplog);
 
-      final updatedEntity = applyServerGeneratedIdToEntity(
-        entry.entity,
-        serverGeneratedId,
+      await put(
+        fetchedEntry.copyWith(
+          syncedUp: true,
+          syncedUpOn: DateTime.now(),
+        ),
       );
+    } else if (clientReferenceId != null) {
+      final oplog = await isar.opLogs
+          .filter()
+          .clientReferenceIdEqualTo(clientReferenceId)
+          .findFirst();
 
-      final updatedEntry = entry.copyWith(
-        entity: updatedEntity,
-        serverGeneratedId: serverGeneratedId,
+      if (oplog == null) return;
+
+      final fetchedEntry = OpLogEntry.fromOpLog<T>(oplog);
+
+      await put(
+        fetchedEntry.copyWith(
+          syncedUp: true,
+          syncedUpOn: DateTime.now(),
+        ),
       );
-
-      await isar.writeTxn(() async {
-        await isar.opLogs.put(updatedEntry.oplog);
-      });
-
-      if (entry.syncedUp) await markSyncDown(updatedEntry);
+    } else {
+      throw AppException('Invalid arguments');
     }
   }
 
-  Future<void> updateServerGeneratedData({
-    required TaskModel model,
-    required String clientReferenceId,
+  Future<void> updateServerGeneratedIds({
+    required UpdateServerGeneratedIdModel model,
   }) async {
     final opLogs = await isar.opLogs
         .filter()
-        .clientReferenceIdEqualTo(clientReferenceId)
+        .clientReferenceIdEqualTo(model.clientReferenceId)
         .findAll();
-    model;
 
-    for (final e in opLogs) {
-      final entry = OpLogEntry.fromOpLog<TaskModel>(e);
+    for (final oplog in opLogs) {
+      final entry = OpLogEntry.fromOpLog<T>(oplog);
 
-      final updatedEntity = entry.entity.copyWith(
-        id: model.id!,
-        resources: entry.entity.resources?.map((element) {
-          return element.copyWith(
-            taskId: model.id,
-            id: model.resources?.first.id,
-          );
-        }).toList(),
+      OpLogEntry updatedEntry = entry.copyWith(
+        serverGeneratedId: model.serverGeneratedId,
+        additionalIds: model.additionalIds,
       );
 
-      final updatedEntry = entry.copyWith(
-        entity: updatedEntity,
-        serverGeneratedId: model.id!,
-      );
+      if (entry.syncedUp) {
+        updatedEntry = updatedEntry.copyWith(
+          syncedDown: true,
+          syncedDownOn: DateTime.now(),
+        );
+      }
+
+      final updatedOplog = updatedEntry.oplog;
 
       await isar.writeTxn(() async {
-        await isar.opLogs.put(updatedEntry.oplog);
+        await isar.opLogs.put(updatedOplog);
       });
-
-      if (entry.syncedUp) await markSyncDown(updatedEntry as OpLogEntry<T>);
     }
   }
 
   Future<List<OpLogEntry<T>>> getEntries(
-    String clientReferenceId,
-    DataOperation operation,
-  ) async {
+      String clientReferenceId,
+      DataOperation operation,
+      ) async {
     final oplog = await isar.opLogs
         .filter()
         .operationEqualTo(operation)
@@ -204,9 +203,9 @@ abstract class OpLogManager<T extends EntityModel> {
   String getClientReferenceId(T entity);
 
   T applyServerGeneratedIdToEntity(
-    T entity,
-    String serverGeneratedId,
-  );
+      T entity,
+      String serverGeneratedId,
+      );
 }
 
 class IndividualOpLogManager extends OpLogManager<IndividualModel> {
@@ -214,9 +213,9 @@ class IndividualOpLogManager extends OpLogManager<IndividualModel> {
 
   @override
   IndividualModel applyServerGeneratedIdToEntity(
-    IndividualModel entity,
-    String serverGeneratedId,
-  ) =>
+      IndividualModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -232,9 +231,9 @@ class HouseholdOpLogManager extends OpLogManager<HouseholdModel> {
 
   @override
   HouseholdModel applyServerGeneratedIdToEntity(
-    HouseholdModel entity,
-    String serverGeneratedId,
-  ) =>
+      HouseholdModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -250,9 +249,9 @@ class FacilityOpLogManager extends OpLogManager<FacilityModel> {
 
   @override
   FacilityModel applyServerGeneratedIdToEntity(
-    FacilityModel entity,
-    String serverGeneratedId,
-  ) =>
+      FacilityModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -267,9 +266,9 @@ class HouseholdMemberOpLogManager extends OpLogManager<HouseholdMemberModel> {
 
   @override
   HouseholdMemberModel applyServerGeneratedIdToEntity(
-    HouseholdMemberModel entity,
-    String serverGeneratedId,
-  ) =>
+      HouseholdMemberModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -286,9 +285,9 @@ class ProjectBeneficiaryOpLogManager
 
   @override
   ProjectBeneficiaryModel applyServerGeneratedIdToEntity(
-    ProjectBeneficiaryModel entity,
-    String serverGeneratedId,
-  ) =>
+      ProjectBeneficiaryModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -304,9 +303,9 @@ class ProjectFacilityOpLogManager extends OpLogManager<ProjectFacilityModel> {
 
   @override
   ProjectFacilityModel applyServerGeneratedIdToEntity(
-    ProjectFacilityModel entity,
-    String serverGeneratedId,
-  ) =>
+      ProjectFacilityModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -321,9 +320,9 @@ class TaskOpLogManager extends OpLogManager<TaskModel> {
 
   @override
   TaskModel applyServerGeneratedIdToEntity(
-    TaskModel entity,
-    String serverGeneratedId,
-  ) =>
+      TaskModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -338,9 +337,9 @@ class ProjectStaffOpLogManager extends OpLogManager<ProjectStaffModel> {
 
   @override
   ProjectStaffModel applyServerGeneratedIdToEntity(
-    ProjectStaffModel entity,
-    String serverGeneratedId,
-  ) =>
+      ProjectStaffModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -355,9 +354,9 @@ class ProjectOpLogManager extends OpLogManager<ProjectModel> {
 
   @override
   ProjectModel applyServerGeneratedIdToEntity(
-    ProjectModel entity,
-    String serverGeneratedId,
-  ) =>
+      ProjectModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -372,9 +371,9 @@ class StockOpLogManager extends OpLogManager<StockModel> {
 
   @override
   StockModel applyServerGeneratedIdToEntity(
-    StockModel entity,
-    String serverGeneratedId,
-  ) =>
+      StockModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -390,9 +389,9 @@ class StockReconciliationOpLogManager
 
   @override
   StockReconciliationModel applyServerGeneratedIdToEntity(
-    StockReconciliationModel entity,
-    String serverGeneratedId,
-  ) =>
+      StockReconciliationModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -409,9 +408,9 @@ class ServiceDefinitionOpLogManager
 
   @override
   ServiceDefinitionModel applyServerGeneratedIdToEntity(
-    ServiceDefinitionModel entity,
-    String serverGeneratedId,
-  ) =>
+      ServiceDefinitionModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -428,9 +427,9 @@ class ServiceOpLogManager extends OpLogManager<ServiceModel> {
 
   @override
   ServiceModel applyServerGeneratedIdToEntity(
-    ServiceModel entity,
-    String serverGeneratedId,
-  ) =>
+      ServiceModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -445,9 +444,9 @@ class ProjectResourceOpLogManager extends OpLogManager<ProjectResourceModel> {
 
   @override
   ProjectResourceModel applyServerGeneratedIdToEntity(
-    ProjectResourceModel entity,
-    String serverGeneratedId,
-  ) =>
+      ProjectResourceModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -463,9 +462,9 @@ class ProductVariantOpLogManager extends OpLogManager<ProductVariantModel> {
 
   @override
   ProductVariantModel applyServerGeneratedIdToEntity(
-    ProductVariantModel entity,
-    String serverGeneratedId,
-  ) =>
+      ProductVariantModel entity,
+      String serverGeneratedId,
+      ) =>
       entity.copyWith(id: serverGeneratedId);
 
   @override
@@ -480,9 +479,9 @@ class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
 
   @override
   BoundaryModel applyServerGeneratedIdToEntity(
-    BoundaryModel entity,
-    String serverGeneratedId,
-  ) =>
+      BoundaryModel entity,
+      String serverGeneratedId,
+      ) =>
       throw UnimplementedError();
 
   @override
@@ -492,4 +491,20 @@ class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
   @override
   String? getServerGeneratedId(BoundaryModel entity) =>
       throw UnimplementedError();
+}
+
+class UpdateServerGeneratedIdModel {
+  final String clientReferenceId;
+  final String serverGeneratedId;
+  final DataOperation dataOperation;
+  final List<AdditionalId>? additionalIds;
+  final OpLogEntry? entry;
+
+  const UpdateServerGeneratedIdModel({
+    required this.clientReferenceId,
+    required this.serverGeneratedId,
+    required this.dataOperation,
+    this.additionalIds,
+    this.entry,
+  });
 }

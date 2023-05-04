@@ -12,14 +12,14 @@ import 'local_store/sql_store/sql_store.dart';
 import 'repositories/oplog/oplog.dart';
 
 abstract class DataRepository<D extends EntityModel,
-    R extends EntitySearchModel> {
+R extends EntitySearchModel> {
   const DataRepository();
 
   DataModelType get type;
 
   FutureOr<List<D>> search(
-    R query,
-  );
+      R query,
+      );
 
   FutureOr<dynamic> create(D entity);
 
@@ -29,7 +29,7 @@ abstract class DataRepository<D extends EntityModel,
 }
 
 abstract class RemoteRepository<D extends EntityModel,
-    R extends EntitySearchModel> extends DataRepository<D, R> {
+R extends EntitySearchModel> extends DataRepository<D, R> {
   final Dio dio;
   final String entityName;
   final bool isPlural;
@@ -55,17 +55,17 @@ abstract class RemoteRepository<D extends EntityModel,
   String get bulkDeletePath => actionMap[ApiOperation.bulkDelete] ?? '';
 
   RemoteRepository(
-    this.dio, {
-    required this.actionMap,
-    required this.entityName,
-    this.isPlural = false,
-    this.isSearchResponsePlural = false,
-  });
+      this.dio, {
+        required this.actionMap,
+        required this.entityName,
+        this.isPlural = false,
+        this.isSearchResponsePlural = false,
+      });
 
   @override
   FutureOr<List<D>> search(
-    R query,
-  ) async {
+      R query,
+      ) async {
     Response response;
 
     try {
@@ -82,8 +82,8 @@ abstract class RemoteRepository<D extends EntityModel,
               isPlural
                   ? entityNamePlural
                   : entityName == 'ServiceDefinition'
-                      ? 'ServiceDefinitionCriteria'
-                      : entityName: isPlural ? [query.toMap()] : query.toMap(),
+                  ? 'ServiceDefinitionCriteria'
+                  : entityName: isPlural ? [query.toMap()] : query.toMap(),
             },
           );
         },
@@ -115,9 +115,9 @@ abstract class RemoteRepository<D extends EntityModel,
     }
 
     final entityResponse = await responseMap[
-        (isSearchResponsePlural || entityName == 'ServiceDefinition')
-            ? entityNamePlural
-            : entityName];
+    (isSearchResponsePlural || entityName == 'ServiceDefinition')
+        ? entityNamePlural
+        : entityName];
     if (entityResponse is! List) {
       throw InvalidApiResponseException(
         data: query.toMap(),
@@ -251,8 +251,6 @@ abstract class RemoteRepository<D extends EntityModel,
       String? errorResponse;
       String? requestBody;
 
-      debugPrint('${'-' * 40} ${runtimeType.toString()} ${'-' * 40}');
-
       try {
         errorResponse = encoder.convert(
           error.response?.data,
@@ -277,10 +275,6 @@ abstract class RemoteRepository<D extends EntityModel,
         title: '${runtimeType.toString()} | DIO_ERROR',
       );
 
-      debugPrint(
-        '${'-' * 40}${'-' * (runtimeType.toString().length + 2)}${'-' * 40}',
-      );
-
       rethrow;
     } catch (error) {
       AppLogger.instance.error(
@@ -294,7 +288,7 @@ abstract class RemoteRepository<D extends EntityModel,
 }
 
 abstract class LocalRepository<D extends EntityModel,
-    R extends EntitySearchModel> extends DataRepository<D, R> {
+R extends EntitySearchModel> extends DataRepository<D, R> {
   final LocalSqlDataStore sql;
   final OpLogManager<D> opLogManager;
 
@@ -303,10 +297,10 @@ abstract class LocalRepository<D extends EntityModel,
   @override
   @mustCallSuper
   FutureOr<void> create(
-    D entity, {
-    bool createOpLog = true,
-    DataOperation dataOperation = DataOperation.create,
-  }) async {
+      D entity, {
+        bool createOpLog = true,
+        DataOperation dataOperation = DataOperation.create,
+      }) async {
     if (createOpLog) await createOplogEntry(entity, dataOperation);
   }
 
@@ -348,12 +342,16 @@ abstract class LocalRepository<D extends EntityModel,
     return opLogManager.getPendingDownSync(type, createdBy: createdBy);
   }
 
-  FutureOr<void> markSyncedUp(OpLogEntry<D> entry) async {
-    return opLogManager.markSyncUp(entry);
-  }
-
-  FutureOr<void> markSyncedDown(OpLogEntry<D> entry) async {
-    return opLogManager.markSyncDown(entry);
+  FutureOr<void> markSyncedUp({
+    OpLogEntry<D>? entry,
+    String? clientReferenceId,
+    int? id,
+  }) async {
+    return opLogManager.markSyncUp(
+      entry: entry,
+      clientReferenceId: clientReferenceId,
+      id: id,
+    );
   }
 }
 

@@ -133,6 +133,7 @@ var _mappers = <BaseMapper>{
   LocalityModelMapper._(),
   LocalityAdditionalFieldsMapper._(),
   OpLogEntryMapper._(),
+  AdditionalIdMapper._(),
   // enum mappers
   AddressTypeMapper._(),
   BloodGroupMapper._(),
@@ -3596,15 +3597,15 @@ class OpLogEntryMapper extends BaseMapper<OpLogEntry> {
 
   @override Function get decoder => decode;
   OpLogEntry<T> decode<T extends EntityModel>(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap<T>(map));
-  OpLogEntry<T> fromMap<T extends EntityModel>(Map<String, dynamic> map) => OpLogEntry(Mapper.i.$get(map, 'entity'), Mapper.i.$get(map, 'operation'), id: Mapper.i.$getOpt(map, 'id'), createdAt: Mapper.i.$get(map, 'createdAt'), createdBy: Mapper.i.$get(map, 'createdBy'), type: Mapper.i.$get(map, 'type'), syncedUp: Mapper.i.$getOpt(map, 'syncedUp') ?? false, syncedDown: Mapper.i.$getOpt(map, 'syncedDown') ?? false, syncedUpOn: Mapper.i.$getOpt(map, 'syncedUpOn'), syncedDownOn: Mapper.i.$getOpt(map, 'syncedDownOn'), serverGeneratedId: Mapper.i.$getOpt(map, 'serverGeneratedId'), clientReferenceId: Mapper.i.$getOpt(map, 'clientReferenceId'));
+  OpLogEntry<T> fromMap<T extends EntityModel>(Map<String, dynamic> map) => OpLogEntry(Mapper.i.$get(map, 'entity'), Mapper.i.$get(map, 'operation'), id: Mapper.i.$getOpt(map, 'id'), createdAt: Mapper.i.$get(map, 'createdAt'), createdBy: Mapper.i.$get(map, 'createdBy'), type: Mapper.i.$get(map, 'type'), syncedUp: Mapper.i.$getOpt(map, 'syncedUp') ?? false, syncedDown: Mapper.i.$getOpt(map, 'syncedDown') ?? false, syncedUpOn: Mapper.i.$getOpt(map, 'syncedUpOn'), syncedDownOn: Mapper.i.$getOpt(map, 'syncedDownOn'), serverGeneratedId: Mapper.i.$getOpt(map, 'serverGeneratedId'), clientReferenceId: Mapper.i.$getOpt(map, 'clientReferenceId'), additionalIds: Mapper.i.$getOpt(map, 'additionalIds') ?? const []);
 
   @override Function get encoder => (OpLogEntry v) => encode(v);
   dynamic encode(OpLogEntry v) => toMap(v);
-  Map<String, dynamic> toMap(OpLogEntry o) => {'entity': Mapper.i.$enc(o.entity, 'entity'), 'operation': Mapper.i.$enc(o.operation, 'operation'), 'id': Mapper.i.$enc(o.id, 'id'), 'createdAt': Mapper.i.$enc(o.createdAt, 'createdAt'), 'createdBy': Mapper.i.$enc(o.createdBy, 'createdBy'), 'type': Mapper.i.$enc(o.type, 'type'), 'syncedUp': Mapper.i.$enc(o.syncedUp, 'syncedUp'), 'syncedDown': Mapper.i.$enc(o.syncedDown, 'syncedDown'), 'syncedUpOn': Mapper.i.$enc(o.syncedUpOn, 'syncedUpOn'), 'syncedDownOn': Mapper.i.$enc(o.syncedDownOn, 'syncedDownOn'), 'serverGeneratedId': Mapper.i.$enc(o.serverGeneratedId, 'serverGeneratedId'), 'clientReferenceId': Mapper.i.$enc(o.clientReferenceId, 'clientReferenceId')};
+  Map<String, dynamic> toMap(OpLogEntry o) => {'entity': Mapper.i.$enc(o.entity, 'entity'), 'operation': Mapper.i.$enc(o.operation, 'operation'), 'id': Mapper.i.$enc(o.id, 'id'), 'createdAt': Mapper.i.$enc(o.createdAt, 'createdAt'), 'createdBy': Mapper.i.$enc(o.createdBy, 'createdBy'), 'type': Mapper.i.$enc(o.type, 'type'), 'syncedUp': Mapper.i.$enc(o.syncedUp, 'syncedUp'), 'syncedDown': Mapper.i.$enc(o.syncedDown, 'syncedDown'), 'syncedUpOn': Mapper.i.$enc(o.syncedUpOn, 'syncedUpOn'), 'syncedDownOn': Mapper.i.$enc(o.syncedDownOn, 'syncedDownOn'), 'serverGeneratedId': Mapper.i.$enc(o.serverGeneratedId, 'serverGeneratedId'), 'clientReferenceId': Mapper.i.$enc(o.clientReferenceId, 'clientReferenceId'), 'additionalIds': Mapper.i.$enc(o.additionalIds, 'additionalIds')};
 
-  @override String stringify(OpLogEntry self) => 'OpLogEntry(id: ${Mapper.asString(self.id)}, entity: ${Mapper.asString(self.entity)}, type: ${Mapper.asString(self.type)}, operation: ${Mapper.asString(self.operation)}, syncedUp: ${Mapper.asString(self.syncedUp)}, syncedDown: ${Mapper.asString(self.syncedDown)}, createdBy: ${Mapper.asString(self.createdBy)}, createdAt: ${Mapper.asString(self.createdAt)}, syncedUpOn: ${Mapper.asString(self.syncedUpOn)}, syncedDownOn: ${Mapper.asString(self.syncedDownOn)}, serverGeneratedId: ${Mapper.asString(self.serverGeneratedId)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)})';
-  @override int hash(OpLogEntry self) => Mapper.hash(self.id) ^ Mapper.hash(self.entity) ^ Mapper.hash(self.type) ^ Mapper.hash(self.operation) ^ Mapper.hash(self.syncedUp) ^ Mapper.hash(self.syncedDown) ^ Mapper.hash(self.createdBy) ^ Mapper.hash(self.createdAt) ^ Mapper.hash(self.syncedUpOn) ^ Mapper.hash(self.syncedDownOn) ^ Mapper.hash(self.serverGeneratedId) ^ Mapper.hash(self.clientReferenceId);
-  @override bool equals(OpLogEntry self, OpLogEntry other) => Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.entity, other.entity) && Mapper.isEqual(self.type, other.type) && Mapper.isEqual(self.operation, other.operation) && Mapper.isEqual(self.syncedUp, other.syncedUp) && Mapper.isEqual(self.syncedDown, other.syncedDown) && Mapper.isEqual(self.createdBy, other.createdBy) && Mapper.isEqual(self.createdAt, other.createdAt) && Mapper.isEqual(self.syncedUpOn, other.syncedUpOn) && Mapper.isEqual(self.syncedDownOn, other.syncedDownOn) && Mapper.isEqual(self.serverGeneratedId, other.serverGeneratedId) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId);
+  @override String stringify(OpLogEntry self) => 'OpLogEntry(id: ${Mapper.asString(self.id)}, entity: ${Mapper.asString(self.entity)}, type: ${Mapper.asString(self.type)}, operation: ${Mapper.asString(self.operation)}, syncedUp: ${Mapper.asString(self.syncedUp)}, syncedDown: ${Mapper.asString(self.syncedDown)}, createdBy: ${Mapper.asString(self.createdBy)}, createdAt: ${Mapper.asString(self.createdAt)}, syncedUpOn: ${Mapper.asString(self.syncedUpOn)}, syncedDownOn: ${Mapper.asString(self.syncedDownOn)}, serverGeneratedId: ${Mapper.asString(self.serverGeneratedId)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, additionalIds: ${Mapper.asString(self.additionalIds)})';
+  @override int hash(OpLogEntry self) => Mapper.hash(self.id) ^ Mapper.hash(self.entity) ^ Mapper.hash(self.type) ^ Mapper.hash(self.operation) ^ Mapper.hash(self.syncedUp) ^ Mapper.hash(self.syncedDown) ^ Mapper.hash(self.createdBy) ^ Mapper.hash(self.createdAt) ^ Mapper.hash(self.syncedUpOn) ^ Mapper.hash(self.syncedDownOn) ^ Mapper.hash(self.serverGeneratedId) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.additionalIds);
+  @override bool equals(OpLogEntry self, OpLogEntry other) => Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.entity, other.entity) && Mapper.isEqual(self.type, other.type) && Mapper.isEqual(self.operation, other.operation) && Mapper.isEqual(self.syncedUp, other.syncedUp) && Mapper.isEqual(self.syncedDown, other.syncedDown) && Mapper.isEqual(self.createdBy, other.createdBy) && Mapper.isEqual(self.createdAt, other.createdAt) && Mapper.isEqual(self.syncedUpOn, other.syncedUpOn) && Mapper.isEqual(self.syncedDownOn, other.syncedDownOn) && Mapper.isEqual(self.serverGeneratedId, other.serverGeneratedId) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.additionalIds, other.additionalIds);
 
   @override Function get typeFactory => <T extends EntityModel>(f) => f<OpLogEntry<T>>();
 }
@@ -3617,14 +3618,52 @@ extension OpLogEntryMapperExtension <T extends EntityModel> on OpLogEntry<T> {
 
 abstract class OpLogEntryCopyWith<$R, T extends EntityModel> {
   factory OpLogEntryCopyWith(OpLogEntry<T> value, Then<OpLogEntry<T>, $R> then) = _OpLogEntryCopyWithImpl<$R, T>;
-  $R call({T? entity, DataOperation? operation, int? id, DateTime? createdAt, String? createdBy, DataModelType? type, bool? syncedUp, bool? syncedDown, DateTime? syncedUpOn, DateTime? syncedDownOn, String? serverGeneratedId, String? clientReferenceId});
+  ListCopyWith<$R, AdditionalId, AdditionalIdCopyWith<$R>> get additionalIds;
+  $R call({T? entity, DataOperation? operation, int? id, DateTime? createdAt, String? createdBy, DataModelType? type, bool? syncedUp, bool? syncedDown, DateTime? syncedUpOn, DateTime? syncedDownOn, String? serverGeneratedId, String? clientReferenceId, List<AdditionalId>? additionalIds});
   $R apply(OpLogEntry<T> Function(OpLogEntry<T>) transform);
 }
 
 class _OpLogEntryCopyWithImpl<$R, T extends EntityModel> extends BaseCopyWith<OpLogEntry<T>, $R> implements OpLogEntryCopyWith<$R, T> {
   _OpLogEntryCopyWithImpl(OpLogEntry<T> value, Then<OpLogEntry<T>, $R> then) : super(value, then);
 
-  @override $R call({T? entity, DataOperation? operation, Object? id = $none, DateTime? createdAt, String? createdBy, DataModelType? type, bool? syncedUp, bool? syncedDown, Object? syncedUpOn = $none, Object? syncedDownOn = $none, Object? serverGeneratedId = $none, Object? clientReferenceId = $none}) => $then(OpLogEntry(entity ?? $value.entity, operation ?? $value.operation, id: or(id, $value.id), createdAt: createdAt ?? $value.createdAt, createdBy: createdBy ?? $value.createdBy, type: type ?? $value.type, syncedUp: syncedUp ?? $value.syncedUp, syncedDown: syncedDown ?? $value.syncedDown, syncedUpOn: or(syncedUpOn, $value.syncedUpOn), syncedDownOn: or(syncedDownOn, $value.syncedDownOn), serverGeneratedId: or(serverGeneratedId, $value.serverGeneratedId), clientReferenceId: or(clientReferenceId, $value.clientReferenceId)));
+  @override ListCopyWith<$R, AdditionalId, AdditionalIdCopyWith<$R>> get additionalIds => ListCopyWith($value.additionalIds, (v, t) => AdditionalIdCopyWith(v, t), (v) => call(additionalIds: v));
+  @override $R call({T? entity, DataOperation? operation, Object? id = $none, DateTime? createdAt, String? createdBy, DataModelType? type, bool? syncedUp, bool? syncedDown, Object? syncedUpOn = $none, Object? syncedDownOn = $none, Object? serverGeneratedId = $none, Object? clientReferenceId = $none, List<AdditionalId>? additionalIds}) => $then(OpLogEntry(entity ?? $value.entity, operation ?? $value.operation, id: or(id, $value.id), createdAt: createdAt ?? $value.createdAt, createdBy: createdBy ?? $value.createdBy, type: type ?? $value.type, syncedUp: syncedUp ?? $value.syncedUp, syncedDown: syncedDown ?? $value.syncedDown, syncedUpOn: or(syncedUpOn, $value.syncedUpOn), syncedDownOn: or(syncedDownOn, $value.syncedDownOn), serverGeneratedId: or(serverGeneratedId, $value.serverGeneratedId), clientReferenceId: or(clientReferenceId, $value.clientReferenceId), additionalIds: additionalIds ?? $value.additionalIds));
+}
+
+class AdditionalIdMapper extends BaseMapper<AdditionalId> {
+  AdditionalIdMapper._();
+
+  @override Function get decoder => decode;
+  AdditionalId decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  AdditionalId fromMap(Map<String, dynamic> map) => AdditionalId(idType: Mapper.i.$get(map, 'idType'), id: Mapper.i.$get(map, 'id'));
+
+  @override Function get encoder => (AdditionalId v) => encode(v);
+  dynamic encode(AdditionalId v) => toMap(v);
+  Map<String, dynamic> toMap(AdditionalId a) => {'idType': Mapper.i.$enc(a.idType, 'idType'), 'id': Mapper.i.$enc(a.id, 'id')};
+
+  @override String stringify(AdditionalId self) => 'AdditionalId(idType: ${Mapper.asString(self.idType)}, id: ${Mapper.asString(self.id)})';
+  @override int hash(AdditionalId self) => Mapper.hash(self.idType) ^ Mapper.hash(self.id);
+  @override bool equals(AdditionalId self, AdditionalId other) => Mapper.isEqual(self.idType, other.idType) && Mapper.isEqual(self.id, other.id);
+
+  @override Function get typeFactory => (f) => f<AdditionalId>();
+}
+
+extension AdditionalIdMapperExtension  on AdditionalId {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  AdditionalIdCopyWith<AdditionalId> get copyWith => AdditionalIdCopyWith(this, $identity);
+}
+
+abstract class AdditionalIdCopyWith<$R> {
+  factory AdditionalIdCopyWith(AdditionalId value, Then<AdditionalId, $R> then) = _AdditionalIdCopyWithImpl<$R>;
+  $R call({String? idType, String? id});
+  $R apply(AdditionalId Function(AdditionalId) transform);
+}
+
+class _AdditionalIdCopyWithImpl<$R> extends BaseCopyWith<AdditionalId, $R> implements AdditionalIdCopyWith<$R> {
+  _AdditionalIdCopyWithImpl(AdditionalId value, Then<AdditionalId, $R> then) : super(value, then);
+
+  @override $R call({String? idType, String? id}) => $then(AdditionalId(idType: idType ?? $value.idType, id: id ?? $value.id));
 }
 
 
