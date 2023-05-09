@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:digit_components/utils/app_logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
 import '../../../models/app_config/app_config_model.dart' as app_configuration;
+import '../../../models/mdms/service_registry/pgr_service_defenitions.dart';
 import '../../../models/mdms/service_registry/service_registry_model.dart';
 import '../../local_store/no_sql/schema/app_configuration.dart';
 import '../../local_store/no_sql/schema/service_registry.dart';
@@ -82,9 +84,31 @@ class MdmsRepository {
     }
   }
 
+  Future<PGRServiceDefinitions> searchPGRServiceDefinitions(
+      String apiEndPoint,
+      Map<String, dynamic> body,
+      ) async {
+    try {
+      final response = await _client.post(apiEndPoint, data: body);
+
+      return PGRServiceDefinitions.fromJson(
+        json.decode(response.toString())['MdmsRes'],
+      );
+    } on DioError catch (e) {
+      AppLogger.instance.error(
+        title: 'MDMS Repository',
+        message: '$e',
+        stackTrace: e.stackTrace,
+      );
+      rethrow;
+    }
+  }
+
+
   FutureOr<void> writeToAppConfigDB(
     app_configuration.AppConfigPrimaryWrapperModel result,
-    Isar isar,
+      PGRServiceDefinitions pgrServiceDefinitions,
+      Isar isar,
   ) async {
     final appConfiguration = AppConfiguration();
     result.appConfig?.appConfiglist?.forEach((element) {
@@ -160,6 +184,15 @@ class MdmsRepository {
         return interfaces;
       }).toList();
 
+      final List<ComplaintTypes>? complaintTypesList =
+      pgrServiceDefinitions.serviceDefinitionWrapper?.definition.map((e) {
+        final types = ComplaintTypes()
+          ..name = e.name
+          ..code = e.serviceCode;
+
+        return types;
+      }).toList();
+
       final backendInterface = BackendInterface()..interfaces = interfaceList;
       appConfiguration.genderOptions = genderOptions;
       appConfiguration.idTypeOptions = idTypeOptions;
@@ -167,7 +200,7 @@ class MdmsRepository {
       appConfiguration.checklistTypes = checklistTypes;
       appConfiguration.transportTypes = transportTypes;
       appConfiguration.backendInterface = backendInterface;
-
+      appConfiguration.complaintTypes = complaintTypesList;
       appConfiguration.languages = languageList;
     });
 
