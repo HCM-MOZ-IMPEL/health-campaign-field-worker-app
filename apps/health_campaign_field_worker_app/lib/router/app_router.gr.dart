@@ -107,6 +107,17 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ComplaintsAcknowledgementRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsAcknowledgementRouteArgs>(
+          orElse: () => const ComplaintsAcknowledgementRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsAcknowledgementPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
     RecordStockWrapperRoute.name: (routeData) {
       final args = routeData.argsAs<RecordStockWrapperRouteArgs>();
       return MaterialPageX<dynamic>(
@@ -164,6 +175,24 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: const BoundarySelectionPage(),
+      );
+    },
+    ComplaintsInboxWrapperRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const ComplaintsInboxWrapperPage(),
+      );
+    },
+    ComplaintsRegistrationWrapperRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsRegistrationWrapperRouteArgs>(
+          orElse: () => const ComplaintsRegistrationWrapperRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: ComplaintsRegistrationWrapperPage(
+          key: args.key,
+          pgrServiceModel: args.pgrServiceModel,
+        )),
       );
     },
     IndividualDetailsRoute.name: (routeData) {
@@ -284,6 +313,93 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
         routeData: routeData,
         child: StockDetailsPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsInboxRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsInboxRouteArgs>(
+          orElse: () => const ComplaintsInboxRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsInboxPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsInboxFilterRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsInboxFilterRouteArgs>(
+          orElse: () => const ComplaintsInboxFilterRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsInboxFilterPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsInboxSearchRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsInboxSearchRouteArgs>(
+          orElse: () => const ComplaintsInboxSearchRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsInboxSearchPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsInboxSortRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsInboxSortRouteArgs>(
+          orElse: () => const ComplaintsInboxSortRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsInboxSortPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsDetailsViewRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsDetailsViewRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsDetailsViewPage(
+          key: args.key,
+          complaint: args.complaint,
+        ),
+      );
+    },
+    ComplaintTypeRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintTypeRouteArgs>(
+          orElse: () => const ComplaintTypeRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintTypePage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsLocationRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsLocationRouteArgs>(
+          orElse: () => const ComplaintsLocationRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsLocationPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    ComplaintsDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<ComplaintsDetailsRouteArgs>(
+          orElse: () => const ComplaintsDetailsRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: ComplaintsDetailsPage(
           key: args.key,
           appLocalizations: args.appLocalizations,
         ),
@@ -418,6 +534,11 @@ class _$AppRouter extends RootStackRouter {
               parent: AuthenticatedRouteWrapper.name,
             ),
             RouteConfig(
+              ComplaintsAcknowledgementRoute.name,
+              path: 'complaints-acknowledgement',
+              parent: AuthenticatedRouteWrapper.name,
+            ),
+            RouteConfig(
               RecordStockWrapperRoute.name,
               path: 'record-stock',
               parent: AuthenticatedRouteWrapper.name,
@@ -465,6 +586,74 @@ class _$AppRouter extends RootStackRouter {
               BoundarySelectionRoute.name,
               path: 'select-boundary',
               parent: AuthenticatedRouteWrapper.name,
+            ),
+            RouteConfig(
+              ComplaintsInboxWrapperRoute.name,
+              path: 'complaints-inbox',
+              parent: AuthenticatedRouteWrapper.name,
+              children: [
+                RouteConfig(
+                  '#redirect',
+                  path: '',
+                  parent: ComplaintsInboxWrapperRoute.name,
+                  redirectTo: 'complaints-inbox-items',
+                  fullMatch: true,
+                ),
+                RouteConfig(
+                  ComplaintsInboxRoute.name,
+                  path: 'complaints-inbox-items',
+                  parent: ComplaintsInboxWrapperRoute.name,
+                ),
+                RouteConfig(
+                  ComplaintsInboxFilterRoute.name,
+                  path: 'complaints-inbox-filter',
+                  parent: ComplaintsInboxWrapperRoute.name,
+                ),
+                RouteConfig(
+                  ComplaintsInboxSearchRoute.name,
+                  path: 'complaints-inbox-search',
+                  parent: ComplaintsInboxWrapperRoute.name,
+                ),
+                RouteConfig(
+                  ComplaintsInboxSortRoute.name,
+                  path: 'complaints-inbox-sort',
+                  parent: ComplaintsInboxWrapperRoute.name,
+                ),
+                RouteConfig(
+                  ComplaintsDetailsViewRoute.name,
+                  path: 'complaints-inbox-view-details',
+                  parent: ComplaintsInboxWrapperRoute.name,
+                ),
+              ],
+            ),
+            RouteConfig(
+              ComplaintsRegistrationWrapperRoute.name,
+              path: 'complaints-registration',
+              parent: AuthenticatedRouteWrapper.name,
+              children: [
+                RouteConfig(
+                  '#redirect',
+                  path: '',
+                  parent: ComplaintsRegistrationWrapperRoute.name,
+                  redirectTo: 'complaints-type',
+                  fullMatch: true,
+                ),
+                RouteConfig(
+                  ComplaintTypeRoute.name,
+                  path: 'complaints-type',
+                  parent: ComplaintsRegistrationWrapperRoute.name,
+                ),
+                RouteConfig(
+                  ComplaintsLocationRoute.name,
+                  path: 'complaints-location',
+                  parent: ComplaintsRegistrationWrapperRoute.name,
+                ),
+                RouteConfig(
+                  ComplaintsDetailsRoute.name,
+                  path: 'complaints-details',
+                  parent: ComplaintsRegistrationWrapperRoute.name,
+                ),
+              ],
             ),
           ],
         ),
@@ -764,6 +953,41 @@ class AcknowledgementRouteArgs {
 }
 
 /// generated route for
+/// [ComplaintsAcknowledgementPage]
+class ComplaintsAcknowledgementRoute
+    extends PageRouteInfo<ComplaintsAcknowledgementRouteArgs> {
+  ComplaintsAcknowledgementRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsAcknowledgementRoute.name,
+          path: 'complaints-acknowledgement',
+          args: ComplaintsAcknowledgementRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsAcknowledgementRoute';
+}
+
+class ComplaintsAcknowledgementRouteArgs {
+  const ComplaintsAcknowledgementRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsAcknowledgementRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
 /// [RecordStockWrapperPage]
 class RecordStockWrapperRoute
     extends PageRouteInfo<RecordStockWrapperRouteArgs> {
@@ -947,6 +1171,56 @@ class BoundarySelectionRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'BoundarySelectionRoute';
+}
+
+/// generated route for
+/// [ComplaintsInboxWrapperPage]
+class ComplaintsInboxWrapperRoute extends PageRouteInfo<void> {
+  const ComplaintsInboxWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          ComplaintsInboxWrapperRoute.name,
+          path: 'complaints-inbox',
+          initialChildren: children,
+        );
+
+  static const String name = 'ComplaintsInboxWrapperRoute';
+}
+
+/// generated route for
+/// [ComplaintsRegistrationWrapperPage]
+class ComplaintsRegistrationWrapperRoute
+    extends PageRouteInfo<ComplaintsRegistrationWrapperRouteArgs> {
+  ComplaintsRegistrationWrapperRoute({
+    Key? key,
+    PgrServiceModel? pgrServiceModel,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ComplaintsRegistrationWrapperRoute.name,
+          path: 'complaints-registration',
+          args: ComplaintsRegistrationWrapperRouteArgs(
+            key: key,
+            pgrServiceModel: pgrServiceModel,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ComplaintsRegistrationWrapperRoute';
+}
+
+class ComplaintsRegistrationWrapperRouteArgs {
+  const ComplaintsRegistrationWrapperRouteArgs({
+    this.key,
+    this.pgrServiceModel,
+  });
+
+  final Key? key;
+
+  final PgrServiceModel? pgrServiceModel;
+
+  @override
+  String toString() {
+    return 'ComplaintsRegistrationWrapperRouteArgs{key: $key, pgrServiceModel: $pgrServiceModel}';
+  }
 }
 
 /// generated route for
@@ -1332,5 +1606,282 @@ class StockDetailsRouteArgs {
   @override
   String toString() {
     return 'StockDetailsRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsInboxPage]
+class ComplaintsInboxRoute extends PageRouteInfo<ComplaintsInboxRouteArgs> {
+  ComplaintsInboxRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsInboxRoute.name,
+          path: 'complaints-inbox-items',
+          args: ComplaintsInboxRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsInboxRoute';
+}
+
+class ComplaintsInboxRouteArgs {
+  const ComplaintsInboxRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsInboxRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsInboxFilterPage]
+class ComplaintsInboxFilterRoute
+    extends PageRouteInfo<ComplaintsInboxFilterRouteArgs> {
+  ComplaintsInboxFilterRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsInboxFilterRoute.name,
+          path: 'complaints-inbox-filter',
+          args: ComplaintsInboxFilterRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsInboxFilterRoute';
+}
+
+class ComplaintsInboxFilterRouteArgs {
+  const ComplaintsInboxFilterRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsInboxFilterRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsInboxSearchPage]
+class ComplaintsInboxSearchRoute
+    extends PageRouteInfo<ComplaintsInboxSearchRouteArgs> {
+  ComplaintsInboxSearchRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsInboxSearchRoute.name,
+          path: 'complaints-inbox-search',
+          args: ComplaintsInboxSearchRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsInboxSearchRoute';
+}
+
+class ComplaintsInboxSearchRouteArgs {
+  const ComplaintsInboxSearchRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsInboxSearchRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsInboxSortPage]
+class ComplaintsInboxSortRoute
+    extends PageRouteInfo<ComplaintsInboxSortRouteArgs> {
+  ComplaintsInboxSortRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsInboxSortRoute.name,
+          path: 'complaints-inbox-sort',
+          args: ComplaintsInboxSortRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsInboxSortRoute';
+}
+
+class ComplaintsInboxSortRouteArgs {
+  const ComplaintsInboxSortRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsInboxSortRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsDetailsViewPage]
+class ComplaintsDetailsViewRoute
+    extends PageRouteInfo<ComplaintsDetailsViewRouteArgs> {
+  ComplaintsDetailsViewRoute({
+    Key? key,
+    required PgrServiceModel complaint,
+  }) : super(
+          ComplaintsDetailsViewRoute.name,
+          path: 'complaints-inbox-view-details',
+          args: ComplaintsDetailsViewRouteArgs(
+            key: key,
+            complaint: complaint,
+          ),
+        );
+
+  static const String name = 'ComplaintsDetailsViewRoute';
+}
+
+class ComplaintsDetailsViewRouteArgs {
+  const ComplaintsDetailsViewRouteArgs({
+    this.key,
+    required this.complaint,
+  });
+
+  final Key? key;
+
+  final PgrServiceModel complaint;
+
+  @override
+  String toString() {
+    return 'ComplaintsDetailsViewRouteArgs{key: $key, complaint: $complaint}';
+  }
+}
+
+/// generated route for
+/// [ComplaintTypePage]
+class ComplaintTypeRoute extends PageRouteInfo<ComplaintTypeRouteArgs> {
+  ComplaintTypeRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintTypeRoute.name,
+          path: 'complaints-type',
+          args: ComplaintTypeRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintTypeRoute';
+}
+
+class ComplaintTypeRouteArgs {
+  const ComplaintTypeRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintTypeRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsLocationPage]
+class ComplaintsLocationRoute
+    extends PageRouteInfo<ComplaintsLocationRouteArgs> {
+  ComplaintsLocationRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsLocationRoute.name,
+          path: 'complaints-location',
+          args: ComplaintsLocationRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsLocationRoute';
+}
+
+class ComplaintsLocationRouteArgs {
+  const ComplaintsLocationRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsLocationRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [ComplaintsDetailsPage]
+class ComplaintsDetailsRoute extends PageRouteInfo<ComplaintsDetailsRouteArgs> {
+  ComplaintsDetailsRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          ComplaintsDetailsRoute.name,
+          path: 'complaints-details',
+          args: ComplaintsDetailsRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'ComplaintsDetailsRoute';
+}
+
+class ComplaintsDetailsRouteArgs {
+  const ComplaintsDetailsRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'ComplaintsDetailsRouteArgs{key: $key, appLocalizations: $appLocalizations}';
   }
 }

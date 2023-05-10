@@ -11,7 +11,7 @@ class LocalitySearchModel extends EntitySearchModel {
   final String? name;
   final String? tenantId;
   final bool? isDeleted;
-  
+
   LocalitySearchModel({
     this.code,
     this.name,
@@ -27,7 +27,7 @@ class LocalityModel extends EntityModel {
   static const schemaName = 'Locality';
 
   final String code;
-  final String name;
+  final String? name;
   final String? tenantId;
   final bool? isDeleted;
   final int? rowVersion;
@@ -36,7 +36,7 @@ class LocalityModel extends EntityModel {
   LocalityModel({
     this.additionalFields,
     required this.code,
-    required this.name,
+    this.name,
     this.tenantId,
     this.isDeleted,
     this.rowVersion,
@@ -55,7 +55,7 @@ class LocalityModel extends EntityModel {
       tenantId: Value(tenantId),
       isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
-      );
+    );
   }
 }
 

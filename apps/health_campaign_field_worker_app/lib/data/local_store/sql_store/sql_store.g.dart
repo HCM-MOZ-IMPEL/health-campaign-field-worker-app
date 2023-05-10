@@ -27,6 +27,8 @@ class Addres extends DataClass implements Insertable<Addres> {
   final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
+  final String? localityBoundaryCode;
+  final String? localityBoundaryName;
   final String? tenantId;
   final bool? isDeleted;
   final int? rowVersion;
@@ -52,6 +54,8 @@ class Addres extends DataClass implements Insertable<Addres> {
       this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
+      this.localityBoundaryCode,
+      this.localityBoundaryName,
       this.tenantId,
       this.isDeleted,
       this.rowVersion,
@@ -98,6 +102,10 @@ class Addres extends DataClass implements Insertable<Addres> {
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}audit_modified_time']),
+      localityBoundaryCode: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}locality_boundary_code']),
+      localityBoundaryName: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}locality_boundary_name']),
       tenantId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       isDeleted: const BoolType()
@@ -171,6 +179,12 @@ class Addres extends DataClass implements Insertable<Addres> {
     if (!nullToAbsent || auditModifiedTime != null) {
       map['audit_modified_time'] = Variable<int?>(auditModifiedTime);
     }
+    if (!nullToAbsent || localityBoundaryCode != null) {
+      map['locality_boundary_code'] = Variable<String?>(localityBoundaryCode);
+    }
+    if (!nullToAbsent || localityBoundaryName != null) {
+      map['locality_boundary_name'] = Variable<String?>(localityBoundaryName);
+    }
     if (!nullToAbsent || tenantId != null) {
       map['tenant_id'] = Variable<String?>(tenantId);
     }
@@ -243,6 +257,12 @@ class Addres extends DataClass implements Insertable<Addres> {
       auditModifiedTime: auditModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedTime),
+      localityBoundaryCode: localityBoundaryCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(localityBoundaryCode),
+      localityBoundaryName: localityBoundaryName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(localityBoundaryName),
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantId),
@@ -283,6 +303,10 @@ class Addres extends DataClass implements Insertable<Addres> {
       auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
+      localityBoundaryCode:
+          serializer.fromJson<String?>(json['localityBoundaryCode']),
+      localityBoundaryName:
+          serializer.fromJson<String?>(json['localityBoundaryName']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
       isDeleted: serializer.fromJson<bool?>(json['isDeleted']),
       rowVersion: serializer.fromJson<int?>(json['rowVersion']),
@@ -314,6 +338,8 @@ class Addres extends DataClass implements Insertable<Addres> {
       'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
+      'localityBoundaryCode': serializer.toJson<String?>(localityBoundaryCode),
+      'localityBoundaryName': serializer.toJson<String?>(localityBoundaryName),
       'tenantId': serializer.toJson<String?>(tenantId),
       'isDeleted': serializer.toJson<bool?>(isDeleted),
       'rowVersion': serializer.toJson<int?>(rowVersion),
@@ -342,6 +368,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
+          String? localityBoundaryCode,
+          String? localityBoundaryName,
           String? tenantId,
           bool? isDeleted,
           int? rowVersion,
@@ -368,6 +396,8 @@ class Addres extends DataClass implements Insertable<Addres> {
         auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
+        localityBoundaryCode: localityBoundaryCode ?? this.localityBoundaryCode,
+        localityBoundaryName: localityBoundaryName ?? this.localityBoundaryName,
         tenantId: tenantId ?? this.tenantId,
         isDeleted: isDeleted ?? this.isDeleted,
         rowVersion: rowVersion ?? this.rowVersion,
@@ -396,6 +426,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
+          ..write('localityBoundaryCode: $localityBoundaryCode, ')
+          ..write('localityBoundaryName: $localityBoundaryName, ')
           ..write('tenantId: $tenantId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
@@ -426,6 +458,8 @@ class Addres extends DataClass implements Insertable<Addres> {
         auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
+        localityBoundaryCode,
+        localityBoundaryName,
         tenantId,
         isDeleted,
         rowVersion,
@@ -455,6 +489,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
+          other.localityBoundaryCode == this.localityBoundaryCode &&
+          other.localityBoundaryName == this.localityBoundaryName &&
           other.tenantId == this.tenantId &&
           other.isDeleted == this.isDeleted &&
           other.rowVersion == this.rowVersion &&
@@ -482,6 +518,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
+  final Value<String?> localityBoundaryCode;
+  final Value<String?> localityBoundaryName;
   final Value<String?> tenantId;
   final Value<bool?> isDeleted;
   final Value<int?> rowVersion;
@@ -507,6 +545,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
+    this.localityBoundaryCode = const Value.absent(),
+    this.localityBoundaryName = const Value.absent(),
     this.tenantId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
@@ -533,6 +573,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
+    this.localityBoundaryCode = const Value.absent(),
+    this.localityBoundaryName = const Value.absent(),
     this.tenantId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
@@ -559,6 +601,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
+    Expression<String?>? localityBoundaryCode,
+    Expression<String?>? localityBoundaryName,
     Expression<String?>? tenantId,
     Expression<bool?>? isDeleted,
     Expression<int?>? rowVersion,
@@ -586,6 +630,10 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
+      if (localityBoundaryCode != null)
+        'locality_boundary_code': localityBoundaryCode,
+      if (localityBoundaryName != null)
+        'locality_boundary_name': localityBoundaryName,
       if (tenantId != null) 'tenant_id': tenantId,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowVersion != null) 'row_version': rowVersion,
@@ -614,6 +662,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
+      Value<String?>? localityBoundaryCode,
+      Value<String?>? localityBoundaryName,
       Value<String?>? tenantId,
       Value<bool?>? isDeleted,
       Value<int?>? rowVersion,
@@ -640,6 +690,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
+      localityBoundaryCode: localityBoundaryCode ?? this.localityBoundaryCode,
+      localityBoundaryName: localityBoundaryName ?? this.localityBoundaryName,
       tenantId: tenantId ?? this.tenantId,
       isDeleted: isDeleted ?? this.isDeleted,
       rowVersion: rowVersion ?? this.rowVersion,
@@ -709,6 +761,14 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     if (auditModifiedTime.present) {
       map['audit_modified_time'] = Variable<int?>(auditModifiedTime.value);
     }
+    if (localityBoundaryCode.present) {
+      map['locality_boundary_code'] =
+          Variable<String?>(localityBoundaryCode.value);
+    }
+    if (localityBoundaryName.present) {
+      map['locality_boundary_name'] =
+          Variable<String?>(localityBoundaryName.value);
+    }
     if (tenantId.present) {
       map['tenant_id'] = Variable<String?>(tenantId.value);
     }
@@ -750,6 +810,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
           ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
+          ..write('localityBoundaryCode: $localityBoundaryCode, ')
+          ..write('localityBoundaryName: $localityBoundaryName, ')
           ..write('tenantId: $tenantId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
@@ -870,6 +932,18 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
   late final GeneratedColumn<int?> auditModifiedTime = GeneratedColumn<int?>(
       'audit_modified_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _localityBoundaryCodeMeta =
+      const VerificationMeta('localityBoundaryCode');
+  @override
+  late final GeneratedColumn<String?> localityBoundaryCode =
+      GeneratedColumn<String?>('locality_boundary_code', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _localityBoundaryNameMeta =
+      const VerificationMeta('localityBoundaryName');
+  @override
+  late final GeneratedColumn<String?> localityBoundaryName =
+      GeneratedColumn<String?>('locality_boundary_name', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
   @override
   late final GeneratedColumn<String?> tenantId = GeneratedColumn<String?>(
@@ -920,6 +994,8 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
         auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
+        localityBoundaryCode,
+        localityBoundaryName,
         tenantId,
         isDeleted,
         rowVersion,
@@ -1030,6 +1106,18 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
           _auditModifiedTimeMeta,
           auditModifiedTime.isAcceptableOrUnknown(
               data['audit_modified_time']!, _auditModifiedTimeMeta));
+    }
+    if (data.containsKey('locality_boundary_code')) {
+      context.handle(
+          _localityBoundaryCodeMeta,
+          localityBoundaryCode.isAcceptableOrUnknown(
+              data['locality_boundary_code']!, _localityBoundaryCodeMeta));
+    }
+    if (data.containsKey('locality_boundary_name')) {
+      context.handle(
+          _localityBoundaryNameMeta,
+          localityBoundaryName.isAcceptableOrUnknown(
+              data['locality_boundary_name']!, _localityBoundaryNameMeta));
     }
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
@@ -19120,7 +19208,7 @@ class $AttributesTable extends Attributes
 
 class LocalityData extends DataClass implements Insertable<LocalityData> {
   final String code;
-  final String name;
+  final String? name;
   final String? auditCreatedBy;
   final int? auditCreatedTime;
   final String? auditModifiedBy;
@@ -19131,7 +19219,7 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
   final String? additionalFields;
   LocalityData(
       {required this.code,
-      required this.name,
+      this.name,
       this.auditCreatedBy,
       this.auditCreatedTime,
       this.auditModifiedBy,
@@ -19146,7 +19234,7 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       code: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}code'])!,
       name: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}name']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
       auditCreatedTime: const IntType().mapFromDatabaseResponse(
@@ -19169,7 +19257,9 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['code'] = Variable<String>(code);
-    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String?>(name);
+    }
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
@@ -19200,7 +19290,7 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
   LocalityCompanion toCompanion(bool nullToAbsent) {
     return LocalityCompanion(
       code: Value(code),
-      name: Value(name),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
@@ -19233,7 +19323,7 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return LocalityData(
       code: serializer.fromJson<String>(json['code']),
-      name: serializer.fromJson<String>(json['name']),
+      name: serializer.fromJson<String?>(json['name']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
       auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
@@ -19249,7 +19339,7 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'code': serializer.toJson<String>(code),
-      'name': serializer.toJson<String>(name),
+      'name': serializer.toJson<String?>(name),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
       'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
@@ -19331,7 +19421,7 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
 
 class LocalityCompanion extends UpdateCompanion<LocalityData> {
   final Value<String> code;
-  final Value<String> name;
+  final Value<String?> name;
   final Value<String?> auditCreatedBy;
   final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
@@ -19354,7 +19444,7 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
   });
   LocalityCompanion.insert({
     required String code,
-    required String name,
+    this.name = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
@@ -19363,11 +19453,10 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
     this.additionalFields = const Value.absent(),
-  })  : code = Value(code),
-        name = Value(name);
+  }) : code = Value(code);
   static Insertable<LocalityData> custom({
     Expression<String>? code,
-    Expression<String>? name,
+    Expression<String?>? name,
     Expression<String?>? auditCreatedBy,
     Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
@@ -19393,7 +19482,7 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
 
   LocalityCompanion copyWith(
       {Value<String>? code,
-      Value<String>? name,
+      Value<String?>? name,
       Value<String?>? auditCreatedBy,
       Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
@@ -19423,7 +19512,7 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
       map['code'] = Variable<String>(code.value);
     }
     if (name.present) {
-      map['name'] = Variable<String>(name.value);
+      map['name'] = Variable<String?>(name.value);
     }
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
@@ -19484,8 +19573,8 @@ class $LocalityTable extends Locality
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
-      'name', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      'name', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _auditCreatedByMeta =
       const VerificationMeta('auditCreatedBy');
   @override
@@ -19564,8 +19653,6 @@ class $LocalityTable extends Locality
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
     }
     if (data.containsKey('audit_created_by')) {
       context.handle(
@@ -19628,6 +19715,1579 @@ class $LocalityTable extends Locality
   }
 }
 
+class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
+  final bool active;
+  final String clientReferenceId;
+  final String? id;
+  final String tenantId;
+  final String serviceCode;
+  final String description;
+  final String? serviceRequestId;
+  final String? accountId;
+  final PgrServiceApplicationStatus applicationStatus;
+  final String? source;
+  final String? auditCreatedBy;
+  final int? auditCreatedTime;
+  final String? auditModifiedBy;
+  final int? auditModifiedTime;
+  final bool isDeleted;
+  final int rowVersion;
+  final String? additionalFields;
+  PgrServiceData(
+      {required this.active,
+      required this.clientReferenceId,
+      this.id,
+      required this.tenantId,
+      required this.serviceCode,
+      required this.description,
+      this.serviceRequestId,
+      this.accountId,
+      required this.applicationStatus,
+      this.source,
+      this.auditCreatedBy,
+      this.auditCreatedTime,
+      this.auditModifiedBy,
+      this.auditModifiedTime,
+      required this.isDeleted,
+      required this.rowVersion,
+      this.additionalFields});
+  factory PgrServiceData.fromData(Map<String, dynamic> data, {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return PgrServiceData(
+      active: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}active'])!,
+      clientReferenceId: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}client_reference_id'])!,
+      id: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      tenantId: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id'])!,
+      serviceCode: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}service_code'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
+      serviceRequestId: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}service_request_id']),
+      accountId: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}account_id']),
+      applicationStatus: $PgrServiceTable.$converter0.mapToDart(const IntType()
+          .mapFromDatabaseResponse(
+              data['${effectivePrefix}application_status']))!,
+      source: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}source']),
+      auditCreatedBy: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
+      auditModifiedBy: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
+      auditModifiedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_modified_time']),
+      isDeleted: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted'])!,
+      rowVersion: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}row_version'])!,
+      additionalFields: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}additional_fields']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['active'] = Variable<bool>(active);
+    map['client_reference_id'] = Variable<String>(clientReferenceId);
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<String?>(id);
+    }
+    map['tenant_id'] = Variable<String>(tenantId);
+    map['service_code'] = Variable<String>(serviceCode);
+    map['description'] = Variable<String>(description);
+    if (!nullToAbsent || serviceRequestId != null) {
+      map['service_request_id'] = Variable<String?>(serviceRequestId);
+    }
+    if (!nullToAbsent || accountId != null) {
+      map['account_id'] = Variable<String?>(accountId);
+    }
+    {
+      final converter = $PgrServiceTable.$converter0;
+      map['application_status'] =
+          Variable<int>(converter.mapToSql(applicationStatus)!);
+    }
+    if (!nullToAbsent || source != null) {
+      map['source'] = Variable<String?>(source);
+    }
+    if (!nullToAbsent || auditCreatedBy != null) {
+      map['audit_created_by'] = Variable<String?>(auditCreatedBy);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    }
+    if (!nullToAbsent || auditModifiedBy != null) {
+      map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
+    }
+    if (!nullToAbsent || auditModifiedTime != null) {
+      map['audit_modified_time'] = Variable<int?>(auditModifiedTime);
+    }
+    map['is_deleted'] = Variable<bool>(isDeleted);
+    map['row_version'] = Variable<int>(rowVersion);
+    if (!nullToAbsent || additionalFields != null) {
+      map['additional_fields'] = Variable<String?>(additionalFields);
+    }
+    return map;
+  }
+
+  PgrServiceCompanion toCompanion(bool nullToAbsent) {
+    return PgrServiceCompanion(
+      active: Value(active),
+      clientReferenceId: Value(clientReferenceId),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      tenantId: Value(tenantId),
+      serviceCode: Value(serviceCode),
+      description: Value(description),
+      serviceRequestId: serviceRequestId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(serviceRequestId),
+      accountId: accountId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accountId),
+      applicationStatus: Value(applicationStatus),
+      source:
+          source == null && nullToAbsent ? const Value.absent() : Value(source),
+      auditCreatedBy: auditCreatedBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedBy),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
+      auditModifiedBy: auditModifiedBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditModifiedBy),
+      auditModifiedTime: auditModifiedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditModifiedTime),
+      isDeleted: Value(isDeleted),
+      rowVersion: Value(rowVersion),
+      additionalFields: additionalFields == null && nullToAbsent
+          ? const Value.absent()
+          : Value(additionalFields),
+    );
+  }
+
+  factory PgrServiceData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PgrServiceData(
+      active: serializer.fromJson<bool>(json['active']),
+      clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
+      id: serializer.fromJson<String?>(json['id']),
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      serviceCode: serializer.fromJson<String>(json['serviceCode']),
+      description: serializer.fromJson<String>(json['description']),
+      serviceRequestId: serializer.fromJson<String?>(json['serviceRequestId']),
+      accountId: serializer.fromJson<String?>(json['accountId']),
+      applicationStatus: serializer
+          .fromJson<PgrServiceApplicationStatus>(json['applicationStatus']),
+      source: serializer.fromJson<String?>(json['source']),
+      auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
+      auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      additionalFields: serializer.fromJson<String?>(json['additionalFields']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'active': serializer.toJson<bool>(active),
+      'clientReferenceId': serializer.toJson<String>(clientReferenceId),
+      'id': serializer.toJson<String?>(id),
+      'tenantId': serializer.toJson<String>(tenantId),
+      'serviceCode': serializer.toJson<String>(serviceCode),
+      'description': serializer.toJson<String>(description),
+      'serviceRequestId': serializer.toJson<String?>(serviceRequestId),
+      'accountId': serializer.toJson<String?>(accountId),
+      'applicationStatus':
+          serializer.toJson<PgrServiceApplicationStatus>(applicationStatus),
+      'source': serializer.toJson<String?>(source),
+      'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
+      'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+      'additionalFields': serializer.toJson<String?>(additionalFields),
+    };
+  }
+
+  PgrServiceData copyWith(
+          {bool? active,
+          String? clientReferenceId,
+          String? id,
+          String? tenantId,
+          String? serviceCode,
+          String? description,
+          String? serviceRequestId,
+          String? accountId,
+          PgrServiceApplicationStatus? applicationStatus,
+          String? source,
+          String? auditCreatedBy,
+          int? auditCreatedTime,
+          String? auditModifiedBy,
+          int? auditModifiedTime,
+          bool? isDeleted,
+          int? rowVersion,
+          String? additionalFields}) =>
+      PgrServiceData(
+        active: active ?? this.active,
+        clientReferenceId: clientReferenceId ?? this.clientReferenceId,
+        id: id ?? this.id,
+        tenantId: tenantId ?? this.tenantId,
+        serviceCode: serviceCode ?? this.serviceCode,
+        description: description ?? this.description,
+        serviceRequestId: serviceRequestId ?? this.serviceRequestId,
+        accountId: accountId ?? this.accountId,
+        applicationStatus: applicationStatus ?? this.applicationStatus,
+        source: source ?? this.source,
+        auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
+        auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
+        isDeleted: isDeleted ?? this.isDeleted,
+        rowVersion: rowVersion ?? this.rowVersion,
+        additionalFields: additionalFields ?? this.additionalFields,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('PgrServiceData(')
+          ..write('active: $active, ')
+          ..write('clientReferenceId: $clientReferenceId, ')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('serviceCode: $serviceCode, ')
+          ..write('description: $description, ')
+          ..write('serviceRequestId: $serviceRequestId, ')
+          ..write('accountId: $accountId, ')
+          ..write('applicationStatus: $applicationStatus, ')
+          ..write('source: $source, ')
+          ..write('auditCreatedBy: $auditCreatedBy, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('auditModifiedBy: $auditModifiedBy, ')
+          ..write('auditModifiedTime: $auditModifiedTime, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('additionalFields: $additionalFields')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      active,
+      clientReferenceId,
+      id,
+      tenantId,
+      serviceCode,
+      description,
+      serviceRequestId,
+      accountId,
+      applicationStatus,
+      source,
+      auditCreatedBy,
+      auditCreatedTime,
+      auditModifiedBy,
+      auditModifiedTime,
+      isDeleted,
+      rowVersion,
+      additionalFields);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PgrServiceData &&
+          other.active == this.active &&
+          other.clientReferenceId == this.clientReferenceId &&
+          other.id == this.id &&
+          other.tenantId == this.tenantId &&
+          other.serviceCode == this.serviceCode &&
+          other.description == this.description &&
+          other.serviceRequestId == this.serviceRequestId &&
+          other.accountId == this.accountId &&
+          other.applicationStatus == this.applicationStatus &&
+          other.source == this.source &&
+          other.auditCreatedBy == this.auditCreatedBy &&
+          other.auditCreatedTime == this.auditCreatedTime &&
+          other.auditModifiedBy == this.auditModifiedBy &&
+          other.auditModifiedTime == this.auditModifiedTime &&
+          other.isDeleted == this.isDeleted &&
+          other.rowVersion == this.rowVersion &&
+          other.additionalFields == this.additionalFields);
+}
+
+class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
+  final Value<bool> active;
+  final Value<String> clientReferenceId;
+  final Value<String?> id;
+  final Value<String> tenantId;
+  final Value<String> serviceCode;
+  final Value<String> description;
+  final Value<String?> serviceRequestId;
+  final Value<String?> accountId;
+  final Value<PgrServiceApplicationStatus> applicationStatus;
+  final Value<String?> source;
+  final Value<String?> auditCreatedBy;
+  final Value<int?> auditCreatedTime;
+  final Value<String?> auditModifiedBy;
+  final Value<int?> auditModifiedTime;
+  final Value<bool> isDeleted;
+  final Value<int> rowVersion;
+  final Value<String?> additionalFields;
+  const PgrServiceCompanion({
+    this.active = const Value.absent(),
+    this.clientReferenceId = const Value.absent(),
+    this.id = const Value.absent(),
+    this.tenantId = const Value.absent(),
+    this.serviceCode = const Value.absent(),
+    this.description = const Value.absent(),
+    this.serviceRequestId = const Value.absent(),
+    this.accountId = const Value.absent(),
+    this.applicationStatus = const Value.absent(),
+    this.source = const Value.absent(),
+    this.auditCreatedBy = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
+    this.auditModifiedBy = const Value.absent(),
+    this.auditModifiedTime = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+    this.additionalFields = const Value.absent(),
+  });
+  PgrServiceCompanion.insert({
+    required bool active,
+    required String clientReferenceId,
+    this.id = const Value.absent(),
+    required String tenantId,
+    required String serviceCode,
+    required String description,
+    this.serviceRequestId = const Value.absent(),
+    this.accountId = const Value.absent(),
+    required PgrServiceApplicationStatus applicationStatus,
+    this.source = const Value.absent(),
+    this.auditCreatedBy = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
+    this.auditModifiedBy = const Value.absent(),
+    this.auditModifiedTime = const Value.absent(),
+    required bool isDeleted,
+    required int rowVersion,
+    this.additionalFields = const Value.absent(),
+  })  : active = Value(active),
+        clientReferenceId = Value(clientReferenceId),
+        tenantId = Value(tenantId),
+        serviceCode = Value(serviceCode),
+        description = Value(description),
+        applicationStatus = Value(applicationStatus),
+        isDeleted = Value(isDeleted),
+        rowVersion = Value(rowVersion);
+  static Insertable<PgrServiceData> custom({
+    Expression<bool>? active,
+    Expression<String>? clientReferenceId,
+    Expression<String?>? id,
+    Expression<String>? tenantId,
+    Expression<String>? serviceCode,
+    Expression<String>? description,
+    Expression<String?>? serviceRequestId,
+    Expression<String?>? accountId,
+    Expression<PgrServiceApplicationStatus>? applicationStatus,
+    Expression<String?>? source,
+    Expression<String?>? auditCreatedBy,
+    Expression<int?>? auditCreatedTime,
+    Expression<String?>? auditModifiedBy,
+    Expression<int?>? auditModifiedTime,
+    Expression<bool>? isDeleted,
+    Expression<int>? rowVersion,
+    Expression<String?>? additionalFields,
+  }) {
+    return RawValuesInsertable({
+      if (active != null) 'active': active,
+      if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
+      if (id != null) 'id': id,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (serviceCode != null) 'service_code': serviceCode,
+      if (description != null) 'description': description,
+      if (serviceRequestId != null) 'service_request_id': serviceRequestId,
+      if (accountId != null) 'account_id': accountId,
+      if (applicationStatus != null) 'application_status': applicationStatus,
+      if (source != null) 'source': source,
+      if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
+      if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (rowVersion != null) 'row_version': rowVersion,
+      if (additionalFields != null) 'additional_fields': additionalFields,
+    });
+  }
+
+  PgrServiceCompanion copyWith(
+      {Value<bool>? active,
+      Value<String>? clientReferenceId,
+      Value<String?>? id,
+      Value<String>? tenantId,
+      Value<String>? serviceCode,
+      Value<String>? description,
+      Value<String?>? serviceRequestId,
+      Value<String?>? accountId,
+      Value<PgrServiceApplicationStatus>? applicationStatus,
+      Value<String?>? source,
+      Value<String?>? auditCreatedBy,
+      Value<int?>? auditCreatedTime,
+      Value<String?>? auditModifiedBy,
+      Value<int?>? auditModifiedTime,
+      Value<bool>? isDeleted,
+      Value<int>? rowVersion,
+      Value<String?>? additionalFields}) {
+    return PgrServiceCompanion(
+      active: active ?? this.active,
+      clientReferenceId: clientReferenceId ?? this.clientReferenceId,
+      id: id ?? this.id,
+      tenantId: tenantId ?? this.tenantId,
+      serviceCode: serviceCode ?? this.serviceCode,
+      description: description ?? this.description,
+      serviceRequestId: serviceRequestId ?? this.serviceRequestId,
+      accountId: accountId ?? this.accountId,
+      applicationStatus: applicationStatus ?? this.applicationStatus,
+      source: source ?? this.source,
+      auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
+      auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
+      isDeleted: isDeleted ?? this.isDeleted,
+      rowVersion: rowVersion ?? this.rowVersion,
+      additionalFields: additionalFields ?? this.additionalFields,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (clientReferenceId.present) {
+      map['client_reference_id'] = Variable<String>(clientReferenceId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<String?>(id.value);
+    }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (serviceCode.present) {
+      map['service_code'] = Variable<String>(serviceCode.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (serviceRequestId.present) {
+      map['service_request_id'] = Variable<String?>(serviceRequestId.value);
+    }
+    if (accountId.present) {
+      map['account_id'] = Variable<String?>(accountId.value);
+    }
+    if (applicationStatus.present) {
+      final converter = $PgrServiceTable.$converter0;
+      map['application_status'] =
+          Variable<int>(converter.mapToSql(applicationStatus.value)!);
+    }
+    if (source.present) {
+      map['source'] = Variable<String?>(source.value);
+    }
+    if (auditCreatedBy.present) {
+      map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    }
+    if (auditModifiedBy.present) {
+      map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
+    }
+    if (auditModifiedTime.present) {
+      map['audit_modified_time'] = Variable<int?>(auditModifiedTime.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    if (additionalFields.present) {
+      map['additional_fields'] = Variable<String?>(additionalFields.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PgrServiceCompanion(')
+          ..write('active: $active, ')
+          ..write('clientReferenceId: $clientReferenceId, ')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('serviceCode: $serviceCode, ')
+          ..write('description: $description, ')
+          ..write('serviceRequestId: $serviceRequestId, ')
+          ..write('accountId: $accountId, ')
+          ..write('applicationStatus: $applicationStatus, ')
+          ..write('source: $source, ')
+          ..write('auditCreatedBy: $auditCreatedBy, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('auditModifiedBy: $auditModifiedBy, ')
+          ..write('auditModifiedTime: $auditModifiedTime, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('rowVersion: $rowVersion, ')
+          ..write('additionalFields: $additionalFields')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PgrServiceTable extends PgrService
+    with TableInfo<$PgrServiceTable, PgrServiceData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PgrServiceTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool?> active = GeneratedColumn<bool?>(
+      'active', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (active IN (0, 1))');
+  final VerificationMeta _clientReferenceIdMeta =
+      const VerificationMeta('clientReferenceId');
+  @override
+  late final GeneratedColumn<String?> clientReferenceId =
+      GeneratedColumn<String?>('client_reference_id', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
+      'id', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  @override
+  late final GeneratedColumn<String?> tenantId = GeneratedColumn<String?>(
+      'tenant_id', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _serviceCodeMeta =
+      const VerificationMeta('serviceCode');
+  @override
+  late final GeneratedColumn<String?> serviceCode = GeneratedColumn<String?>(
+      'service_code', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _serviceRequestIdMeta =
+      const VerificationMeta('serviceRequestId');
+  @override
+  late final GeneratedColumn<String?> serviceRequestId =
+      GeneratedColumn<String?>('service_request_id', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _accountIdMeta = const VerificationMeta('accountId');
+  @override
+  late final GeneratedColumn<String?> accountId = GeneratedColumn<String?>(
+      'account_id', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _applicationStatusMeta =
+      const VerificationMeta('applicationStatus');
+  @override
+  late final GeneratedColumnWithTypeConverter<PgrServiceApplicationStatus, int?>
+      applicationStatus = GeneratedColumn<int?>(
+              'application_status', aliasedName, false,
+              type: const IntType(), requiredDuringInsert: true)
+          .withConverter<PgrServiceApplicationStatus>(
+              $PgrServiceTable.$converter0);
+  final VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String?> source = GeneratedColumn<String?>(
+      'source', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedByMeta =
+      const VerificationMeta('auditCreatedBy');
+  @override
+  late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
+      'audit_created_by', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditModifiedByMeta =
+      const VerificationMeta('auditModifiedBy');
+  @override
+  late final GeneratedColumn<String?> auditModifiedBy =
+      GeneratedColumn<String?>('audit_modified_by', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _auditModifiedTimeMeta =
+      const VerificationMeta('auditModifiedTime');
+  @override
+  late final GeneratedColumn<int?> auditModifiedTime = GeneratedColumn<int?>(
+      'audit_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  @override
+  late final GeneratedColumn<bool?> isDeleted = GeneratedColumn<bool?>(
+      'is_deleted', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+  final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
+  @override
+  late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
+      'row_version', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _additionalFieldsMeta =
+      const VerificationMeta('additionalFields');
+  @override
+  late final GeneratedColumn<String?> additionalFields =
+      GeneratedColumn<String?>('additional_fields', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        active,
+        clientReferenceId,
+        id,
+        tenantId,
+        serviceCode,
+        description,
+        serviceRequestId,
+        accountId,
+        applicationStatus,
+        source,
+        auditCreatedBy,
+        auditCreatedTime,
+        auditModifiedBy,
+        auditModifiedTime,
+        isDeleted,
+        rowVersion,
+        additionalFields
+      ];
+  @override
+  String get aliasedName => _alias ?? 'pgr_service';
+  @override
+  String get actualTableName => 'pgr_service';
+  @override
+  VerificationContext validateIntegrity(Insertable<PgrServiceData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('active')) {
+      context.handle(_activeMeta,
+          active.isAcceptableOrUnknown(data['active']!, _activeMeta));
+    } else if (isInserting) {
+      context.missing(_activeMeta);
+    }
+    if (data.containsKey('client_reference_id')) {
+      context.handle(
+          _clientReferenceIdMeta,
+          clientReferenceId.isAcceptableOrUnknown(
+              data['client_reference_id']!, _clientReferenceIdMeta));
+    } else if (isInserting) {
+      context.missing(_clientReferenceIdMeta);
+    }
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta));
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('service_code')) {
+      context.handle(
+          _serviceCodeMeta,
+          serviceCode.isAcceptableOrUnknown(
+              data['service_code']!, _serviceCodeMeta));
+    } else if (isInserting) {
+      context.missing(_serviceCodeMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('service_request_id')) {
+      context.handle(
+          _serviceRequestIdMeta,
+          serviceRequestId.isAcceptableOrUnknown(
+              data['service_request_id']!, _serviceRequestIdMeta));
+    }
+    if (data.containsKey('account_id')) {
+      context.handle(_accountIdMeta,
+          accountId.isAcceptableOrUnknown(data['account_id']!, _accountIdMeta));
+    }
+    context.handle(_applicationStatusMeta, const VerificationResult.success());
+    if (data.containsKey('source')) {
+      context.handle(_sourceMeta,
+          source.isAcceptableOrUnknown(data['source']!, _sourceMeta));
+    }
+    if (data.containsKey('audit_created_by')) {
+      context.handle(
+          _auditCreatedByMeta,
+          auditCreatedBy.isAcceptableOrUnknown(
+              data['audit_created_by']!, _auditCreatedByMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
+    }
+    if (data.containsKey('audit_modified_by')) {
+      context.handle(
+          _auditModifiedByMeta,
+          auditModifiedBy.isAcceptableOrUnknown(
+              data['audit_modified_by']!, _auditModifiedByMeta));
+    }
+    if (data.containsKey('audit_modified_time')) {
+      context.handle(
+          _auditModifiedTimeMeta,
+          auditModifiedTime.isAcceptableOrUnknown(
+              data['audit_modified_time']!, _auditModifiedTimeMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta));
+    } else if (isInserting) {
+      context.missing(_isDeletedMeta);
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+          _rowVersionMeta,
+          rowVersion.isAcceptableOrUnknown(
+              data['row_version']!, _rowVersionMeta));
+    } else if (isInserting) {
+      context.missing(_rowVersionMeta);
+    }
+    if (data.containsKey('additional_fields')) {
+      context.handle(
+          _additionalFieldsMeta,
+          additionalFields.isAcceptableOrUnknown(
+              data['additional_fields']!, _additionalFieldsMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {clientReferenceId, auditCreatedBy};
+  @override
+  PgrServiceData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return PgrServiceData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $PgrServiceTable createAlias(String alias) {
+    return $PgrServiceTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<PgrServiceApplicationStatus, int> $converter0 =
+      const EnumIndexConverter<PgrServiceApplicationStatus>(
+          PgrServiceApplicationStatus.values);
+}
+
+class PgrComplainantData extends DataClass
+    implements Insertable<PgrComplainantData> {
+  final int? id;
+  final String clientReferenceId;
+  final String complaintClientReferenceId;
+  final String? userName;
+  final String? name;
+  final String? type;
+  final String? mobileNumber;
+  final String? emailId;
+  final String tenantId;
+  final String? uuid;
+  final bool active;
+  final String? auditCreatedBy;
+  final int? auditCreatedTime;
+  final String? auditModifiedBy;
+  final int? auditModifiedTime;
+  final bool isDeleted;
+  final int rowVersion;
+  PgrComplainantData(
+      {this.id,
+      required this.clientReferenceId,
+      required this.complaintClientReferenceId,
+      this.userName,
+      this.name,
+      this.type,
+      this.mobileNumber,
+      this.emailId,
+      required this.tenantId,
+      this.uuid,
+      required this.active,
+      this.auditCreatedBy,
+      this.auditCreatedTime,
+      this.auditModifiedBy,
+      this.auditModifiedTime,
+      required this.isDeleted,
+      required this.rowVersion});
+  factory PgrComplainantData.fromData(Map<String, dynamic> data,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return PgrComplainantData(
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      clientReferenceId: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}client_reference_id'])!,
+      complaintClientReferenceId: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}complaint_client_reference_id'])!,
+      userName: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      type: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}type']),
+      mobileNumber: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}mobile_number']),
+      emailId: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}email_id']),
+      tenantId: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}tenant_id'])!,
+      uuid: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}uuid']),
+      active: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}active'])!,
+      auditCreatedBy: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
+      auditModifiedBy: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
+      auditModifiedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_modified_time']),
+      isDeleted: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted'])!,
+      rowVersion: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}row_version'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int?>(id);
+    }
+    map['client_reference_id'] = Variable<String>(clientReferenceId);
+    map['complaint_client_reference_id'] =
+        Variable<String>(complaintClientReferenceId);
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String?>(userName);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String?>(name);
+    }
+    if (!nullToAbsent || type != null) {
+      map['type'] = Variable<String?>(type);
+    }
+    if (!nullToAbsent || mobileNumber != null) {
+      map['mobile_number'] = Variable<String?>(mobileNumber);
+    }
+    if (!nullToAbsent || emailId != null) {
+      map['email_id'] = Variable<String?>(emailId);
+    }
+    map['tenant_id'] = Variable<String>(tenantId);
+    if (!nullToAbsent || uuid != null) {
+      map['uuid'] = Variable<String?>(uuid);
+    }
+    map['active'] = Variable<bool>(active);
+    if (!nullToAbsent || auditCreatedBy != null) {
+      map['audit_created_by'] = Variable<String?>(auditCreatedBy);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    }
+    if (!nullToAbsent || auditModifiedBy != null) {
+      map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
+    }
+    if (!nullToAbsent || auditModifiedTime != null) {
+      map['audit_modified_time'] = Variable<int?>(auditModifiedTime);
+    }
+    map['is_deleted'] = Variable<bool>(isDeleted);
+    map['row_version'] = Variable<int>(rowVersion);
+    return map;
+  }
+
+  PgrComplainantCompanion toCompanion(bool nullToAbsent) {
+    return PgrComplainantCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      clientReferenceId: Value(clientReferenceId),
+      complaintClientReferenceId: Value(complaintClientReferenceId),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
+      mobileNumber: mobileNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(mobileNumber),
+      emailId: emailId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(emailId),
+      tenantId: Value(tenantId),
+      uuid: uuid == null && nullToAbsent ? const Value.absent() : Value(uuid),
+      active: Value(active),
+      auditCreatedBy: auditCreatedBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedBy),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
+      auditModifiedBy: auditModifiedBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditModifiedBy),
+      auditModifiedTime: auditModifiedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditModifiedTime),
+      isDeleted: Value(isDeleted),
+      rowVersion: Value(rowVersion),
+    );
+  }
+
+  factory PgrComplainantData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PgrComplainantData(
+      id: serializer.fromJson<int?>(json['id']),
+      clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
+      complaintClientReferenceId:
+          serializer.fromJson<String>(json['complaintClientReferenceId']),
+      userName: serializer.fromJson<String?>(json['userName']),
+      name: serializer.fromJson<String?>(json['name']),
+      type: serializer.fromJson<String?>(json['type']),
+      mobileNumber: serializer.fromJson<String?>(json['mobileNumber']),
+      emailId: serializer.fromJson<String?>(json['emailId']),
+      tenantId: serializer.fromJson<String>(json['tenantId']),
+      uuid: serializer.fromJson<String?>(json['uuid']),
+      active: serializer.fromJson<bool>(json['active']),
+      auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
+      auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      rowVersion: serializer.fromJson<int>(json['rowVersion']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int?>(id),
+      'clientReferenceId': serializer.toJson<String>(clientReferenceId),
+      'complaintClientReferenceId':
+          serializer.toJson<String>(complaintClientReferenceId),
+      'userName': serializer.toJson<String?>(userName),
+      'name': serializer.toJson<String?>(name),
+      'type': serializer.toJson<String?>(type),
+      'mobileNumber': serializer.toJson<String?>(mobileNumber),
+      'emailId': serializer.toJson<String?>(emailId),
+      'tenantId': serializer.toJson<String>(tenantId),
+      'uuid': serializer.toJson<String?>(uuid),
+      'active': serializer.toJson<bool>(active),
+      'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
+      'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'rowVersion': serializer.toJson<int>(rowVersion),
+    };
+  }
+
+  PgrComplainantData copyWith(
+          {int? id,
+          String? clientReferenceId,
+          String? complaintClientReferenceId,
+          String? userName,
+          String? name,
+          String? type,
+          String? mobileNumber,
+          String? emailId,
+          String? tenantId,
+          String? uuid,
+          bool? active,
+          String? auditCreatedBy,
+          int? auditCreatedTime,
+          String? auditModifiedBy,
+          int? auditModifiedTime,
+          bool? isDeleted,
+          int? rowVersion}) =>
+      PgrComplainantData(
+        id: id ?? this.id,
+        clientReferenceId: clientReferenceId ?? this.clientReferenceId,
+        complaintClientReferenceId:
+            complaintClientReferenceId ?? this.complaintClientReferenceId,
+        userName: userName ?? this.userName,
+        name: name ?? this.name,
+        type: type ?? this.type,
+        mobileNumber: mobileNumber ?? this.mobileNumber,
+        emailId: emailId ?? this.emailId,
+        tenantId: tenantId ?? this.tenantId,
+        uuid: uuid ?? this.uuid,
+        active: active ?? this.active,
+        auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
+        auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
+        isDeleted: isDeleted ?? this.isDeleted,
+        rowVersion: rowVersion ?? this.rowVersion,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('PgrComplainantData(')
+          ..write('id: $id, ')
+          ..write('clientReferenceId: $clientReferenceId, ')
+          ..write('complaintClientReferenceId: $complaintClientReferenceId, ')
+          ..write('userName: $userName, ')
+          ..write('name: $name, ')
+          ..write('type: $type, ')
+          ..write('mobileNumber: $mobileNumber, ')
+          ..write('emailId: $emailId, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('uuid: $uuid, ')
+          ..write('active: $active, ')
+          ..write('auditCreatedBy: $auditCreatedBy, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('auditModifiedBy: $auditModifiedBy, ')
+          ..write('auditModifiedTime: $auditModifiedTime, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('rowVersion: $rowVersion')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      clientReferenceId,
+      complaintClientReferenceId,
+      userName,
+      name,
+      type,
+      mobileNumber,
+      emailId,
+      tenantId,
+      uuid,
+      active,
+      auditCreatedBy,
+      auditCreatedTime,
+      auditModifiedBy,
+      auditModifiedTime,
+      isDeleted,
+      rowVersion);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PgrComplainantData &&
+          other.id == this.id &&
+          other.clientReferenceId == this.clientReferenceId &&
+          other.complaintClientReferenceId == this.complaintClientReferenceId &&
+          other.userName == this.userName &&
+          other.name == this.name &&
+          other.type == this.type &&
+          other.mobileNumber == this.mobileNumber &&
+          other.emailId == this.emailId &&
+          other.tenantId == this.tenantId &&
+          other.uuid == this.uuid &&
+          other.active == this.active &&
+          other.auditCreatedBy == this.auditCreatedBy &&
+          other.auditCreatedTime == this.auditCreatedTime &&
+          other.auditModifiedBy == this.auditModifiedBy &&
+          other.auditModifiedTime == this.auditModifiedTime &&
+          other.isDeleted == this.isDeleted &&
+          other.rowVersion == this.rowVersion);
+}
+
+class PgrComplainantCompanion extends UpdateCompanion<PgrComplainantData> {
+  final Value<int?> id;
+  final Value<String> clientReferenceId;
+  final Value<String> complaintClientReferenceId;
+  final Value<String?> userName;
+  final Value<String?> name;
+  final Value<String?> type;
+  final Value<String?> mobileNumber;
+  final Value<String?> emailId;
+  final Value<String> tenantId;
+  final Value<String?> uuid;
+  final Value<bool> active;
+  final Value<String?> auditCreatedBy;
+  final Value<int?> auditCreatedTime;
+  final Value<String?> auditModifiedBy;
+  final Value<int?> auditModifiedTime;
+  final Value<bool> isDeleted;
+  final Value<int> rowVersion;
+  const PgrComplainantCompanion({
+    this.id = const Value.absent(),
+    this.clientReferenceId = const Value.absent(),
+    this.complaintClientReferenceId = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.name = const Value.absent(),
+    this.type = const Value.absent(),
+    this.mobileNumber = const Value.absent(),
+    this.emailId = const Value.absent(),
+    this.tenantId = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.active = const Value.absent(),
+    this.auditCreatedBy = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
+    this.auditModifiedBy = const Value.absent(),
+    this.auditModifiedTime = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.rowVersion = const Value.absent(),
+  });
+  PgrComplainantCompanion.insert({
+    this.id = const Value.absent(),
+    required String clientReferenceId,
+    required String complaintClientReferenceId,
+    this.userName = const Value.absent(),
+    this.name = const Value.absent(),
+    this.type = const Value.absent(),
+    this.mobileNumber = const Value.absent(),
+    this.emailId = const Value.absent(),
+    required String tenantId,
+    this.uuid = const Value.absent(),
+    required bool active,
+    this.auditCreatedBy = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
+    this.auditModifiedBy = const Value.absent(),
+    this.auditModifiedTime = const Value.absent(),
+    required bool isDeleted,
+    required int rowVersion,
+  })  : clientReferenceId = Value(clientReferenceId),
+        complaintClientReferenceId = Value(complaintClientReferenceId),
+        tenantId = Value(tenantId),
+        active = Value(active),
+        isDeleted = Value(isDeleted),
+        rowVersion = Value(rowVersion);
+  static Insertable<PgrComplainantData> custom({
+    Expression<int?>? id,
+    Expression<String>? clientReferenceId,
+    Expression<String>? complaintClientReferenceId,
+    Expression<String?>? userName,
+    Expression<String?>? name,
+    Expression<String?>? type,
+    Expression<String?>? mobileNumber,
+    Expression<String?>? emailId,
+    Expression<String>? tenantId,
+    Expression<String?>? uuid,
+    Expression<bool>? active,
+    Expression<String?>? auditCreatedBy,
+    Expression<int?>? auditCreatedTime,
+    Expression<String?>? auditModifiedBy,
+    Expression<int?>? auditModifiedTime,
+    Expression<bool>? isDeleted,
+    Expression<int>? rowVersion,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
+      if (complaintClientReferenceId != null)
+        'complaint_client_reference_id': complaintClientReferenceId,
+      if (userName != null) 'user_name': userName,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
+      if (mobileNumber != null) 'mobile_number': mobileNumber,
+      if (emailId != null) 'email_id': emailId,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (uuid != null) 'uuid': uuid,
+      if (active != null) 'active': active,
+      if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
+      if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (rowVersion != null) 'row_version': rowVersion,
+    });
+  }
+
+  PgrComplainantCompanion copyWith(
+      {Value<int?>? id,
+      Value<String>? clientReferenceId,
+      Value<String>? complaintClientReferenceId,
+      Value<String?>? userName,
+      Value<String?>? name,
+      Value<String?>? type,
+      Value<String?>? mobileNumber,
+      Value<String?>? emailId,
+      Value<String>? tenantId,
+      Value<String?>? uuid,
+      Value<bool>? active,
+      Value<String?>? auditCreatedBy,
+      Value<int?>? auditCreatedTime,
+      Value<String?>? auditModifiedBy,
+      Value<int?>? auditModifiedTime,
+      Value<bool>? isDeleted,
+      Value<int>? rowVersion}) {
+    return PgrComplainantCompanion(
+      id: id ?? this.id,
+      clientReferenceId: clientReferenceId ?? this.clientReferenceId,
+      complaintClientReferenceId:
+          complaintClientReferenceId ?? this.complaintClientReferenceId,
+      userName: userName ?? this.userName,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      mobileNumber: mobileNumber ?? this.mobileNumber,
+      emailId: emailId ?? this.emailId,
+      tenantId: tenantId ?? this.tenantId,
+      uuid: uuid ?? this.uuid,
+      active: active ?? this.active,
+      auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
+      auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
+      isDeleted: isDeleted ?? this.isDeleted,
+      rowVersion: rowVersion ?? this.rowVersion,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int?>(id.value);
+    }
+    if (clientReferenceId.present) {
+      map['client_reference_id'] = Variable<String>(clientReferenceId.value);
+    }
+    if (complaintClientReferenceId.present) {
+      map['complaint_client_reference_id'] =
+          Variable<String>(complaintClientReferenceId.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String?>(userName.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String?>(name.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String?>(type.value);
+    }
+    if (mobileNumber.present) {
+      map['mobile_number'] = Variable<String?>(mobileNumber.value);
+    }
+    if (emailId.present) {
+      map['email_id'] = Variable<String?>(emailId.value);
+    }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<String>(tenantId.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String?>(uuid.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (auditCreatedBy.present) {
+      map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    }
+    if (auditModifiedBy.present) {
+      map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
+    }
+    if (auditModifiedTime.present) {
+      map['audit_modified_time'] = Variable<int?>(auditModifiedTime.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (rowVersion.present) {
+      map['row_version'] = Variable<int>(rowVersion.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PgrComplainantCompanion(')
+          ..write('id: $id, ')
+          ..write('clientReferenceId: $clientReferenceId, ')
+          ..write('complaintClientReferenceId: $complaintClientReferenceId, ')
+          ..write('userName: $userName, ')
+          ..write('name: $name, ')
+          ..write('type: $type, ')
+          ..write('mobileNumber: $mobileNumber, ')
+          ..write('emailId: $emailId, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('uuid: $uuid, ')
+          ..write('active: $active, ')
+          ..write('auditCreatedBy: $auditCreatedBy, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('auditModifiedBy: $auditModifiedBy, ')
+          ..write('auditModifiedTime: $auditModifiedTime, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('rowVersion: $rowVersion')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PgrComplainantTable extends PgrComplainant
+    with TableInfo<$PgrComplainantTable, PgrComplainantData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PgrComplainantTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _clientReferenceIdMeta =
+      const VerificationMeta('clientReferenceId');
+  @override
+  late final GeneratedColumn<String?> clientReferenceId =
+      GeneratedColumn<String?>('client_reference_id', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _complaintClientReferenceIdMeta =
+      const VerificationMeta('complaintClientReferenceId');
+  @override
+  late final GeneratedColumn<String?> complaintClientReferenceId =
+      GeneratedColumn<String?>(
+          'complaint_client_reference_id', aliasedName, false,
+          type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  @override
+  late final GeneratedColumn<String?> userName = GeneratedColumn<String?>(
+      'user_name', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String?> type = GeneratedColumn<String?>(
+      'type', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _mobileNumberMeta =
+      const VerificationMeta('mobileNumber');
+  @override
+  late final GeneratedColumn<String?> mobileNumber = GeneratedColumn<String?>(
+      'mobile_number', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _emailIdMeta = const VerificationMeta('emailId');
+  @override
+  late final GeneratedColumn<String?> emailId = GeneratedColumn<String?>(
+      'email_id', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  @override
+  late final GeneratedColumn<String?> tenantId = GeneratedColumn<String?>(
+      'tenant_id', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String?> uuid = GeneratedColumn<String?>(
+      'uuid', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool?> active = GeneratedColumn<bool?>(
+      'active', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (active IN (0, 1))');
+  final VerificationMeta _auditCreatedByMeta =
+      const VerificationMeta('auditCreatedBy');
+  @override
+  late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
+      'audit_created_by', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditModifiedByMeta =
+      const VerificationMeta('auditModifiedBy');
+  @override
+  late final GeneratedColumn<String?> auditModifiedBy =
+      GeneratedColumn<String?>('audit_modified_by', aliasedName, true,
+          type: const StringType(), requiredDuringInsert: false);
+  final VerificationMeta _auditModifiedTimeMeta =
+      const VerificationMeta('auditModifiedTime');
+  @override
+  late final GeneratedColumn<int?> auditModifiedTime = GeneratedColumn<int?>(
+      'audit_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  @override
+  late final GeneratedColumn<bool?> isDeleted = GeneratedColumn<bool?>(
+      'is_deleted', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+  final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
+  @override
+  late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
+      'row_version', aliasedName, false,
+      type: const IntType(), requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        clientReferenceId,
+        complaintClientReferenceId,
+        userName,
+        name,
+        type,
+        mobileNumber,
+        emailId,
+        tenantId,
+        uuid,
+        active,
+        auditCreatedBy,
+        auditCreatedTime,
+        auditModifiedBy,
+        auditModifiedTime,
+        isDeleted,
+        rowVersion
+      ];
+  @override
+  String get aliasedName => _alias ?? 'pgr_complainant';
+  @override
+  String get actualTableName => 'pgr_complainant';
+  @override
+  VerificationContext validateIntegrity(Insertable<PgrComplainantData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('client_reference_id')) {
+      context.handle(
+          _clientReferenceIdMeta,
+          clientReferenceId.isAcceptableOrUnknown(
+              data['client_reference_id']!, _clientReferenceIdMeta));
+    } else if (isInserting) {
+      context.missing(_clientReferenceIdMeta);
+    }
+    if (data.containsKey('complaint_client_reference_id')) {
+      context.handle(
+          _complaintClientReferenceIdMeta,
+          complaintClientReferenceId.isAcceptableOrUnknown(
+              data['complaint_client_reference_id']!,
+              _complaintClientReferenceIdMeta));
+    } else if (isInserting) {
+      context.missing(_complaintClientReferenceIdMeta);
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name']!, _userNameMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    }
+    if (data.containsKey('mobile_number')) {
+      context.handle(
+          _mobileNumberMeta,
+          mobileNumber.isAcceptableOrUnknown(
+              data['mobile_number']!, _mobileNumberMeta));
+    }
+    if (data.containsKey('email_id')) {
+      context.handle(_emailIdMeta,
+          emailId.isAcceptableOrUnknown(data['email_id']!, _emailIdMeta));
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id']!, _tenantIdMeta));
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    }
+    if (data.containsKey('active')) {
+      context.handle(_activeMeta,
+          active.isAcceptableOrUnknown(data['active']!, _activeMeta));
+    } else if (isInserting) {
+      context.missing(_activeMeta);
+    }
+    if (data.containsKey('audit_created_by')) {
+      context.handle(
+          _auditCreatedByMeta,
+          auditCreatedBy.isAcceptableOrUnknown(
+              data['audit_created_by']!, _auditCreatedByMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
+    }
+    if (data.containsKey('audit_modified_by')) {
+      context.handle(
+          _auditModifiedByMeta,
+          auditModifiedBy.isAcceptableOrUnknown(
+              data['audit_modified_by']!, _auditModifiedByMeta));
+    }
+    if (data.containsKey('audit_modified_time')) {
+      context.handle(
+          _auditModifiedTimeMeta,
+          auditModifiedTime.isAcceptableOrUnknown(
+              data['audit_modified_time']!, _auditModifiedTimeMeta));
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta));
+    } else if (isInserting) {
+      context.missing(_isDeletedMeta);
+    }
+    if (data.containsKey('row_version')) {
+      context.handle(
+          _rowVersionMeta,
+          rowVersion.isAcceptableOrUnknown(
+              data['row_version']!, _rowVersionMeta));
+    } else if (isInserting) {
+      context.missing(_rowVersionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {clientReferenceId, auditCreatedBy};
+  @override
+  PgrComplainantData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return PgrComplainantData.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $PgrComplainantTable createAlias(String alias) {
+    return $PgrComplainantTable(attachedDatabase, alias);
+  }
+}
+
 abstract class _$LocalSqlDataStore extends GeneratedDatabase {
   _$LocalSqlDataStore(QueryExecutor e)
       : super(SqlTypeSystem.defaultInstance, e);
@@ -19667,6 +21327,8 @@ abstract class _$LocalSqlDataStore extends GeneratedDatabase {
       $ServiceDefinitionTable(this);
   late final $AttributesTable attributes = $AttributesTable(this);
   late final $LocalityTable locality = $LocalityTable(this);
+  late final $PgrServiceTable pgrService = $PgrServiceTable(this);
+  late final $PgrComplainantTable pgrComplainant = $PgrComplainantTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -19698,6 +21360,8 @@ abstract class _$LocalSqlDataStore extends GeneratedDatabase {
         serviceAttributes,
         serviceDefinition,
         attributes,
-        locality
+        locality,
+        pgrService,
+        pgrComplainant
       ];
 }

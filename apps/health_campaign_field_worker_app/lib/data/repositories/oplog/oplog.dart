@@ -493,6 +493,82 @@ class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
       throw UnimplementedError();
 }
 
+class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
+  PgrServiceOpLogManager(super.isar);
+
+  @override
+  PgrServiceModel applyServerGeneratedIdToEntity(
+      PgrServiceModel entity,
+      String serverGeneratedId,
+      ) =>
+      entity.copyWith(serviceRequestId: serverGeneratedId);
+
+  @override
+  String getClientReferenceId(PgrServiceModel entity) {
+    return entity.clientReferenceId;
+  }
+
+  @override
+  String? getServerGeneratedId(PgrServiceModel entity) {
+    return entity.serviceRequestId;
+  }
+
+  @override
+  Future<List<OpLogEntry<PgrServiceModel>>> getPendingUpSync(
+      DataModelType type, {
+        required String createdBy,
+      }) async {
+    final pendingEntries = await isar.opLogs
+        .filter()
+        .entityTypeEqualTo(type)
+        .operationEqualTo(DataOperation.create)
+        .serverGeneratedIdIsNull()
+        .syncedUpEqualTo(false)
+        .syncedDownEqualTo(false)
+        .createdByEqualTo(createdBy)
+        .sortByCreatedAt()
+        .findAll();
+
+    final entriesList = pendingEntries.map((e) {
+      return OpLogEntry.fromOpLog<PgrServiceModel>(e);
+    }).toList();
+
+    return entriesList;
+  }
+
+  @override
+  Future<List<OpLogEntry<PgrServiceModel>>> getPendingDownSync(
+      DataModelType type, {
+        required String createdBy,
+      }) async {
+    final pendingEntries = await isar.opLogs
+        .filter()
+        .entityTypeEqualTo(type)
+        .serverGeneratedIdIsNotNull()
+        .syncedUpEqualTo(true)
+        .createdByEqualTo(createdBy)
+        .sortByCreatedAt()
+        .findAll();
+
+    final entriesList = pendingEntries
+        .map((e) {
+      final entity = e.getEntity<PgrServiceModel>();
+      if ([
+        PgrServiceApplicationStatus.created,
+        PgrServiceApplicationStatus.pendingAssignment,
+      ].contains(entity.applicationStatus)) {
+        return OpLogEntry.fromOpLog<PgrServiceModel>(e);
+      }
+
+      return null;
+    })
+        .whereNotNull()
+        .toList();
+
+    return entriesList;
+  }
+}
+
 class UpdateServerGeneratedIdModel {
   final String clientReferenceId;
   final String serverGeneratedId;

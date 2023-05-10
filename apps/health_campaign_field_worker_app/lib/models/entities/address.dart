@@ -10,7 +10,7 @@ class AddressSearchModel extends EntitySearchModel {
   final String? id;
   final String? tenantId;
   final bool? isDeleted;
-  
+
   AddressSearchModel({
     this.id,
     this.tenantId,
@@ -43,6 +43,7 @@ class AddressModel extends EntityModel {
   final bool? isDeleted;
   final int? rowVersion;
   final AddressType? type;
+  final LocalityModel? locality;
   final AddressAdditionalFields? additionalFields;
 
   AddressModel({
@@ -66,11 +67,14 @@ class AddressModel extends EntityModel {
     this.isDeleted,
     this.rowVersion,
     this.type,
+    this.locality,
     super.auditDetails,
   }): super();
 
   AddressCompanion get companion {
     return AddressCompanion(
+      localityBoundaryCode: Value(locality?.code),
+      localityBoundaryName: Value(locality?.name),
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
@@ -95,7 +99,7 @@ class AddressModel extends EntityModel {
       isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       type: Value(type),
-      );
+    );
   }
 }
 

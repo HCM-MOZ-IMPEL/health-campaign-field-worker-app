@@ -37,6 +37,9 @@ import 'entities/task_resource.dart';
 import 'entities/transaction_reason.dart';
 import 'entities/transaction_type.dart';
 import 'oplog/oplog_entry.dart';
+import 'pgr_complaints/pgr_address.dart';
+import 'pgr_complaints/pgr_complaints.dart';
+import 'pgr_complaints/pgr_complaints_response.dart';
 
 
 // === ALL STATICALLY REGISTERED MAPPERS ===
@@ -134,6 +137,21 @@ var _mappers = <BaseMapper>{
   LocalityAdditionalFieldsMapper._(),
   OpLogEntryMapper._(),
   AdditionalIdMapper._(),
+  PgrComplaintModelMapper._(),
+  PgrComplainantModelMapper._(),
+  PgrRolesModelMapper._(),
+  PgrServiceSearchModelMapper._(),
+  PgrServiceModelMapper._(),
+  PgrWorkflowModelMapper._(),
+  PgrFiltersMapper._(),
+  PgrSearchKeysMapper._(),
+  PgrAdditionalDetailsMapper._(),
+  PgrServiceCreateResponseModelMapper._(),
+  PgrComplaintResponseModelMapper._(),
+  PgrComplainantResponseModelMapper._(),
+  PgrServiceResponseModelMapper._(),
+  PgrAddressModelMapper._(),
+  GeoLocationMapper._(),
   // enum mappers
   AddressTypeMapper._(),
   BloodGroupMapper._(),
@@ -143,6 +161,7 @@ var _mappers = <BaseMapper>{
   TransactionTypeMapper._(),
   DataOperationMapper._(),
   ApiOperationMapper._(),
+  PgrServiceApplicationStatusMapper._(),
   // custom mappers
 };
 
@@ -213,6 +232,16 @@ class EntityModelMapper extends BaseMapper<EntityModel> {
     else if (v is TaskModel) { return TaskModelMapper._().encode(v); }
     else if (v is TaskResourceModel) { return TaskResourceModelMapper._().encode(v); }
     else if (v is LocalityModel) { return LocalityModelMapper._().encode(v); }
+    else if (v is PgrComplaintModel) { return PgrComplaintModelMapper._().encode(v); }
+    else if (v is PgrComplainantModel) { return PgrComplainantModelMapper._().encode(v); }
+    else if (v is PgrRolesModel) { return PgrRolesModelMapper._().encode(v); }
+    else if (v is PgrServiceModel) { return PgrServiceModelMapper._().encode(v); }
+    else if (v is PgrWorkflowModel) { return PgrWorkflowModelMapper._().encode(v); }
+    else if (v is PgrServiceCreateResponseModel) { return PgrServiceCreateResponseModelMapper._().encode(v); }
+    else if (v is PgrComplaintResponseModel) { return PgrComplaintResponseModelMapper._().encode(v); }
+    else if (v is PgrComplainantResponseModel) { return PgrComplainantResponseModelMapper._().encode(v); }
+    else if (v is PgrServiceResponseModel) { return PgrServiceResponseModelMapper._().encode(v); }
+    else if (v is PgrAddressModel) { return PgrAddressModelMapper._().encode(v); }
     else { return toMap(v); }
   }
   Map<String, dynamic> toMap(EntityModel e) => {'auditDetails': Mapper.i.$enc(e.auditDetails, 'auditDetails')};
@@ -266,6 +295,7 @@ class EntitySearchModelMapper extends BaseMapper<EntitySearchModel> {
     else if (v is TaskSearchModel) { return TaskSearchModelMapper._().encode(v); }
     else if (v is TaskResourceSearchModel) { return TaskResourceSearchModelMapper._().encode(v); }
     else if (v is LocalitySearchModel) { return LocalitySearchModelMapper._().encode(v); }
+    else if (v is PgrServiceSearchModel) { return PgrServiceSearchModelMapper._().encode(v); }
     else { return toMap(v); }
   }
   Map<String, dynamic> toMap(EntitySearchModel e) => {if (Mapper.i.$enc(e.boundaryCode, 'boundaryCode') != null) 'boundaryCode': Mapper.i.$enc(e.boundaryCode, 'boundaryCode'), if (Mapper.i.$enc(e.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(e.auditDetails, 'auditDetails'), if (Mapper.i.$enc(e.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(e.additionalFields, 'additionalFields')};
@@ -447,15 +477,15 @@ class AddressModelMapper extends BaseMapper<AddressModel> {
 
   @override Function get decoder => decode;
   AddressModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  AddressModel fromMap(Map<String, dynamic> map) => AddressModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), id: Mapper.i.$getOpt(map, 'id'), relatedClientReferenceId: Mapper.i.$getOpt(map, 'relatedClientReferenceId'), doorNo: Mapper.i.$getOpt(map, 'doorNo'), latitude: Mapper.i.$getOpt(map, 'latitude'), longitude: Mapper.i.$getOpt(map, 'longitude'), locationAccuracy: Mapper.i.$getOpt(map, 'locationAccuracy'), addressLine1: Mapper.i.$getOpt(map, 'addressLine1'), addressLine2: Mapper.i.$getOpt(map, 'addressLine2'), landmark: Mapper.i.$getOpt(map, 'landmark'), city: Mapper.i.$getOpt(map, 'city'), pincode: Mapper.i.$getOpt(map, 'pincode'), buildingName: Mapper.i.$getOpt(map, 'buildingName'), street: Mapper.i.$getOpt(map, 'street'), boundaryType: Mapper.i.$getOpt(map, 'boundaryType'), boundary: Mapper.i.$getOpt(map, 'boundary'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), type: Mapper.i.$getOpt(map, 'type'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+  AddressModel fromMap(Map<String, dynamic> map) => AddressModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), id: Mapper.i.$getOpt(map, 'id'), relatedClientReferenceId: Mapper.i.$getOpt(map, 'relatedClientReferenceId'), doorNo: Mapper.i.$getOpt(map, 'doorNo'), latitude: Mapper.i.$getOpt(map, 'latitude'), longitude: Mapper.i.$getOpt(map, 'longitude'), locationAccuracy: Mapper.i.$getOpt(map, 'locationAccuracy'), addressLine1: Mapper.i.$getOpt(map, 'addressLine1'), addressLine2: Mapper.i.$getOpt(map, 'addressLine2'), landmark: Mapper.i.$getOpt(map, 'landmark'), city: Mapper.i.$getOpt(map, 'city'), pincode: Mapper.i.$getOpt(map, 'pincode'), buildingName: Mapper.i.$getOpt(map, 'buildingName'), street: Mapper.i.$getOpt(map, 'street'), boundaryType: Mapper.i.$getOpt(map, 'boundaryType'), boundary: Mapper.i.$getOpt(map, 'boundary'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), type: Mapper.i.$getOpt(map, 'type'), locality: Mapper.i.$getOpt(map, 'locality'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
 
   @override Function get encoder => (AddressModel v) => encode(v);
   dynamic encode(AddressModel v) => toMap(v);
-  Map<String, dynamic> toMap(AddressModel a) => {if (Mapper.i.$enc(a.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(a.additionalFields, 'additionalFields'), if (Mapper.i.$enc(a.id, 'id') != null) 'id': Mapper.i.$enc(a.id, 'id'), if (Mapper.i.$enc(a.relatedClientReferenceId, 'relatedClientReferenceId') != null) 'relatedClientReferenceId': Mapper.i.$enc(a.relatedClientReferenceId, 'relatedClientReferenceId'), if (Mapper.i.$enc(a.doorNo, 'doorNo') != null) 'doorNo': Mapper.i.$enc(a.doorNo, 'doorNo'), if (Mapper.i.$enc(a.latitude, 'latitude') != null) 'latitude': Mapper.i.$enc(a.latitude, 'latitude'), if (Mapper.i.$enc(a.longitude, 'longitude') != null) 'longitude': Mapper.i.$enc(a.longitude, 'longitude'), if (Mapper.i.$enc(a.locationAccuracy, 'locationAccuracy') != null) 'locationAccuracy': Mapper.i.$enc(a.locationAccuracy, 'locationAccuracy'), if (Mapper.i.$enc(a.addressLine1, 'addressLine1') != null) 'addressLine1': Mapper.i.$enc(a.addressLine1, 'addressLine1'), if (Mapper.i.$enc(a.addressLine2, 'addressLine2') != null) 'addressLine2': Mapper.i.$enc(a.addressLine2, 'addressLine2'), if (Mapper.i.$enc(a.landmark, 'landmark') != null) 'landmark': Mapper.i.$enc(a.landmark, 'landmark'), if (Mapper.i.$enc(a.city, 'city') != null) 'city': Mapper.i.$enc(a.city, 'city'), if (Mapper.i.$enc(a.pincode, 'pincode') != null) 'pincode': Mapper.i.$enc(a.pincode, 'pincode'), if (Mapper.i.$enc(a.buildingName, 'buildingName') != null) 'buildingName': Mapper.i.$enc(a.buildingName, 'buildingName'), if (Mapper.i.$enc(a.street, 'street') != null) 'street': Mapper.i.$enc(a.street, 'street'), if (Mapper.i.$enc(a.boundaryType, 'boundaryType') != null) 'boundaryType': Mapper.i.$enc(a.boundaryType, 'boundaryType'), if (Mapper.i.$enc(a.boundary, 'boundary') != null) 'boundary': Mapper.i.$enc(a.boundary, 'boundary'), if (Mapper.i.$enc(a.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(a.tenantId, 'tenantId'), if (Mapper.i.$enc(a.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(a.isDeleted, 'isDeleted'), if (Mapper.i.$enc(a.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(a.rowVersion, 'rowVersion'), if (Mapper.i.$enc(a.type, 'type') != null) 'type': Mapper.i.$enc(a.type, 'type'), if (Mapper.i.$enc(a.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(a.auditDetails, 'auditDetails')};
+  Map<String, dynamic> toMap(AddressModel a) => {if (Mapper.i.$enc(a.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(a.additionalFields, 'additionalFields'), if (Mapper.i.$enc(a.id, 'id') != null) 'id': Mapper.i.$enc(a.id, 'id'), if (Mapper.i.$enc(a.relatedClientReferenceId, 'relatedClientReferenceId') != null) 'relatedClientReferenceId': Mapper.i.$enc(a.relatedClientReferenceId, 'relatedClientReferenceId'), if (Mapper.i.$enc(a.doorNo, 'doorNo') != null) 'doorNo': Mapper.i.$enc(a.doorNo, 'doorNo'), if (Mapper.i.$enc(a.latitude, 'latitude') != null) 'latitude': Mapper.i.$enc(a.latitude, 'latitude'), if (Mapper.i.$enc(a.longitude, 'longitude') != null) 'longitude': Mapper.i.$enc(a.longitude, 'longitude'), if (Mapper.i.$enc(a.locationAccuracy, 'locationAccuracy') != null) 'locationAccuracy': Mapper.i.$enc(a.locationAccuracy, 'locationAccuracy'), if (Mapper.i.$enc(a.addressLine1, 'addressLine1') != null) 'addressLine1': Mapper.i.$enc(a.addressLine1, 'addressLine1'), if (Mapper.i.$enc(a.addressLine2, 'addressLine2') != null) 'addressLine2': Mapper.i.$enc(a.addressLine2, 'addressLine2'), if (Mapper.i.$enc(a.landmark, 'landmark') != null) 'landmark': Mapper.i.$enc(a.landmark, 'landmark'), if (Mapper.i.$enc(a.city, 'city') != null) 'city': Mapper.i.$enc(a.city, 'city'), if (Mapper.i.$enc(a.pincode, 'pincode') != null) 'pincode': Mapper.i.$enc(a.pincode, 'pincode'), if (Mapper.i.$enc(a.buildingName, 'buildingName') != null) 'buildingName': Mapper.i.$enc(a.buildingName, 'buildingName'), if (Mapper.i.$enc(a.street, 'street') != null) 'street': Mapper.i.$enc(a.street, 'street'), if (Mapper.i.$enc(a.boundaryType, 'boundaryType') != null) 'boundaryType': Mapper.i.$enc(a.boundaryType, 'boundaryType'), if (Mapper.i.$enc(a.boundary, 'boundary') != null) 'boundary': Mapper.i.$enc(a.boundary, 'boundary'), if (Mapper.i.$enc(a.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(a.tenantId, 'tenantId'), if (Mapper.i.$enc(a.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(a.isDeleted, 'isDeleted'), if (Mapper.i.$enc(a.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(a.rowVersion, 'rowVersion'), if (Mapper.i.$enc(a.type, 'type') != null) 'type': Mapper.i.$enc(a.type, 'type'), if (Mapper.i.$enc(a.locality, 'locality') != null) 'locality': Mapper.i.$enc(a.locality, 'locality'), if (Mapper.i.$enc(a.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(a.auditDetails, 'auditDetails')};
 
-  @override String stringify(AddressModel self) => 'AddressModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, id: ${Mapper.asString(self.id)}, relatedClientReferenceId: ${Mapper.asString(self.relatedClientReferenceId)}, doorNo: ${Mapper.asString(self.doorNo)}, latitude: ${Mapper.asString(self.latitude)}, longitude: ${Mapper.asString(self.longitude)}, locationAccuracy: ${Mapper.asString(self.locationAccuracy)}, addressLine1: ${Mapper.asString(self.addressLine1)}, addressLine2: ${Mapper.asString(self.addressLine2)}, landmark: ${Mapper.asString(self.landmark)}, city: ${Mapper.asString(self.city)}, pincode: ${Mapper.asString(self.pincode)}, buildingName: ${Mapper.asString(self.buildingName)}, street: ${Mapper.asString(self.street)}, boundaryType: ${Mapper.asString(self.boundaryType)}, boundary: ${Mapper.asString(self.boundary)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)}, type: ${Mapper.asString(self.type)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
-  @override int hash(AddressModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.id) ^ Mapper.hash(self.relatedClientReferenceId) ^ Mapper.hash(self.doorNo) ^ Mapper.hash(self.latitude) ^ Mapper.hash(self.longitude) ^ Mapper.hash(self.locationAccuracy) ^ Mapper.hash(self.addressLine1) ^ Mapper.hash(self.addressLine2) ^ Mapper.hash(self.landmark) ^ Mapper.hash(self.city) ^ Mapper.hash(self.pincode) ^ Mapper.hash(self.buildingName) ^ Mapper.hash(self.street) ^ Mapper.hash(self.boundaryType) ^ Mapper.hash(self.boundary) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.type) ^ Mapper.hash(self.additionalFields);
-  @override bool equals(AddressModel self, AddressModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.relatedClientReferenceId, other.relatedClientReferenceId) && Mapper.isEqual(self.doorNo, other.doorNo) && Mapper.isEqual(self.latitude, other.latitude) && Mapper.isEqual(self.longitude, other.longitude) && Mapper.isEqual(self.locationAccuracy, other.locationAccuracy) && Mapper.isEqual(self.addressLine1, other.addressLine1) && Mapper.isEqual(self.addressLine2, other.addressLine2) && Mapper.isEqual(self.landmark, other.landmark) && Mapper.isEqual(self.city, other.city) && Mapper.isEqual(self.pincode, other.pincode) && Mapper.isEqual(self.buildingName, other.buildingName) && Mapper.isEqual(self.street, other.street) && Mapper.isEqual(self.boundaryType, other.boundaryType) && Mapper.isEqual(self.boundary, other.boundary) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.type, other.type) && Mapper.isEqual(self.additionalFields, other.additionalFields);
+  @override String stringify(AddressModel self) => 'AddressModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, id: ${Mapper.asString(self.id)}, relatedClientReferenceId: ${Mapper.asString(self.relatedClientReferenceId)}, doorNo: ${Mapper.asString(self.doorNo)}, latitude: ${Mapper.asString(self.latitude)}, longitude: ${Mapper.asString(self.longitude)}, locationAccuracy: ${Mapper.asString(self.locationAccuracy)}, addressLine1: ${Mapper.asString(self.addressLine1)}, addressLine2: ${Mapper.asString(self.addressLine2)}, landmark: ${Mapper.asString(self.landmark)}, city: ${Mapper.asString(self.city)}, pincode: ${Mapper.asString(self.pincode)}, buildingName: ${Mapper.asString(self.buildingName)}, street: ${Mapper.asString(self.street)}, boundaryType: ${Mapper.asString(self.boundaryType)}, boundary: ${Mapper.asString(self.boundary)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)}, type: ${Mapper.asString(self.type)}, locality: ${Mapper.asString(self.locality)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
+  @override int hash(AddressModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.id) ^ Mapper.hash(self.relatedClientReferenceId) ^ Mapper.hash(self.doorNo) ^ Mapper.hash(self.latitude) ^ Mapper.hash(self.longitude) ^ Mapper.hash(self.locationAccuracy) ^ Mapper.hash(self.addressLine1) ^ Mapper.hash(self.addressLine2) ^ Mapper.hash(self.landmark) ^ Mapper.hash(self.city) ^ Mapper.hash(self.pincode) ^ Mapper.hash(self.buildingName) ^ Mapper.hash(self.street) ^ Mapper.hash(self.boundaryType) ^ Mapper.hash(self.boundary) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.type) ^ Mapper.hash(self.locality) ^ Mapper.hash(self.additionalFields);
+  @override bool equals(AddressModel self, AddressModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.relatedClientReferenceId, other.relatedClientReferenceId) && Mapper.isEqual(self.doorNo, other.doorNo) && Mapper.isEqual(self.latitude, other.latitude) && Mapper.isEqual(self.longitude, other.longitude) && Mapper.isEqual(self.locationAccuracy, other.locationAccuracy) && Mapper.isEqual(self.addressLine1, other.addressLine1) && Mapper.isEqual(self.addressLine2, other.addressLine2) && Mapper.isEqual(self.landmark, other.landmark) && Mapper.isEqual(self.city, other.city) && Mapper.isEqual(self.pincode, other.pincode) && Mapper.isEqual(self.buildingName, other.buildingName) && Mapper.isEqual(self.street, other.street) && Mapper.isEqual(self.boundaryType, other.boundaryType) && Mapper.isEqual(self.boundary, other.boundary) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.type, other.type) && Mapper.isEqual(self.locality, other.locality) && Mapper.isEqual(self.additionalFields, other.additionalFields);
 
   @override Function get typeFactory => (f) => f<AddressModel>();
 }
@@ -469,8 +499,9 @@ extension AddressModelMapperExtension  on AddressModel {
 abstract class AddressModelCopyWith<$R> {
   factory AddressModelCopyWith(AddressModel value, Then<AddressModel, $R> then) = _AddressModelCopyWithImpl<$R>;
   AddressAdditionalFieldsCopyWith<$R>? get additionalFields;
+  LocalityModelCopyWith<$R>? get locality;
   AuditDetailsCopyWith<$R>? get auditDetails;
-  $R call({AddressAdditionalFields? additionalFields, String? id, String? relatedClientReferenceId, String? doorNo, double? latitude, double? longitude, double? locationAccuracy, String? addressLine1, String? addressLine2, String? landmark, String? city, String? pincode, String? buildingName, String? street, String? boundaryType, String? boundary, String? tenantId, bool? isDeleted, int? rowVersion, AddressType? type, AuditDetails? auditDetails});
+  $R call({AddressAdditionalFields? additionalFields, String? id, String? relatedClientReferenceId, String? doorNo, double? latitude, double? longitude, double? locationAccuracy, String? addressLine1, String? addressLine2, String? landmark, String? city, String? pincode, String? buildingName, String? street, String? boundaryType, String? boundary, String? tenantId, bool? isDeleted, int? rowVersion, AddressType? type, LocalityModel? locality, AuditDetails? auditDetails});
   $R apply(AddressModel Function(AddressModel) transform);
 }
 
@@ -478,8 +509,9 @@ class _AddressModelCopyWithImpl<$R> extends BaseCopyWith<AddressModel, $R> imple
   _AddressModelCopyWithImpl(AddressModel value, Then<AddressModel, $R> then) : super(value, then);
 
   @override AddressAdditionalFieldsCopyWith<$R>? get additionalFields => $value.additionalFields != null ? AddressAdditionalFieldsCopyWith($value.additionalFields!, (v) => call(additionalFields: v)) : null;
+  @override LocalityModelCopyWith<$R>? get locality => $value.locality != null ? LocalityModelCopyWith($value.locality!, (v) => call(locality: v)) : null;
   @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
-  @override $R call({Object? additionalFields = $none, Object? id = $none, Object? relatedClientReferenceId = $none, Object? doorNo = $none, Object? latitude = $none, Object? longitude = $none, Object? locationAccuracy = $none, Object? addressLine1 = $none, Object? addressLine2 = $none, Object? landmark = $none, Object? city = $none, Object? pincode = $none, Object? buildingName = $none, Object? street = $none, Object? boundaryType = $none, Object? boundary = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? type = $none, Object? auditDetails = $none}) => $then(AddressModel(additionalFields: or(additionalFields, $value.additionalFields), id: or(id, $value.id), relatedClientReferenceId: or(relatedClientReferenceId, $value.relatedClientReferenceId), doorNo: or(doorNo, $value.doorNo), latitude: or(latitude, $value.latitude), longitude: or(longitude, $value.longitude), locationAccuracy: or(locationAccuracy, $value.locationAccuracy), addressLine1: or(addressLine1, $value.addressLine1), addressLine2: or(addressLine2, $value.addressLine2), landmark: or(landmark, $value.landmark), city: or(city, $value.city), pincode: or(pincode, $value.pincode), buildingName: or(buildingName, $value.buildingName), street: or(street, $value.street), boundaryType: or(boundaryType, $value.boundaryType), boundary: or(boundary, $value.boundary), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), type: or(type, $value.type), auditDetails: or(auditDetails, $value.auditDetails)));
+  @override $R call({Object? additionalFields = $none, Object? id = $none, Object? relatedClientReferenceId = $none, Object? doorNo = $none, Object? latitude = $none, Object? longitude = $none, Object? locationAccuracy = $none, Object? addressLine1 = $none, Object? addressLine2 = $none, Object? landmark = $none, Object? city = $none, Object? pincode = $none, Object? buildingName = $none, Object? street = $none, Object? boundaryType = $none, Object? boundary = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? type = $none, Object? locality = $none, Object? auditDetails = $none}) => $then(AddressModel(additionalFields: or(additionalFields, $value.additionalFields), id: or(id, $value.id), relatedClientReferenceId: or(relatedClientReferenceId, $value.relatedClientReferenceId), doorNo: or(doorNo, $value.doorNo), latitude: or(latitude, $value.latitude), longitude: or(longitude, $value.longitude), locationAccuracy: or(locationAccuracy, $value.locationAccuracy), addressLine1: or(addressLine1, $value.addressLine1), addressLine2: or(addressLine2, $value.addressLine2), landmark: or(landmark, $value.landmark), city: or(city, $value.city), pincode: or(pincode, $value.pincode), buildingName: or(buildingName, $value.buildingName), street: or(street, $value.street), boundaryType: or(boundaryType, $value.boundaryType), boundary: or(boundary, $value.boundary), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), type: or(type, $value.type), locality: or(locality, $value.locality), auditDetails: or(auditDetails, $value.auditDetails)));
 }
 
 class AddressAdditionalFieldsMapper extends BaseMapper<AddressAdditionalFields> {
@@ -3519,11 +3551,11 @@ class LocalityModelMapper extends BaseMapper<LocalityModel> {
 
   @override Function get decoder => decode;
   LocalityModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  LocalityModel fromMap(Map<String, dynamic> map) => LocalityModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), code: Mapper.i.$get(map, 'code'), name: Mapper.i.$get(map, 'name'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+  LocalityModel fromMap(Map<String, dynamic> map) => LocalityModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), code: Mapper.i.$get(map, 'code'), name: Mapper.i.$getOpt(map, 'name'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
 
   @override Function get encoder => (LocalityModel v) => encode(v);
   dynamic encode(LocalityModel v) => toMap(v);
-  Map<String, dynamic> toMap(LocalityModel l) => {if (Mapper.i.$enc(l.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(l.additionalFields, 'additionalFields'), 'code': Mapper.i.$enc(l.code, 'code'), 'name': Mapper.i.$enc(l.name, 'name'), if (Mapper.i.$enc(l.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(l.tenantId, 'tenantId'), if (Mapper.i.$enc(l.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(l.isDeleted, 'isDeleted'), if (Mapper.i.$enc(l.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(l.rowVersion, 'rowVersion'), if (Mapper.i.$enc(l.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(l.auditDetails, 'auditDetails')};
+  Map<String, dynamic> toMap(LocalityModel l) => {if (Mapper.i.$enc(l.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(l.additionalFields, 'additionalFields'), 'code': Mapper.i.$enc(l.code, 'code'), if (Mapper.i.$enc(l.name, 'name') != null) 'name': Mapper.i.$enc(l.name, 'name'), if (Mapper.i.$enc(l.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(l.tenantId, 'tenantId'), if (Mapper.i.$enc(l.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(l.isDeleted, 'isDeleted'), if (Mapper.i.$enc(l.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(l.rowVersion, 'rowVersion'), if (Mapper.i.$enc(l.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(l.auditDetails, 'auditDetails')};
 
   @override String stringify(LocalityModel self) => 'LocalityModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, code: ${Mapper.asString(self.code)}, name: ${Mapper.asString(self.name)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
   @override int hash(LocalityModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.code) ^ Mapper.hash(self.name) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.additionalFields);
@@ -3551,7 +3583,7 @@ class _LocalityModelCopyWithImpl<$R> extends BaseCopyWith<LocalityModel, $R> imp
 
   @override LocalityAdditionalFieldsCopyWith<$R>? get additionalFields => $value.additionalFields != null ? LocalityAdditionalFieldsCopyWith($value.additionalFields!, (v) => call(additionalFields: v)) : null;
   @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
-  @override $R call({Object? additionalFields = $none, String? code, String? name, Object? tenantId = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? auditDetails = $none}) => $then(LocalityModel(additionalFields: or(additionalFields, $value.additionalFields), code: code ?? $value.code, name: name ?? $value.name, tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails)));
+  @override $R call({Object? additionalFields = $none, String? code, Object? name = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? auditDetails = $none}) => $then(LocalityModel(additionalFields: or(additionalFields, $value.additionalFields), code: code ?? $value.code, name: or(name, $value.name), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails)));
 }
 
 class LocalityAdditionalFieldsMapper extends BaseMapper<LocalityAdditionalFields> {
@@ -3664,6 +3696,578 @@ class _AdditionalIdCopyWithImpl<$R> extends BaseCopyWith<AdditionalId, $R> imple
   _AdditionalIdCopyWithImpl(AdditionalId value, Then<AdditionalId, $R> then) : super(value, then);
 
   @override $R call({String? idType, String? id}) => $then(AdditionalId(idType: idType ?? $value.idType, id: id ?? $value.id));
+}
+
+class PgrComplaintModelMapper extends BaseMapper<PgrComplaintModel> {
+  PgrComplaintModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrComplaintModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrComplaintModel fromMap(Map<String, dynamic> map) => PgrComplaintModel(service: Mapper.i.$get(map, 'service'), workflow: Mapper.i.$getOpt(map, 'workflow'));
+
+  @override Function get encoder => (PgrComplaintModel v) => encode(v);
+  dynamic encode(PgrComplaintModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrComplaintModel p) => {'service': Mapper.i.$enc(p.service, 'service'), if (Mapper.i.$enc(p.workflow, 'workflow') != null) 'workflow': Mapper.i.$enc(p.workflow, 'workflow')};
+
+  @override String stringify(PgrComplaintModel self) => 'PgrComplaintModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, service: ${Mapper.asString(self.service)}, workflow: ${Mapper.asString(self.workflow)})';
+  @override int hash(PgrComplaintModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.service) ^ Mapper.hash(self.workflow);
+  @override bool equals(PgrComplaintModel self, PgrComplaintModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.service, other.service) && Mapper.isEqual(self.workflow, other.workflow);
+
+  @override Function get typeFactory => (f) => f<PgrComplaintModel>();
+}
+
+extension PgrComplaintModelMapperExtension  on PgrComplaintModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrComplaintModelCopyWith<PgrComplaintModel> get copyWith => PgrComplaintModelCopyWith(this, $identity);
+}
+
+abstract class PgrComplaintModelCopyWith<$R> {
+  factory PgrComplaintModelCopyWith(PgrComplaintModel value, Then<PgrComplaintModel, $R> then) = _PgrComplaintModelCopyWithImpl<$R>;
+  PgrServiceModelCopyWith<$R> get service;
+  PgrWorkflowModelCopyWith<$R>? get workflow;
+  $R call({PgrServiceModel? service, PgrWorkflowModel? workflow});
+  $R apply(PgrComplaintModel Function(PgrComplaintModel) transform);
+}
+
+class _PgrComplaintModelCopyWithImpl<$R> extends BaseCopyWith<PgrComplaintModel, $R> implements PgrComplaintModelCopyWith<$R> {
+  _PgrComplaintModelCopyWithImpl(PgrComplaintModel value, Then<PgrComplaintModel, $R> then) : super(value, then);
+
+  @override PgrServiceModelCopyWith<$R> get service => PgrServiceModelCopyWith($value.service, (v) => call(service: v));
+  @override PgrWorkflowModelCopyWith<$R>? get workflow => $value.workflow != null ? PgrWorkflowModelCopyWith($value.workflow!, (v) => call(workflow: v)) : null;
+  @override $R call({PgrServiceModel? service, Object? workflow = $none}) => $then(PgrComplaintModel(service: service ?? $value.service, workflow: or(workflow, $value.workflow)));
+}
+
+class PgrComplainantModelMapper extends BaseMapper<PgrComplainantModel> {
+  PgrComplainantModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrComplainantModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrComplainantModel fromMap(Map<String, dynamic> map) => PgrComplainantModel(id: Mapper.i.$getOpt(map, 'id'), clientReferenceId: Mapper.i.$get(map, 'clientReferenceId'), complaintClientReferenceId: Mapper.i.$get(map, 'complaintClientReferenceId'), userName: Mapper.i.$getOpt(map, 'userName'), name: Mapper.i.$getOpt(map, 'name'), type: Mapper.i.$getOpt(map, 'type'), mobileNumber: Mapper.i.$getOpt(map, 'mobileNumber'), emailId: Mapper.i.$getOpt(map, 'emailId'), roles: Mapper.i.$getOpt(map, 'roles') ?? const [], tenantId: Mapper.i.$get(map, 'tenantId'), uuid: Mapper.i.$getOpt(map, 'uuid'), active: Mapper.i.$getOpt(map, 'active') ?? true, isDeleted: Mapper.i.$getOpt(map, 'isDeleted') ?? false, rowVersion: Mapper.i.$getOpt(map, 'rowVersion') ?? 1, auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+
+  @override Function get encoder => (PgrComplainantModel v) => encode(v);
+  dynamic encode(PgrComplainantModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrComplainantModel p) => {if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), 'clientReferenceId': Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId'), 'complaintClientReferenceId': Mapper.i.$enc(p.complaintClientReferenceId, 'complaintClientReferenceId'), if (Mapper.i.$enc(p.userName, 'userName') != null) 'userName': Mapper.i.$enc(p.userName, 'userName'), if (Mapper.i.$enc(p.name, 'name') != null) 'name': Mapper.i.$enc(p.name, 'name'), if (Mapper.i.$enc(p.type, 'type') != null) 'type': Mapper.i.$enc(p.type, 'type'), if (Mapper.i.$enc(p.mobileNumber, 'mobileNumber') != null) 'mobileNumber': Mapper.i.$enc(p.mobileNumber, 'mobileNumber'), if (Mapper.i.$enc(p.emailId, 'emailId') != null) 'emailId': Mapper.i.$enc(p.emailId, 'emailId'), 'roles': Mapper.i.$enc(p.roles, 'roles'), 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.uuid, 'uuid') != null) 'uuid': Mapper.i.$enc(p.uuid, 'uuid'), 'active': Mapper.i.$enc(p.active, 'active'), 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), 'rowVersion': Mapper.i.$enc(p.rowVersion, 'rowVersion'), if (Mapper.i.$enc(p.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(p.auditDetails, 'auditDetails')};
+
+  @override String stringify(PgrComplainantModel self) => 'PgrComplainantModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, id: ${Mapper.asString(self.id)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, complaintClientReferenceId: ${Mapper.asString(self.complaintClientReferenceId)}, userName: ${Mapper.asString(self.userName)}, name: ${Mapper.asString(self.name)}, type: ${Mapper.asString(self.type)}, mobileNumber: ${Mapper.asString(self.mobileNumber)}, emailId: ${Mapper.asString(self.emailId)}, roles: ${Mapper.asString(self.roles)}, tenantId: ${Mapper.asString(self.tenantId)}, uuid: ${Mapper.asString(self.uuid)}, active: ${Mapper.asString(self.active)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)})';
+  @override int hash(PgrComplainantModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.id) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.complaintClientReferenceId) ^ Mapper.hash(self.userName) ^ Mapper.hash(self.name) ^ Mapper.hash(self.type) ^ Mapper.hash(self.mobileNumber) ^ Mapper.hash(self.emailId) ^ Mapper.hash(self.roles) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.uuid) ^ Mapper.hash(self.active) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion);
+  @override bool equals(PgrComplainantModel self, PgrComplainantModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.complaintClientReferenceId, other.complaintClientReferenceId) && Mapper.isEqual(self.userName, other.userName) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.type, other.type) && Mapper.isEqual(self.mobileNumber, other.mobileNumber) && Mapper.isEqual(self.emailId, other.emailId) && Mapper.isEqual(self.roles, other.roles) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.uuid, other.uuid) && Mapper.isEqual(self.active, other.active) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion);
+
+  @override Function get typeFactory => (f) => f<PgrComplainantModel>();
+}
+
+extension PgrComplainantModelMapperExtension  on PgrComplainantModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrComplainantModelCopyWith<PgrComplainantModel> get copyWith => PgrComplainantModelCopyWith(this, $identity);
+}
+
+abstract class PgrComplainantModelCopyWith<$R> {
+  factory PgrComplainantModelCopyWith(PgrComplainantModel value, Then<PgrComplainantModel, $R> then) = _PgrComplainantModelCopyWithImpl<$R>;
+  ListCopyWith<$R, PgrRolesModel, PgrRolesModelCopyWith<$R>> get roles;
+  AuditDetailsCopyWith<$R>? get auditDetails;
+  $R call({int? id, String? clientReferenceId, String? complaintClientReferenceId, String? userName, String? name, String? type, String? mobileNumber, String? emailId, List<PgrRolesModel>? roles, String? tenantId, String? uuid, bool? active, bool? isDeleted, int? rowVersion, AuditDetails? auditDetails});
+  $R apply(PgrComplainantModel Function(PgrComplainantModel) transform);
+}
+
+class _PgrComplainantModelCopyWithImpl<$R> extends BaseCopyWith<PgrComplainantModel, $R> implements PgrComplainantModelCopyWith<$R> {
+  _PgrComplainantModelCopyWithImpl(PgrComplainantModel value, Then<PgrComplainantModel, $R> then) : super(value, then);
+
+  @override ListCopyWith<$R, PgrRolesModel, PgrRolesModelCopyWith<$R>> get roles => ListCopyWith($value.roles, (v, t) => PgrRolesModelCopyWith(v, t), (v) => call(roles: v));
+  @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
+  @override $R call({Object? id = $none, String? clientReferenceId, String? complaintClientReferenceId, Object? userName = $none, Object? name = $none, Object? type = $none, Object? mobileNumber = $none, Object? emailId = $none, List<PgrRolesModel>? roles, String? tenantId, Object? uuid = $none, bool? active, bool? isDeleted, int? rowVersion, Object? auditDetails = $none}) => $then(PgrComplainantModel(id: or(id, $value.id), clientReferenceId: clientReferenceId ?? $value.clientReferenceId, complaintClientReferenceId: complaintClientReferenceId ?? $value.complaintClientReferenceId, userName: or(userName, $value.userName), name: or(name, $value.name), type: or(type, $value.type), mobileNumber: or(mobileNumber, $value.mobileNumber), emailId: or(emailId, $value.emailId), roles: roles ?? $value.roles, tenantId: tenantId ?? $value.tenantId, uuid: or(uuid, $value.uuid), active: active ?? $value.active, isDeleted: isDeleted ?? $value.isDeleted, rowVersion: rowVersion ?? $value.rowVersion, auditDetails: or(auditDetails, $value.auditDetails)));
+}
+
+class PgrRolesModelMapper extends BaseMapper<PgrRolesModel> {
+  PgrRolesModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrRolesModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrRolesModel fromMap(Map<String, dynamic> map) => PgrRolesModel(name: Mapper.i.$get(map, 'name'), code: Mapper.i.$get(map, 'code'));
+
+  @override Function get encoder => (PgrRolesModel v) => encode(v);
+  dynamic encode(PgrRolesModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrRolesModel p) => {'name': Mapper.i.$enc(p.name, 'name'), 'code': Mapper.i.$enc(p.code, 'code')};
+
+  @override String stringify(PgrRolesModel self) => 'PgrRolesModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, name: ${Mapper.asString(self.name)}, code: ${Mapper.asString(self.code)})';
+  @override int hash(PgrRolesModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.name) ^ Mapper.hash(self.code);
+  @override bool equals(PgrRolesModel self, PgrRolesModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.code, other.code);
+
+  @override Function get typeFactory => (f) => f<PgrRolesModel>();
+}
+
+extension PgrRolesModelMapperExtension  on PgrRolesModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrRolesModelCopyWith<PgrRolesModel> get copyWith => PgrRolesModelCopyWith(this, $identity);
+}
+
+abstract class PgrRolesModelCopyWith<$R> {
+  factory PgrRolesModelCopyWith(PgrRolesModel value, Then<PgrRolesModel, $R> then) = _PgrRolesModelCopyWithImpl<$R>;
+  $R call({String? name, String? code});
+  $R apply(PgrRolesModel Function(PgrRolesModel) transform);
+}
+
+class _PgrRolesModelCopyWithImpl<$R> extends BaseCopyWith<PgrRolesModel, $R> implements PgrRolesModelCopyWith<$R> {
+  _PgrRolesModelCopyWithImpl(PgrRolesModel value, Then<PgrRolesModel, $R> then) : super(value, then);
+
+  @override $R call({String? name, String? code}) => $then(PgrRolesModel(name: name ?? $value.name, code: code ?? $value.code));
+}
+
+class PgrServiceSearchModelMapper extends BaseMapper<PgrServiceSearchModel> {
+  PgrServiceSearchModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrServiceSearchModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrServiceSearchModel fromMap(Map<String, dynamic> map) => PgrServiceSearchModel(complaintAssignedTo: Mapper.i.$getOpt(map, 'complaintAssignedTo'), currentUserName: Mapper.i.$getOpt(map, 'currentUserName'), complaintTypeCode: Mapper.i.$getOpt(map, 'complaintTypeCode'), locality: Mapper.i.$getOpt(map, 'locality'), complaintStatus: Mapper.i.$getOpt(map, 'complaintStatus'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), serviceRequestId: Mapper.i.$getOpt(map, 'serviceRequestId'), clientReferenceId: Mapper.i.$getOpt(map, 'clientReferenceId'), complainantMobileNumber: Mapper.i.$getOpt(map, 'complainantMobileNumber'), complaintNumber: Mapper.i.$getOpt(map, 'complaintNumber'));
+
+  @override Function get encoder => (PgrServiceSearchModel v) => encode(v);
+  dynamic encode(PgrServiceSearchModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrServiceSearchModel p) => {if (Mapper.i.$enc(p.complaintAssignedTo, 'complaintAssignedTo') != null) 'complaintAssignedTo': Mapper.i.$enc(p.complaintAssignedTo, 'complaintAssignedTo'), if (Mapper.i.$enc(p.currentUserName, 'currentUserName') != null) 'currentUserName': Mapper.i.$enc(p.currentUserName, 'currentUserName'), if (Mapper.i.$enc(p.complaintTypeCode, 'complaintTypeCode') != null) 'complaintTypeCode': Mapper.i.$enc(p.complaintTypeCode, 'complaintTypeCode'), if (Mapper.i.$enc(p.locality, 'locality') != null) 'locality': Mapper.i.$enc(p.locality, 'locality'), if (Mapper.i.$enc(p.complaintStatus, 'complaintStatus') != null) 'complaintStatus': Mapper.i.$enc(p.complaintStatus, 'complaintStatus'), if (Mapper.i.$enc(p.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.serviceRequestId, 'serviceRequestId') != null) 'serviceRequestId': Mapper.i.$enc(p.serviceRequestId, 'serviceRequestId'), if (Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId') != null) 'clientReferenceId': Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId'), if (Mapper.i.$enc(p.complainantMobileNumber, 'complainantMobileNumber') != null) 'complainantMobileNumber': Mapper.i.$enc(p.complainantMobileNumber, 'complainantMobileNumber'), if (Mapper.i.$enc(p.complaintNumber, 'complaintNumber') != null) 'complaintNumber': Mapper.i.$enc(p.complaintNumber, 'complaintNumber')};
+
+  @override String stringify(PgrServiceSearchModel self) => 'PgrServiceSearchModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, additionalFields: ${Mapper.asString(self.additionalFields)}, tenantId: ${Mapper.asString(self.tenantId)}, serviceRequestId: ${Mapper.asString(self.serviceRequestId)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, complaintAssignedTo: ${Mapper.asString(self.complaintAssignedTo)}, currentUserName: ${Mapper.asString(self.currentUserName)}, complaintTypeCode: ${Mapper.asString(self.complaintTypeCode)}, locality: ${Mapper.asString(self.locality)}, complainantMobileNumber: ${Mapper.asString(self.complainantMobileNumber)}, complaintNumber: ${Mapper.asString(self.complaintNumber)}, complaintStatus: ${Mapper.asString(self.complaintStatus)})';
+  @override int hash(PgrServiceSearchModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.additionalFields) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.serviceRequestId) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.complaintAssignedTo) ^ Mapper.hash(self.currentUserName) ^ Mapper.hash(self.complaintTypeCode) ^ Mapper.hash(self.locality) ^ Mapper.hash(self.complainantMobileNumber) ^ Mapper.hash(self.complaintNumber) ^ Mapper.hash(self.complaintStatus);
+  @override bool equals(PgrServiceSearchModel self, PgrServiceSearchModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.additionalFields, other.additionalFields) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.serviceRequestId, other.serviceRequestId) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.complaintAssignedTo, other.complaintAssignedTo) && Mapper.isEqual(self.currentUserName, other.currentUserName) && Mapper.isEqual(self.complaintTypeCode, other.complaintTypeCode) && Mapper.isEqual(self.locality, other.locality) && Mapper.isEqual(self.complainantMobileNumber, other.complainantMobileNumber) && Mapper.isEqual(self.complaintNumber, other.complaintNumber) && Mapper.isEqual(self.complaintStatus, other.complaintStatus);
+
+  @override Function get typeFactory => (f) => f<PgrServiceSearchModel>();
+}
+
+extension PgrServiceSearchModelMapperExtension  on PgrServiceSearchModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrServiceSearchModelCopyWith<PgrServiceSearchModel> get copyWith => PgrServiceSearchModelCopyWith(this, $identity);
+}
+
+abstract class PgrServiceSearchModelCopyWith<$R> {
+  factory PgrServiceSearchModelCopyWith(PgrServiceSearchModel value, Then<PgrServiceSearchModel, $R> then) = _PgrServiceSearchModelCopyWithImpl<$R>;
+  $R call({String? complaintAssignedTo, String? currentUserName, String? complaintTypeCode, String? locality, List<PgrServiceApplicationStatus>? complaintStatus, String? tenantId, String? serviceRequestId, String? clientReferenceId, String? complainantMobileNumber, String? complaintNumber});
+  $R apply(PgrServiceSearchModel Function(PgrServiceSearchModel) transform);
+}
+
+class _PgrServiceSearchModelCopyWithImpl<$R> extends BaseCopyWith<PgrServiceSearchModel, $R> implements PgrServiceSearchModelCopyWith<$R> {
+  _PgrServiceSearchModelCopyWithImpl(PgrServiceSearchModel value, Then<PgrServiceSearchModel, $R> then) : super(value, then);
+
+  @override $R call({Object? complaintAssignedTo = $none, Object? currentUserName = $none, Object? complaintTypeCode = $none, Object? locality = $none, Object? complaintStatus = $none, Object? tenantId = $none, Object? serviceRequestId = $none, Object? clientReferenceId = $none, Object? complainantMobileNumber = $none, Object? complaintNumber = $none}) => $then(PgrServiceSearchModel(complaintAssignedTo: or(complaintAssignedTo, $value.complaintAssignedTo), currentUserName: or(currentUserName, $value.currentUserName), complaintTypeCode: or(complaintTypeCode, $value.complaintTypeCode), locality: or(locality, $value.locality), complaintStatus: or(complaintStatus, $value.complaintStatus), tenantId: or(tenantId, $value.tenantId), serviceRequestId: or(serviceRequestId, $value.serviceRequestId), clientReferenceId: or(clientReferenceId, $value.clientReferenceId), complainantMobileNumber: or(complainantMobileNumber, $value.complainantMobileNumber), complaintNumber: or(complaintNumber, $value.complaintNumber)));
+}
+
+class PgrServiceModelMapper extends BaseMapper<PgrServiceModel> {
+  PgrServiceModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrServiceModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrServiceModel fromMap(Map<String, dynamic> map) => PgrServiceModel(clientReferenceId: Mapper.i.$get(map, 'clientReferenceId'), active: Mapper.i.$getOpt(map, 'active') ?? true, id: Mapper.i.$getOpt(map, 'id'), tenantId: Mapper.i.$get(map, 'tenantId'), serviceCode: Mapper.i.$get(map, 'serviceCode'), serviceRequestId: Mapper.i.$getOpt(map, 'serviceRequestId'), description: Mapper.i.$get(map, 'description'), accountId: Mapper.i.$getOpt(map, 'accountId'), applicationStatus: Mapper.i.$get(map, 'applicationStatus'), source: Mapper.i.$getOpt(map, 'source'), user: Mapper.i.$get(map, 'user'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted') ?? false, rowVersion: Mapper.i.$getOpt(map, 'rowVersion') ?? 1, address: Mapper.i.$get(map, 'address'), additionalDetail: Mapper.i.$getOpt(map, 'additionalDetail'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+
+  @override Function get encoder => (PgrServiceModel v) => encode(v);
+  dynamic encode(PgrServiceModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrServiceModel p) => {'clientReferenceId': Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId'), 'active': Mapper.i.$enc(p.active, 'active'), if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), 'serviceCode': Mapper.i.$enc(p.serviceCode, 'serviceCode'), if (Mapper.i.$enc(p.serviceRequestId, 'serviceRequestId') != null) 'serviceRequestId': Mapper.i.$enc(p.serviceRequestId, 'serviceRequestId'), 'description': Mapper.i.$enc(p.description, 'description'), if (Mapper.i.$enc(p.accountId, 'accountId') != null) 'accountId': Mapper.i.$enc(p.accountId, 'accountId'), 'applicationStatus': Mapper.i.$enc(p.applicationStatus, 'applicationStatus'), if (Mapper.i.$enc(p.source, 'source') != null) 'source': Mapper.i.$enc(p.source, 'source'), 'user': Mapper.i.$enc(p.user, 'user'), 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), 'rowVersion': Mapper.i.$enc(p.rowVersion, 'rowVersion'), 'address': Mapper.i.$enc(p.address, 'address'), if (Mapper.i.$enc(p.additionalDetail, 'additionalDetail') != null) 'additionalDetail': Mapper.i.$enc(p.additionalDetail, 'additionalDetail'), if (Mapper.i.$enc(p.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(p.auditDetails, 'auditDetails')};
+
+  @override String stringify(PgrServiceModel self) => 'PgrServiceModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, active: ${Mapper.asString(self.active)}, user: ${Mapper.asString(self.user)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, id: ${Mapper.asString(self.id)}, tenantId: ${Mapper.asString(self.tenantId)}, serviceCode: ${Mapper.asString(self.serviceCode)}, serviceRequestId: ${Mapper.asString(self.serviceRequestId)}, description: ${Mapper.asString(self.description)}, accountId: ${Mapper.asString(self.accountId)}, applicationStatus: ${Mapper.asString(self.applicationStatus)}, source: ${Mapper.asString(self.source)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)}, address: ${Mapper.asString(self.address)}, additionalDetail: ${Mapper.asString(self.additionalDetail)})';
+  @override int hash(PgrServiceModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.active) ^ Mapper.hash(self.user) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.id) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.serviceCode) ^ Mapper.hash(self.serviceRequestId) ^ Mapper.hash(self.description) ^ Mapper.hash(self.accountId) ^ Mapper.hash(self.applicationStatus) ^ Mapper.hash(self.source) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.address) ^ Mapper.hash(self.additionalDetail);
+  @override bool equals(PgrServiceModel self, PgrServiceModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.active, other.active) && Mapper.isEqual(self.user, other.user) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.serviceCode, other.serviceCode) && Mapper.isEqual(self.serviceRequestId, other.serviceRequestId) && Mapper.isEqual(self.description, other.description) && Mapper.isEqual(self.accountId, other.accountId) && Mapper.isEqual(self.applicationStatus, other.applicationStatus) && Mapper.isEqual(self.source, other.source) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.address, other.address) && Mapper.isEqual(self.additionalDetail, other.additionalDetail);
+
+  @override Function get typeFactory => (f) => f<PgrServiceModel>();
+}
+
+extension PgrServiceModelMapperExtension  on PgrServiceModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrServiceModelCopyWith<PgrServiceModel> get copyWith => PgrServiceModelCopyWith(this, $identity);
+}
+
+abstract class PgrServiceModelCopyWith<$R> {
+  factory PgrServiceModelCopyWith(PgrServiceModel value, Then<PgrServiceModel, $R> then) = _PgrServiceModelCopyWithImpl<$R>;
+  PgrComplainantModelCopyWith<$R> get user;
+  PgrAddressModelCopyWith<$R> get address;
+  AuditDetailsCopyWith<$R>? get auditDetails;
+  $R call({String? clientReferenceId, bool? active, String? id, String? tenantId, String? serviceCode, String? serviceRequestId, String? description, String? accountId, PgrServiceApplicationStatus? applicationStatus, String? source, PgrComplainantModel? user, bool? isDeleted, int? rowVersion, PgrAddressModel? address, String? additionalDetail, AuditDetails? auditDetails});
+  $R apply(PgrServiceModel Function(PgrServiceModel) transform);
+}
+
+class _PgrServiceModelCopyWithImpl<$R> extends BaseCopyWith<PgrServiceModel, $R> implements PgrServiceModelCopyWith<$R> {
+  _PgrServiceModelCopyWithImpl(PgrServiceModel value, Then<PgrServiceModel, $R> then) : super(value, then);
+
+  @override PgrComplainantModelCopyWith<$R> get user => PgrComplainantModelCopyWith($value.user, (v) => call(user: v));
+  @override PgrAddressModelCopyWith<$R> get address => PgrAddressModelCopyWith($value.address, (v) => call(address: v));
+  @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
+  @override $R call({String? clientReferenceId, bool? active, Object? id = $none, String? tenantId, String? serviceCode, Object? serviceRequestId = $none, String? description, Object? accountId = $none, PgrServiceApplicationStatus? applicationStatus, Object? source = $none, PgrComplainantModel? user, bool? isDeleted, int? rowVersion, PgrAddressModel? address, Object? additionalDetail = $none, Object? auditDetails = $none}) => $then(PgrServiceModel(clientReferenceId: clientReferenceId ?? $value.clientReferenceId, active: active ?? $value.active, id: or(id, $value.id), tenantId: tenantId ?? $value.tenantId, serviceCode: serviceCode ?? $value.serviceCode, serviceRequestId: or(serviceRequestId, $value.serviceRequestId), description: description ?? $value.description, accountId: or(accountId, $value.accountId), applicationStatus: applicationStatus ?? $value.applicationStatus, source: or(source, $value.source), user: user ?? $value.user, isDeleted: isDeleted ?? $value.isDeleted, rowVersion: rowVersion ?? $value.rowVersion, address: address ?? $value.address, additionalDetail: or(additionalDetail, $value.additionalDetail), auditDetails: or(auditDetails, $value.auditDetails)));
+}
+
+class PgrWorkflowModelMapper extends BaseMapper<PgrWorkflowModel> {
+  PgrWorkflowModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrWorkflowModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrWorkflowModel fromMap(Map<String, dynamic> map) => PgrWorkflowModel(action: Mapper.i.$get(map, 'action'), assignees: Mapper.i.$getOpt(map, 'assignes') ?? const [], comments: Mapper.i.$get(map, 'comments'));
+
+  @override Function get encoder => (PgrWorkflowModel v) => encode(v);
+  dynamic encode(PgrWorkflowModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrWorkflowModel p) => {'action': Mapper.i.$enc(p.action, 'action'), 'assignes': Mapper.i.$enc(p.assignees, 'assignees'), 'comments': Mapper.i.$enc(p.comments, 'comments')};
+
+  @override String stringify(PgrWorkflowModel self) => 'PgrWorkflowModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, action: ${Mapper.asString(self.action)}, assignees: ${Mapper.asString(self.assignees)}, comments: ${Mapper.asString(self.comments)})';
+  @override int hash(PgrWorkflowModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.action) ^ Mapper.hash(self.assignees) ^ Mapper.hash(self.comments);
+  @override bool equals(PgrWorkflowModel self, PgrWorkflowModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.action, other.action) && Mapper.isEqual(self.assignees, other.assignees) && Mapper.isEqual(self.comments, other.comments);
+
+  @override Function get typeFactory => (f) => f<PgrWorkflowModel>();
+}
+
+extension PgrWorkflowModelMapperExtension  on PgrWorkflowModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrWorkflowModelCopyWith<PgrWorkflowModel> get copyWith => PgrWorkflowModelCopyWith(this, $identity);
+}
+
+abstract class PgrWorkflowModelCopyWith<$R> {
+  factory PgrWorkflowModelCopyWith(PgrWorkflowModel value, Then<PgrWorkflowModel, $R> then) = _PgrWorkflowModelCopyWithImpl<$R>;
+  $R call({String? action, List<String>? assignees, String? comments});
+  $R apply(PgrWorkflowModel Function(PgrWorkflowModel) transform);
+}
+
+class _PgrWorkflowModelCopyWithImpl<$R> extends BaseCopyWith<PgrWorkflowModel, $R> implements PgrWorkflowModelCopyWith<$R> {
+  _PgrWorkflowModelCopyWithImpl(PgrWorkflowModel value, Then<PgrWorkflowModel, $R> then) : super(value, then);
+
+  @override $R call({String? action, List<String>? assignees, String? comments}) => $then(PgrWorkflowModel(action: action ?? $value.action, assignees: assignees ?? $value.assignees, comments: comments ?? $value.comments));
+}
+
+class PgrFiltersMapper extends BaseMapper<PgrFilters> {
+  PgrFiltersMapper._();
+
+  @override Function get decoder => decode;
+  PgrFilters decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrFilters fromMap(Map<String, dynamic> map) => PgrFilters(complaintAssignedTo: Mapper.i.$getOpt(map, 'complaintAssignedTo'), complaintTypeCode: Mapper.i.$getOpt(map, 'complaintTypeCode'), locality: Mapper.i.$getOpt(map, 'locality'), complaintStatus: Mapper.i.$getOpt(map, 'complaintStatus'));
+
+  @override Function get encoder => (PgrFilters v) => encode(v);
+  dynamic encode(PgrFilters v) => toMap(v);
+  Map<String, dynamic> toMap(PgrFilters p) => {if (Mapper.i.$enc(p.complaintAssignedTo, 'complaintAssignedTo') != null) 'complaintAssignedTo': Mapper.i.$enc(p.complaintAssignedTo, 'complaintAssignedTo'), if (Mapper.i.$enc(p.complaintTypeCode, 'complaintTypeCode') != null) 'complaintTypeCode': Mapper.i.$enc(p.complaintTypeCode, 'complaintTypeCode'), if (Mapper.i.$enc(p.locality, 'locality') != null) 'locality': Mapper.i.$enc(p.locality, 'locality'), if (Mapper.i.$enc(p.complaintStatus, 'complaintStatus') != null) 'complaintStatus': Mapper.i.$enc(p.complaintStatus, 'complaintStatus')};
+
+  @override String stringify(PgrFilters self) => 'PgrFilters(complaintAssignedTo: ${Mapper.asString(self.complaintAssignedTo)}, complaintTypeCode: ${Mapper.asString(self.complaintTypeCode)}, locality: ${Mapper.asString(self.locality)}, complaintStatus: ${Mapper.asString(self.complaintStatus)})';
+  @override int hash(PgrFilters self) => Mapper.hash(self.complaintAssignedTo) ^ Mapper.hash(self.complaintTypeCode) ^ Mapper.hash(self.locality) ^ Mapper.hash(self.complaintStatus);
+  @override bool equals(PgrFilters self, PgrFilters other) => Mapper.isEqual(self.complaintAssignedTo, other.complaintAssignedTo) && Mapper.isEqual(self.complaintTypeCode, other.complaintTypeCode) && Mapper.isEqual(self.locality, other.locality) && Mapper.isEqual(self.complaintStatus, other.complaintStatus);
+
+  @override Function get typeFactory => (f) => f<PgrFilters>();
+}
+
+extension PgrFiltersMapperExtension  on PgrFilters {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrFiltersCopyWith<PgrFilters> get copyWith => PgrFiltersCopyWith(this, $identity);
+}
+
+abstract class PgrFiltersCopyWith<$R> {
+  factory PgrFiltersCopyWith(PgrFilters value, Then<PgrFilters, $R> then) = _PgrFiltersCopyWithImpl<$R>;
+  $R call({String? complaintAssignedTo, String? complaintTypeCode, String? locality, List<PgrServiceApplicationStatus>? complaintStatus});
+  $R apply(PgrFilters Function(PgrFilters) transform);
+}
+
+class _PgrFiltersCopyWithImpl<$R> extends BaseCopyWith<PgrFilters, $R> implements PgrFiltersCopyWith<$R> {
+  _PgrFiltersCopyWithImpl(PgrFilters value, Then<PgrFilters, $R> then) : super(value, then);
+
+  @override $R call({Object? complaintAssignedTo = $none, Object? complaintTypeCode = $none, Object? locality = $none, Object? complaintStatus = $none}) => $then(PgrFilters(complaintAssignedTo: or(complaintAssignedTo, $value.complaintAssignedTo), complaintTypeCode: or(complaintTypeCode, $value.complaintTypeCode), locality: or(locality, $value.locality), complaintStatus: or(complaintStatus, $value.complaintStatus)));
+}
+
+class PgrSearchKeysMapper extends BaseMapper<PgrSearchKeys> {
+  PgrSearchKeysMapper._();
+
+  @override Function get decoder => decode;
+  PgrSearchKeys decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrSearchKeys fromMap(Map<String, dynamic> map) => PgrSearchKeys(complaintNumber: Mapper.i.$getOpt(map, 'complaintNumber'), complainantMobileNumber: Mapper.i.$getOpt(map, 'complainantMobileNumber'));
+
+  @override Function get encoder => (PgrSearchKeys v) => encode(v);
+  dynamic encode(PgrSearchKeys v) => toMap(v);
+  Map<String, dynamic> toMap(PgrSearchKeys p) => {if (Mapper.i.$enc(p.complaintNumber, 'complaintNumber') != null) 'complaintNumber': Mapper.i.$enc(p.complaintNumber, 'complaintNumber'), if (Mapper.i.$enc(p.complainantMobileNumber, 'complainantMobileNumber') != null) 'complainantMobileNumber': Mapper.i.$enc(p.complainantMobileNumber, 'complainantMobileNumber')};
+
+  @override String stringify(PgrSearchKeys self) => 'PgrSearchKeys(complaintNumber: ${Mapper.asString(self.complaintNumber)}, complainantMobileNumber: ${Mapper.asString(self.complainantMobileNumber)})';
+  @override int hash(PgrSearchKeys self) => Mapper.hash(self.complaintNumber) ^ Mapper.hash(self.complainantMobileNumber);
+  @override bool equals(PgrSearchKeys self, PgrSearchKeys other) => Mapper.isEqual(self.complaintNumber, other.complaintNumber) && Mapper.isEqual(self.complainantMobileNumber, other.complainantMobileNumber);
+
+  @override Function get typeFactory => (f) => f<PgrSearchKeys>();
+}
+
+extension PgrSearchKeysMapperExtension  on PgrSearchKeys {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrSearchKeysCopyWith<PgrSearchKeys> get copyWith => PgrSearchKeysCopyWith(this, $identity);
+}
+
+abstract class PgrSearchKeysCopyWith<$R> {
+  factory PgrSearchKeysCopyWith(PgrSearchKeys value, Then<PgrSearchKeys, $R> then) = _PgrSearchKeysCopyWithImpl<$R>;
+  $R call({String? complaintNumber, String? complainantMobileNumber});
+  $R apply(PgrSearchKeys Function(PgrSearchKeys) transform);
+}
+
+class _PgrSearchKeysCopyWithImpl<$R> extends BaseCopyWith<PgrSearchKeys, $R> implements PgrSearchKeysCopyWith<$R> {
+  _PgrSearchKeysCopyWithImpl(PgrSearchKeys value, Then<PgrSearchKeys, $R> then) : super(value, then);
+
+  @override $R call({Object? complaintNumber = $none, Object? complainantMobileNumber = $none}) => $then(PgrSearchKeys(complaintNumber: or(complaintNumber, $value.complaintNumber), complainantMobileNumber: or(complainantMobileNumber, $value.complainantMobileNumber)));
+}
+
+class PgrAdditionalDetailsMapper extends BaseMapper<PgrAdditionalDetails> {
+  PgrAdditionalDetailsMapper._();
+
+  @override Function get decoder => decode;
+  PgrAdditionalDetails decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrAdditionalDetails fromMap(Map<String, dynamic> map) => PgrAdditionalDetails(supervisorName: Mapper.i.$getOpt(map, 'supervisorName'), supervisorContactNumber: Mapper.i.$getOpt(map, 'supervisorContactNumber'), otherComplaintDescription: Mapper.i.$getOpt(map, 'otherComplaintDescription'));
+
+  @override Function get encoder => (PgrAdditionalDetails v) => encode(v);
+  dynamic encode(PgrAdditionalDetails v) => toMap(v);
+  Map<String, dynamic> toMap(PgrAdditionalDetails p) => {if (Mapper.i.$enc(p.supervisorName, 'supervisorName') != null) 'supervisorName': Mapper.i.$enc(p.supervisorName, 'supervisorName'), if (Mapper.i.$enc(p.supervisorContactNumber, 'supervisorContactNumber') != null) 'supervisorContactNumber': Mapper.i.$enc(p.supervisorContactNumber, 'supervisorContactNumber'), if (Mapper.i.$enc(p.otherComplaintDescription, 'otherComplaintDescription') != null) 'otherComplaintDescription': Mapper.i.$enc(p.otherComplaintDescription, 'otherComplaintDescription')};
+
+  @override String stringify(PgrAdditionalDetails self) => 'PgrAdditionalDetails(supervisorName: ${Mapper.asString(self.supervisorName)}, supervisorContactNumber: ${Mapper.asString(self.supervisorContactNumber)}, otherComplaintDescription: ${Mapper.asString(self.otherComplaintDescription)})';
+  @override int hash(PgrAdditionalDetails self) => Mapper.hash(self.supervisorName) ^ Mapper.hash(self.supervisorContactNumber) ^ Mapper.hash(self.otherComplaintDescription);
+  @override bool equals(PgrAdditionalDetails self, PgrAdditionalDetails other) => Mapper.isEqual(self.supervisorName, other.supervisorName) && Mapper.isEqual(self.supervisorContactNumber, other.supervisorContactNumber) && Mapper.isEqual(self.otherComplaintDescription, other.otherComplaintDescription);
+
+  @override Function get typeFactory => (f) => f<PgrAdditionalDetails>();
+}
+
+extension PgrAdditionalDetailsMapperExtension  on PgrAdditionalDetails {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrAdditionalDetailsCopyWith<PgrAdditionalDetails> get copyWith => PgrAdditionalDetailsCopyWith(this, $identity);
+}
+
+abstract class PgrAdditionalDetailsCopyWith<$R> {
+  factory PgrAdditionalDetailsCopyWith(PgrAdditionalDetails value, Then<PgrAdditionalDetails, $R> then) = _PgrAdditionalDetailsCopyWithImpl<$R>;
+  $R call({String? supervisorName, String? supervisorContactNumber, String? otherComplaintDescription});
+  $R apply(PgrAdditionalDetails Function(PgrAdditionalDetails) transform);
+}
+
+class _PgrAdditionalDetailsCopyWithImpl<$R> extends BaseCopyWith<PgrAdditionalDetails, $R> implements PgrAdditionalDetailsCopyWith<$R> {
+  _PgrAdditionalDetailsCopyWithImpl(PgrAdditionalDetails value, Then<PgrAdditionalDetails, $R> then) : super(value, then);
+
+  @override $R call({Object? supervisorName = $none, Object? supervisorContactNumber = $none, Object? otherComplaintDescription = $none}) => $then(PgrAdditionalDetails(supervisorName: or(supervisorName, $value.supervisorName), supervisorContactNumber: or(supervisorContactNumber, $value.supervisorContactNumber), otherComplaintDescription: or(otherComplaintDescription, $value.otherComplaintDescription)));
+}
+
+class PgrServiceCreateResponseModelMapper extends BaseMapper<PgrServiceCreateResponseModel> {
+  PgrServiceCreateResponseModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrServiceCreateResponseModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrServiceCreateResponseModel fromMap(Map<String, dynamic> map) => PgrServiceCreateResponseModel(serviceWrappers: Mapper.i.$getOpt(map, 'ServiceWrappers') ?? const []);
+
+  @override Function get encoder => (PgrServiceCreateResponseModel v) => encode(v);
+  dynamic encode(PgrServiceCreateResponseModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrServiceCreateResponseModel p) => {'ServiceWrappers': Mapper.i.$enc(p.serviceWrappers, 'serviceWrappers')};
+
+  @override String stringify(PgrServiceCreateResponseModel self) => 'PgrServiceCreateResponseModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, serviceWrappers: ${Mapper.asString(self.serviceWrappers)})';
+  @override int hash(PgrServiceCreateResponseModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.serviceWrappers);
+  @override bool equals(PgrServiceCreateResponseModel self, PgrServiceCreateResponseModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.serviceWrappers, other.serviceWrappers);
+
+  @override Function get typeFactory => (f) => f<PgrServiceCreateResponseModel>();
+}
+
+extension PgrServiceCreateResponseModelMapperExtension  on PgrServiceCreateResponseModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrServiceCreateResponseModelCopyWith<PgrServiceCreateResponseModel> get copyWith => PgrServiceCreateResponseModelCopyWith(this, $identity);
+}
+
+abstract class PgrServiceCreateResponseModelCopyWith<$R> {
+  factory PgrServiceCreateResponseModelCopyWith(PgrServiceCreateResponseModel value, Then<PgrServiceCreateResponseModel, $R> then) = _PgrServiceCreateResponseModelCopyWithImpl<$R>;
+  ListCopyWith<$R, PgrComplaintResponseModel, PgrComplaintResponseModelCopyWith<$R>> get serviceWrappers;
+  $R call({List<PgrComplaintResponseModel>? serviceWrappers});
+  $R apply(PgrServiceCreateResponseModel Function(PgrServiceCreateResponseModel) transform);
+}
+
+class _PgrServiceCreateResponseModelCopyWithImpl<$R> extends BaseCopyWith<PgrServiceCreateResponseModel, $R> implements PgrServiceCreateResponseModelCopyWith<$R> {
+  _PgrServiceCreateResponseModelCopyWithImpl(PgrServiceCreateResponseModel value, Then<PgrServiceCreateResponseModel, $R> then) : super(value, then);
+
+  @override ListCopyWith<$R, PgrComplaintResponseModel, PgrComplaintResponseModelCopyWith<$R>> get serviceWrappers => ListCopyWith($value.serviceWrappers, (v, t) => PgrComplaintResponseModelCopyWith(v, t), (v) => call(serviceWrappers: v));
+  @override $R call({List<PgrComplaintResponseModel>? serviceWrappers}) => $then(PgrServiceCreateResponseModel(serviceWrappers: serviceWrappers ?? $value.serviceWrappers));
+}
+
+class PgrComplaintResponseModelMapper extends BaseMapper<PgrComplaintResponseModel> {
+  PgrComplaintResponseModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrComplaintResponseModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrComplaintResponseModel fromMap(Map<String, dynamic> map) => PgrComplaintResponseModel(service: Mapper.i.$get(map, 'service'), workflow: Mapper.i.$getOpt(map, 'workflow'));
+
+  @override Function get encoder => (PgrComplaintResponseModel v) => encode(v);
+  dynamic encode(PgrComplaintResponseModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrComplaintResponseModel p) => {'service': Mapper.i.$enc(p.service, 'service'), if (Mapper.i.$enc(p.workflow, 'workflow') != null) 'workflow': Mapper.i.$enc(p.workflow, 'workflow')};
+
+  @override String stringify(PgrComplaintResponseModel self) => 'PgrComplaintResponseModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, service: ${Mapper.asString(self.service)}, workflow: ${Mapper.asString(self.workflow)})';
+  @override int hash(PgrComplaintResponseModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.service) ^ Mapper.hash(self.workflow);
+  @override bool equals(PgrComplaintResponseModel self, PgrComplaintResponseModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.service, other.service) && Mapper.isEqual(self.workflow, other.workflow);
+
+  @override Function get typeFactory => (f) => f<PgrComplaintResponseModel>();
+}
+
+extension PgrComplaintResponseModelMapperExtension  on PgrComplaintResponseModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrComplaintResponseModelCopyWith<PgrComplaintResponseModel> get copyWith => PgrComplaintResponseModelCopyWith(this, $identity);
+}
+
+abstract class PgrComplaintResponseModelCopyWith<$R> {
+  factory PgrComplaintResponseModelCopyWith(PgrComplaintResponseModel value, Then<PgrComplaintResponseModel, $R> then) = _PgrComplaintResponseModelCopyWithImpl<$R>;
+  PgrServiceResponseModelCopyWith<$R> get service;
+  PgrWorkflowModelCopyWith<$R>? get workflow;
+  $R call({PgrServiceResponseModel? service, PgrWorkflowModel? workflow});
+  $R apply(PgrComplaintResponseModel Function(PgrComplaintResponseModel) transform);
+}
+
+class _PgrComplaintResponseModelCopyWithImpl<$R> extends BaseCopyWith<PgrComplaintResponseModel, $R> implements PgrComplaintResponseModelCopyWith<$R> {
+  _PgrComplaintResponseModelCopyWithImpl(PgrComplaintResponseModel value, Then<PgrComplaintResponseModel, $R> then) : super(value, then);
+
+  @override PgrServiceResponseModelCopyWith<$R> get service => PgrServiceResponseModelCopyWith($value.service, (v) => call(service: v));
+  @override PgrWorkflowModelCopyWith<$R>? get workflow => $value.workflow != null ? PgrWorkflowModelCopyWith($value.workflow!, (v) => call(workflow: v)) : null;
+  @override $R call({PgrServiceResponseModel? service, Object? workflow = $none}) => $then(PgrComplaintResponseModel(service: service ?? $value.service, workflow: or(workflow, $value.workflow)));
+}
+
+class PgrComplainantResponseModelMapper extends BaseMapper<PgrComplainantResponseModel> {
+  PgrComplainantResponseModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrComplainantResponseModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrComplainantResponseModel fromMap(Map<String, dynamic> map) => PgrComplainantResponseModel(id: Mapper.i.$getOpt(map, 'id'), userName: Mapper.i.$getOpt(map, 'userName'), name: Mapper.i.$getOpt(map, 'name'), type: Mapper.i.$getOpt(map, 'type'), mobileNumber: Mapper.i.$getOpt(map, 'mobileNumber'), emailId: Mapper.i.$getOpt(map, 'emailId'), roles: Mapper.i.$getOpt(map, 'roles') ?? const [], tenantId: Mapper.i.$getOpt(map, 'tenantId'), uuid: Mapper.i.$getOpt(map, 'uuid'), active: Mapper.i.$getOpt(map, 'active') ?? true, isDeleted: Mapper.i.$getOpt(map, 'isDeleted') ?? false, rowVersion: Mapper.i.$getOpt(map, 'rowVersion') ?? 1, auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+
+  @override Function get encoder => (PgrComplainantResponseModel v) => encode(v);
+  dynamic encode(PgrComplainantResponseModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrComplainantResponseModel p) => {if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), if (Mapper.i.$enc(p.userName, 'userName') != null) 'userName': Mapper.i.$enc(p.userName, 'userName'), if (Mapper.i.$enc(p.name, 'name') != null) 'name': Mapper.i.$enc(p.name, 'name'), if (Mapper.i.$enc(p.type, 'type') != null) 'type': Mapper.i.$enc(p.type, 'type'), if (Mapper.i.$enc(p.mobileNumber, 'mobileNumber') != null) 'mobileNumber': Mapper.i.$enc(p.mobileNumber, 'mobileNumber'), if (Mapper.i.$enc(p.emailId, 'emailId') != null) 'emailId': Mapper.i.$enc(p.emailId, 'emailId'), if (Mapper.i.$enc(p.roles, 'roles') != null) 'roles': Mapper.i.$enc(p.roles, 'roles'), if (Mapper.i.$enc(p.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.uuid, 'uuid') != null) 'uuid': Mapper.i.$enc(p.uuid, 'uuid'), if (Mapper.i.$enc(p.active, 'active') != null) 'active': Mapper.i.$enc(p.active, 'active'), if (Mapper.i.$enc(p.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), if (Mapper.i.$enc(p.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(p.rowVersion, 'rowVersion'), if (Mapper.i.$enc(p.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(p.auditDetails, 'auditDetails')};
+
+  @override String stringify(PgrComplainantResponseModel self) => 'PgrComplainantResponseModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, id: ${Mapper.asString(self.id)}, userName: ${Mapper.asString(self.userName)}, name: ${Mapper.asString(self.name)}, type: ${Mapper.asString(self.type)}, mobileNumber: ${Mapper.asString(self.mobileNumber)}, emailId: ${Mapper.asString(self.emailId)}, roles: ${Mapper.asString(self.roles)}, tenantId: ${Mapper.asString(self.tenantId)}, uuid: ${Mapper.asString(self.uuid)}, active: ${Mapper.asString(self.active)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)})';
+  @override int hash(PgrComplainantResponseModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.id) ^ Mapper.hash(self.userName) ^ Mapper.hash(self.name) ^ Mapper.hash(self.type) ^ Mapper.hash(self.mobileNumber) ^ Mapper.hash(self.emailId) ^ Mapper.hash(self.roles) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.uuid) ^ Mapper.hash(self.active) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion);
+  @override bool equals(PgrComplainantResponseModel self, PgrComplainantResponseModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.userName, other.userName) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.type, other.type) && Mapper.isEqual(self.mobileNumber, other.mobileNumber) && Mapper.isEqual(self.emailId, other.emailId) && Mapper.isEqual(self.roles, other.roles) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.uuid, other.uuid) && Mapper.isEqual(self.active, other.active) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion);
+
+  @override Function get typeFactory => (f) => f<PgrComplainantResponseModel>();
+}
+
+extension PgrComplainantResponseModelMapperExtension  on PgrComplainantResponseModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrComplainantResponseModelCopyWith<PgrComplainantResponseModel> get copyWith => PgrComplainantResponseModelCopyWith(this, $identity);
+}
+
+abstract class PgrComplainantResponseModelCopyWith<$R> {
+  factory PgrComplainantResponseModelCopyWith(PgrComplainantResponseModel value, Then<PgrComplainantResponseModel, $R> then) = _PgrComplainantResponseModelCopyWithImpl<$R>;
+  ListCopyWith<$R, PgrRolesModel, PgrRolesModelCopyWith<$R>>? get roles;
+  AuditDetailsCopyWith<$R>? get auditDetails;
+  $R call({int? id, String? userName, String? name, String? type, String? mobileNumber, String? emailId, List<PgrRolesModel>? roles, String? tenantId, String? uuid, bool? active, bool? isDeleted, int? rowVersion, AuditDetails? auditDetails});
+  $R apply(PgrComplainantResponseModel Function(PgrComplainantResponseModel) transform);
+}
+
+class _PgrComplainantResponseModelCopyWithImpl<$R> extends BaseCopyWith<PgrComplainantResponseModel, $R> implements PgrComplainantResponseModelCopyWith<$R> {
+  _PgrComplainantResponseModelCopyWithImpl(PgrComplainantResponseModel value, Then<PgrComplainantResponseModel, $R> then) : super(value, then);
+
+  @override ListCopyWith<$R, PgrRolesModel, PgrRolesModelCopyWith<$R>>? get roles => $value.roles != null ? ListCopyWith($value.roles!, (v, t) => PgrRolesModelCopyWith(v, t), (v) => call(roles: v)) : null;
+  @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
+  @override $R call({Object? id = $none, Object? userName = $none, Object? name = $none, Object? type = $none, Object? mobileNumber = $none, Object? emailId = $none, Object? roles = $none, Object? tenantId = $none, Object? uuid = $none, Object? active = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? auditDetails = $none}) => $then(PgrComplainantResponseModel(id: or(id, $value.id), userName: or(userName, $value.userName), name: or(name, $value.name), type: or(type, $value.type), mobileNumber: or(mobileNumber, $value.mobileNumber), emailId: or(emailId, $value.emailId), roles: or(roles, $value.roles), tenantId: or(tenantId, $value.tenantId), uuid: or(uuid, $value.uuid), active: or(active, $value.active), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails)));
+}
+
+class PgrServiceResponseModelMapper extends BaseMapper<PgrServiceResponseModel> {
+  PgrServiceResponseModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrServiceResponseModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrServiceResponseModel fromMap(Map<String, dynamic> map) => PgrServiceResponseModel(active: Mapper.i.$getOpt(map, 'active') ?? true, id: Mapper.i.$getOpt(map, 'id'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), serviceCode: Mapper.i.$getOpt(map, 'serviceCode'), serviceRequestId: Mapper.i.$getOpt(map, 'serviceRequestId'), description: Mapper.i.$getOpt(map, 'description'), accountId: Mapper.i.$getOpt(map, 'accountId'), applicationStatus: Mapper.i.$getOpt(map, 'applicationStatus'), source: Mapper.i.$getOpt(map, 'source'), user: Mapper.i.$getOpt(map, 'user'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted') ?? false, rowVersion: Mapper.i.$getOpt(map, 'rowVersion') ?? 1, auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+
+  @override Function get encoder => (PgrServiceResponseModel v) => encode(v);
+  dynamic encode(PgrServiceResponseModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrServiceResponseModel p) => {if (Mapper.i.$enc(p.active, 'active') != null) 'active': Mapper.i.$enc(p.active, 'active'), if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), if (Mapper.i.$enc(p.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.serviceCode, 'serviceCode') != null) 'serviceCode': Mapper.i.$enc(p.serviceCode, 'serviceCode'), if (Mapper.i.$enc(p.serviceRequestId, 'serviceRequestId') != null) 'serviceRequestId': Mapper.i.$enc(p.serviceRequestId, 'serviceRequestId'), if (Mapper.i.$enc(p.description, 'description') != null) 'description': Mapper.i.$enc(p.description, 'description'), if (Mapper.i.$enc(p.accountId, 'accountId') != null) 'accountId': Mapper.i.$enc(p.accountId, 'accountId'), if (Mapper.i.$enc(p.applicationStatus, 'applicationStatus') != null) 'applicationStatus': Mapper.i.$enc(p.applicationStatus, 'applicationStatus'), if (Mapper.i.$enc(p.source, 'source') != null) 'source': Mapper.i.$enc(p.source, 'source'), if (Mapper.i.$enc(p.user, 'user') != null) 'user': Mapper.i.$enc(p.user, 'user'), if (Mapper.i.$enc(p.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), if (Mapper.i.$enc(p.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(p.rowVersion, 'rowVersion'), if (Mapper.i.$enc(p.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(p.auditDetails, 'auditDetails')};
+
+  @override String stringify(PgrServiceResponseModel self) => 'PgrServiceResponseModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, active: ${Mapper.asString(self.active)}, user: ${Mapper.asString(self.user)}, id: ${Mapper.asString(self.id)}, tenantId: ${Mapper.asString(self.tenantId)}, serviceCode: ${Mapper.asString(self.serviceCode)}, serviceRequestId: ${Mapper.asString(self.serviceRequestId)}, description: ${Mapper.asString(self.description)}, accountId: ${Mapper.asString(self.accountId)}, applicationStatus: ${Mapper.asString(self.applicationStatus)}, source: ${Mapper.asString(self.source)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)})';
+  @override int hash(PgrServiceResponseModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.active) ^ Mapper.hash(self.user) ^ Mapper.hash(self.id) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.serviceCode) ^ Mapper.hash(self.serviceRequestId) ^ Mapper.hash(self.description) ^ Mapper.hash(self.accountId) ^ Mapper.hash(self.applicationStatus) ^ Mapper.hash(self.source) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion);
+  @override bool equals(PgrServiceResponseModel self, PgrServiceResponseModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.active, other.active) && Mapper.isEqual(self.user, other.user) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.serviceCode, other.serviceCode) && Mapper.isEqual(self.serviceRequestId, other.serviceRequestId) && Mapper.isEqual(self.description, other.description) && Mapper.isEqual(self.accountId, other.accountId) && Mapper.isEqual(self.applicationStatus, other.applicationStatus) && Mapper.isEqual(self.source, other.source) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion);
+
+  @override Function get typeFactory => (f) => f<PgrServiceResponseModel>();
+}
+
+extension PgrServiceResponseModelMapperExtension  on PgrServiceResponseModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrServiceResponseModelCopyWith<PgrServiceResponseModel> get copyWith => PgrServiceResponseModelCopyWith(this, $identity);
+}
+
+abstract class PgrServiceResponseModelCopyWith<$R> {
+  factory PgrServiceResponseModelCopyWith(PgrServiceResponseModel value, Then<PgrServiceResponseModel, $R> then) = _PgrServiceResponseModelCopyWithImpl<$R>;
+  PgrComplainantResponseModelCopyWith<$R>? get user;
+  AuditDetailsCopyWith<$R>? get auditDetails;
+  $R call({bool? active, String? id, String? tenantId, String? serviceCode, String? serviceRequestId, String? description, String? accountId, PgrServiceApplicationStatus? applicationStatus, String? source, PgrComplainantResponseModel? user, bool? isDeleted, int? rowVersion, AuditDetails? auditDetails});
+  $R apply(PgrServiceResponseModel Function(PgrServiceResponseModel) transform);
+}
+
+class _PgrServiceResponseModelCopyWithImpl<$R> extends BaseCopyWith<PgrServiceResponseModel, $R> implements PgrServiceResponseModelCopyWith<$R> {
+  _PgrServiceResponseModelCopyWithImpl(PgrServiceResponseModel value, Then<PgrServiceResponseModel, $R> then) : super(value, then);
+
+  @override PgrComplainantResponseModelCopyWith<$R>? get user => $value.user != null ? PgrComplainantResponseModelCopyWith($value.user!, (v) => call(user: v)) : null;
+  @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
+  @override $R call({Object? active = $none, Object? id = $none, Object? tenantId = $none, Object? serviceCode = $none, Object? serviceRequestId = $none, Object? description = $none, Object? accountId = $none, Object? applicationStatus = $none, Object? source = $none, Object? user = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? auditDetails = $none}) => $then(PgrServiceResponseModel(active: or(active, $value.active), id: or(id, $value.id), tenantId: or(tenantId, $value.tenantId), serviceCode: or(serviceCode, $value.serviceCode), serviceRequestId: or(serviceRequestId, $value.serviceRequestId), description: or(description, $value.description), accountId: or(accountId, $value.accountId), applicationStatus: or(applicationStatus, $value.applicationStatus), source: or(source, $value.source), user: or(user, $value.user), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails)));
+}
+
+class PgrAddressModelMapper extends BaseMapper<PgrAddressModel> {
+  PgrAddressModelMapper._();
+
+  @override Function get decoder => decode;
+  PgrAddressModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  PgrAddressModel fromMap(Map<String, dynamic> map) => PgrAddressModel(tenantId: Mapper.i.$getOpt(map, 'tenantId'), relatedClientReferenceId: Mapper.i.$getOpt(map, 'relatedClientReferenceId'), doorNo: Mapper.i.$getOpt(map, 'doorNo'), plotNo: Mapper.i.$getOpt(map, 'plotNo'), id: Mapper.i.$getOpt(map, 'id'), landmark: Mapper.i.$getOpt(map, 'landmark'), city: Mapper.i.$getOpt(map, 'city'), district: Mapper.i.$getOpt(map, 'district'), region: Mapper.i.$getOpt(map, 'region'), state: Mapper.i.$getOpt(map, 'state'), country: Mapper.i.$getOpt(map, 'country'), pincode: Mapper.i.$getOpt(map, 'pincode'), buildingName: Mapper.i.$getOpt(map, 'buildingName'), street: Mapper.i.$getOpt(map, 'street'), locality: Mapper.i.$getOpt(map, 'locality'), geoLocation: Mapper.i.$getOpt(map, 'geoLocation'), additionDetails: Mapper.i.$getOpt(map, 'additionDetails'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'));
+
+  @override Function get encoder => (PgrAddressModel v) => encode(v);
+  dynamic encode(PgrAddressModel v) => toMap(v);
+  Map<String, dynamic> toMap(PgrAddressModel p) => {if (Mapper.i.$enc(p.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.relatedClientReferenceId, 'relatedClientReferenceId') != null) 'relatedClientReferenceId': Mapper.i.$enc(p.relatedClientReferenceId, 'relatedClientReferenceId'), if (Mapper.i.$enc(p.doorNo, 'doorNo') != null) 'doorNo': Mapper.i.$enc(p.doorNo, 'doorNo'), if (Mapper.i.$enc(p.plotNo, 'plotNo') != null) 'plotNo': Mapper.i.$enc(p.plotNo, 'plotNo'), if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), if (Mapper.i.$enc(p.landmark, 'landmark') != null) 'landmark': Mapper.i.$enc(p.landmark, 'landmark'), if (Mapper.i.$enc(p.city, 'city') != null) 'city': Mapper.i.$enc(p.city, 'city'), if (Mapper.i.$enc(p.district, 'district') != null) 'district': Mapper.i.$enc(p.district, 'district'), if (Mapper.i.$enc(p.region, 'region') != null) 'region': Mapper.i.$enc(p.region, 'region'), if (Mapper.i.$enc(p.state, 'state') != null) 'state': Mapper.i.$enc(p.state, 'state'), if (Mapper.i.$enc(p.country, 'country') != null) 'country': Mapper.i.$enc(p.country, 'country'), if (Mapper.i.$enc(p.pincode, 'pincode') != null) 'pincode': Mapper.i.$enc(p.pincode, 'pincode'), if (Mapper.i.$enc(p.buildingName, 'buildingName') != null) 'buildingName': Mapper.i.$enc(p.buildingName, 'buildingName'), if (Mapper.i.$enc(p.street, 'street') != null) 'street': Mapper.i.$enc(p.street, 'street'), if (Mapper.i.$enc(p.locality, 'locality') != null) 'locality': Mapper.i.$enc(p.locality, 'locality'), if (Mapper.i.$enc(p.geoLocation, 'geoLocation') != null) 'geoLocation': Mapper.i.$enc(p.geoLocation, 'geoLocation'), if (Mapper.i.$enc(p.additionDetails, 'additionDetails') != null) 'additionDetails': Mapper.i.$enc(p.additionDetails, 'additionDetails'), if (Mapper.i.$enc(p.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), if (Mapper.i.$enc(p.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(p.rowVersion, 'rowVersion')};
+
+  @override String stringify(PgrAddressModel self) => 'PgrAddressModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, tenantId: ${Mapper.asString(self.tenantId)}, relatedClientReferenceId: ${Mapper.asString(self.relatedClientReferenceId)}, doorNo: ${Mapper.asString(self.doorNo)}, plotNo: ${Mapper.asString(self.plotNo)}, id: ${Mapper.asString(self.id)}, landmark: ${Mapper.asString(self.landmark)}, city: ${Mapper.asString(self.city)}, district: ${Mapper.asString(self.district)}, region: ${Mapper.asString(self.region)}, state: ${Mapper.asString(self.state)}, country: ${Mapper.asString(self.country)}, pincode: ${Mapper.asString(self.pincode)}, buildingName: ${Mapper.asString(self.buildingName)}, street: ${Mapper.asString(self.street)}, locality: ${Mapper.asString(self.locality)}, geoLocation: ${Mapper.asString(self.geoLocation)}, additionDetails: ${Mapper.asString(self.additionDetails)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)})';
+  @override int hash(PgrAddressModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.relatedClientReferenceId) ^ Mapper.hash(self.doorNo) ^ Mapper.hash(self.plotNo) ^ Mapper.hash(self.id) ^ Mapper.hash(self.landmark) ^ Mapper.hash(self.city) ^ Mapper.hash(self.district) ^ Mapper.hash(self.region) ^ Mapper.hash(self.state) ^ Mapper.hash(self.country) ^ Mapper.hash(self.pincode) ^ Mapper.hash(self.buildingName) ^ Mapper.hash(self.street) ^ Mapper.hash(self.locality) ^ Mapper.hash(self.geoLocation) ^ Mapper.hash(self.additionDetails) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion);
+  @override bool equals(PgrAddressModel self, PgrAddressModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.relatedClientReferenceId, other.relatedClientReferenceId) && Mapper.isEqual(self.doorNo, other.doorNo) && Mapper.isEqual(self.plotNo, other.plotNo) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.landmark, other.landmark) && Mapper.isEqual(self.city, other.city) && Mapper.isEqual(self.district, other.district) && Mapper.isEqual(self.region, other.region) && Mapper.isEqual(self.state, other.state) && Mapper.isEqual(self.country, other.country) && Mapper.isEqual(self.pincode, other.pincode) && Mapper.isEqual(self.buildingName, other.buildingName) && Mapper.isEqual(self.street, other.street) && Mapper.isEqual(self.locality, other.locality) && Mapper.isEqual(self.geoLocation, other.geoLocation) && Mapper.isEqual(self.additionDetails, other.additionDetails) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion);
+
+  @override Function get typeFactory => (f) => f<PgrAddressModel>();
+}
+
+extension PgrAddressModelMapperExtension  on PgrAddressModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  PgrAddressModelCopyWith<PgrAddressModel> get copyWith => PgrAddressModelCopyWith(this, $identity);
+}
+
+abstract class PgrAddressModelCopyWith<$R> {
+  factory PgrAddressModelCopyWith(PgrAddressModel value, Then<PgrAddressModel, $R> then) = _PgrAddressModelCopyWithImpl<$R>;
+  LocalityModelCopyWith<$R>? get locality;
+  GeoLocationCopyWith<$R>? get geoLocation;
+  $R call({String? tenantId, String? relatedClientReferenceId, String? doorNo, String? plotNo, String? id, String? landmark, String? city, String? district, String? region, String? state, String? country, String? pincode, String? buildingName, String? street, LocalityModel? locality, GeoLocation? geoLocation, Map<String, dynamic>? additionDetails, bool? isDeleted, int? rowVersion});
+  $R apply(PgrAddressModel Function(PgrAddressModel) transform);
+}
+
+class _PgrAddressModelCopyWithImpl<$R> extends BaseCopyWith<PgrAddressModel, $R> implements PgrAddressModelCopyWith<$R> {
+  _PgrAddressModelCopyWithImpl(PgrAddressModel value, Then<PgrAddressModel, $R> then) : super(value, then);
+
+  @override LocalityModelCopyWith<$R>? get locality => $value.locality != null ? LocalityModelCopyWith($value.locality!, (v) => call(locality: v)) : null;
+  @override GeoLocationCopyWith<$R>? get geoLocation => $value.geoLocation != null ? GeoLocationCopyWith($value.geoLocation!, (v) => call(geoLocation: v)) : null;
+  @override $R call({Object? tenantId = $none, Object? relatedClientReferenceId = $none, Object? doorNo = $none, Object? plotNo = $none, Object? id = $none, Object? landmark = $none, Object? city = $none, Object? district = $none, Object? region = $none, Object? state = $none, Object? country = $none, Object? pincode = $none, Object? buildingName = $none, Object? street = $none, Object? locality = $none, Object? geoLocation = $none, Object? additionDetails = $none, Object? isDeleted = $none, Object? rowVersion = $none}) => $then(PgrAddressModel(tenantId: or(tenantId, $value.tenantId), relatedClientReferenceId: or(relatedClientReferenceId, $value.relatedClientReferenceId), doorNo: or(doorNo, $value.doorNo), plotNo: or(plotNo, $value.plotNo), id: or(id, $value.id), landmark: or(landmark, $value.landmark), city: or(city, $value.city), district: or(district, $value.district), region: or(region, $value.region), state: or(state, $value.state), country: or(country, $value.country), pincode: or(pincode, $value.pincode), buildingName: or(buildingName, $value.buildingName), street: or(street, $value.street), locality: or(locality, $value.locality), geoLocation: or(geoLocation, $value.geoLocation), additionDetails: or(additionDetails, $value.additionDetails), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion)));
+}
+
+class GeoLocationMapper extends BaseMapper<GeoLocation> {
+  GeoLocationMapper._();
+
+  @override Function get decoder => decode;
+  GeoLocation decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  GeoLocation fromMap(Map<String, dynamic> map) => GeoLocation(latitude: Mapper.i.$getOpt(map, 'latitude'), longitude: Mapper.i.$getOpt(map, 'longitude'), additionalDetails: Mapper.i.$getOpt(map, 'additionalDetails'));
+
+  @override Function get encoder => (GeoLocation v) => encode(v);
+  dynamic encode(GeoLocation v) => toMap(v);
+  Map<String, dynamic> toMap(GeoLocation g) => {if (Mapper.i.$enc(g.latitude, 'latitude') != null) 'latitude': Mapper.i.$enc(g.latitude, 'latitude'), if (Mapper.i.$enc(g.longitude, 'longitude') != null) 'longitude': Mapper.i.$enc(g.longitude, 'longitude'), if (Mapper.i.$enc(g.additionalDetails, 'additionalDetails') != null) 'additionalDetails': Mapper.i.$enc(g.additionalDetails, 'additionalDetails')};
+
+  @override String stringify(GeoLocation self) => 'GeoLocation(latitude: ${Mapper.asString(self.latitude)}, longitude: ${Mapper.asString(self.longitude)}, additionalDetails: ${Mapper.asString(self.additionalDetails)})';
+  @override int hash(GeoLocation self) => Mapper.hash(self.latitude) ^ Mapper.hash(self.longitude) ^ Mapper.hash(self.additionalDetails);
+  @override bool equals(GeoLocation self, GeoLocation other) => Mapper.isEqual(self.latitude, other.latitude) && Mapper.isEqual(self.longitude, other.longitude) && Mapper.isEqual(self.additionalDetails, other.additionalDetails);
+
+  @override Function get typeFactory => (f) => f<GeoLocation>();
+}
+
+extension GeoLocationMapperExtension  on GeoLocation {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  GeoLocationCopyWith<GeoLocation> get copyWith => GeoLocationCopyWith(this, $identity);
+}
+
+abstract class GeoLocationCopyWith<$R> {
+  factory GeoLocationCopyWith(GeoLocation value, Then<GeoLocation, $R> then) = _GeoLocationCopyWithImpl<$R>;
+  $R call({double? latitude, double? longitude, Map<String, dynamic>? additionalDetails});
+  $R apply(GeoLocation Function(GeoLocation) transform);
+}
+
+class _GeoLocationCopyWithImpl<$R> extends BaseCopyWith<GeoLocation, $R> implements GeoLocationCopyWith<$R> {
+  _GeoLocationCopyWithImpl(GeoLocation value, Then<GeoLocation, $R> then) : super(value, then);
+
+  @override $R call({Object? latitude = $none, Object? longitude = $none, Object? additionalDetails = $none}) => $then(GeoLocation(latitude: or(latitude, $value.latitude), longitude: or(longitude, $value.longitude), additionalDetails: or(additionalDetails, $value.additionalDetails)));
 }
 
 
@@ -3899,6 +4503,35 @@ extension ApiOperationMapperExtension on ApiOperation {
   dynamic toValue() => Mapper.toValue(this);
   @Deprecated('Use \'toValue\' instead')
   String toStringValue() => Mapper.toValue(this) as String;
+}
+
+class PgrServiceApplicationStatusMapper extends EnumMapper<PgrServiceApplicationStatus> {
+  PgrServiceApplicationStatusMapper._();
+
+  @override  PgrServiceApplicationStatus decode(dynamic value) {
+    switch (value) {
+      case 'CREATED': return PgrServiceApplicationStatus.created;
+      case 'PENDING_ASSIGNMENT': return PgrServiceApplicationStatus.pendingAssignment;
+      case 'RESOLVED': return PgrServiceApplicationStatus.resolved;
+      case 'REJECTED': return PgrServiceApplicationStatus.rejected;
+      case 'CANCELLED': return PgrServiceApplicationStatus.cancelled;
+      default: throw MapperException.unknownEnumValue(value);
+    }
+  }
+
+  @override  dynamic encode(PgrServiceApplicationStatus self) {
+    switch (self) {
+      case PgrServiceApplicationStatus.created: return 'CREATED';
+      case PgrServiceApplicationStatus.pendingAssignment: return 'PENDING_ASSIGNMENT';
+      case PgrServiceApplicationStatus.resolved: return 'RESOLVED';
+      case PgrServiceApplicationStatus.rejected: return 'REJECTED';
+      case PgrServiceApplicationStatus.cancelled: return 'CANCELLED';
+    }
+  }
+}
+
+extension PgrServiceApplicationStatusMapperExtension on PgrServiceApplicationStatus {
+  dynamic toValue() => Mapper.toValue(this);
 }
 
 

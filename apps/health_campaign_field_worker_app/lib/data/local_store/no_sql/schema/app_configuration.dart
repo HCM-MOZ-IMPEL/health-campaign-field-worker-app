@@ -41,6 +41,9 @@ class AppConfiguration {
 
   @Name("TENANT_ID")
   late String? tenantId;
+
+  @Name('COMPLAINT_TYPES')
+  late List<ComplaintTypes>? complaintTypes;
 }
 
 @embedded
@@ -93,6 +96,12 @@ class ChecklistTypes {
 
 @embedded
 class TransportTypes {
+  late String name;
+  late String code;
+}
+
+@embedded
+class ComplaintTypes {
   late String name;
   late String code;
 }
