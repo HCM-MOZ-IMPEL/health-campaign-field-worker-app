@@ -380,6 +380,9 @@ class _ComplaintsDetailsPageState
                                     i18.individualDetails
                                         .mobileNumberInvalidFormatValidationMessage,
                                   ),
+                              'minLength': (object) =>
+                                  localizations.translate(i18.complaints
+                                      .validationMinLengthError),
                             },
                           ),
                           DigitTextFormField(
@@ -453,7 +456,8 @@ class _ComplaintsDetailsPageState
       _supervisorContactNumber: FormControl<String>(
         value: complaintDetails?.supervisorContactNumber,
         disabled: shouldDisableForm,
-        validators: [CustomValidator.validMobileNumber],
+        validators: [Validators.minLength(10)],
+        // validators: [CustomValidator.validMobileNumber],
       ),
       _complaintDescription: FormControl<String>(
         value: complaintDetails?.complaintDescription,
