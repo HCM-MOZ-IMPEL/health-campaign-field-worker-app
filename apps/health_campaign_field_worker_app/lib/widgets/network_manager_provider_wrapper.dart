@@ -32,6 +32,7 @@ import '../data/repositories/remote/facility.dart';
 import '../data/repositories/remote/household.dart';
 import '../data/repositories/remote/household_member.dart';
 import '../data/repositories/remote/individual.dart';
+import '../data/repositories/remote/pgr_service.dart';
 import '../data/repositories/remote/product.dart';
 import '../data/repositories/remote/product_variant.dart';
 import '../data/repositories/remote/project.dart';
@@ -392,6 +393,14 @@ class NetworkManagerProviderWrapper extends StatelessWidget {
           RepositoryProvider<
               RemoteRepository<ProductVariantModel, ProductVariantSearchModel>>(
             create: (_) => ProductVariantRemoteRepository(
+              dio,
+              actionMap: actions,
+            ),
+          ),
+        if (value == DataModelType.complaints)
+          RepositoryProvider<
+              RemoteRepository<PgrServiceModel, PgrServiceSearchModel>>(
+            create: (_) => PgrServiceRemoteRepository(
               dio,
               actionMap: actions,
             ),
