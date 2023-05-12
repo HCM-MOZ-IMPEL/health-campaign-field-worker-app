@@ -92,8 +92,13 @@ class _ComplaintsInboxSearchPageState
 
                               final complaintNumberValue =
                                   formGroup.control(_complaintNumber).value;
-                              final mobileNumberValue =
+                              var mobileNumberValue =
                                   formGroup.control(_mobileNumber).value;
+
+                              if (mobileNumberValue != null
+                                  && mobileNumberValue != "") {
+                                mobileNumberValue = '0$mobileNumberValue';
+                              }
 
                               bloc.add(
                                 ComplaintInboxSearchComplaintsEvent(
@@ -174,7 +179,7 @@ class _ComplaintsInboxSearchPageState
         value: state.searchKeys?.complaintNumber,
       ),
       _mobileNumber: FormControl<String>(
-        validators: [CustomValidator.validMobileNumber],
+        validators: [CustomValidator.pgrValidMobileNumber],
         value: state.searchKeys?.complainantMobileNumber,
       ),
     });

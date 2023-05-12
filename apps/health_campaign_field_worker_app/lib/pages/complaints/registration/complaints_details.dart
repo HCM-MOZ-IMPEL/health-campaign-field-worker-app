@@ -340,7 +340,7 @@ class _ComplaintsDetailsPageState
                                       i18.complaints.complainantContactNumber,
                                     ),
                                     readOnly: isRaisedForSelf,
-                                    // maxLength: 10,
+                                    maxLength: 10,
                                     isRequired: true,
                                     keyboardType: TextInputType.number,
                                     validationMessages: {
@@ -445,8 +445,8 @@ class _ComplaintsDetailsPageState
         disabled: shouldDisableForm,
         validators: [
           Validators.required,
-          // CustomValidator.validMobileNumber,
-          // Validators.minLength(10),
+          CustomValidator.pgrValidMobileNumber,
+          Validators.minLength(10),
         ],
       ),
       _supervisorName: FormControl<String>(
@@ -456,8 +456,7 @@ class _ComplaintsDetailsPageState
       _supervisorContactNumber: FormControl<String>(
         value: complaintDetails?.supervisorContactNumber,
         disabled: shouldDisableForm,
-        validators: [Validators.minLength(10)],
-        // validators: [CustomValidator.validMobileNumber],
+        validators: [CustomValidator.pgrValidMobileNumber],
       ),
       _complaintDescription: FormControl<String>(
         value: complaintDetails?.complaintDescription,

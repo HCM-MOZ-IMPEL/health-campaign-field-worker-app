@@ -45,6 +45,26 @@ class CustomValidator {
         : {'Mínimo 2 caracteres necessários': true};
   }
 
+  /// validation for pgr mobile numbers. Need to change later to 9 digits
+  static Map<String, dynamic>? pgrValidMobileNumber(
+      AbstractControl<dynamic> control,
+      ) {
+    if (control.value == null || control.value.toString().isEmpty) {
+      return null;
+    }
+
+    const pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+
+    if (control.value.toString().length!=10){
+      return {'mobileNumber': true};
+
+    }
+
+    if (RegExp(pattern).hasMatch(control.value.toString())) return null;
+
+    return {'mobileNumber': true};
+  }
+
   static Map<String, dynamic>? validMobileNumber(
     AbstractControl<dynamic> control,
   ) {
