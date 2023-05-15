@@ -21,9 +21,9 @@ class NetworkManager {
   const NetworkManager({required this.configuration});
 
   DataRepository<D, R>
-  repository<D extends EntityModel, R extends EntitySearchModel>(
-      BuildContext context,
-      ) {
+      repository<D extends EntityModel, R extends EntitySearchModel>(
+    BuildContext context,
+  ) {
     switch (configuration.persistenceConfig) {
       case PersistenceConfiguration.offlineFirst:
         return context.read<LocalRepository<D, R>>();
@@ -55,12 +55,12 @@ class NetworkManager {
     final pendingSyncEntries = futures.expand((e) => e).toList();
 
     final groupedEntries = pendingSyncEntries.groupListsBy(
-          (element) => element.type,
+      (element) => element.type,
     );
 
     for (final typeGroupedEntity in groupedEntries.entries) {
       final groupedOperations = typeGroupedEntity.value.groupListsBy(
-            (element) => element.operation,
+        (element) => element.operation,
       );
 
       final remote = _getRemoteForType(
@@ -76,86 +76,86 @@ class NetworkManager {
       for (final operationGroupedEntity in groupedOperations.entries) {
         final entities = operationGroupedEntity.value
             .map((e) {
-          final oplogEntryEntity = e.entity;
+              final oplogEntryEntity = e.entity;
 
-          final serverGeneratedId = e.serverGeneratedId;
-          if (serverGeneratedId != null) {
-            var updatedEntity =
-            local.opLogManager.applyServerGeneratedIdToEntity(
-              oplogEntryEntity,
-              serverGeneratedId,
-            );
+              final serverGeneratedId = e.serverGeneratedId;
+              if (serverGeneratedId != null) {
+                var updatedEntity =
+                    local.opLogManager.applyServerGeneratedIdToEntity(
+                  oplogEntryEntity,
+                  serverGeneratedId,
+                );
 
-            if (updatedEntity is HouseholdModel) {
-              final addressId = e.additionalIds.firstWhereOrNull(
+                if (updatedEntity is HouseholdModel) {
+                  final addressId = e.additionalIds.firstWhereOrNull(
                     (element) {
-                  return element.idType == _householdAddressIdKey;
-                },
-              )?.id;
+                      return element.idType == _householdAddressIdKey;
+                    },
+                  )?.id;
 
-              updatedEntity = updatedEntity.copyWith(
-                address: updatedEntity.address?.copyWith(
-                  id: addressId,
-                ),
-              );
-            }
-
-            if (updatedEntity is IndividualModel) {
-              final identifierId = e.additionalIds.firstWhereOrNull(
-                    (element) {
-                  return element.idType == _individualIdentifierIdKey;
-                },
-              )?.id;
-
-              final addressId = e.additionalIds.firstWhereOrNull(
-                    (element) {
-                  return element.idType == _individualAddressIdKey;
-                },
-              )?.id;
-
-              updatedEntity = updatedEntity.copyWith(
-                // TODO: Modify this to work with multiple identifiers
-                identifiers: updatedEntity.identifiers?.map((e) {
-                  return e.copyWith(
-                    id: identifierId,
+                  updatedEntity = updatedEntity.copyWith(
+                    address: updatedEntity.address?.copyWith(
+                      id: addressId,
+                    ),
                   );
-                }).toList(),
+                }
 
-                // TODO: Modify this to work with multiple addresses
-                address: updatedEntity.address?.map((e) {
-                  return e.copyWith(
-                    id: addressId,
+                if (updatedEntity is IndividualModel) {
+                  final identifierId = e.additionalIds.firstWhereOrNull(
+                    (element) {
+                      return element.idType == _individualIdentifierIdKey;
+                    },
+                  )?.id;
+
+                  final addressId = e.additionalIds.firstWhereOrNull(
+                    (element) {
+                      return element.idType == _individualAddressIdKey;
+                    },
+                  )?.id;
+
+                  updatedEntity = updatedEntity.copyWith(
+                    // TODO: Modify this to work with multiple identifiers
+                    identifiers: updatedEntity.identifiers?.map((e) {
+                      return e.copyWith(
+                        id: identifierId,
+                      );
+                    }).toList(),
+
+                    // TODO: Modify this to work with multiple addresses
+                    address: updatedEntity.address?.map((e) {
+                      return e.copyWith(
+                        id: addressId,
+                      );
+                    }).toList(),
                   );
-                }).toList(),
-              );
-            }
+                }
 
-            if (updatedEntity is TaskModel) {
-              final resourceId = e.additionalIds
-                  .firstWhereOrNull(
-                    (element) => element.idType == _taskResourceIdKey,
-              )
-                  ?.id;
+                if (updatedEntity is TaskModel) {
+                  final resourceId = e.additionalIds
+                      .firstWhereOrNull(
+                        (element) => element.idType == _taskResourceIdKey,
+                      )
+                      ?.id;
 
-              updatedEntity = updatedEntity.copyWith(
-                resources: updatedEntity.resources?.map((e) {
-                  if (resourceId != null) {
-                    return e.copyWith(
-                      taskId: serverGeneratedId,
-                      id: resourceId,
-                    );
-                  }
+                  updatedEntity = updatedEntity.copyWith(
+                    resources: updatedEntity.resources?.map((e) {
+                      if (resourceId != null) {
+                        return e.copyWith(
+                          taskId: serverGeneratedId,
+                          id: resourceId,
+                        );
+                      }
 
-                  return e.copyWith(taskId: serverGeneratedId);
-                }).toList(),
-              );
-            }
+                      return e.copyWith(taskId: serverGeneratedId);
+                    }).toList(),
+                  );
+                }
 
-            return updatedEntity;
-          }
+                return updatedEntity;
+              }
 
-          return oplogEntryEntity;
-        })
+              return oplogEntryEntity;
+            })
             .whereNotNull()
             .toList();
 
@@ -183,8 +183,8 @@ class NetworkManager {
                   try {
                     pgrServiceCreateResponseModel =
                         Mapper.fromMap<PgrServiceCreateResponseModel>(
-                          responseData,
-                        );
+                      responseData,
+                    );
                     pgrComplaintModel =
                         pgrServiceCreateResponseModel.serviceWrappers.first;
                   } catch (e) {
@@ -266,12 +266,12 @@ class NetworkManager {
     final pendingSyncEntries = futures.expand((e) => e).toList();
 
     final groupedEntries = pendingSyncEntries.groupListsBy(
-          (element) => element.type,
+      (element) => element.type,
     );
 
     for (final typeGroupedEntity in groupedEntries.entries) {
       final groupedOperations = typeGroupedEntity.value.groupListsBy(
-            (element) => element.operation,
+        (element) => element.operation,
       );
 
       final remote = _getRemoteForType(
@@ -313,9 +313,9 @@ class NetworkManager {
               if (element.id == null) return;
               final entity = element.entity as HouseholdModel;
               final responseEntity =
-              responseEntities.whereType<HouseholdModel>().firstWhereOrNull(
-                    (e) => e.clientReferenceId == entity.clientReferenceId,
-              );
+                  responseEntities.whereType<HouseholdModel>().firstWhereOrNull(
+                        (e) => e.clientReferenceId == entity.clientReferenceId,
+                      );
 
               final serverGeneratedId = responseEntity?.id;
 
@@ -323,9 +323,9 @@ class NetworkManager {
                 final addressAdditionalId = responseEntity?.address?.id == null
                     ? null
                     : AdditionalId(
-                  idType: _householdAddressIdKey,
-                  id: responseEntity!.address!.id!,
-                );
+                        idType: _householdAddressIdKey,
+                        id: responseEntity!.address!.id!,
+                      );
 
                 local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
@@ -358,36 +358,36 @@ class NetworkManager {
                   .whereType<IndividualModel>()
                   .firstWhereOrNull(
                     (e) => e.clientReferenceId == entity.clientReferenceId,
-              );
+                  );
 
               final serverGeneratedId = responseEntity?.id;
 
               if (serverGeneratedId != null) {
                 final identifierAdditionalIds = responseEntity?.identifiers
                     ?.map((e) {
-                  final id = e.id;
+                      final id = e.id;
 
-                  if (id == null) return null;
+                      if (id == null) return null;
 
-                  return AdditionalId(
-                    idType: _individualIdentifierIdKey,
-                    id: id,
-                  );
-                })
+                      return AdditionalId(
+                        idType: _individualIdentifierIdKey,
+                        id: id,
+                      );
+                    })
                     .whereNotNull()
                     .toList();
 
                 final addressAdditionalIds = responseEntity?.address
                     ?.map((e) {
-                  final id = e.id;
+                      final id = e.id;
 
-                  if (id == null) return null;
+                      if (id == null) return null;
 
-                  return AdditionalId(
-                    idType: _individualAddressIdKey,
-                    id: id,
-                  );
-                })
+                      return AdditionalId(
+                        idType: _individualAddressIdKey,
+                        id: id,
+                      );
+                    })
                     .whereNotNull()
                     .toList();
 
@@ -409,7 +409,7 @@ class NetworkManager {
             break;
           case DataModelType.projectBeneficiary:
             responseEntities =
-            await remote.search(ProjectBeneficiarySearchModel(
+                await remote.search(ProjectBeneficiarySearchModel(
               clientReferenceId: entities
                   .whereType<ProjectBeneficiaryModel>()
                   .map((e) => e.clientReferenceId)
@@ -424,7 +424,7 @@ class NetworkManager {
                   .whereType<ProjectBeneficiaryModel>()
                   .firstWhereOrNull(
                     (e) => e.clientReferenceId == entity.clientReferenceId,
-              );
+                  );
               final serverGeneratedId = responseEntity?.id;
 
               if (serverGeneratedId != null) {
@@ -452,10 +452,10 @@ class NetworkManager {
               if (element.id == null) return;
               final taskModel = element.entity as TaskModel;
               var responseEntity =
-              responseEntities.whereType<TaskModel>().firstWhereOrNull(
-                    (e) =>
-                e.clientReferenceId == taskModel.clientReferenceId,
-              );
+                  responseEntities.whereType<TaskModel>().firstWhereOrNull(
+                        (e) =>
+                            e.clientReferenceId == taskModel.clientReferenceId,
+                      );
 
               final serverGeneratedId = responseEntity?.id;
 
@@ -466,14 +466,14 @@ class NetworkManager {
                     serverGeneratedId: serverGeneratedId,
                     additionalIds: responseEntity?.resources
                         ?.map((e) {
-                      final id = e.id;
-                      if (id == null) return null;
+                          final id = e.id;
+                          if (id == null) return null;
 
-                      return AdditionalId(
-                        idType: _taskResourceIdKey,
-                        id: id,
-                      );
-                    })
+                          return AdditionalId(
+                            idType: _taskResourceIdKey,
+                            id: id,
+                          );
+                        })
                         .whereNotNull()
                         .toList(),
                     dataOperation: element.operation,
@@ -499,9 +499,9 @@ class NetworkManager {
               if (element.id == null) return;
               final entity = element.entity as StockModel;
               final responseEntity =
-              responseEntities.whereType<StockModel>().firstWhereOrNull(
-                    (e) => e.clientReferenceId == entity.clientReferenceId,
-              );
+                  responseEntities.whereType<StockModel>().firstWhereOrNull(
+                        (e) => e.clientReferenceId == entity.clientReferenceId,
+                      );
 
               final serverGeneratedId = responseEntity?.id;
 
@@ -520,7 +520,7 @@ class NetworkManager {
 
           case DataModelType.stockReconciliation:
             responseEntities =
-            await remote.search(StockReconciliationSearchModel(
+                await remote.search(StockReconciliationSearchModel(
               clientReferenceId: entities
                   .whereType<StockReconciliationModel>()
                   .map((e) => e.clientReferenceId)
@@ -535,7 +535,7 @@ class NetworkManager {
                   .whereType<StockReconciliationModel>()
                   .firstWhereOrNull(
                     (e) => e.clientReferenceId == entity.clientReferenceId,
-              );
+                  );
 
               final serverGeneratedId = responseEntity?.id;
 
@@ -560,7 +560,7 @@ class NetworkManager {
                 .map((e) => e.serviceRequestId)
                 .whereNotNull()
                 .map(
-                  (e) {
+              (e) {
                 final future = remote.searchWithoutClientReferenceId(
                   PgrServiceSearchModel(
                     serviceRequestId: e,
@@ -582,22 +582,22 @@ class NetworkManager {
             responseEntities = resolvedFutures
                 .expand((element) => element)
                 .whereType<PgrServiceResponseModel>()
-            // We only need serviceRequestId and application status
+                // We only need serviceRequestId and application status
                 .map((e) => PgrServiceModel(
-              clientReferenceId: '',
-              tenantId: e.tenantId ?? '',
-              serviceCode: e.serviceCode ?? '',
-              description: e.description ?? '',
-              serviceRequestId: e.serviceRequestId,
-              applicationStatus: e.applicationStatus ??
-                  PgrServiceApplicationStatus.pendingAssignment,
-              user: PgrComplainantModel(
-                clientReferenceId: '',
-                tenantId: '',
-                complaintClientReferenceId: e.serviceRequestId ?? '',
-              ),
-              address: PgrAddressModel(),
-            ))
+                      clientReferenceId: '',
+                      tenantId: e.tenantId ?? '',
+                      serviceCode: e.serviceCode ?? '',
+                      description: e.description ?? '',
+                      serviceRequestId: e.serviceRequestId,
+                      applicationStatus: e.applicationStatus ??
+                          PgrServiceApplicationStatus.pendingAssignment,
+                      user: PgrComplainantModel(
+                        clientReferenceId: '',
+                        tenantId: '',
+                        complaintClientReferenceId: e.serviceRequestId ?? '',
+                      ),
+                      address: PgrAddressModel(),
+                    ))
                 .toList();
 
             for (var element in typeGroupedEntity.value) {
@@ -607,7 +607,7 @@ class NetworkManager {
                   .whereType<PgrServiceModel>()
                   .firstWhereOrNull(
                     (e) => e.clientReferenceId == entity.clientReferenceId,
-              );
+                  );
 
               final serverGeneratedId = responseEntity?.serviceRequestId;
 
@@ -636,9 +636,9 @@ class NetworkManager {
   }
 
   FutureOr<int> getPendingSyncRecordsCount(
-      List<LocalRepository> localRepositories,
-      String userId,
-      ) async =>
+    List<LocalRepository> localRepositories,
+    String userId,
+  ) async =>
       (await Future.wait(localRepositories.map((e) {
         return e.getItemsToBeSyncedUp(userId);
       })))
@@ -646,11 +646,11 @@ class NetworkManager {
           .length;
 
   RemoteRepository _getRemoteForType(
-      DataModelType type,
-      List<RemoteRepository> remoteRepositories,
-      ) {
+    DataModelType type,
+    List<RemoteRepository> remoteRepositories,
+  ) {
     final repository = remoteRepositories.firstWhereOrNull(
-          (e) => e.type == type,
+      (e) => e.type == type,
     );
 
     if (repository == null) {
@@ -663,11 +663,11 @@ class NetworkManager {
   }
 
   LocalRepository _getLocalForType(
-      DataModelType type,
-      List<LocalRepository> localRepositories,
-      ) {
+    DataModelType type,
+    List<LocalRepository> localRepositories,
+  ) {
     final repository = localRepositories.firstWhereOrNull(
-          (e) => e.type == type,
+      (e) => e.type == type,
     );
 
     if (repository == null) {

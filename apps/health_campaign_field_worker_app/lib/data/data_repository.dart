@@ -12,14 +12,14 @@ import 'local_store/sql_store/sql_store.dart';
 import 'repositories/oplog/oplog.dart';
 
 abstract class DataRepository<D extends EntityModel,
-R extends EntitySearchModel> {
+    R extends EntitySearchModel> {
   const DataRepository();
 
   DataModelType get type;
 
   FutureOr<List<D>> search(
-      R query,
-      );
+    R query,
+  );
 
   FutureOr<dynamic> create(D entity);
 
@@ -29,7 +29,7 @@ R extends EntitySearchModel> {
 }
 
 abstract class RemoteRepository<D extends EntityModel,
-R extends EntitySearchModel> extends DataRepository<D, R> {
+    R extends EntitySearchModel> extends DataRepository<D, R> {
   final Dio dio;
   final String entityName;
   final bool isPlural;
@@ -55,17 +55,17 @@ R extends EntitySearchModel> extends DataRepository<D, R> {
   String get bulkDeletePath => actionMap[ApiOperation.bulkDelete] ?? '';
 
   RemoteRepository(
-      this.dio, {
-        required this.actionMap,
-        required this.entityName,
-        this.isPlural = false,
-        this.isSearchResponsePlural = false,
-      });
+    this.dio, {
+    required this.actionMap,
+    required this.entityName,
+    this.isPlural = false,
+    this.isSearchResponsePlural = false,
+  });
 
   @override
   FutureOr<List<D>> search(
-      R query,
-      ) async {
+    R query,
+  ) async {
     Response response;
 
     try {
@@ -82,8 +82,8 @@ R extends EntitySearchModel> extends DataRepository<D, R> {
               isPlural
                   ? entityNamePlural
                   : entityName == 'ServiceDefinition'
-                  ? 'ServiceDefinitionCriteria'
-                  : entityName: isPlural ? [query.toMap()] : query.toMap(),
+                      ? 'ServiceDefinitionCriteria'
+                      : entityName: isPlural ? [query.toMap()] : query.toMap(),
             },
           );
         },
@@ -115,9 +115,9 @@ R extends EntitySearchModel> extends DataRepository<D, R> {
     }
 
     final entityResponse = await responseMap[
-    (isSearchResponsePlural || entityName == 'ServiceDefinition')
-        ? entityNamePlural
-        : entityName];
+        (isSearchResponsePlural || entityName == 'ServiceDefinition')
+            ? entityNamePlural
+            : entityName];
     if (entityResponse is! List) {
       throw InvalidApiResponseException(
         data: query.toMap(),
@@ -288,7 +288,7 @@ R extends EntitySearchModel> extends DataRepository<D, R> {
 }
 
 abstract class LocalRepository<D extends EntityModel,
-R extends EntitySearchModel> extends DataRepository<D, R> {
+    R extends EntitySearchModel> extends DataRepository<D, R> {
   final LocalSqlDataStore sql;
   final OpLogManager<D> opLogManager;
 
@@ -297,10 +297,10 @@ R extends EntitySearchModel> extends DataRepository<D, R> {
   @override
   @mustCallSuper
   FutureOr<void> create(
-      D entity, {
-        bool createOpLog = true,
-        DataOperation dataOperation = DataOperation.create,
-      }) async {
+    D entity, {
+    bool createOpLog = true,
+    DataOperation dataOperation = DataOperation.create,
+  }) async {
     if (createOpLog) await createOplogEntry(entity, dataOperation);
   }
 

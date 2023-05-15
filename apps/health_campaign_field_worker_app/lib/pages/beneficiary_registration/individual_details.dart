@@ -86,6 +86,7 @@ class _IndividualDetailsPageState
 
                       form.markAllAsTouched();
                       if (!form.valid) return;
+                      FocusManager.instance.primaryFocus?.unfocus();
 
                       state.maybeWhen(
                         orElse: () {
@@ -105,6 +106,7 @@ class _IndividualDetailsPageState
                             form: form,
                             oldIndividual: null,
                           );
+
                           bloc.add(
                             BeneficiaryRegistrationSaveIndividualDetailsEvent(
                               model: individual,
@@ -115,6 +117,7 @@ class _IndividualDetailsPageState
                             BeneficiaryRegistrationCreateEvent(
                               projectId: projectId,
                               userUuid: userId,
+                              boundary: context.boundary,
                             ),
                           );
 

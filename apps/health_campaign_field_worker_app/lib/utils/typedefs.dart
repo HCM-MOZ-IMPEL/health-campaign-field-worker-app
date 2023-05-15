@@ -36,4 +36,4 @@ typedef ServiceDefinitionDataRepository
 typedef ServiceDataRepository
     = DataRepository<ServiceModel, ServiceSearchModel>;
 typedef PgrServiceDataRepository
-= DataRepository<PgrServiceModel, PgrServiceSearchModel>;
+    = DataRepository<PgrServiceModel, PgrServiceSearchModel>;

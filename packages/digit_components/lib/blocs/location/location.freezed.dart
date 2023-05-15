@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'location.dart';
 
@@ -915,7 +915,7 @@ class _$LocationStateCopyWithImpl<$Res, $Val extends LocationState>
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? accuracy = freezed,
-    Object? hasPermissions = null,
+    Object? hasPermissions = freezed,
     Object? serviceEnabled = null,
     Object? loading = null,
   }) {
@@ -932,7 +932,7 @@ class _$LocationStateCopyWithImpl<$Res, $Val extends LocationState>
           ? _value.accuracy
           : accuracy // ignore: cast_nullable_to_non_nullable
               as double?,
-      hasPermissions: null == hasPermissions
+      hasPermissions: freezed == hasPermissions
           ? _value.hasPermissions
           : hasPermissions // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -979,7 +979,7 @@ class __$$_LocationStateCopyWithImpl<$Res>
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? accuracy = freezed,
-    Object? hasPermissions = null,
+    Object? hasPermissions = freezed,
     Object? serviceEnabled = null,
     Object? loading = null,
   }) {
@@ -997,7 +997,7 @@ class __$$_LocationStateCopyWithImpl<$Res>
           : accuracy // ignore: cast_nullable_to_non_nullable
               as double?,
       hasPermissions:
-          null == hasPermissions ? _value.hasPermissions : hasPermissions,
+          freezed == hasPermissions ? _value.hasPermissions! : hasPermissions,
       serviceEnabled: null == serviceEnabled
           ? _value.serviceEnabled
           : serviceEnabled // ignore: cast_nullable_to_non_nullable

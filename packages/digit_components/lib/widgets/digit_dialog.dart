@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class DigitDialog extends StatelessWidget {
   final DigitDialogOptions options;
 
-  @visibleForTesting
   const DigitDialog({
     super.key,
     required this.options,
@@ -27,29 +26,24 @@ class DigitDialog extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () {
-          return Future.value(false);
-        },
-        child: AlertDialog(
-          title: options.title,
-          content: options.content,
-          actionsAlignment: MainAxisAlignment.spaceBetween,
-          actions: <Widget>[
-            if (options.primaryAction != null)
-              DigitElevatedButton(
-                onPressed: () => options.primaryAction!.action?.call(context),
-                child: Center(child: Text(options.primaryAction!.label)),
-              ),
-            if (options.secondaryAction != null)
-              TextButton(
-                onPressed: () => options.secondaryAction!.action?.call(context),
-                child: Center(child: Text(options.secondaryAction!.label)),
-              ),
-          ],
-          titlePadding: options.titlePadding,
-          contentPadding: options.contentPadding,
-        ),
+  Widget build(BuildContext context) => AlertDialog(
+        title: options.title,
+        content: options.content,
+        actionsAlignment: MainAxisAlignment.spaceBetween,
+        actions: <Widget>[
+          if (options.primaryAction != null)
+            DigitElevatedButton(
+              onPressed: () => options.primaryAction!.action?.call(context),
+              child: Center(child: Text(options.primaryAction!.label)),
+            ),
+          if (options.secondaryAction != null)
+            TextButton(
+              onPressed: () => options.secondaryAction!.action?.call(context),
+              child: Center(child: Text(options.secondaryAction!.label)),
+            ),
+        ],
+        titlePadding: options.titlePadding,
+        contentPadding: options.contentPadding,
       );
 }
 

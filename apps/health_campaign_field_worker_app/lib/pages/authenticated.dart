@@ -37,17 +37,22 @@ class AuthenticatedPageWrapper extends StatelessWidget {
               actions: [
                 BlocBuilder<BoundaryBloc, BoundaryState>(
                   builder: (ctx, state) {
-                    BoundaryModel? selectedBoundary;
-                    try {
-                      selectedBoundary = ctx.boundary;
-                    } catch (_) {
-                      debugPrint('');
+                    final selectedBoundary = ctx.boundaryOrNull;
+
+                    if (selectedBoundary == null) {
+                      return const SizedBox.shrink();
                     }
-                    final boundaryName =
-                        selectedBoundary?.name ?? selectedBoundary?.code;
-                    if (boundaryName == null) return const SizedBox.shrink();
+
+                    final boundaryName = selectedBoundary.name ??
+                        selectedBoundary.code ??
+                        'No boundary name';
+
+                    final theme = Theme.of(context);
 
                     return TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: theme.colorScheme.onPrimary,
+                      ),
                       onPressed: () {
                         ctx.router.navigate(const BoundarySelectionRoute());
                       },

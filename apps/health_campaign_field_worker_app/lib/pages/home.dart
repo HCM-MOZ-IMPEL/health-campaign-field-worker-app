@@ -1,6 +1,6 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/digit_sync_dialog.dart';
-import 'package:drift/drift.dart' as drift;
+import 'package:drift/drift.dart' hide Column;
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -157,7 +157,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                   listener: (context, state) {
                     state.maybeWhen(
                       orElse: () => null,
-                      syncInProgress: () => DigitSyncDialogContent.show(
+                      syncInProgress: () => DigitSyncDialog.show(
                         context,
                         type: DigitSyncDialogType.inProgress,
                         // TODO: Localization pending
@@ -167,7 +167,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                       completedSync: () {
                         Navigator.of(context, rootNavigator: true).pop();
 
-                        DigitSyncDialogContent.show(
+                        DigitSyncDialog.show(
                           context,
                           type: DigitSyncDialogType.complete,
                           // TODO: Localization Pending
@@ -184,7 +184,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                       failedSync: () {
                         Navigator.of(context, rootNavigator: true).pop();
 
-                        DigitSyncDialogContent.show(
+                        DigitSyncDialog.show(
                           context,
                           type: DigitSyncDialogType.failed,
                           // TODO: Localization Pending
@@ -413,7 +413,7 @@ class _HomePageState extends LocalizedState<HomePage> {
             int count = 0;
             for (var element in sql.allTables) {
               final selector = sql.delete(element)
-                ..where((_) => const drift.Constant(true));
+                ..where((_) => const Constant(true));
               count += await selector.go();
             }
             debugPrint('deleted: $count');

@@ -7,21 +7,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/boundary/boundary.dart';
 import '../models/data_model.dart';
 
-class BoundarySelectionPage extends StatelessWidget {
+class BoundarySelectionPage extends StatefulWidget {
   const BoundarySelectionPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<BoundaryBloc, BoundaryState>(
-      builder: (context, state) {
-        final selectedBoundary = state.selectedBoundaryMap.entries
-            .lastWhereOrNull((element) => element.value != null);
+  State<BoundarySelectionPage> createState() => _BoundarySelectionPageState();
+}
 
-        return WillPopScope(
-          onWillPop: () async {
-            return selectedBoundary != null;
-          },
-          child: Scaffold(
+class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
+  bool shouldPop = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => shouldPop,
+      child: BlocBuilder<BoundaryBloc, BoundaryState>(
+        builder: (context, state) {
+          final selectedBoundary = state.selectedBoundaryMap.entries
+              .lastWhereOrNull((element) => element.value != null);
+
+          return Scaffold(
             body: Builder(
               builder: (context) {
                 if (state.loading) {
@@ -41,7 +46,7 @@ class BoundarySelectionPage extends StatelessWidget {
                           final label = labelList.elementAt(labelIndex);
 
                           final filteredItems =
-                              state.boundaryList.where((element) {
+                          state.boundaryList.where((element) {
                             if (element.label != label) return false;
 
                             if (labelIndex == 0) return true;
@@ -69,7 +74,7 @@ class BoundarySelectionPage extends StatelessWidget {
                               value: state.selectedBoundaryMap.entries
                                   .firstWhereOrNull(
                                     (element) => element.key == label,
-                                  )
+                              )
                                   ?.value,
                               label: label,
                               menuItems: filteredItems,
@@ -77,11 +82,11 @@ class BoundarySelectionPage extends StatelessWidget {
                                 if (value == null) return;
 
                                 context.read<BoundaryBloc>().add(
-                                      BoundarySelectEvent(
-                                        label: label,
-                                        selectedBoundary: value,
-                                      ),
-                                    );
+                                  BoundarySelectEvent(
+                                    label: label,
+                                    selectedBoundary: value,
+                                  ),
+                                );
                               },
                               valueMapper: (value) {
                                 return value.name ?? value.code ?? 'No Value';
@@ -97,9 +102,20 @@ class BoundarySelectionPage extends StatelessWidget {
                         child: DigitElevatedButton(
                           onPressed: selectedBoundary == null
                               ? null
-                              : () {
-                                  context.router.pop();
-                                },
+                              : () async {
+                            setState(() {
+                              shouldPop = true;
+                            });
+
+                            context.read<BoundaryBloc>().add(
+                              const BoundarySubmitEvent(),
+                            );
+
+                            Future.delayed(
+                              const Duration(milliseconds: 100),
+                                  () => context.router.pop(),
+                            );
+                          },
                           child: const Text('Submeter'),
                         ),
                       ),
@@ -108,9 +124,9 @@ class BoundarySelectionPage extends StatelessWidget {
                 );
               },
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

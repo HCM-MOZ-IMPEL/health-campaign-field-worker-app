@@ -4,8 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:health_campaign_field_worker_app/utils/environment_config.dart';
 
 import '../../../models/data_model.dart';
-import '../../../models/pgr_complaints/pgr_complaints.dart';
-import '../../../models/pgr_complaints/pgr_complaints_response.dart';
 import '../../data_repository.dart';
 
 class PgrServiceRemoteRepository

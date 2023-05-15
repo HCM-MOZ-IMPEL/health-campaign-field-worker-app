@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 
 import '../../../models/data_model.dart';
-import '../../../models/pgr_complaints/pgr_complaints.dart';
 import '../../../utils/utils.dart';
 import '../../data_repository.dart';
 import '../../local_store/sql_store/sql_store.dart';

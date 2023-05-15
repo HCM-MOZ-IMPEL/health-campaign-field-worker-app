@@ -92,13 +92,8 @@ class _ComplaintsInboxSearchPageState
 
                               final complaintNumberValue =
                                   formGroup.control(_complaintNumber).value;
-                              var mobileNumberValue =
+                              final mobileNumberValue =
                                   formGroup.control(_mobileNumber).value;
-
-                              if (mobileNumberValue != null
-                                  && mobileNumberValue != "") {
-                                mobileNumberValue = '0$mobileNumberValue';
-                              }
 
                               bloc.add(
                                 ComplaintInboxSearchComplaintsEvent(
