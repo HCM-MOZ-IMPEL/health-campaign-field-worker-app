@@ -329,40 +329,55 @@ class _StockReconciliationPageState
                                         return state.maybeWhen(
                                           orElse: () => const Offstage(),
                                           fetched: (productVariants) {
-                                            return DigitReactiveDropdown<
-                                                ProductVariantModel>(
-                                              formControlName:
-                                                  _productVariantKey,
-                                              label: localizations.translate(
-                                                i18.stockReconciliationDetails
-                                                    .productLabel,
+                                            stockCount = stockState
+                                                .stockInHand
+                                                .toInt();
+                                            productVariantModel =
+                                            productVariants[0];
+                                            ctx
+                                                .read<
+                                                StockReconciliationBloc>()
+                                                .add(
+                                              StockReconciliationSelectProductEvent(
+                                                productVariantModel.id,
                                               ),
-                                              isRequired: true,
-                                              onChanged: (value) {
-                                                ctx
-                                                    .read<
-                                                        StockReconciliationBloc>()
-                                                    .add(
-                                                      StockReconciliationSelectProductEvent(
-                                                        value.id,
-                                                      ),
-                                                    );
-                                              },
-                                              valueMapper: (value) {
-                                                return localizations.translate(
-                                                  value.sku ?? value.id,
-                                                );
-                                              },
-                                              menuItems: productVariants,
-                                              validationMessages: {
-                                                'required': (object) =>
-                                                    AppLocalizations.of(
-                                                      context,
-                                                    ).translate(i18
-                                                        .stockReconciliationDetails
-                                                        .fieldRequired),
-                                              },
                                             );
+
+                                            return Container();
+                                            // return DigitReactiveDropdown<
+                                            //     ProductVariantModel>(
+                                            //   formControlName:
+                                            //       _productVariantKey,
+                                            //   label: localizations.translate(
+                                            //     i18.stockReconciliationDetails
+                                            //         .productLabel,
+                                            //   ),
+                                            //   isRequired: true,
+                                            //   onChanged: (value) {
+                                            //     ctx
+                                            //         .read<
+                                            //             StockReconciliationBloc>()
+                                            //         .add(
+                                            //           StockReconciliationSelectProductEvent(
+                                            //             value.id,
+                                            //           ),
+                                            //         );
+                                            //   },
+                                            //   valueMapper: (value) {
+                                            //     return localizations.translate(
+                                            //       value.sku ?? value.id,
+                                            //     );
+                                            //   },
+                                            //   menuItems: productVariants,
+                                            //   validationMessages: {
+                                            //     'required': (object) =>
+                                            //         AppLocalizations.of(
+                                            //           context,
+                                            //         ).translate(i18
+                                            //             .stockReconciliationDetails
+                                            //             .fieldRequired),
+                                            //   },
+                                            // );
                                           },
                                         );
                                       },
@@ -416,30 +431,30 @@ class _StockReconciliationPageState
                                       },
                                     ),
                                     const DigitDivider(),
-                                    DigitTableCard(
-                                      fraction: 2.5,
-                                      gap: kPadding,
-                                      element: {
-                                        localizations.translate(
-                                          i18.stockReconciliationDetails
-                                              .stockLost,
-                                        ): stockState.stockLost
-                                            .toStringAsFixed(0),
-                                      },
-                                    ),
-                                    const DigitDivider(),
-                                    DigitTableCard(
-                                      fraction: 2.5,
-                                      gap: kPadding,
-                                      element: {
-                                        localizations.translate(
-                                          i18.stockReconciliationDetails
-                                              .stockDamaged,
-                                        ): stockState.stockDamaged
-                                            .toStringAsFixed(0),
-                                      },
-                                    ),
-                                    const DigitDivider(),
+                                    // DigitTableCard(
+                                    //   fraction: 2.5,
+                                    //   gap: kPadding,
+                                    //   element: {
+                                    //     localizations.translate(
+                                    //       i18.stockReconciliationDetails
+                                    //           .stockLost,
+                                    //     ): stockState.stockLost
+                                    //         .toStringAsFixed(0),
+                                    //   },
+                                    // ),
+                                    // const DigitDivider(),
+                                    // DigitTableCard(
+                                    //   fraction: 2.5,
+                                    //   gap: kPadding,
+                                    //   element: {
+                                    //     localizations.translate(
+                                    //       i18.stockReconciliationDetails
+                                    //           .stockDamaged,
+                                    //     ): stockState.stockDamaged
+                                    //         .toStringAsFixed(0),
+                                    //   },
+                                    // ),
+                                    // const DigitDivider(),
                                     DigitTableCard(
                                       fraction: 2.5,
                                       gap: kPadding,
