@@ -33,6 +33,10 @@ class FacilitySelectionPage extends StatelessWidget {
                 if (element.id.toLowerCase().contains(query.toLowerCase())) {
                   return true;
                 }
+                final name = element.name ?? "";
+                if (name.toLowerCase().contains(query.toLowerCase())) {
+                  return true;
+                }
 
                 return false;
               });
