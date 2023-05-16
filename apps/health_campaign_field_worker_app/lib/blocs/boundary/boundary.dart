@@ -16,18 +16,26 @@ class BoundaryBloc extends Bloc<BoundaryEvent, BoundaryState> {
   final DataRepository<BoundaryModel, BoundarySearchModel> boundaryRepository;
 
   BoundaryBloc(
-      super.initialState, {
-        required this.boundaryRepository,
-      }) {
+    super.initialState, {
+    required this.boundaryRepository,
+  }) {
+    on(_handleReset);
     on(_handleSearch);
     on(_handleSelect);
     on(_handleSubmit);
   }
 
+  Future<void> _handleReset(
+    BoundaryResetEvent event,
+    BoundaryEmitter emit,
+  ) async {
+    emit(const BoundaryState());
+  }
+
   FutureOr<void> _handleSearch(
-      BoundarySearchEvent event,
-      BoundaryEmitter emit,
-      ) async {
+    BoundarySearchEvent event,
+    BoundaryEmitter emit,
+  ) async {
     emit(state.copyWith(loading: true));
     List<BoundaryModel> boundaryList = await boundaryRepository.search(
       BoundarySearchModel(code: event.code),
@@ -45,7 +53,7 @@ class BoundaryBloc extends Bloc<BoundaryEvent, BoundaryState> {
         boundaryList: boundaryList,
         selectedBoundaryMap: Map.fromEntries(
           boundaryLabelList.map(
-                (e) => MapEntry(e, null),
+            (e) => MapEntry(e, null),
           ),
         ),
         loading: false,
@@ -54,13 +62,13 @@ class BoundaryBloc extends Bloc<BoundaryEvent, BoundaryState> {
   }
 
   FutureOr<void> _handleSelect(
-      BoundarySelectEvent event,
-      BoundaryEmitter emit,
-      ) async {
+    BoundarySelectEvent event,
+    BoundaryEmitter emit,
+  ) async {
     bool hasChanged = false;
     final selectedBoundaryMap = Map.fromEntries(
       state.selectedBoundaryMap.entries.map(
-            (e) {
+        (e) {
           if (hasChanged) {
             return MapEntry(e.key, null);
           }
@@ -91,17 +99,19 @@ class BoundaryBloc extends Bloc<BoundaryEvent, BoundaryState> {
   }
 
   FutureOr<void> _handleSubmit(
-      BoundarySubmitEvent event,
-      BoundaryEmitter emit,
-      ) async {
+    BoundarySubmitEvent event,
+    BoundaryEmitter emit,
+  ) async {
     emit(state.copyWith(hasSubmitted: true));
   }
 }
 
 @freezed
 class BoundaryEvent with _$BoundaryEvent {
+  const factory BoundaryEvent.reset() = BoundaryResetEvent;
+
   const factory BoundaryEvent.search({required String code}) =
-  BoundarySearchEvent;
+      BoundarySearchEvent;
 
   const factory BoundaryEvent.select({
     required String label,
@@ -124,16 +134,16 @@ class BoundaryState with _$BoundaryState {
 
   @override
   String toString() => const JsonEncoder.withIndent('  ').convert({
-    'loading': loading,
-    'selectedBoundaryMap': Map.fromEntries(
-      selectedBoundaryMap.entries.map(
+        'loading': loading,
+        'selectedBoundaryMap': Map.fromEntries(
+          selectedBoundaryMap.entries.map(
             (e) => MapEntry(
-          e.key,
-          e.value?.toMap(),
+              e.key,
+              e.value?.toMap(),
+            ),
+          ),
         ),
-      ),
-    ),
-    'hasSubmitted': hasSubmitted,
-    'boundaryList.length': boundaryList.length,
-  });
+        'hasSubmitted': hasSubmitted,
+        'boundaryList.length': boundaryList.length,
+      });
 }

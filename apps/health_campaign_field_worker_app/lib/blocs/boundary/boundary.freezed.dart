@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BoundaryEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() reset,
     required TResult Function(String code) search,
     required TResult Function(String label, BoundaryModel selectedBoundary)
         select,
@@ -26,6 +27,7 @@ mixin _$BoundaryEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? reset,
     TResult? Function(String code)? search,
     TResult? Function(String label, BoundaryModel selectedBoundary)? select,
     TResult? Function()? submit,
@@ -33,6 +35,7 @@ mixin _$BoundaryEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? reset,
     TResult Function(String code)? search,
     TResult Function(String label, BoundaryModel selectedBoundary)? select,
     TResult Function()? submit,
@@ -41,6 +44,7 @@ mixin _$BoundaryEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(BoundaryResetEvent value) reset,
     required TResult Function(BoundarySearchEvent value) search,
     required TResult Function(BoundarySelectEvent value) select,
     required TResult Function(BoundarySubmitEvent value) submit,
@@ -48,6 +52,7 @@ mixin _$BoundaryEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BoundaryResetEvent value)? reset,
     TResult? Function(BoundarySearchEvent value)? search,
     TResult? Function(BoundarySelectEvent value)? select,
     TResult? Function(BoundarySubmitEvent value)? submit,
@@ -55,6 +60,7 @@ mixin _$BoundaryEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(BoundaryResetEvent value)? reset,
     TResult Function(BoundarySearchEvent value)? search,
     TResult Function(BoundarySelectEvent value)? select,
     TResult Function(BoundarySubmitEvent value)? submit,
@@ -79,6 +85,121 @@ class _$BoundaryEventCopyWithImpl<$Res, $Val extends BoundaryEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$BoundaryResetEventCopyWith<$Res> {
+  factory _$$BoundaryResetEventCopyWith(_$BoundaryResetEvent value,
+          $Res Function(_$BoundaryResetEvent) then) =
+      __$$BoundaryResetEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$BoundaryResetEventCopyWithImpl<$Res>
+    extends _$BoundaryEventCopyWithImpl<$Res, _$BoundaryResetEvent>
+    implements _$$BoundaryResetEventCopyWith<$Res> {
+  __$$BoundaryResetEventCopyWithImpl(
+      _$BoundaryResetEvent _value, $Res Function(_$BoundaryResetEvent) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$BoundaryResetEvent implements BoundaryResetEvent {
+  const _$BoundaryResetEvent();
+
+  @override
+  String toString() {
+    return 'BoundaryEvent.reset()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$BoundaryResetEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() reset,
+    required TResult Function(String code) search,
+    required TResult Function(String label, BoundaryModel selectedBoundary)
+        select,
+    required TResult Function() submit,
+  }) {
+    return reset();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? reset,
+    TResult? Function(String code)? search,
+    TResult? Function(String label, BoundaryModel selectedBoundary)? select,
+    TResult? Function()? submit,
+  }) {
+    return reset?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? reset,
+    TResult Function(String code)? search,
+    TResult Function(String label, BoundaryModel selectedBoundary)? select,
+    TResult Function()? submit,
+    required TResult orElse(),
+  }) {
+    if (reset != null) {
+      return reset();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(BoundaryResetEvent value) reset,
+    required TResult Function(BoundarySearchEvent value) search,
+    required TResult Function(BoundarySelectEvent value) select,
+    required TResult Function(BoundarySubmitEvent value) submit,
+  }) {
+    return reset(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BoundaryResetEvent value)? reset,
+    TResult? Function(BoundarySearchEvent value)? search,
+    TResult? Function(BoundarySelectEvent value)? select,
+    TResult? Function(BoundarySubmitEvent value)? submit,
+  }) {
+    return reset?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(BoundaryResetEvent value)? reset,
+    TResult Function(BoundarySearchEvent value)? search,
+    TResult Function(BoundarySelectEvent value)? select,
+    TResult Function(BoundarySubmitEvent value)? submit,
+    required TResult orElse(),
+  }) {
+    if (reset != null) {
+      return reset(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class BoundaryResetEvent implements BoundaryEvent {
+  const factory BoundaryResetEvent() = _$BoundaryResetEvent;
 }
 
 /// @nodoc
@@ -146,6 +267,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() reset,
     required TResult Function(String code) search,
     required TResult Function(String label, BoundaryModel selectedBoundary)
         select,
@@ -157,6 +279,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? reset,
     TResult? Function(String code)? search,
     TResult? Function(String label, BoundaryModel selectedBoundary)? select,
     TResult? Function()? submit,
@@ -167,6 +290,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? reset,
     TResult Function(String code)? search,
     TResult Function(String label, BoundaryModel selectedBoundary)? select,
     TResult Function()? submit,
@@ -181,6 +305,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(BoundaryResetEvent value) reset,
     required TResult Function(BoundarySearchEvent value) search,
     required TResult Function(BoundarySelectEvent value) select,
     required TResult Function(BoundarySubmitEvent value) submit,
@@ -191,6 +316,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BoundaryResetEvent value)? reset,
     TResult? Function(BoundarySearchEvent value)? search,
     TResult? Function(BoundarySelectEvent value)? select,
     TResult? Function(BoundarySubmitEvent value)? submit,
@@ -201,6 +327,7 @@ class _$BoundarySearchEvent implements BoundarySearchEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(BoundaryResetEvent value)? reset,
     TResult Function(BoundarySearchEvent value)? search,
     TResult Function(BoundarySelectEvent value)? select,
     TResult Function(BoundarySubmitEvent value)? submit,
@@ -298,6 +425,7 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() reset,
     required TResult Function(String code) search,
     required TResult Function(String label, BoundaryModel selectedBoundary)
         select,
@@ -309,6 +437,7 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? reset,
     TResult? Function(String code)? search,
     TResult? Function(String label, BoundaryModel selectedBoundary)? select,
     TResult? Function()? submit,
@@ -319,6 +448,7 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? reset,
     TResult Function(String code)? search,
     TResult Function(String label, BoundaryModel selectedBoundary)? select,
     TResult Function()? submit,
@@ -333,6 +463,7 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(BoundaryResetEvent value) reset,
     required TResult Function(BoundarySearchEvent value) search,
     required TResult Function(BoundarySelectEvent value) select,
     required TResult Function(BoundarySubmitEvent value) submit,
@@ -343,6 +474,7 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BoundaryResetEvent value)? reset,
     TResult? Function(BoundarySearchEvent value)? search,
     TResult? Function(BoundarySelectEvent value)? select,
     TResult? Function(BoundarySubmitEvent value)? submit,
@@ -353,6 +485,7 @@ class _$BoundarySelectEvent implements BoundarySelectEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(BoundaryResetEvent value)? reset,
     TResult Function(BoundarySearchEvent value)? search,
     TResult Function(BoundarySelectEvent value)? select,
     TResult Function(BoundarySubmitEvent value)? submit,
@@ -415,6 +548,7 @@ class _$BoundarySubmitEvent implements BoundarySubmitEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() reset,
     required TResult Function(String code) search,
     required TResult Function(String label, BoundaryModel selectedBoundary)
         select,
@@ -426,6 +560,7 @@ class _$BoundarySubmitEvent implements BoundarySubmitEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? reset,
     TResult? Function(String code)? search,
     TResult? Function(String label, BoundaryModel selectedBoundary)? select,
     TResult? Function()? submit,
@@ -436,6 +571,7 @@ class _$BoundarySubmitEvent implements BoundarySubmitEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? reset,
     TResult Function(String code)? search,
     TResult Function(String label, BoundaryModel selectedBoundary)? select,
     TResult Function()? submit,
@@ -450,6 +586,7 @@ class _$BoundarySubmitEvent implements BoundarySubmitEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(BoundaryResetEvent value) reset,
     required TResult Function(BoundarySearchEvent value) search,
     required TResult Function(BoundarySelectEvent value) select,
     required TResult Function(BoundarySubmitEvent value) submit,
@@ -460,6 +597,7 @@ class _$BoundarySubmitEvent implements BoundarySubmitEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(BoundaryResetEvent value)? reset,
     TResult? Function(BoundarySearchEvent value)? search,
     TResult? Function(BoundarySelectEvent value)? select,
     TResult? Function(BoundarySubmitEvent value)? submit,
@@ -470,6 +608,7 @@ class _$BoundarySubmitEvent implements BoundarySubmitEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(BoundaryResetEvent value)? reset,
     TResult Function(BoundarySearchEvent value)? search,
     TResult Function(BoundarySelectEvent value)? select,
     TResult Function(BoundarySubmitEvent value)? submit,

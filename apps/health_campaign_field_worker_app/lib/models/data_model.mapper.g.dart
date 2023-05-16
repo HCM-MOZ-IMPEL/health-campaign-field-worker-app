@@ -78,6 +78,9 @@ var _mappers = <BaseMapper>{
   IndividualSearchModelMapper._(),
   IndividualModelMapper._(),
   IndividualAdditionalFieldsMapper._(),
+  LocalitySearchModelMapper._(),
+  LocalityModelMapper._(),
+  LocalityAdditionalFieldsMapper._(),
   NameSearchModelMapper._(),
   NameModelMapper._(),
   NameAdditionalFieldsMapper._(),
@@ -132,9 +135,6 @@ var _mappers = <BaseMapper>{
   TaskResourceSearchModelMapper._(),
   TaskResourceModelMapper._(),
   TaskResourceAdditionalFieldsMapper._(),
-  LocalitySearchModelMapper._(),
-  LocalityModelMapper._(),
-  LocalityAdditionalFieldsMapper._(),
   OpLogEntryMapper._(),
   AdditionalIdMapper._(),
   PgrComplaintModelMapper._(),
@@ -213,6 +213,7 @@ class EntityModelMapper extends BaseMapper<EntityModel> {
     else if (v is HouseholdMemberModel) { return HouseholdMemberModelMapper._().encode(v); }
     else if (v is IdentifierModel) { return IdentifierModelMapper._().encode(v); }
     else if (v is IndividualModel) { return IndividualModelMapper._().encode(v); }
+    else if (v is LocalityModel) { return LocalityModelMapper._().encode(v); }
     else if (v is NameModel) { return NameModelMapper._().encode(v); }
     else if (v is ProductModel) { return ProductModelMapper._().encode(v); }
     else if (v is ProductVariantModel) { return ProductVariantModelMapper._().encode(v); }
@@ -231,7 +232,6 @@ class EntityModelMapper extends BaseMapper<EntityModel> {
     else if (v is TargetModel) { return TargetModelMapper._().encode(v); }
     else if (v is TaskModel) { return TaskModelMapper._().encode(v); }
     else if (v is TaskResourceModel) { return TaskResourceModelMapper._().encode(v); }
-    else if (v is LocalityModel) { return LocalityModelMapper._().encode(v); }
     else if (v is PgrComplaintModel) { return PgrComplaintModelMapper._().encode(v); }
     else if (v is PgrComplainantModel) { return PgrComplainantModelMapper._().encode(v); }
     else if (v is PgrRolesModel) { return PgrRolesModelMapper._().encode(v); }
@@ -276,6 +276,7 @@ class EntitySearchModelMapper extends BaseMapper<EntitySearchModel> {
     else if (v is HouseholdMemberSearchModel) { return HouseholdMemberSearchModelMapper._().encode(v); }
     else if (v is IdentifierSearchModel) { return IdentifierSearchModelMapper._().encode(v); }
     else if (v is IndividualSearchModel) { return IndividualSearchModelMapper._().encode(v); }
+    else if (v is LocalitySearchModel) { return LocalitySearchModelMapper._().encode(v); }
     else if (v is NameSearchModel) { return NameSearchModelMapper._().encode(v); }
     else if (v is ProductSearchModel) { return ProductSearchModelMapper._().encode(v); }
     else if (v is ProductVariantSearchModel) { return ProductVariantSearchModelMapper._().encode(v); }
@@ -294,7 +295,6 @@ class EntitySearchModelMapper extends BaseMapper<EntitySearchModel> {
     else if (v is TargetSearchModel) { return TargetSearchModelMapper._().encode(v); }
     else if (v is TaskSearchModel) { return TaskSearchModelMapper._().encode(v); }
     else if (v is TaskResourceSearchModel) { return TaskResourceSearchModelMapper._().encode(v); }
-    else if (v is LocalitySearchModel) { return LocalitySearchModelMapper._().encode(v); }
     else if (v is PgrServiceSearchModel) { return PgrServiceSearchModelMapper._().encode(v); }
     else { return toMap(v); }
   }
@@ -329,6 +329,7 @@ class AdditionalFieldsMapper extends BaseMapper<AdditionalFields> {
     else if (v is HouseholdMemberAdditionalFields) { return HouseholdMemberAdditionalFieldsMapper._().encode(v); }
     else if (v is IdentifierAdditionalFields) { return IdentifierAdditionalFieldsMapper._().encode(v); }
     else if (v is IndividualAdditionalFields) { return IndividualAdditionalFieldsMapper._().encode(v); }
+    else if (v is LocalityAdditionalFields) { return LocalityAdditionalFieldsMapper._().encode(v); }
     else if (v is NameAdditionalFields) { return NameAdditionalFieldsMapper._().encode(v); }
     else if (v is ProductAdditionalFields) { return ProductAdditionalFieldsMapper._().encode(v); }
     else if (v is ProductVariantAdditionalFields) { return ProductVariantAdditionalFieldsMapper._().encode(v); }
@@ -347,7 +348,6 @@ class AdditionalFieldsMapper extends BaseMapper<AdditionalFields> {
     else if (v is TargetAdditionalFields) { return TargetAdditionalFieldsMapper._().encode(v); }
     else if (v is TaskAdditionalFields) { return TaskAdditionalFieldsMapper._().encode(v); }
     else if (v is TaskResourceAdditionalFields) { return TaskResourceAdditionalFieldsMapper._().encode(v); }
-    else if (v is LocalityAdditionalFields) { return LocalityAdditionalFieldsMapper._().encode(v); }
     else { return toMap(v); }
   }
   Map<String, dynamic> toMap(AdditionalFields a) => {'schema': Mapper.i.$enc(a.schema, 'schema'), 'version': Mapper.i.$enc(a.version, 'version'), 'fields': Mapper.i.$enc(a.fields, 'fields')};
@@ -1440,6 +1440,120 @@ class _IndividualAdditionalFieldsCopyWithImpl<$R> extends BaseCopyWith<Individua
   @override $R call({String? schema, int? version, List<AdditionalField>? fields}) => $then(IndividualAdditionalFields(schema: schema ?? $value.schema, version: version ?? $value.version, fields: fields ?? $value.fields));
 }
 
+class LocalitySearchModelMapper extends BaseMapper<LocalitySearchModel> {
+  LocalitySearchModelMapper._();
+
+  @override Function get decoder => decode;
+  LocalitySearchModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  LocalitySearchModel fromMap(Map<String, dynamic> map) => LocalitySearchModel(code: Mapper.i.$getOpt(map, 'code'), name: Mapper.i.$getOpt(map, 'name'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), boundaryCode: Mapper.i.$getOpt(map, 'boundaryCode'));
+
+  @override Function get encoder => (LocalitySearchModel v) => encode(v);
+  dynamic encode(LocalitySearchModel v) => toMap(v);
+  Map<String, dynamic> toMap(LocalitySearchModel l) => {if (Mapper.i.$enc(l.code, 'code') != null) 'code': Mapper.i.$enc(l.code, 'code'), if (Mapper.i.$enc(l.name, 'name') != null) 'name': Mapper.i.$enc(l.name, 'name'), if (Mapper.i.$enc(l.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(l.tenantId, 'tenantId'), if (Mapper.i.$enc(l.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(l.isDeleted, 'isDeleted'), if (Mapper.i.$enc(l.boundaryCode, 'boundaryCode') != null) 'boundaryCode': Mapper.i.$enc(l.boundaryCode, 'boundaryCode')};
+
+  @override String stringify(LocalitySearchModel self) => 'LocalitySearchModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, additionalFields: ${Mapper.asString(self.additionalFields)}, code: ${Mapper.asString(self.code)}, name: ${Mapper.asString(self.name)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)})';
+  @override int hash(LocalitySearchModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.additionalFields) ^ Mapper.hash(self.code) ^ Mapper.hash(self.name) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted);
+  @override bool equals(LocalitySearchModel self, LocalitySearchModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.additionalFields, other.additionalFields) && Mapper.isEqual(self.code, other.code) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted);
+
+  @override Function get typeFactory => (f) => f<LocalitySearchModel>();
+}
+
+extension LocalitySearchModelMapperExtension  on LocalitySearchModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  LocalitySearchModelCopyWith<LocalitySearchModel> get copyWith => LocalitySearchModelCopyWith(this, $identity);
+}
+
+abstract class LocalitySearchModelCopyWith<$R> {
+  factory LocalitySearchModelCopyWith(LocalitySearchModel value, Then<LocalitySearchModel, $R> then) = _LocalitySearchModelCopyWithImpl<$R>;
+  $R call({String? code, String? name, String? tenantId, bool? isDeleted, String? boundaryCode});
+  $R apply(LocalitySearchModel Function(LocalitySearchModel) transform);
+}
+
+class _LocalitySearchModelCopyWithImpl<$R> extends BaseCopyWith<LocalitySearchModel, $R> implements LocalitySearchModelCopyWith<$R> {
+  _LocalitySearchModelCopyWithImpl(LocalitySearchModel value, Then<LocalitySearchModel, $R> then) : super(value, then);
+
+  @override $R call({Object? code = $none, Object? name = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? boundaryCode = $none}) => $then(LocalitySearchModel(code: or(code, $value.code), name: or(name, $value.name), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), boundaryCode: or(boundaryCode, $value.boundaryCode)));
+}
+
+class LocalityModelMapper extends BaseMapper<LocalityModel> {
+  LocalityModelMapper._();
+
+  @override Function get decoder => decode;
+  LocalityModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  LocalityModel fromMap(Map<String, dynamic> map) => LocalityModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), code: Mapper.i.$get(map, 'code'), name: Mapper.i.$getOpt(map, 'name'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
+
+  @override Function get encoder => (LocalityModel v) => encode(v);
+  dynamic encode(LocalityModel v) => toMap(v);
+  Map<String, dynamic> toMap(LocalityModel l) => {if (Mapper.i.$enc(l.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(l.additionalFields, 'additionalFields'), 'code': Mapper.i.$enc(l.code, 'code'), if (Mapper.i.$enc(l.name, 'name') != null) 'name': Mapper.i.$enc(l.name, 'name'), if (Mapper.i.$enc(l.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(l.tenantId, 'tenantId'), if (Mapper.i.$enc(l.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(l.isDeleted, 'isDeleted'), if (Mapper.i.$enc(l.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(l.rowVersion, 'rowVersion'), if (Mapper.i.$enc(l.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(l.auditDetails, 'auditDetails')};
+
+  @override String stringify(LocalityModel self) => 'LocalityModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, code: ${Mapper.asString(self.code)}, name: ${Mapper.asString(self.name)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
+  @override int hash(LocalityModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.code) ^ Mapper.hash(self.name) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.additionalFields);
+  @override bool equals(LocalityModel self, LocalityModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.code, other.code) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.additionalFields, other.additionalFields);
+
+  @override Function get typeFactory => (f) => f<LocalityModel>();
+}
+
+extension LocalityModelMapperExtension  on LocalityModel {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  LocalityModelCopyWith<LocalityModel> get copyWith => LocalityModelCopyWith(this, $identity);
+}
+
+abstract class LocalityModelCopyWith<$R> {
+  factory LocalityModelCopyWith(LocalityModel value, Then<LocalityModel, $R> then) = _LocalityModelCopyWithImpl<$R>;
+  LocalityAdditionalFieldsCopyWith<$R>? get additionalFields;
+  AuditDetailsCopyWith<$R>? get auditDetails;
+  $R call({LocalityAdditionalFields? additionalFields, String? code, String? name, String? tenantId, bool? isDeleted, int? rowVersion, AuditDetails? auditDetails});
+  $R apply(LocalityModel Function(LocalityModel) transform);
+}
+
+class _LocalityModelCopyWithImpl<$R> extends BaseCopyWith<LocalityModel, $R> implements LocalityModelCopyWith<$R> {
+  _LocalityModelCopyWithImpl(LocalityModel value, Then<LocalityModel, $R> then) : super(value, then);
+
+  @override LocalityAdditionalFieldsCopyWith<$R>? get additionalFields => $value.additionalFields != null ? LocalityAdditionalFieldsCopyWith($value.additionalFields!, (v) => call(additionalFields: v)) : null;
+  @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
+  @override $R call({Object? additionalFields = $none, String? code, Object? name = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? auditDetails = $none}) => $then(LocalityModel(additionalFields: or(additionalFields, $value.additionalFields), code: code ?? $value.code, name: or(name, $value.name), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails)));
+}
+
+class LocalityAdditionalFieldsMapper extends BaseMapper<LocalityAdditionalFields> {
+  LocalityAdditionalFieldsMapper._();
+
+  @override Function get decoder => decode;
+  LocalityAdditionalFields decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
+  LocalityAdditionalFields fromMap(Map<String, dynamic> map) => LocalityAdditionalFields(schema: Mapper.i.$getOpt(map, 'schema') ?? 'Locality', version: Mapper.i.$get(map, 'version'), fields: Mapper.i.$getOpt(map, 'fields') ?? const []);
+
+  @override Function get encoder => (LocalityAdditionalFields v) => encode(v);
+  dynamic encode(LocalityAdditionalFields v) => toMap(v);
+  Map<String, dynamic> toMap(LocalityAdditionalFields l) => {'schema': Mapper.i.$enc(l.schema, 'schema'), 'version': Mapper.i.$enc(l.version, 'version'), 'fields': Mapper.i.$enc(l.fields, 'fields')};
+
+  @override String stringify(LocalityAdditionalFields self) => 'LocalityAdditionalFields(schema: ${Mapper.asString(self.schema)}, version: ${Mapper.asString(self.version)}, fields: ${Mapper.asString(self.fields)})';
+  @override int hash(LocalityAdditionalFields self) => Mapper.hash(self.schema) ^ Mapper.hash(self.version) ^ Mapper.hash(self.fields);
+  @override bool equals(LocalityAdditionalFields self, LocalityAdditionalFields other) => Mapper.isEqual(self.schema, other.schema) && Mapper.isEqual(self.version, other.version) && Mapper.isEqual(self.fields, other.fields);
+
+  @override Function get typeFactory => (f) => f<LocalityAdditionalFields>();
+}
+
+extension LocalityAdditionalFieldsMapperExtension  on LocalityAdditionalFields {
+  String toJson() => Mapper.toJson(this);
+  Map<String, dynamic> toMap() => Mapper.toMap(this);
+  LocalityAdditionalFieldsCopyWith<LocalityAdditionalFields> get copyWith => LocalityAdditionalFieldsCopyWith(this, $identity);
+}
+
+abstract class LocalityAdditionalFieldsCopyWith<$R> {
+  factory LocalityAdditionalFieldsCopyWith(LocalityAdditionalFields value, Then<LocalityAdditionalFields, $R> then) = _LocalityAdditionalFieldsCopyWithImpl<$R>;
+  ListCopyWith<$R, AdditionalField, AdditionalFieldCopyWith<$R>> get fields;
+  $R call({String? schema, int? version, List<AdditionalField>? fields});
+  $R apply(LocalityAdditionalFields Function(LocalityAdditionalFields) transform);
+}
+
+class _LocalityAdditionalFieldsCopyWithImpl<$R> extends BaseCopyWith<LocalityAdditionalFields, $R> implements LocalityAdditionalFieldsCopyWith<$R> {
+  _LocalityAdditionalFieldsCopyWithImpl(LocalityAdditionalFields value, Then<LocalityAdditionalFields, $R> then) : super(value, then);
+
+  @override ListCopyWith<$R, AdditionalField, AdditionalFieldCopyWith<$R>> get fields => ListCopyWith($value.fields, (v, t) => AdditionalFieldCopyWith(v, t), (v) => call(fields: v));
+  @override $R call({String? schema, int? version, List<AdditionalField>? fields}) => $then(LocalityAdditionalFields(schema: schema ?? $value.schema, version: version ?? $value.version, fields: fields ?? $value.fields));
+}
+
 class NameSearchModelMapper extends BaseMapper<NameSearchModel> {
   NameSearchModelMapper._();
 
@@ -1907,15 +2021,15 @@ class ProjectBeneficiarySearchModelMapper extends BaseMapper<ProjectBeneficiaryS
 
   @override Function get decoder => decode;
   ProjectBeneficiarySearchModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  ProjectBeneficiarySearchModel fromMap(Map<String, dynamic> map) => ProjectBeneficiarySearchModel(id: Mapper.i.$getOpt(map, 'id'), projectId: Mapper.i.$getOpt(map, 'projectId'), beneficiaryId: Mapper.i.$getOpt(map, 'beneficiaryId'), beneficiaryClientReferenceId: Mapper.i.$getOpt(map, 'beneficiaryClientReferenceId'), clientReferenceId: Mapper.i.$getOpt(map, 'clientReferenceId'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), dateOfRegistration: Mapper.i.$getOpt(map, 'dateOfRegistration'), boundaryCode: Mapper.i.$getOpt(map, 'boundaryCode'));
+  ProjectBeneficiarySearchModel fromMap(Map<String, dynamic> map) => ProjectBeneficiarySearchModel(id: Mapper.i.$getOpt(map, 'id'), projectId: Mapper.i.$getOpt(map, 'projectId'), beneficiaryId: Mapper.i.$getOpt(map, 'beneficiaryId'), beneficiaryClientReferenceId: Mapper.i.$getOpt(map, 'beneficiaryClientReferenceId'), beneficiaryRegistrationDateLte: Mapper.i.$getOpt(map, 'beneficiaryRegistrationDateLte'), beneficiaryRegistrationDateGte: Mapper.i.$getOpt(map, 'beneficiaryRegistrationDateGte'), clientReferenceId: Mapper.i.$getOpt(map, 'clientReferenceId'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), dateOfRegistration: Mapper.i.$getOpt(map, 'dateOfRegistration'), boundaryCode: Mapper.i.$getOpt(map, 'boundaryCode'));
 
   @override Function get encoder => (ProjectBeneficiarySearchModel v) => encode(v);
   dynamic encode(ProjectBeneficiarySearchModel v) => toMap(v);
-  Map<String, dynamic> toMap(ProjectBeneficiarySearchModel p) => {if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), if (Mapper.i.$enc(p.projectId, 'projectId') != null) 'projectId': Mapper.i.$enc(p.projectId, 'projectId'), if (Mapper.i.$enc(p.beneficiaryId, 'beneficiaryId') != null) 'beneficiaryId': Mapper.i.$enc(p.beneficiaryId, 'beneficiaryId'), if (Mapper.i.$enc(p.beneficiaryClientReferenceId, 'beneficiaryClientReferenceId') != null) 'beneficiaryClientReferenceId': Mapper.i.$enc(p.beneficiaryClientReferenceId, 'beneficiaryClientReferenceId'), if (Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId') != null) 'clientReferenceId': Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId'), if (Mapper.i.$enc(p.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), if (Mapper.i.$enc(p.dateOfRegistration, 'dateOfRegistration') != null) 'dateOfRegistration': Mapper.i.$enc(p.dateOfRegistration, 'dateOfRegistration'), if (Mapper.i.$enc(p.boundaryCode, 'boundaryCode') != null) 'boundaryCode': Mapper.i.$enc(p.boundaryCode, 'boundaryCode')};
+  Map<String, dynamic> toMap(ProjectBeneficiarySearchModel p) => {if (Mapper.i.$enc(p.id, 'id') != null) 'id': Mapper.i.$enc(p.id, 'id'), if (Mapper.i.$enc(p.projectId, 'projectId') != null) 'projectId': Mapper.i.$enc(p.projectId, 'projectId'), if (Mapper.i.$enc(p.beneficiaryId, 'beneficiaryId') != null) 'beneficiaryId': Mapper.i.$enc(p.beneficiaryId, 'beneficiaryId'), if (Mapper.i.$enc(p.beneficiaryClientReferenceId, 'beneficiaryClientReferenceId') != null) 'beneficiaryClientReferenceId': Mapper.i.$enc(p.beneficiaryClientReferenceId, 'beneficiaryClientReferenceId'), if (Mapper.i.$enc(p.beneficiaryRegistrationDateLte, 'beneficiaryRegistrationDateLte') != null) 'beneficiaryRegistrationDateLte': Mapper.i.$enc(p.beneficiaryRegistrationDateLte, 'beneficiaryRegistrationDateLte'), if (Mapper.i.$enc(p.beneficiaryRegistrationDateGte, 'beneficiaryRegistrationDateGte') != null) 'beneficiaryRegistrationDateGte': Mapper.i.$enc(p.beneficiaryRegistrationDateGte, 'beneficiaryRegistrationDateGte'), if (Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId') != null) 'clientReferenceId': Mapper.i.$enc(p.clientReferenceId, 'clientReferenceId'), if (Mapper.i.$enc(p.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(p.tenantId, 'tenantId'), if (Mapper.i.$enc(p.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(p.isDeleted, 'isDeleted'), if (Mapper.i.$enc(p.dateOfRegistration, 'dateOfRegistration') != null) 'dateOfRegistration': Mapper.i.$enc(p.dateOfRegistration, 'dateOfRegistration'), if (Mapper.i.$enc(p.boundaryCode, 'boundaryCode') != null) 'boundaryCode': Mapper.i.$enc(p.boundaryCode, 'boundaryCode')};
 
-  @override String stringify(ProjectBeneficiarySearchModel self) => 'ProjectBeneficiarySearchModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, additionalFields: ${Mapper.asString(self.additionalFields)}, id: ${Mapper.asString(self.id)}, projectId: ${Mapper.asString(self.projectId)}, beneficiaryId: ${Mapper.asString(self.beneficiaryId)}, beneficiaryClientReferenceId: ${Mapper.asString(self.beneficiaryClientReferenceId)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, dateOfRegistrationTime: ${Mapper.asString(self.dateOfRegistrationTime)})';
-  @override int hash(ProjectBeneficiarySearchModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.additionalFields) ^ Mapper.hash(self.id) ^ Mapper.hash(self.projectId) ^ Mapper.hash(self.beneficiaryId) ^ Mapper.hash(self.beneficiaryClientReferenceId) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.dateOfRegistrationTime);
-  @override bool equals(ProjectBeneficiarySearchModel self, ProjectBeneficiarySearchModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.additionalFields, other.additionalFields) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.projectId, other.projectId) && Mapper.isEqual(self.beneficiaryId, other.beneficiaryId) && Mapper.isEqual(self.beneficiaryClientReferenceId, other.beneficiaryClientReferenceId) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.dateOfRegistrationTime, other.dateOfRegistrationTime);
+  @override String stringify(ProjectBeneficiarySearchModel self) => 'ProjectBeneficiarySearchModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, additionalFields: ${Mapper.asString(self.additionalFields)}, id: ${Mapper.asString(self.id)}, projectId: ${Mapper.asString(self.projectId)}, beneficiaryId: ${Mapper.asString(self.beneficiaryId)}, beneficiaryClientReferenceId: ${Mapper.asString(self.beneficiaryClientReferenceId)}, beneficiaryRegistrationDateLte: ${Mapper.asString(self.beneficiaryRegistrationDateLte)}, beneficiaryRegistrationDateGte: ${Mapper.asString(self.beneficiaryRegistrationDateGte)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, dateOfRegistrationTime: ${Mapper.asString(self.dateOfRegistrationTime)})';
+  @override int hash(ProjectBeneficiarySearchModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.additionalFields) ^ Mapper.hash(self.id) ^ Mapper.hash(self.projectId) ^ Mapper.hash(self.beneficiaryId) ^ Mapper.hash(self.beneficiaryClientReferenceId) ^ Mapper.hash(self.beneficiaryRegistrationDateLte) ^ Mapper.hash(self.beneficiaryRegistrationDateGte) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.dateOfRegistrationTime);
+  @override bool equals(ProjectBeneficiarySearchModel self, ProjectBeneficiarySearchModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.additionalFields, other.additionalFields) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.projectId, other.projectId) && Mapper.isEqual(self.beneficiaryId, other.beneficiaryId) && Mapper.isEqual(self.beneficiaryClientReferenceId, other.beneficiaryClientReferenceId) && Mapper.isEqual(self.beneficiaryRegistrationDateLte, other.beneficiaryRegistrationDateLte) && Mapper.isEqual(self.beneficiaryRegistrationDateGte, other.beneficiaryRegistrationDateGte) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.dateOfRegistrationTime, other.dateOfRegistrationTime);
 
   @override Function get typeFactory => (f) => f<ProjectBeneficiarySearchModel>();
 }
@@ -1928,14 +2042,14 @@ extension ProjectBeneficiarySearchModelMapperExtension  on ProjectBeneficiarySea
 
 abstract class ProjectBeneficiarySearchModelCopyWith<$R> {
   factory ProjectBeneficiarySearchModelCopyWith(ProjectBeneficiarySearchModel value, Then<ProjectBeneficiarySearchModel, $R> then) = _ProjectBeneficiarySearchModelCopyWithImpl<$R>;
-  $R call({String? id, String? projectId, String? beneficiaryId, String? beneficiaryClientReferenceId, List<String>? clientReferenceId, String? tenantId, bool? isDeleted, int? dateOfRegistration, String? boundaryCode});
+  $R call({String? id, String? projectId, String? beneficiaryId, String? beneficiaryClientReferenceId, DateTime? beneficiaryRegistrationDateLte, DateTime? beneficiaryRegistrationDateGte, List<String>? clientReferenceId, String? tenantId, bool? isDeleted, int? dateOfRegistration, String? boundaryCode});
   $R apply(ProjectBeneficiarySearchModel Function(ProjectBeneficiarySearchModel) transform);
 }
 
 class _ProjectBeneficiarySearchModelCopyWithImpl<$R> extends BaseCopyWith<ProjectBeneficiarySearchModel, $R> implements ProjectBeneficiarySearchModelCopyWith<$R> {
   _ProjectBeneficiarySearchModelCopyWithImpl(ProjectBeneficiarySearchModel value, Then<ProjectBeneficiarySearchModel, $R> then) : super(value, then);
 
-  @override $R call({Object? id = $none, Object? projectId = $none, Object? beneficiaryId = $none, Object? beneficiaryClientReferenceId = $none, Object? clientReferenceId = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? dateOfRegistration = $none, Object? boundaryCode = $none}) => $then(ProjectBeneficiarySearchModel(id: or(id, $value.id), projectId: or(projectId, $value.projectId), beneficiaryId: or(beneficiaryId, $value.beneficiaryId), beneficiaryClientReferenceId: or(beneficiaryClientReferenceId, $value.beneficiaryClientReferenceId), clientReferenceId: or(clientReferenceId, $value.clientReferenceId), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), dateOfRegistration: or(dateOfRegistration, $value.dateOfRegistration), boundaryCode: or(boundaryCode, $value.boundaryCode)));
+  @override $R call({Object? id = $none, Object? projectId = $none, Object? beneficiaryId = $none, Object? beneficiaryClientReferenceId = $none, Object? beneficiaryRegistrationDateLte = $none, Object? beneficiaryRegistrationDateGte = $none, Object? clientReferenceId = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? dateOfRegistration = $none, Object? boundaryCode = $none}) => $then(ProjectBeneficiarySearchModel(id: or(id, $value.id), projectId: or(projectId, $value.projectId), beneficiaryId: or(beneficiaryId, $value.beneficiaryId), beneficiaryClientReferenceId: or(beneficiaryClientReferenceId, $value.beneficiaryClientReferenceId), beneficiaryRegistrationDateLte: or(beneficiaryRegistrationDateLte, $value.beneficiaryRegistrationDateLte), beneficiaryRegistrationDateGte: or(beneficiaryRegistrationDateGte, $value.beneficiaryRegistrationDateGte), clientReferenceId: or(clientReferenceId, $value.clientReferenceId), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), dateOfRegistration: or(dateOfRegistration, $value.dateOfRegistration), boundaryCode: or(boundaryCode, $value.boundaryCode)));
 }
 
 class ProjectBeneficiaryModelMapper extends BaseMapper<ProjectBeneficiaryModel> {
@@ -2962,7 +3076,7 @@ extension StockSearchModelMapperExtension  on StockSearchModel {
 
 abstract class StockSearchModelCopyWith<$R> {
   factory StockSearchModelCopyWith(StockSearchModel value, Then<StockSearchModel, $R> then) = _StockSearchModelCopyWithImpl<$R>;
-  $R call({String? id, String? tenantId, String? facilityId, String? productVariantId, String? referenceId, String? referenceIdType, String? transactingPartyId, String? transactingPartyType, List<String>? clientReferenceId, bool? isDeleted, TransactionType? transactionType, TransactionReason? transactionReason, String? boundaryCode});
+  $R call({String? id, String? tenantId, String? facilityId, String? productVariantId, String? referenceId, String? referenceIdType, String? transactingPartyId, String? transactingPartyType, List<String>? clientReferenceId, bool? isDeleted, List<TransactionType>? transactionType, List<TransactionReason>? transactionReason, String? boundaryCode});
   $R apply(StockSearchModel Function(StockSearchModel) transform);
 }
 
@@ -3508,120 +3622,6 @@ class _TaskResourceAdditionalFieldsCopyWithImpl<$R> extends BaseCopyWith<TaskRes
 
   @override ListCopyWith<$R, AdditionalField, AdditionalFieldCopyWith<$R>> get fields => ListCopyWith($value.fields, (v, t) => AdditionalFieldCopyWith(v, t), (v) => call(fields: v));
   @override $R call({String? schema, int? version, List<AdditionalField>? fields}) => $then(TaskResourceAdditionalFields(schema: schema ?? $value.schema, version: version ?? $value.version, fields: fields ?? $value.fields));
-}
-
-class LocalitySearchModelMapper extends BaseMapper<LocalitySearchModel> {
-  LocalitySearchModelMapper._();
-
-  @override Function get decoder => decode;
-  LocalitySearchModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  LocalitySearchModel fromMap(Map<String, dynamic> map) => LocalitySearchModel(code: Mapper.i.$getOpt(map, 'code'), name: Mapper.i.$getOpt(map, 'name'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), boundaryCode: Mapper.i.$getOpt(map, 'boundaryCode'));
-
-  @override Function get encoder => (LocalitySearchModel v) => encode(v);
-  dynamic encode(LocalitySearchModel v) => toMap(v);
-  Map<String, dynamic> toMap(LocalitySearchModel l) => {if (Mapper.i.$enc(l.code, 'code') != null) 'code': Mapper.i.$enc(l.code, 'code'), if (Mapper.i.$enc(l.name, 'name') != null) 'name': Mapper.i.$enc(l.name, 'name'), if (Mapper.i.$enc(l.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(l.tenantId, 'tenantId'), if (Mapper.i.$enc(l.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(l.isDeleted, 'isDeleted'), if (Mapper.i.$enc(l.boundaryCode, 'boundaryCode') != null) 'boundaryCode': Mapper.i.$enc(l.boundaryCode, 'boundaryCode')};
-
-  @override String stringify(LocalitySearchModel self) => 'LocalitySearchModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, additionalFields: ${Mapper.asString(self.additionalFields)}, code: ${Mapper.asString(self.code)}, name: ${Mapper.asString(self.name)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)})';
-  @override int hash(LocalitySearchModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.additionalFields) ^ Mapper.hash(self.code) ^ Mapper.hash(self.name) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted);
-  @override bool equals(LocalitySearchModel self, LocalitySearchModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.additionalFields, other.additionalFields) && Mapper.isEqual(self.code, other.code) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted);
-
-  @override Function get typeFactory => (f) => f<LocalitySearchModel>();
-}
-
-extension LocalitySearchModelMapperExtension  on LocalitySearchModel {
-  String toJson() => Mapper.toJson(this);
-  Map<String, dynamic> toMap() => Mapper.toMap(this);
-  LocalitySearchModelCopyWith<LocalitySearchModel> get copyWith => LocalitySearchModelCopyWith(this, $identity);
-}
-
-abstract class LocalitySearchModelCopyWith<$R> {
-  factory LocalitySearchModelCopyWith(LocalitySearchModel value, Then<LocalitySearchModel, $R> then) = _LocalitySearchModelCopyWithImpl<$R>;
-  $R call({String? code, String? name, String? tenantId, bool? isDeleted, String? boundaryCode});
-  $R apply(LocalitySearchModel Function(LocalitySearchModel) transform);
-}
-
-class _LocalitySearchModelCopyWithImpl<$R> extends BaseCopyWith<LocalitySearchModel, $R> implements LocalitySearchModelCopyWith<$R> {
-  _LocalitySearchModelCopyWithImpl(LocalitySearchModel value, Then<LocalitySearchModel, $R> then) : super(value, then);
-
-  @override $R call({Object? code = $none, Object? name = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? boundaryCode = $none}) => $then(LocalitySearchModel(code: or(code, $value.code), name: or(name, $value.name), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), boundaryCode: or(boundaryCode, $value.boundaryCode)));
-}
-
-class LocalityModelMapper extends BaseMapper<LocalityModel> {
-  LocalityModelMapper._();
-
-  @override Function get decoder => decode;
-  LocalityModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  LocalityModel fromMap(Map<String, dynamic> map) => LocalityModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), code: Mapper.i.$get(map, 'code'), name: Mapper.i.$getOpt(map, 'name'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'));
-
-  @override Function get encoder => (LocalityModel v) => encode(v);
-  dynamic encode(LocalityModel v) => toMap(v);
-  Map<String, dynamic> toMap(LocalityModel l) => {if (Mapper.i.$enc(l.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(l.additionalFields, 'additionalFields'), 'code': Mapper.i.$enc(l.code, 'code'), if (Mapper.i.$enc(l.name, 'name') != null) 'name': Mapper.i.$enc(l.name, 'name'), if (Mapper.i.$enc(l.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(l.tenantId, 'tenantId'), if (Mapper.i.$enc(l.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(l.isDeleted, 'isDeleted'), if (Mapper.i.$enc(l.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(l.rowVersion, 'rowVersion'), if (Mapper.i.$enc(l.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(l.auditDetails, 'auditDetails')};
-
-  @override String stringify(LocalityModel self) => 'LocalityModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, auditDetails: ${Mapper.asString(self.auditDetails)}, code: ${Mapper.asString(self.code)}, name: ${Mapper.asString(self.name)}, tenantId: ${Mapper.asString(self.tenantId)}, isDeleted: ${Mapper.asString(self.isDeleted)}, rowVersion: ${Mapper.asString(self.rowVersion)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
-  @override int hash(LocalityModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.code) ^ Mapper.hash(self.name) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.additionalFields);
-  @override bool equals(LocalityModel self, LocalityModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.code, other.code) && Mapper.isEqual(self.name, other.name) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.additionalFields, other.additionalFields);
-
-  @override Function get typeFactory => (f) => f<LocalityModel>();
-}
-
-extension LocalityModelMapperExtension  on LocalityModel {
-  String toJson() => Mapper.toJson(this);
-  Map<String, dynamic> toMap() => Mapper.toMap(this);
-  LocalityModelCopyWith<LocalityModel> get copyWith => LocalityModelCopyWith(this, $identity);
-}
-
-abstract class LocalityModelCopyWith<$R> {
-  factory LocalityModelCopyWith(LocalityModel value, Then<LocalityModel, $R> then) = _LocalityModelCopyWithImpl<$R>;
-  LocalityAdditionalFieldsCopyWith<$R>? get additionalFields;
-  AuditDetailsCopyWith<$R>? get auditDetails;
-  $R call({LocalityAdditionalFields? additionalFields, String? code, String? name, String? tenantId, bool? isDeleted, int? rowVersion, AuditDetails? auditDetails});
-  $R apply(LocalityModel Function(LocalityModel) transform);
-}
-
-class _LocalityModelCopyWithImpl<$R> extends BaseCopyWith<LocalityModel, $R> implements LocalityModelCopyWith<$R> {
-  _LocalityModelCopyWithImpl(LocalityModel value, Then<LocalityModel, $R> then) : super(value, then);
-
-  @override LocalityAdditionalFieldsCopyWith<$R>? get additionalFields => $value.additionalFields != null ? LocalityAdditionalFieldsCopyWith($value.additionalFields!, (v) => call(additionalFields: v)) : null;
-  @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
-  @override $R call({Object? additionalFields = $none, String? code, Object? name = $none, Object? tenantId = $none, Object? isDeleted = $none, Object? rowVersion = $none, Object? auditDetails = $none}) => $then(LocalityModel(additionalFields: or(additionalFields, $value.additionalFields), code: code ?? $value.code, name: or(name, $value.name), tenantId: or(tenantId, $value.tenantId), isDeleted: or(isDeleted, $value.isDeleted), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails)));
-}
-
-class LocalityAdditionalFieldsMapper extends BaseMapper<LocalityAdditionalFields> {
-  LocalityAdditionalFieldsMapper._();
-
-  @override Function get decoder => decode;
-  LocalityAdditionalFields decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  LocalityAdditionalFields fromMap(Map<String, dynamic> map) => LocalityAdditionalFields(schema: Mapper.i.$getOpt(map, 'schema') ?? 'Locality', version: Mapper.i.$get(map, 'version'), fields: Mapper.i.$getOpt(map, 'fields') ?? const []);
-
-  @override Function get encoder => (LocalityAdditionalFields v) => encode(v);
-  dynamic encode(LocalityAdditionalFields v) => toMap(v);
-  Map<String, dynamic> toMap(LocalityAdditionalFields l) => {'schema': Mapper.i.$enc(l.schema, 'schema'), 'version': Mapper.i.$enc(l.version, 'version'), 'fields': Mapper.i.$enc(l.fields, 'fields')};
-
-  @override String stringify(LocalityAdditionalFields self) => 'LocalityAdditionalFields(schema: ${Mapper.asString(self.schema)}, version: ${Mapper.asString(self.version)}, fields: ${Mapper.asString(self.fields)})';
-  @override int hash(LocalityAdditionalFields self) => Mapper.hash(self.schema) ^ Mapper.hash(self.version) ^ Mapper.hash(self.fields);
-  @override bool equals(LocalityAdditionalFields self, LocalityAdditionalFields other) => Mapper.isEqual(self.schema, other.schema) && Mapper.isEqual(self.version, other.version) && Mapper.isEqual(self.fields, other.fields);
-
-  @override Function get typeFactory => (f) => f<LocalityAdditionalFields>();
-}
-
-extension LocalityAdditionalFieldsMapperExtension  on LocalityAdditionalFields {
-  String toJson() => Mapper.toJson(this);
-  Map<String, dynamic> toMap() => Mapper.toMap(this);
-  LocalityAdditionalFieldsCopyWith<LocalityAdditionalFields> get copyWith => LocalityAdditionalFieldsCopyWith(this, $identity);
-}
-
-abstract class LocalityAdditionalFieldsCopyWith<$R> {
-  factory LocalityAdditionalFieldsCopyWith(LocalityAdditionalFields value, Then<LocalityAdditionalFields, $R> then) = _LocalityAdditionalFieldsCopyWithImpl<$R>;
-  ListCopyWith<$R, AdditionalField, AdditionalFieldCopyWith<$R>> get fields;
-  $R call({String? schema, int? version, List<AdditionalField>? fields});
-  $R apply(LocalityAdditionalFields Function(LocalityAdditionalFields) transform);
-}
-
-class _LocalityAdditionalFieldsCopyWithImpl<$R> extends BaseCopyWith<LocalityAdditionalFields, $R> implements LocalityAdditionalFieldsCopyWith<$R> {
-  _LocalityAdditionalFieldsCopyWithImpl(LocalityAdditionalFields value, Then<LocalityAdditionalFields, $R> then) : super(value, then);
-
-  @override ListCopyWith<$R, AdditionalField, AdditionalFieldCopyWith<$R>> get fields => ListCopyWith($value.fields, (v, t) => AdditionalFieldCopyWith(v, t), (v) => call(fields: v));
-  @override $R call({String? schema, int? version, List<AdditionalField>? fields}) => $then(LocalityAdditionalFields(schema: schema ?? $value.schema, version: version ?? $value.version, fields: fields ?? $value.fields));
 }
 
 class OpLogEntryMapper extends BaseMapper<OpLogEntry> {

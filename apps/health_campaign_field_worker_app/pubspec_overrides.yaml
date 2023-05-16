@@ -1,5 +1,6 @@
-# melos_managed_dependency_overrides: digit_components,forms_engine
+# melos_managed_dependency_overrides: intl,digit_components,forms_engine
 dependency_overrides:
+  intl: ^0.18.0
   digit_components:
     path: ../../packages/digit_components
   forms_engine:

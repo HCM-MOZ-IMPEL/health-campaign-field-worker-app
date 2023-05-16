@@ -263,12 +263,14 @@ class _HouseholdOverviewPageState
                                           rootNavigator: true,
                                         ).pop();
 
-                                        final address = e.address?.first??state.householdMemberWrapper.household.address;
-                                        if (address == null) {
+                                        final address = e.address;
+                                        if (address == null ||
+                                            address.isEmpty) {
                                           return;
                                         }
 
                                         final projectId = context.projectId;
+
                                         await context.router.root.push(
                                           BeneficiaryRegistrationWrapperRoute(
                                             initialState:
@@ -277,7 +279,7 @@ class _HouseholdOverviewPageState
                                               householdModel: state
                                                   .householdMemberWrapper
                                                   .household,
-                                              addressModel: address,
+                                              addressModel: address.first,
                                             ),
                                             children: [
                                               IndividualDetailsRoute(

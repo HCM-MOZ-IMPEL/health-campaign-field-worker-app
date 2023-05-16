@@ -68,10 +68,11 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<BeneficiaryRegistrationWrapperRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: BeneficiaryRegistrationWrapperPage(
+        child: WrappedRoute(
+            child: BeneficiaryRegistrationWrapperPage(
           key: args.key,
           initialState: args.initialState,
-        ),
+        )),
       );
     },
     BeneficiaryWrapperRoute.name: (routeData) {
@@ -90,10 +91,11 @@ class _$AppRouter extends RootStackRouter {
           orElse: () => const ChecklistWrapperRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: ChecklistWrapperPage(
+        child: WrappedRoute(
+            child: ChecklistWrapperPage(
           key: args.key,
           isEditing: args.isEditing,
-        ),
+        )),
       );
     },
     AcknowledgementRoute.name: (routeData) {
@@ -122,10 +124,11 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<RecordStockWrapperRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: RecordStockWrapperPage(
+        child: WrappedRoute(
+            child: RecordStockWrapperPage(
           key: args.key,
           type: args.type,
-        ),
+        )),
       );
     },
     ManageStocksRoute.name: (routeData) {

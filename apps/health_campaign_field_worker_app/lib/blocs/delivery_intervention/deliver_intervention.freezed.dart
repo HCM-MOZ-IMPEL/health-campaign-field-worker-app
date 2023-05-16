@@ -18,19 +18,25 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DeliverInterventionEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(TaskModel task, bool isEditing) handleSubmit,
+    required TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)
+        handleSubmit,
     required TResult Function(TaskSearchModel taskSearch) handleSearch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(TaskModel task, bool isEditing)? handleSubmit,
+    TResult? Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
     TResult? Function(TaskSearchModel taskSearch)? handleSearch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(TaskModel task, bool isEditing)? handleSubmit,
+    TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
     TResult Function(TaskSearchModel taskSearch)? handleSearch,
     required TResult orElse(),
   }) =>
@@ -84,7 +90,7 @@ abstract class _$$DeliverInterventionSubmitEventCopyWith<$Res> {
           $Res Function(_$DeliverInterventionSubmitEvent) then) =
       __$$DeliverInterventionSubmitEventCopyWithImpl<$Res>;
   @useResult
-  $Res call({TaskModel task, bool isEditing});
+  $Res call({TaskModel task, bool isEditing, BoundaryModel boundaryModel});
 }
 
 /// @nodoc
@@ -102,6 +108,7 @@ class __$$DeliverInterventionSubmitEventCopyWithImpl<$Res>
   $Res call({
     Object? task = null,
     Object? isEditing = null,
+    Object? boundaryModel = null,
   }) {
     return _then(_$DeliverInterventionSubmitEvent(
       null == task
@@ -112,6 +119,10 @@ class __$$DeliverInterventionSubmitEventCopyWithImpl<$Res>
           ? _value.isEditing
           : isEditing // ignore: cast_nullable_to_non_nullable
               as bool,
+      null == boundaryModel
+          ? _value.boundaryModel
+          : boundaryModel // ignore: cast_nullable_to_non_nullable
+              as BoundaryModel,
     ));
   }
 }
@@ -120,16 +131,19 @@ class __$$DeliverInterventionSubmitEventCopyWithImpl<$Res>
 
 class _$DeliverInterventionSubmitEvent
     implements DeliverInterventionSubmitEvent {
-  const _$DeliverInterventionSubmitEvent(this.task, this.isEditing);
+  const _$DeliverInterventionSubmitEvent(
+      this.task, this.isEditing, this.boundaryModel);
 
   @override
   final TaskModel task;
   @override
   final bool isEditing;
+  @override
+  final BoundaryModel boundaryModel;
 
   @override
   String toString() {
-    return 'DeliverInterventionEvent.handleSubmit(task: $task, isEditing: $isEditing)';
+    return 'DeliverInterventionEvent.handleSubmit(task: $task, isEditing: $isEditing, boundaryModel: $boundaryModel)';
   }
 
   @override
@@ -139,11 +153,13 @@ class _$DeliverInterventionSubmitEvent
             other is _$DeliverInterventionSubmitEvent &&
             (identical(other.task, task) || other.task == task) &&
             (identical(other.isEditing, isEditing) ||
-                other.isEditing == isEditing));
+                other.isEditing == isEditing) &&
+            (identical(other.boundaryModel, boundaryModel) ||
+                other.boundaryModel == boundaryModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, task, isEditing);
+  int get hashCode => Object.hash(runtimeType, task, isEditing, boundaryModel);
 
   @JsonKey(ignore: true)
   @override
@@ -155,30 +171,36 @@ class _$DeliverInterventionSubmitEvent
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(TaskModel task, bool isEditing) handleSubmit,
+    required TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)
+        handleSubmit,
     required TResult Function(TaskSearchModel taskSearch) handleSearch,
   }) {
-    return handleSubmit(task, isEditing);
+    return handleSubmit(task, isEditing, boundaryModel);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(TaskModel task, bool isEditing)? handleSubmit,
+    TResult? Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
     TResult? Function(TaskSearchModel taskSearch)? handleSearch,
   }) {
-    return handleSubmit?.call(task, isEditing);
+    return handleSubmit?.call(task, isEditing, boundaryModel);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(TaskModel task, bool isEditing)? handleSubmit,
+    TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
     TResult Function(TaskSearchModel taskSearch)? handleSearch,
     required TResult orElse(),
   }) {
     if (handleSubmit != null) {
-      return handleSubmit(task, isEditing);
+      return handleSubmit(task, isEditing, boundaryModel);
     }
     return orElse();
   }
@@ -220,11 +242,13 @@ class _$DeliverInterventionSubmitEvent
 abstract class DeliverInterventionSubmitEvent
     implements DeliverInterventionEvent {
   const factory DeliverInterventionSubmitEvent(
-          final TaskModel task, final bool isEditing) =
-      _$DeliverInterventionSubmitEvent;
+      final TaskModel task,
+      final bool isEditing,
+      final BoundaryModel boundaryModel) = _$DeliverInterventionSubmitEvent;
 
   TaskModel get task;
   bool get isEditing;
+  BoundaryModel get boundaryModel;
   @JsonKey(ignore: true)
   _$$DeliverInterventionSubmitEventCopyWith<_$DeliverInterventionSubmitEvent>
       get copyWith => throw _privateConstructorUsedError;
@@ -300,7 +324,9 @@ class _$DeliverInterventionSearchEvent
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(TaskModel task, bool isEditing) handleSubmit,
+    required TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)
+        handleSubmit,
     required TResult Function(TaskSearchModel taskSearch) handleSearch,
   }) {
     return handleSearch(taskSearch);
@@ -309,7 +335,9 @@ class _$DeliverInterventionSearchEvent
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(TaskModel task, bool isEditing)? handleSubmit,
+    TResult? Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
     TResult? Function(TaskSearchModel taskSearch)? handleSearch,
   }) {
     return handleSearch?.call(taskSearch);
@@ -318,7 +346,9 @@ class _$DeliverInterventionSearchEvent
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(TaskModel task, bool isEditing)? handleSubmit,
+    TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
     TResult Function(TaskSearchModel taskSearch)? handleSearch,
     required TResult orElse(),
   }) {
