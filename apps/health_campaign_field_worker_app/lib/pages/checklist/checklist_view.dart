@@ -33,14 +33,11 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   @override
   void initState() {
     context.read<ServiceBloc>().add(
-      ServiceChecklistEvent(
-        value: Random()
-            .nextInt(100)
-            .toString(),
-        submitTriggered:
-        true,
-      ),
-    );
+          ServiceChecklistEvent(
+            value: Random().nextInt(100).toString(),
+            submitTriggered: true,
+          ),
+        );
     super.initState();
   }
 
@@ -281,11 +278,23 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                               ),
                                               child: DigitTextField(
                                                 maxLength: 1000,
+                                                isRequired: true,
                                                 controller:
                                                     additionalController[index],
-                                                label: localizations.translate(
+                                                label:
+                                                    '${localizations.translate(
                                                   '${value.selectedServiceDefinition?.code}.${e.code}.ADDITIONAL_FIELD',
-                                                ),
+                                                )}*',
+                                                validator: (value1) {
+                                                  if (value1 == null ||
+                                                      value1 == '') {
+                                                    return localizations
+                                                        .translate(
+                                                      i18.common
+                                                          .corecommonRequired,
+                                                    );
+                                                  }
+                                                },
                                               ),
                                             )
                                           : const SizedBox();
