@@ -157,6 +157,7 @@ class _HouseHoldDetailsPageState extends LocalizedState<HouseHoldDetailsPage> {
                         ),
                         DigitIntegerFormPicker(
                           minimum: 1,
+                          maximum: 20,
                           form: form,
                           formControlName: _memberCountKey,
                           label: localizations.translate(

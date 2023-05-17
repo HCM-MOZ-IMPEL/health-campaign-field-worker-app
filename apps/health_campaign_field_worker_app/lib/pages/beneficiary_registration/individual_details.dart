@@ -56,7 +56,8 @@ class _IndividualDetailsPageState
           listener: (context, state) {
             state.mapOrNull(
               persisted: (value) {
-                context.read<SearchHouseholdsBloc>().householdMemberWrapper = bloc.householdMemberWrapper;
+                context.read<SearchHouseholdsBloc>().householdMemberWrapper =
+                    bloc.householdMemberWrapper;
                 (router.parent() as StackRouter).pop();
 
                 // if (value.navigateToRoot) {
@@ -326,12 +327,12 @@ class _IndividualDetailsPageState
                           // ),
                           DigitDobPicker(
                             datePickerFormControl: _dobKey,
-                            datePickerLabel: localizations.translate(
+                            datePickerLabel: '${localizations.translate(
                               i18.individualDetails.dobLabelText,
-                            ),
-                            ageFieldLabel: localizations.translate(
+                            )}*',
+                            ageFieldLabel: '${localizations.translate(
                               i18.individualDetails.ageLabelText,
-                            ),
+                            )}*',
                             separatorLabel: localizations.translate(
                               i18.individualDetails.separatorLabelText,
                             ),
@@ -349,6 +350,7 @@ class _IndividualDetailsPageState
                                   label: localizations.translate(
                                     i18.individualDetails.genderLabelText,
                                   ),
+                                  isRequired: true,
                                   // valueMapper: (value) => value,
                                   valueMapper: (value) =>
                                       localizations.translate(
@@ -361,6 +363,12 @@ class _IndividualDetailsPageState
                                     },
                                   ).toList(),
                                   formControlName: _genderKey,
+                                  validationMessages: {
+                                    'required': (object) =>
+                                        localizations.translate(
+                                          i18.common.corecommonRequired,
+                                        ),
+                                  },
                                 );
                               },
                             ),
@@ -480,7 +488,10 @@ class _IndividualDetailsPageState
 
     return fb.group(<String, Object>{
       _individualNameKey: FormControl<String>(
-        validators: [Validators.required, CustomValidator.requiredMin],
+        validators: [
+          Validators.required,
+          CustomValidator.requiredMinIndividualName,
+        ],
         value: individual?.name?.givenName ?? searchQuery?.trim(),
       ),
       // _idTypeKey: FormControl<String>(
@@ -492,6 +503,9 @@ class _IndividualDetailsPageState
       //   value: individual?.identifiers?.firstOrNull?.identifierId,
       // ),
       _dobKey: FormControl<DateTime>(
+        validators: [
+          CustomValidator.dobRequired,
+        ],
         value: individual?.dateOfBirth != null
             ? DateFormat('dd/MM/yyyy').parse(
                 individual!.dateOfBirth!,
@@ -499,6 +513,9 @@ class _IndividualDetailsPageState
             : null,
       ),
       _genderKey: FormControl<String>(
+        validators: [
+          Validators.required,
+        ],
         value: context.read<AppInitializationBloc>().state.maybeWhen(
               orElse: () => null,
               initialized: (appConfiguration, serviceRegistryList) {
@@ -513,8 +530,9 @@ class _IndividualDetailsPageState
             ),
       ),
       _mobileNumberKey: FormControl<String>(
-          value: individual?.mobileNumber,
-          validators: [CustomValidator.validMobileNumber],),
+        value: individual?.mobileNumber,
+        validators: [CustomValidator.validMobileNumber],
+      ),
     });
   }
 }
