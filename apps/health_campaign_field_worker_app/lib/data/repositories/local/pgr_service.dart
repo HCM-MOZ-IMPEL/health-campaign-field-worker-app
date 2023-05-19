@@ -5,11 +5,10 @@ import 'package:drift/drift.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
-import '../../data_repository.dart';
 import '../../local_store/sql_store/sql_store.dart';
+import 'base/pgr_base.dart';
 
-class PgrServiceLocalRepository
-    extends LocalRepository<PgrServiceModel, PgrServiceSearchModel> {
+class PgrServiceLocalRepository extends PgrServiceLocalBaseRepository {
   PgrServiceLocalRepository(super.sql, super.opLogManager);
 
   @override
@@ -211,7 +210,4 @@ class PgrServiceLocalRepository
       );
     }).toList();
   }
-
-  @override
-  DataModelType get type => DataModelType.complaints;
 }

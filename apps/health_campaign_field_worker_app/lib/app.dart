@@ -67,8 +67,11 @@ class MainApplication extends StatelessWidget {
                 lazy: false,
               ),
               BlocProvider(
-                create: (ctx) => AuthBloc(authRepository: ctx.read())
-                  ..add(
+                create: (ctx) => AuthBloc(
+                  authRepository: ctx.read(),
+                  boundaryLocalRepository: ctx.read<
+                      LocalRepository<BoundaryModel, BoundarySearchModel>>(),
+                )..add(
                     AuthAutoLoginEvent(
                       tenantId: envConfig.variables.tenantId,
                     ),
@@ -99,7 +102,7 @@ class MainApplication extends StatelessWidget {
                 return BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, authState) {
                     if (appConfigState is! AppInitialized) {
-                      return MaterialApp(
+                      return const MaterialApp(
                         home: Scaffold(
                           body: Center(
                             child: Text('Loading'),
@@ -146,7 +149,6 @@ class MainApplication extends StatelessWidget {
                         ),
                         BlocProvider(
                           create: (ctx) => ProjectBloc(
-
                             facilityLocalRepository: ctx.read<
                                 LocalRepository<FacilityModel,
                                     FacilitySearchModel>>(),
@@ -196,8 +198,6 @@ class MainApplication extends StatelessWidget {
                             projectResourceRemoteRepository: ctx.read<
                                 RemoteRepository<ProjectResourceModel,
                                     ProjectResourceSearchModel>>(),
-
-
                           ),
                         ),
                       ],
