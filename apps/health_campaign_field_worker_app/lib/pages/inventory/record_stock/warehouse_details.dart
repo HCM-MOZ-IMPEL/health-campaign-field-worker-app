@@ -159,6 +159,12 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                                   facilities,
                                 ),
                                 isRequired: true,
+                                validationMessages: {
+                                  'required': (object) =>
+                                      localizations.translate(
+                                        i18.common.corecommonRequired,
+                                      ),
+                                },
                                 label: localizations.translate(
                                   i18.stockReconciliationDetails.facilityLabel,
                                 ),
