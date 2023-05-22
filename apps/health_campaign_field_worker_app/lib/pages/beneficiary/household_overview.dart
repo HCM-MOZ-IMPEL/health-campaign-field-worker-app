@@ -260,7 +260,7 @@ class _HouseholdOverviewPageState
                 child: state.task?.status == 'delivered'
                     ? DigitOutLineButton(
                         label: localizations.translate(
-                          i18.memberCard.deliverDetailsUpdateLabel,
+                          i18.memberCard.deliverDetailsViewLabel,
                         ),
                         onPressed: () async {
                           await context.router.push(DeliverInterventionRoute());

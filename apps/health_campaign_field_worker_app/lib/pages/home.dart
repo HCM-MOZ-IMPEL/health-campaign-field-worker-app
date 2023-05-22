@@ -41,7 +41,6 @@ class _HomePageState extends LocalizedState<HomePage> {
     final theme = Theme.of(context);
     final state = context.read<AuthBloc>().state;
 
-
     if (state is! AuthAuthenticatedState) {
       return Container();
     }
@@ -49,13 +48,20 @@ class _HomePageState extends LocalizedState<HomePage> {
       return e.code;
     });
 
-    if (roles.contains(UserRoleCodeEnum.warehouseManager)) {
+    if (roles.contains(UserRoleCodeEnum.warehouseManager) ||
+        roles.contains(UserRoleCodeEnum.supervisor) ||
+        roles.contains(UserRoleCodeEnum.districtSupervisor) ||
+        roles.contains(UserRoleCodeEnum.nationalSupervisor) ||
+        roles.contains(UserRoleCodeEnum.provincialSupervisor) ||
+        roles.contains(UserRoleCodeEnum.fieldSupervisor)) {
       skipProgressBar = true;
     }
 
     List<GlobalKey<OverlayWidgetState>> overlayWidgetStateList = [];
     List<GlobalKey<DigitWalkthroughState>> walkthroughWidgetStateList = [];
-    final length = skipProgressBar?_getItems(context).length:_getItems(context).length+1;
+    final length = skipProgressBar
+        ? _getItems(context).length
+        : _getItems(context).length + 1;
     for (var i = 0; i < length; i++) {
       overlayWidgetStateList
           .add(GlobalKey<OverlayWidgetState>(debugLabel: 'home_Overlay_$i'));
@@ -94,11 +100,13 @@ class _HomePageState extends LocalizedState<HomePage> {
                               ?.initOffsetsPositions(),
                           overlayWrapperkey.currentState?.onSelectedTap(),
                         },
-                        key: walkthroughWidgetStateList[skipProgressBar?index:index + 1],
+                        key: walkthroughWidgetStateList[
+                            skipProgressBar ? index : index + 1],
                         description: localizations.translate(
                           '${_getItems(context).elementAt(index).label}_HELP',
                         ),
-                        overlayWidget: overlayWidgetStateList[skipProgressBar?index:index+1],
+                        overlayWidget: overlayWidgetStateList[
+                            skipProgressBar ? index : index + 1],
                         titleAlignment: TextAlign.center,
                         child: _getItems(context).elementAt(index),
                       );
@@ -124,7 +132,9 @@ class _HomePageState extends LocalizedState<HomePage> {
                       overlayWrapperkey.currentState?.onSelectedTap();
                     },
                   ),
-                  skipProgressBar?Container():DigitWalkthrough(
+                  skipProgressBar
+                      ? Container()
+                      : DigitWalkthrough(
                           onSkip: () => {
                             overlayWrapperkey.currentState?.onSelectedSkip(),
                           },

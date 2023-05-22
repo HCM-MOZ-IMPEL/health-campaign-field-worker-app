@@ -30,6 +30,7 @@ class DigitIntegerFormPicker extends StatelessWidget {
             formControlName: formControlName,
             decoration: InputDecoration(labelText: hint),
             keyboardType: TextInputType.number,
+            readOnly: true,
           ));
     }
 
