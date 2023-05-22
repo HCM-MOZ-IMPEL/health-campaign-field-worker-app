@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/data_model.dart';
@@ -294,6 +295,8 @@ abstract class LocalRepository<D extends EntityModel,
 
   const LocalRepository(this.sql, this.opLogManager);
 
+  TableInfo get table;
+
   @override
   @mustCallSuper
   FutureOr<void> create(
@@ -316,6 +319,10 @@ abstract class LocalRepository<D extends EntityModel,
   @mustCallSuper
   FutureOr<void> delete(D entity, {bool createOpLog = true}) async {
     if (createOpLog) await createOplogEntry(entity, DataOperation.delete);
+  }
+
+  FutureOr<void> deleteAll() async {
+    await sql.deleteFromTable(table);
   }
 
   FutureOr<void> createOplogEntry(D entity, DataOperation operation) async {
