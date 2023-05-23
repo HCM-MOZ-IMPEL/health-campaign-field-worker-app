@@ -298,6 +298,12 @@ class _StockReconciliationPageState
                                           formControlName: _facilityKey,
                                           readOnly: true,
                                           isRequired: true,
+                                          validationMessages: {
+                                            'required': (object) =>
+                                                localizations.translate(
+                                                  i18.common.corecommonRequired,
+                                                ),
+                                          },
                                           onTap: () async {
                                             final stockReconciliationBloc =
                                                 context.read<
@@ -329,19 +335,17 @@ class _StockReconciliationPageState
                                         return state.maybeWhen(
                                           orElse: () => const Offstage(),
                                           fetched: (productVariants) {
-                                            stockCount = stockState
-                                                .stockInHand
-                                                .toInt();
+                                            stockCount =
+                                                stockState.stockInHand.toInt();
                                             productVariantModel =
-                                            productVariants[0];
+                                                productVariants[0];
                                             ctx
-                                                .read<
-                                                StockReconciliationBloc>()
+                                                .read<StockReconciliationBloc>()
                                                 .add(
-                                              StockReconciliationSelectProductEvent(
-                                                productVariantModel.id,
-                                              ),
-                                            );
+                                                  StockReconciliationSelectProductEvent(
+                                                    productVariantModel.id,
+                                                  ),
+                                                );
 
                                             return Container();
                                             // return DigitReactiveDropdown<
@@ -512,8 +516,7 @@ class _StockReconciliationPageState
                                                 .manualCountRequiredError),
                                       },
                                       onChanged: (control) {
-                                        final manualStockCount =
-                                            control.value;
+                                        final manualStockCount = control.value;
 
                                         if (manualStockCount !=
                                             stockCount.toString()) {
@@ -529,8 +532,8 @@ class _StockReconciliationPageState
                                             );
                                             form
                                                 .control(
-                                              _reconciliationCommentsKey,
-                                            )
+                                                  _reconciliationCommentsKey,
+                                                )
                                                 .touched;
                                           });
                                         } else {
@@ -554,13 +557,13 @@ class _StockReconciliationPageState
                                             .commentsLabel,
                                       ),
                                       formControlName:
-                                        _reconciliationCommentsKey,
-                                        validationMessages: {
-                                          "required": (object) =>
-                                              localizations.translate(i18
-                                                  .stockReconciliationDetails
-                                                  .reconciliationCommentRequiredError),
-                                        },
+                                          _reconciliationCommentsKey,
+                                      validationMessages: {
+                                        "required": (object) =>
+                                            localizations.translate(i18
+                                                .stockReconciliationDetails
+                                                .reconciliationCommentRequiredError),
+                                      },
                                     ),
                                   ],
                                 ),

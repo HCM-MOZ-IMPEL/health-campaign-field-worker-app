@@ -10,6 +10,7 @@ class DigitReactiveDropdown<T> extends StatelessWidget {
   final ValueChanged<T>? onChanged;
   final String Function(T value) valueMapper;
   final Map<String, String Function(Object object)>? validationMessages;
+  final bool readOnly;
 
   const DigitReactiveDropdown({
     super.key,
@@ -21,6 +22,7 @@ class DigitReactiveDropdown<T> extends StatelessWidget {
     this.initialValue,
     this.onChanged,
     this.validationMessages,
+    this.readOnly = false,
   });
 
   @override
@@ -42,6 +44,7 @@ class DigitReactiveDropdown<T> extends StatelessWidget {
               onChanged?.call(value);
             },
             validationMessages: validationMessages,
+            readOnly: readOnly,
             formControlName: formControlName,
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(16, 12, 0, 12),

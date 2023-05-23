@@ -11,7 +11,6 @@ import '../blocs/project/project.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
 import '../utils/i18_key_constants.dart' as i18;
-import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/localized.dart';
 
 class ProjectSelectionPage extends LocalizedStatefulWidget {

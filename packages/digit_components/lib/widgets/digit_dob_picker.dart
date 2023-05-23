@@ -47,15 +47,20 @@ class DigitDobPicker extends StatelessWidget {
               valueAccessor: DobValueAccessor(),
               formControlName: datePickerFormControl,
               label: ageFieldLabel,
-              keyboardType: const TextInputType
-                  .numberWithOptions(decimal: true),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               readOnly: isVerified,
-              inputFormatters: [FilteringTextInputFormatter
-                  .allow(RegExp(r'^-?\d+$')),],
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^-?\d+$')),
+              ],
               onChanged: (formControl) {
                 /// Validates that control's value must be `true`
                 Map<String, dynamic>? requiredTrue(
                     AbstractControl<dynamic> control) {
+                  if (formControl.value == null ||
+                      formControl.value.toString().trim().isEmpty) {
+                    return {'O campo Idade é obrigatório': true};
+                  }
                   String value =
                       (DateTime.now().difference(formControl.value).inDays /
                               365)
@@ -96,7 +101,7 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
 
   @override
   DateTime? viewToModelValue(String? viewValue) {
-    if (viewValue == null) return null;
+    if (viewValue == null || viewValue.trim().isEmpty) return null;
     final value = int.tryParse(viewValue);
     if (value == null) return null;
     return DateTime(

@@ -438,6 +438,12 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     transactionPartyLabel,
                                   ),
                                   isRequired: true,
+                                  validationMessages: {
+                                    'required': (object) =>
+                                        localizations.translate(
+                                          i18.common.corecommonRequired,
+                                        ),
+                                  },
                                   suffix: const Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Icon(Icons.search),
@@ -492,8 +498,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               isRequired: true,
                               validationMessages: {
                                 'required': (object) => localizations.translate(
-                                      module
-                                          .waybillNumberValidation,
+                                      module.waybillNumberValidation,
                                     ),
                               },
                             ),

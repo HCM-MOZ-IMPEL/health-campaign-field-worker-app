@@ -67,7 +67,7 @@ class Common {
 
   String get coreCommonlanguage => 'CORE_COMMON_LANGUAGE';
 
-  String get coreCommonProceed=> 'CORE_COMMON_NEXT';
+  String get coreCommonProceed => 'CORE_COMMON_NEXT';
 }
 
 class Login {
@@ -318,6 +318,9 @@ class MemberCard {
   String get deliverDetailsUpdateLabel =>
       'MEMBER_CARD_DELIVER_DETAILS_UPDATE_LABEL';
 
+  String get deliverDetailsViewLabel =>
+      'MEMBER_CARD_DELIVER_DETAILS_VIEW_LABEL';
+
   String get deliverDetailsYearText => 'MEMBER_CARD_DELIVER_DETAILS_YEAR_TEXT';
 
   String get editDetails => 'MEMBER_CARD_EDIT_DETAILS';
@@ -433,11 +436,13 @@ class StockDetails {
 
   String get quantityDamagedLabel => 'STOCK_DETAILS_QUANTITY_DAMAGED';
 
-  String get stockReceivedSuccess => 'STOCK_RECONCILIATION_STOCK_RECEIVED_SUCCESS';
+  String get stockReceivedSuccess =>
+      'STOCK_RECONCILIATION_STOCK_RECEIVED_SUCCESS';
 
   String get stockIssuedSuccess => 'STOCK_RECONCILIATION_STOCK_ISSUED_SUCCESS';
 
-  String get stockReturnedSuccess => 'STOCK_RECONCILIATION_STOCK_RETURNED_SUCCESS';
+  String get stockReturnedSuccess =>
+      'STOCK_RECONCILIATION_STOCK_RETURNED_SUCCESS';
 
   /// Validation Messages
   String get quantityReceivedValidation =>
@@ -658,17 +663,21 @@ class Complaints {
 
   String get acknowledgementAction => 'COMPLAINTS_ACKNOWLEDGEMENT_ACTION';
 
-  String get acknowledgementDescription => 'COMPLAINTS_ACKNOWLEDGEMENT_DESCRIPTION';
+  String get acknowledgementDescription =>
+      'COMPLAINTS_ACKNOWLEDGEMENT_DESCRIPTION';
 
   String get acknowledgementLabel => 'COMPLAINTS_ACKNOWLEDGEMENT_LABEL';
 
-  String get acknowledgementSubLabelMain => 'COMPLAINTS_ACKNOWLEDGEMENT_SUB_LABEL_MAIN';
+  String get acknowledgementSubLabelMain =>
+      'COMPLAINTS_ACKNOWLEDGEMENT_SUB_LABEL_MAIN';
 
-  String get acknowledgementSubLabelSub => 'COMPLAINTS_ACKNOWLEDGEMENT_SUB_LABEL_SUB';
+  String get acknowledgementSubLabelSub =>
+      'COMPLAINTS_ACKNOWLEDGEMENT_SUB_LABEL_SUB';
 
   String get validationRequiredError => 'COMPLAINTS_VALIDATION_REQUIRED_ERROR';
 
-  String get validationMinLengthError => 'COMPLAINTS_VALIDATION_MINLENGTH_ERROR';
+  String get validationMinLengthError =>
+      'COMPLAINTS_VALIDATION_MINLENGTH_ERROR';
 
   String get raisedForMyself => 'COMPLAINTS_RAISED_FOR_MYSELF';
 
