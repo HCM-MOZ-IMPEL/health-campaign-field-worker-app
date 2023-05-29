@@ -2,6 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import '../../blocs/localization/app_localization.dart';
+import '../../utils/i18_key_constants.dart' as i18;
 
 import '../../models/entities/facility.dart';
 import '../../router/app_router.dart';
@@ -20,6 +22,8 @@ class FacilitySelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return ReactiveFormBuilder(
       form: _form,
       builder: (context, form, child) {
@@ -27,8 +31,8 @@ class FacilitySelectionPage extends StatelessWidget {
           body: ReactiveFormConsumer(
             builder: (context, form, _) {
               final filteredFacilities = facilities.where((element) {
-                final query = (form.control(_facilityName)
-                    .value as String?)?.trim();
+                final query =
+                    (form.control(_facilityName).value as String?)?.trim();
                 if (query == null || query.isEmpty) return true;
                 if (element.id.toLowerCase().contains(query.toLowerCase())) {
                   return true;
@@ -44,11 +48,13 @@ class FacilitySelectionPage extends StatelessWidget {
               return ScrollableContent(
                 header: const BackNavigationHelpHeaderWidget(),
                 slivers: [
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: DigitTextFormField(
-                        label: 'Texto de pesquisa de facilidades',
+                        label: localizations.translate(
+                          i18.stockReconciliationDetails.facilitySearchText,
+                        ),
                         formControlName: _facilityName,
                       ),
                     ),
@@ -98,12 +104,14 @@ class FacilityValueAccessor
 
   @override
   String? modelToViewValue(FacilityModel? modelValue) {
-    return modelValue?.id != null ? '${modelValue?.name}(${modelValue?.id})' : null;
+    return modelValue?.id != null
+        ? '${modelValue?.name}(${modelValue?.id})'
+        : null;
   }
 
   @override
   FacilityModel? viewToModelValue(String? viewValue) {
-    return models.firstWhereOrNull((element) =>
-    element.id == viewValue?.split("(")[1].split(")")[0]);
+    return models.firstWhereOrNull(
+        (element) => element.id == viewValue?.split("(")[1].split(")")[0]);
   }
 }
