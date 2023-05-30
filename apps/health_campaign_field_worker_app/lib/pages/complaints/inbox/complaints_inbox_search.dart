@@ -142,7 +142,7 @@ class _ComplaintsInboxSearchPageState
                                   label: localizations.translate(
                                     i18.common.coreCommonMobileNumber,
                                   ),
-                                  maxLength: 10,
+                                  maxLength: 9,
                                   keyboardType: TextInputType.number,
                                   validationMessages: {
                                     'mobileNumber': (object) =>
@@ -174,7 +174,7 @@ class _ComplaintsInboxSearchPageState
         value: state.searchKeys?.complaintNumber,
       ),
       _mobileNumber: FormControl<String>(
-        validators: [CustomValidator.pgrValidMobileNumber],
+        validators: [CustomValidator.validMobileNumber],
         value: state.searchKeys?.complainantMobileNumber,
       ),
     });
