@@ -77,7 +77,7 @@ class Variables {
     'BASE_URL',
     // 'https://health-qa.digit.org/',
     //   'https://moz-health-qa.digit.org/',
-      'https://moz-health-dev.digit.org/',
+    'https://moz-health-dev.digit.org/',
   );
 
   static const _mdmsApi = EnvEntry(
@@ -152,6 +152,7 @@ enum EnvType {
   dev("DEV"),
   uat("UAT"),
   qa("QA"),
+  training("TRAINING"),
   prod("PROD");
 
   final String env;
