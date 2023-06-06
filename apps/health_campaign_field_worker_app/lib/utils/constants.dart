@@ -1,7 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:digit_components/widgets/molecules/digit_walkthrough.dart';
+import 'package:digit_components/widgets/molecules/digit_walkthrough_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../blocs/app_initialization/app_initialization.dart';
+import 'package:overlay_builder/overlay_builder.dart';
 
 class Constants {
   static const String localizationApiPath = 'localization/messages/v1/_search';
@@ -21,6 +24,44 @@ class Constants {
 
     return actionResult ?? '';
   }
+
+  static List<GlobalKey<OverlayWidgetState>>
+      searchBeneficiaryOverlayWidgetStateList = [
+    GlobalKey<OverlayWidgetState>(
+      debugLabel: 'search_beneficiary_household_count',
+    ),
+    GlobalKey<OverlayWidgetState>(
+      debugLabel: 'search_beneficiary_bed_nets_count',
+    ),
+    GlobalKey<OverlayWidgetState>(
+      debugLabel: 'search_beneficiary_search_input',
+    ),
+    GlobalKey<OverlayWidgetState>(
+      debugLabel: 'search_beneficiary_register_button',
+    ),
+  ];
+  static List<GlobalKey<DigitWalkthroughState>>
+      searchBeneficiaryWalkthroughWidgetStateList = [
+    GlobalKey<DigitWalkthroughState>(
+      debugLabel: 'SEARCH_BENEFICIARY_HOUSEHOLD_COUNT',
+    ),
+    GlobalKey<DigitWalkthroughState>(
+      debugLabel: 'SEARCH_BENEFICIARY_BED_NETS_COUNT',
+    ),
+    GlobalKey<DigitWalkthroughState>(
+      debugLabel: 'SEARCH_BENEFICIARY_SEARCH_INPUT',
+    ),
+    GlobalKey<DigitWalkthroughState>(
+      debugLabel: 'SEARCH_BENEFICIARY_REGISTER_BUTTON',
+    ),
+  ];
+
+  static GlobalKey<OverlayWidgetState> searchBeneficiaryOverlaykey =
+      GlobalKey(debugLabel: 'search_beneficiary');
+
+  static GlobalKey<DigitWalkthroughWrapperState>
+      searchBeneficiaryOverlayWrapperkey =
+      GlobalKey(debugLabel: 'searchBeneficiary');
 }
 
 /// By using this key, we can push pages without context

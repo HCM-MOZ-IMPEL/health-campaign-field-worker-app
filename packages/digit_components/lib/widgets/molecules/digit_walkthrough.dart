@@ -11,6 +11,7 @@ class DigitWalkthrough extends StatefulWidget {
   final VoidCallback onTap;
   final VoidCallback onSkip;
   final double widgetHeight;
+  final Offset position;
 
   const DigitWalkthrough({
     super.key,
@@ -22,6 +23,7 @@ class DigitWalkthrough extends StatefulWidget {
     required this.onTap,
     required this.onSkip,
     required this.widgetHeight,
+    this.position = Offset.zero,
   });
 
   @override
@@ -48,8 +50,8 @@ class DigitWalkthroughState extends State<DigitWalkthrough> {
 
   void initOffsetsPositions() {
     Offset position =
-    ((widget.overlayWidget).currentContext?.findRenderObject() as RenderBox)
-        .localToGlobal(Offset.zero);
+        ((widget.overlayWidget).currentContext?.findRenderObject() as RenderBox)
+            .localToGlobal(widget.position);
     this.childHeight = (widget.overlayWidget).currentContext!.size!.height / 2;
     this.childWidth = (widget.overlayWidget).currentContext!.size!.width;
 

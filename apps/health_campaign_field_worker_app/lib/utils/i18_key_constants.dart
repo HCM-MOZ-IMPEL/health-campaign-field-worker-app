@@ -70,6 +70,14 @@ class Common {
   String get coreCommonlanguage => 'CORE_COMMON_LANGUAGE';
 
   String get coreCommonProceed => 'CORE_COMMON_NEXT';
+
+  String get householdCountHelp => 'HOUSEHOLD_COUNT_HELP';
+
+  String get bedNetsCountHelp => 'BED_NETS_COUNT_HELP';
+
+  String get searchBeneficiaryHelp => 'SEARCH_BENEFICIARY_HELP';
+
+  String get addBeneficiaryHelp => 'ADD_BENEFICIARY_HELP';
 }
 
 class Login {
