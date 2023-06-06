@@ -134,16 +134,18 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(localizations
-                                            .translate(item2!.code.toString())),
+                                        Text(
+                                          localizations.translate(
+                                            item2!.code.toString(),
+                                          ),
+                                          style: theme.textTheme.displayMedium,
+                                        ),
                                         Align(
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             localizations.translate(
                                               i18.checklist.checklist,
                                             ),
-                                            style:
-                                                theme.textTheme.displayMedium,
                                           ),
                                         ),
                                         ...value2.attributes!.map(
