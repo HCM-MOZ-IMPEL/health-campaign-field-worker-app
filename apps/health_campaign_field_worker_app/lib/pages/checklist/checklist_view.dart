@@ -291,7 +291,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                                     return localizations
                                                         .translate(
                                                       i18.common
-                                                          .corecommonRequired,
+                                                          .coreCommonReasonRequired,
                                                     );
                                                   }
                                                 },

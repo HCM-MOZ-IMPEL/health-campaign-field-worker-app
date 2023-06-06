@@ -236,6 +236,28 @@ class MainApplication extends StatelessWidget {
                             routeInformationParser:
                                 appRouter.defaultRouteParser(),
                             scaffoldMessengerKey: scaffoldMessengerKey,
+                            builder: (context, child) {
+                              final env = envConfig.variables.envType;
+                              if (env == EnvType.prod) {
+                                return child ?? const SizedBox.shrink();
+                              }
+
+                              return Banner(
+                                message: envConfig.variables.envType.name,
+                                location: BannerLocation.topStart,
+                                color: () {
+                                  switch (envConfig.variables.envType) {
+                                    case EnvType.training:
+                                      return Colors.green;
+                                    case EnvType.uat:
+                                      return Colors.pink;
+                                    default:
+                                      return Colors.red;
+                                  }
+                                }(),
+                                child: child,
+                              );
+                            },
                             routerDelegate: AutoRouterDelegate.declarative(
                               appRouter,
                               navigatorObservers: () => [AppRouterObserver()],

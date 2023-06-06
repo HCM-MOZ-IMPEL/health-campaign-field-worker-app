@@ -468,29 +468,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               },
                             ),
                             DigitTextFormField(
-                              formControlName: _transactionQuantityKey,
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
-                              isRequired: true,
-                              label: localizations.translate(
-                                quantityCountLabel,
-                              ),
-                              validationMessages: {
-                                'required': (object) => localizations.translate(
-                                      quantityValidationMessage,
-                                    ),
-                                'number': (object) => localizations.translate(
-                                      quantityValidationMessage,
-                                    ),
-                                'minValueOne': (object) =>
-                                    localizations.translate(
-                                      quantityValidationMessage,
-                                    ),
-                              },
-                            ),
-                            DigitTextFormField(
                               label: localizations.translate(
                                 i18.stockDetails.waybillNumberLabel,
                               ),
@@ -499,33 +476,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               validationMessages: {
                                 'required': (object) => localizations.translate(
                                       module.waybillNumberValidation,
-                                    ),
-                              },
-                            ),
-                            DigitTextFormField(
-                              label: localizations.translate(
-                                i18.stockDetails
-                                    .quantityOfProductIndicatedOnWaybillLabel,
-                              ),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
-                              formControlName: _waybillQuantityKey,
-                              isRequired: true,
-                              validationMessages: {
-                                'required': (object) => localizations.translate(
-                                      module
-                                          .quantityIndicatedOnWaybillValidation,
-                                    ),
-                                'number': (object) => localizations.translate(
-                                      module
-                                          .quantityIndicatedOnWaybillValidation,
-                                    ),
-                                'minValueOne': (object) =>
-                                    localizations.translate(
-                                      module
-                                          .quantityIndicatedOnWaybillValidation,
                                     ),
                               },
                             ),
@@ -578,6 +528,56 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               validationMessages: {
                                 'required': (object) => localizations.translate(
                                       module.vehicleNumberValidation,
+                                    ),
+                              },
+                            ),
+                            DigitTextFormField(
+                              label: localizations.translate(
+                                i18.stockDetails
+                                    .quantityOfProductIndicatedOnWaybillLabel,
+                              ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                              formControlName: _waybillQuantityKey,
+                              isRequired: true,
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                      module
+                                          .quantityIndicatedOnWaybillValidation,
+                                    ),
+                                'number': (object) => localizations.translate(
+                                      module
+                                          .quantityIndicatedOnWaybillValidation,
+                                    ),
+                                'minValueOne': (object) =>
+                                    localizations.translate(
+                                      module
+                                          .quantityIndicatedOnWaybillValidation,
+                                    ),
+                              },
+                            ),
+                            DigitTextFormField(
+                              formControlName: _transactionQuantityKey,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                decimal: true,
+                              ),
+                              isRequired: true,
+                              label: localizations.translate(
+                                quantityCountLabel,
+                              ),
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                      quantityValidationMessage,
+                                    ),
+                                'number': (object) => localizations.translate(
+                                      quantityValidationMessage,
+                                    ),
+                                'minValueOne': (object) =>
+                                    localizations.translate(
+                                      quantityValidationMessage,
                                     ),
                               },
                             ),
