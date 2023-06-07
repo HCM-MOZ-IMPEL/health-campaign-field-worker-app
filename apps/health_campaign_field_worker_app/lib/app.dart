@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:health_campaign_field_worker_app/widgets/custom_banner.dart';
 import 'package:isar/isar.dart';
 import 'package:location/location.dart';
 
@@ -204,6 +205,7 @@ class MainApplication extends StatelessWidget {
                       child: BlocBuilder<LocalizationBloc, LocalizationState>(
                         builder: (context, langState) {
                           return MaterialApp.router(
+                            debugShowCheckedModeBanner: false,
                             supportedLocales: languages != null
                                 ? languages.map((e) {
                                     final results = e.value.split('_');
@@ -237,9 +239,31 @@ class MainApplication extends StatelessWidget {
                                 appRouter.defaultRouteParser(),
                             scaffoldMessengerKey: scaffoldMessengerKey,
                             builder: (context, child) {
+                              if (child == null) return const SizedBox.shrink();
+
                               final env = envConfig.variables.envType;
                               if (env == EnvType.prod) {
-                                return child ?? const SizedBox.shrink();
+                                return child;
+                              }
+
+                              if (env == EnvType.training) {
+                                return Scaffold(
+                                  body: Stack(
+                                    children: [
+                                      Positioned.fill(child: child),
+                                      CustomBanner(
+                                        bannerColor: Colors.orange,
+                                        child: Text(
+                                          'Training'.toUpperCase(),
+                                          style: const TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }
 
                               return Banner(
