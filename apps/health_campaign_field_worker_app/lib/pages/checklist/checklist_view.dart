@@ -81,6 +81,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             localizations.translate(
                               value.selectedServiceDefinition!.code.toString(),
                             ),
+                            style: theme.textTheme.displayMedium,
                             textAlign: TextAlign.left,
                           ),
                         ),
@@ -88,7 +89,6 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                           alignment: Alignment.centerLeft,
                           child: Text(
                             localizations.translate(i18.checklist.checklist),
-                            style: theme.textTheme.displayMedium,
                           ),
                         ),
                         ...value.selectedServiceDefinition!.attributes!.map((
