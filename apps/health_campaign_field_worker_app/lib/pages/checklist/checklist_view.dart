@@ -269,7 +269,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                   ),
                                   BlocBuilder<ServiceBloc, ServiceState>(
                                     builder: (context, state) {
-                                      return (e.values?.length == 2 &&
+                                      return ((e.values?.length == 2 ||
+                                                  e.values?.length == 3) &&
                                               controller[index].text ==
                                                   e.values?[1].trim())
                                           ? Padding(
