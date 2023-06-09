@@ -139,7 +139,8 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                               ),
                               Column(children: [
                                 DigitDateFormPicker(
-                                  isEnabled: false,
+                                  isEnabled: true,
+                                  lastDate: DateTime.now(),
                                   formControlName: _dateOfEntryKey,
                                   label: localizations.translate(
                                     i18.warehouseDetails.dateOfReceipt,

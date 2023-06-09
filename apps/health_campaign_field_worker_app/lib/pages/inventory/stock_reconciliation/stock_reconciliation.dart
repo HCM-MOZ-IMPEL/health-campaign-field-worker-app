@@ -36,7 +36,7 @@ class StockReconciliationPage extends LocalizedStatefulWidget {
 class _StockReconciliationPageState
     extends LocalizedState<StockReconciliationPage> {
   static const _facilityKey = 'facility';
-  static const _productVariantKey = 'productVariant';
+  static const _dateOfReconciliationKey = 'dateOfReconciliation';
   static const _manualCountKey = 'manualCountKey';
   static const _reconciliationCommentsKey = 'reconciliationCommentsKey';
   late ProductVariantModel productVariantModel;
@@ -48,6 +48,7 @@ class _StockReconciliationPageState
       _facilityKey: FormControl<FacilityModel>(
         validators: [Validators.required],
       ),
+      _dateOfReconciliationKey: FormControl<DateTime>(value: DateTime.now()),
       // _productVariantKey: FormControl<ProductVariantModel>(
       //   validators: [Validators.required],
       // ),
@@ -165,13 +166,19 @@ class _StockReconciliationPageState
                                                 )
                                                 .value as String?;
 
+                                            final dateOfReconciliation = form
+                                                .control(
+                                                  _dateOfReconciliationKey,
+                                                )
+                                                .value as DateTime;
+
                                             final model =
                                                 StockReconciliationModel(
                                               clientReferenceId:
                                                   IdGen.i.identifier,
-                                              dateOfReconciliation: stockState
-                                                  .dateOfReconciliation
-                                                  .millisecondsSinceEpoch,
+                                              dateOfReconciliation:
+                                                  dateOfReconciliation
+                                                      .millisecondsSinceEpoch,
                                               facilityId: facilityId.id,
                                               productVariantId:
                                                   productVariant.id,
@@ -386,18 +393,27 @@ class _StockReconciliationPageState
                                         );
                                       },
                                     ),
-                                    DigitTableCard(
-                                      fraction: 2.5,
-                                      gap: kPadding,
-                                      element: {
-                                        localizations.translate(i18
-                                                .stockReconciliationDetails
-                                                .dateOfReconciliation):
-                                            DateFormat('dd MMMM yyyy').format(
-                                          stockState.dateOfReconciliation,
-                                        ),
-                                      },
+                                    DigitDateFormPicker(
+                                      isEnabled: true,
+                                      lastDate: DateTime.now(),
+                                      formControlName: _dateOfReconciliationKey,
+                                      label: localizations.translate(i18
+                                          .stockReconciliationDetails
+                                          .dateOfReconciliation),
+                                      isRequired: false,
                                     ),
+                                    // DigitTableCard(
+                                    //   fraction: 2.5,
+                                    //   gap: kPadding,
+                                    //   element: {
+                                    //     localizations.translate(i18
+                                    //             .stockReconciliationDetails
+                                    //             .dateOfReconciliation):
+                                    //         DateFormat('dd MMMM yyyy').format(
+                                    //       stockState.dateOfReconciliation,
+                                    //     ),
+                                    //   },
+                                    // ),
                                     const DigitDivider(),
                                     DigitTableCard(
                                       fraction: 2.5,

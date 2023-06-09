@@ -5,6 +5,7 @@ export 'models.mapper.g.dart';
 @MappableClass()
 class ConfigModel {
   final String name;
+  final bool persistBoundaryParameters;
   final List<String> ignoreFields;
   final List<EnumValues> enumValues;
   final List<AttributeModel> attributes;
@@ -20,6 +21,7 @@ class ConfigModel {
 
   const ConfigModel({
     required this.name,
+    this.persistBoundaryParameters = false,
     this.ignoreFields = const [],
     this.enumValues = const [],
     this.attributes = const [],
@@ -48,6 +50,7 @@ class AttributeModel {
   final bool includeForTable;
   final bool createReference;
   final String? referencePkName;
+  final String? defaultValue;
   final List<TableReferenceModel> references;
 
   const AttributeModel({
@@ -63,6 +66,7 @@ class AttributeModel {
     this.includeForEntity = true,
     this.createReference = false,
     this.referencePkName,
+    this.defaultValue,
     this.references = const [],
   });
 }
