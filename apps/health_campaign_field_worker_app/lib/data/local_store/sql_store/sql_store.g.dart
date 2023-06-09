@@ -955,7 +955,8 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -1678,7 +1679,8 @@ class $NameTable extends Name with TableInfo<$NameTable, NameData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -2973,7 +2975,8 @@ class $DocumentTable extends Document
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -3606,7 +3609,8 @@ class $FacilityTable extends Facility
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -4168,7 +4172,8 @@ class $HouseholdTable extends Household
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -4876,7 +4881,8 @@ class $HouseholdMemberTable extends HouseholdMember
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -5495,7 +5501,8 @@ class $IdentifierTable extends Identifier
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -6344,7 +6351,8 @@ class $IndividualTable extends Individual
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -7021,7 +7029,8 @@ class $ProductTable extends Product with TableInfo<$ProductTable, ProductData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -7616,7 +7625,8 @@ class $ProductVariantTable extends ProductVariant
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -8494,7 +8504,8 @@ class $ProjectTable extends Project with TableInfo<$ProjectTable, ProjectData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -9228,7 +9239,8 @@ class $ProjectBeneficiaryTable extends ProjectBeneficiary
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -9805,7 +9817,8 @@ class $ProjectFacilityTable extends ProjectFacility
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -10365,7 +10378,8 @@ class $ProjectProductVariantTable extends ProjectProductVariant
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -10915,7 +10929,8 @@ class $ProjectResourceTable extends ProjectResource
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -11595,7 +11610,8 @@ class $ProjectStaffTable extends ProjectStaff
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -12339,7 +12355,8 @@ class $ProjectTypeTable extends ProjectType
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -12499,6 +12516,7 @@ class StockData extends DataClass implements Insertable<StockData> {
   final String clientReferenceId;
   final bool? isDeleted;
   final int? rowVersion;
+  final int? dateOfEntry;
   final TransactionType? transactionType;
   final TransactionReason? transactionReason;
   final String? additionalFields;
@@ -12520,6 +12538,7 @@ class StockData extends DataClass implements Insertable<StockData> {
       required this.clientReferenceId,
       this.isDeleted,
       this.rowVersion,
+      this.dateOfEntry,
       this.transactionType,
       this.transactionReason,
       this.additionalFields});
@@ -12560,6 +12579,8 @@ class StockData extends DataClass implements Insertable<StockData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       rowVersion: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}row_version']),
+      dateOfEntry: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}date_of_entry']),
       transactionType: $StockTable.$converter0.mapToDart(const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}transaction_type'])),
       transactionReason: $StockTable.$converter1.mapToDart(const IntType()
@@ -12620,6 +12641,9 @@ class StockData extends DataClass implements Insertable<StockData> {
     }
     if (!nullToAbsent || rowVersion != null) {
       map['row_version'] = Variable<int?>(rowVersion);
+    }
+    if (!nullToAbsent || dateOfEntry != null) {
+      map['date_of_entry'] = Variable<int?>(dateOfEntry);
     }
     if (!nullToAbsent || transactionType != null) {
       final converter = $StockTable.$converter0;
@@ -12686,6 +12710,9 @@ class StockData extends DataClass implements Insertable<StockData> {
       rowVersion: rowVersion == null && nullToAbsent
           ? const Value.absent()
           : Value(rowVersion),
+      dateOfEntry: dateOfEntry == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dateOfEntry),
       transactionType: transactionType == null && nullToAbsent
           ? const Value.absent()
           : Value(transactionType),
@@ -12721,6 +12748,7 @@ class StockData extends DataClass implements Insertable<StockData> {
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
       isDeleted: serializer.fromJson<bool?>(json['isDeleted']),
       rowVersion: serializer.fromJson<int?>(json['rowVersion']),
+      dateOfEntry: serializer.fromJson<int?>(json['dateOfEntry']),
       transactionType:
           serializer.fromJson<TransactionType?>(json['transactionType']),
       transactionReason:
@@ -12749,6 +12777,7 @@ class StockData extends DataClass implements Insertable<StockData> {
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
       'isDeleted': serializer.toJson<bool?>(isDeleted),
       'rowVersion': serializer.toJson<int?>(rowVersion),
+      'dateOfEntry': serializer.toJson<int?>(dateOfEntry),
       'transactionType': serializer.toJson<TransactionType?>(transactionType),
       'transactionReason':
           serializer.toJson<TransactionReason?>(transactionReason),
@@ -12774,6 +12803,7 @@ class StockData extends DataClass implements Insertable<StockData> {
           String? clientReferenceId,
           bool? isDeleted,
           int? rowVersion,
+          int? dateOfEntry,
           TransactionType? transactionType,
           TransactionReason? transactionReason,
           String? additionalFields}) =>
@@ -12795,6 +12825,7 @@ class StockData extends DataClass implements Insertable<StockData> {
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
         isDeleted: isDeleted ?? this.isDeleted,
         rowVersion: rowVersion ?? this.rowVersion,
+        dateOfEntry: dateOfEntry ?? this.dateOfEntry,
         transactionType: transactionType ?? this.transactionType,
         transactionReason: transactionReason ?? this.transactionReason,
         additionalFields: additionalFields ?? this.additionalFields,
@@ -12819,6 +12850,7 @@ class StockData extends DataClass implements Insertable<StockData> {
           ..write('clientReferenceId: $clientReferenceId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
+          ..write('dateOfEntry: $dateOfEntry, ')
           ..write('transactionType: $transactionType, ')
           ..write('transactionReason: $transactionReason, ')
           ..write('additionalFields: $additionalFields')
@@ -12827,27 +12859,29 @@ class StockData extends DataClass implements Insertable<StockData> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      id,
-      tenantId,
-      facilityId,
-      productVariantId,
-      referenceId,
-      referenceIdType,
-      transactingPartyId,
-      transactingPartyType,
-      quantity,
-      waybillNumber,
-      auditCreatedBy,
-      auditCreatedTime,
-      auditModifiedBy,
-      auditModifiedTime,
-      clientReferenceId,
-      isDeleted,
-      rowVersion,
-      transactionType,
-      transactionReason,
-      additionalFields);
+  int get hashCode => Object.hashAll([
+        id,
+        tenantId,
+        facilityId,
+        productVariantId,
+        referenceId,
+        referenceIdType,
+        transactingPartyId,
+        transactingPartyType,
+        quantity,
+        waybillNumber,
+        auditCreatedBy,
+        auditCreatedTime,
+        auditModifiedBy,
+        auditModifiedTime,
+        clientReferenceId,
+        isDeleted,
+        rowVersion,
+        dateOfEntry,
+        transactionType,
+        transactionReason,
+        additionalFields
+      ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -12869,6 +12903,7 @@ class StockData extends DataClass implements Insertable<StockData> {
           other.clientReferenceId == this.clientReferenceId &&
           other.isDeleted == this.isDeleted &&
           other.rowVersion == this.rowVersion &&
+          other.dateOfEntry == this.dateOfEntry &&
           other.transactionType == this.transactionType &&
           other.transactionReason == this.transactionReason &&
           other.additionalFields == this.additionalFields);
@@ -12892,6 +12927,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
   final Value<String> clientReferenceId;
   final Value<bool?> isDeleted;
   final Value<int?> rowVersion;
+  final Value<int?> dateOfEntry;
   final Value<TransactionType?> transactionType;
   final Value<TransactionReason?> transactionReason;
   final Value<String?> additionalFields;
@@ -12913,6 +12949,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
     this.clientReferenceId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
+    this.dateOfEntry = const Value.absent(),
     this.transactionType = const Value.absent(),
     this.transactionReason = const Value.absent(),
     this.additionalFields = const Value.absent(),
@@ -12935,6 +12972,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
     required String clientReferenceId,
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
+    this.dateOfEntry = const Value.absent(),
     this.transactionType = const Value.absent(),
     this.transactionReason = const Value.absent(),
     this.additionalFields = const Value.absent(),
@@ -12957,6 +12995,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
     Expression<String>? clientReferenceId,
     Expression<bool?>? isDeleted,
     Expression<int?>? rowVersion,
+    Expression<int?>? dateOfEntry,
     Expression<TransactionType?>? transactionType,
     Expression<TransactionReason?>? transactionReason,
     Expression<String?>? additionalFields,
@@ -12981,6 +13020,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowVersion != null) 'row_version': rowVersion,
+      if (dateOfEntry != null) 'date_of_entry': dateOfEntry,
       if (transactionType != null) 'transaction_type': transactionType,
       if (transactionReason != null) 'transaction_reason': transactionReason,
       if (additionalFields != null) 'additional_fields': additionalFields,
@@ -13005,6 +13045,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
       Value<String>? clientReferenceId,
       Value<bool?>? isDeleted,
       Value<int?>? rowVersion,
+      Value<int?>? dateOfEntry,
       Value<TransactionType?>? transactionType,
       Value<TransactionReason?>? transactionReason,
       Value<String?>? additionalFields}) {
@@ -13026,6 +13067,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
       isDeleted: isDeleted ?? this.isDeleted,
       rowVersion: rowVersion ?? this.rowVersion,
+      dateOfEntry: dateOfEntry ?? this.dateOfEntry,
       transactionType: transactionType ?? this.transactionType,
       transactionReason: transactionReason ?? this.transactionReason,
       additionalFields: additionalFields ?? this.additionalFields,
@@ -13087,6 +13129,9 @@ class StockCompanion extends UpdateCompanion<StockData> {
     if (rowVersion.present) {
       map['row_version'] = Variable<int?>(rowVersion.value);
     }
+    if (dateOfEntry.present) {
+      map['date_of_entry'] = Variable<int?>(dateOfEntry.value);
+    }
     if (transactionType.present) {
       final converter = $StockTable.$converter0;
       map['transaction_type'] =
@@ -13123,6 +13168,7 @@ class StockCompanion extends UpdateCompanion<StockData> {
           ..write('clientReferenceId: $clientReferenceId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
+          ..write('dateOfEntry: $dateOfEntry, ')
           ..write('transactionType: $transactionType, ')
           ..write('transactionReason: $transactionReason, ')
           ..write('additionalFields: $additionalFields')
@@ -13228,11 +13274,18 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
       'row_version', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _dateOfEntryMeta =
+      const VerificationMeta('dateOfEntry');
+  @override
+  late final GeneratedColumn<int?> dateOfEntry = GeneratedColumn<int?>(
+      'date_of_entry', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _transactionTypeMeta =
       const VerificationMeta('transactionType');
@@ -13275,6 +13328,7 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
         clientReferenceId,
         isDeleted,
         rowVersion,
+        dateOfEntry,
         transactionType,
         transactionReason,
         additionalFields
@@ -13382,6 +13436,12 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
           _rowVersionMeta,
           rowVersion.isAcceptableOrUnknown(
               data['row_version']!, _rowVersionMeta));
+    }
+    if (data.containsKey('date_of_entry')) {
+      context.handle(
+          _dateOfEntryMeta,
+          dateOfEntry.isAcceptableOrUnknown(
+              data['date_of_entry']!, _dateOfEntryMeta));
     }
     context.handle(_transactionTypeMeta, const VerificationResult.success());
     context.handle(_transactionReasonMeta, const VerificationResult.success());
@@ -14092,7 +14152,8 @@ class $StockReconciliationTable extends StockReconciliation
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -14736,7 +14797,8 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -15581,7 +15643,8 @@ class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -16358,7 +16421,8 @@ class $TaskResourceTable extends TaskResource
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -17068,7 +17132,8 @@ class $ServiceTable extends Service with TableInfo<$ServiceTable, ServiceData> {
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -17745,7 +17810,8 @@ class $ServiceAttributesTable extends ServiceAttributes
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -18322,7 +18388,8 @@ class $ServiceDefinitionTable extends ServiceDefinition
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -19067,7 +19134,8 @@ class $AttributesTable extends Attributes
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
@@ -19610,7 +19678,8 @@ class $LocalityTable extends Locality
       'is_deleted', aliasedName, true,
       type: const BoolType(),
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_deleted IN (0, 1))');
+      defaultConstraints: 'CHECK (is_deleted IN (0, 1))',
+      defaultValue: const Constant(false));
   final VerificationMeta _rowVersionMeta = const VerificationMeta('rowVersion');
   @override
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(

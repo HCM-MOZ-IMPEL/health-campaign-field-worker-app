@@ -16,9 +16,9 @@ class StockSearchModel extends EntitySearchModel {
   final String? transactingPartyId;
   final String? transactingPartyType;
   final List<String>? clientReferenceId;
-  final bool? isDeleted;
   final List<TransactionType>? transactionType;
   final List<TransactionReason>? transactionReason;
+  final DateTime? dateOfEntryTime;
   
   StockSearchModel({
     this.id,
@@ -30,11 +30,38 @@ class StockSearchModel extends EntitySearchModel {
     this.transactingPartyId,
     this.transactingPartyType,
     this.clientReferenceId,
-    this.isDeleted,
     this.transactionType,
     this.transactionReason,
+    int? dateOfEntry,
     super.boundaryCode,
-  }):  super();
+    super.isDeleted,
+  }): dateOfEntryTime = dateOfEntry == null
+      ? null
+      : DateTime.fromMillisecondsSinceEpoch(dateOfEntry),
+   super();
+
+  @MappableConstructor()
+  StockSearchModel.ignoreDeleted({
+    this.id,
+    this.tenantId,
+    this.facilityId,
+    this.productVariantId,
+    this.referenceId,
+    this.referenceIdType,
+    this.transactingPartyId,
+    this.transactingPartyType,
+    this.clientReferenceId,
+    this.transactionType,
+    this.transactionReason,
+    int? dateOfEntry,
+    super.boundaryCode,
+  }): dateOfEntryTime = dateOfEntry == null
+  ? null
+      : DateTime.fromMillisecondsSinceEpoch(dateOfEntry),
+   super(isDeleted: false);
+
+  int? get dateOfEntry => dateOfEntryTime?.millisecondsSinceEpoch;
+  
 }
 
 @MappableClass(ignoreNull: true)
@@ -53,10 +80,10 @@ class StockModel extends EntityModel {
   final String? quantity;
   final String? waybillNumber;
   final String clientReferenceId;
-  final bool? isDeleted;
   final int? rowVersion;
   final TransactionType? transactionType;
   final TransactionReason? transactionReason;
+  final DateTime? dateOfEntryTime;
   final StockAdditionalFields? additionalFields;
 
   StockModel({
@@ -72,12 +99,19 @@ class StockModel extends EntityModel {
     this.quantity,
     this.waybillNumber,
     required this.clientReferenceId,
-    this.isDeleted,
     this.rowVersion,
     this.transactionType,
     this.transactionReason,
+    int? dateOfEntry,
     super.auditDetails,
-  }): super();
+    super.isDeleted = false,
+  }): dateOfEntryTime = dateOfEntry == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(dateOfEntry),
+      super();
+
+  int?  get dateOfEntry => dateOfEntryTime?.millisecondsSinceEpoch;
+  
 
   StockCompanion get companion {
     return StockCompanion(
@@ -86,6 +120,7 @@ class StockModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       tenantId: Value(tenantId),
       facilityId: Value(facilityId),
@@ -97,8 +132,8 @@ class StockModel extends EntityModel {
       quantity: Value(quantity),
       waybillNumber: Value(waybillNumber),
       clientReferenceId: Value(clientReferenceId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
+      dateOfEntry: Value(dateOfEntry),
       transactionType: Value(transactionType),
       transactionReason: Value(transactionReason),
       );
