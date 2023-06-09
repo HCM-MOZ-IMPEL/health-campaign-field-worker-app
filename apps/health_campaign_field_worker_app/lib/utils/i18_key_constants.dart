@@ -188,6 +188,10 @@ class IndividualDetails {
 
   String get nameLabelText => 'INDIVIDUAL_NAME_LABEL_TEXT';
 
+  String get firstNameLabelText => 'INDIVIDUAL_FIRST_NAME_LABEL_TEXT';
+
+  String get lastNameLabelText => 'INDIVIDUAL_LAST_NAME_LABEL_TEXT';
+
   String get checkboxLabelText => 'HEAD_OF_HOUSEHOLD_LABEL_TEXT';
 
   String get idTypeLabelText => 'ID_TYPE_LABEL_TEXT';
@@ -212,6 +216,10 @@ class IndividualDetails {
       'INDIVIDUAL_DETAILS_INVALID_MOBILE_NUMBER';
 
   String get nameIsRequiredError => 'NAME_REQUIRED_ERROR_MESSAGE';
+
+  String get firstNameIsRequiredError => 'FIRST_NAME_REQUIRED_ERROR_MESSAGE';
+
+  String get lastNameIsRequiredError => 'LAST_NAME_REQUIRED_ERROR_MESSAGE';
 
   String get ageInvalidError => 'INDIVIDUAL_DETAILS_INVALID_AGE';
 }

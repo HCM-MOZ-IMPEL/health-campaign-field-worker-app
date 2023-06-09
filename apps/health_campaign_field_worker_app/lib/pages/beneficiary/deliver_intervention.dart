@@ -284,7 +284,8 @@ class _DeliverInterventionPageState
                                   child: Center(
                                     child: Text(
                                       localizations.translate(
-                                          i18.common.coreCommonSubmit),
+                                        i18.common.coreCommonSubmit,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -343,9 +344,7 @@ class _DeliverInterventionPageState
                                     localizations.translate(i18
                                             .householdOverView
                                             .householdOverViewHouseholdHeadLabel):
-                                        householdMemberWrapper.headOfHousehold
-                                                .name?.givenName ??
-                                            '',
+                                        '${householdMemberWrapper.headOfHousehold.name?.givenName ?? ''} ${householdMemberWrapper.headOfHousehold.name?.familyName ?? ''}',
                                     // localizations.translate(
                                     //   i18.deliverIntervention.idTypeText,
                                     // ): () {
@@ -487,6 +486,13 @@ class _DeliverInterventionPageState
                                 DigitIntegerFormPicker(
                                   form: form,
                                   minimum: 0,
+                                  maximum: min(
+                                    householdMemberWrapper
+                                            .household.memberCount ??
+                                        householdMemberWrapper.members.length /
+                                            1.8,
+                                    3,
+                                  ).round(),
                                   formControlName: _quantityDistributedKey,
                                   label: localizations.translate(
                                     i18.deliverIntervention
