@@ -141,8 +141,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                 validator: (value) {
                                   if (((value == null || value == '') &&
                                       e.required == true)) {
-                                    return localizations
-                                        .translate("${e.code}_REQUIRED");
+                                    return localizations.translate(
+                                      i18.common.corecommonRequired,
+                                    );
                                   }
                                   if (e.regex != null) {
                                     return (RegExp(e.regex!).hasMatch(value!))
@@ -151,10 +152,10 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                             .translate("${e.code}_REGEX");
                                   }
                                 },
-                                controller: controller[i],
-                                label: localizations.translate(
+                                controller: controller[index],
+                                label: '${localizations.translate(
                                   '${value.selectedServiceDefinition?.code}.${e.code}',
-                                ),
+                                )} ${e.required == true ? '*' : ''}',
                               ),
                             ] else if (e.dataType == 'MultiValueList') ...[
                               Align(

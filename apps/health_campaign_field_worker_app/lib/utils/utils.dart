@@ -45,6 +45,16 @@ class CustomValidator {
         : {'Mínimo 2 caracteres necessários': true};
   }
 
+  static Map<String, dynamic>? nonRequiredMin(
+    AbstractControl<dynamic> control,
+  ) {
+    return control.value == null ||
+            control.value.toString().trim().isEmpty ||
+            control.value.toString().trim().length >= 2
+        ? null
+        : {'Mínimo 2 caracteres necessários': true};
+  }
+
   static Map<String, dynamic>? requiredMinIndividualName(
     AbstractControl<dynamic> control,
   ) {

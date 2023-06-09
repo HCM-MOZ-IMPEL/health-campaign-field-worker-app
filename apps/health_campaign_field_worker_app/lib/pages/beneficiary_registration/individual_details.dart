@@ -35,6 +35,7 @@ class IndividualDetailsPage extends LocalizedStatefulWidget {
 class _IndividualDetailsPageState
     extends LocalizedState<IndividualDetailsPage> {
   static const _individualNameKey = 'individualName';
+  static const _individualLastNameKey = 'individualLastName';
 
   // static const _idTypeKey = 'idType';
   // static const _idNumberKey = 'idNumber';
@@ -242,15 +243,30 @@ class _IndividualDetailsPageState
                       Column(
                         children: [
                           DigitTextFormField(
-                            formControlName: 'individualName',
+                            formControlName: _individualNameKey,
                             label: localizations.translate(
-                              i18.individualDetails.nameLabelText,
+                              i18.individualDetails.firstNameLabelText,
                             ),
                             maxLength: 200,
                             isRequired: true,
                             validationMessages: {
                               'required': (object) => localizations.translate(
-                                    i18.individualDetails.nameIsRequiredError,
+                                    i18.individualDetails
+                                        .firstNameIsRequiredError,
+                                  ),
+                            },
+                          ),
+                          DigitTextFormField(
+                            formControlName: _individualLastNameKey,
+                            label: localizations.translate(
+                              i18.individualDetails.lastNameLabelText,
+                            ),
+                            maxLength: 200,
+                            isRequired: true,
+                            validationMessages: {
+                              'required': (object) => localizations.translate(
+                                    i18.individualDetails
+                                        .lastNameIsRequiredError,
                                   ),
                             },
                           ),
@@ -453,6 +469,8 @@ class _IndividualDetailsPageState
     individual = individual.copyWith(
       name: name.copyWith(
         givenName: (form.control(_individualNameKey).value as String).trim(),
+        familyName:
+            (form.control(_individualLastNameKey).value as String).trim(),
       ),
       gender: form.control(_genderKey).value == null
           ? null
@@ -493,6 +511,13 @@ class _IndividualDetailsPageState
           CustomValidator.requiredMinIndividualName,
         ],
         value: individual?.name?.givenName ?? searchQuery?.trim(),
+      ),
+      _individualLastNameKey: FormControl<String>(
+        validators: [
+          Validators.required,
+          CustomValidator.requiredMinIndividualName,
+        ],
+        value: individual?.name?.familyName ?? '',
       ),
       // _idTypeKey: FormControl<String>(
       //   validators: [Validators.required],

@@ -98,8 +98,7 @@ class _HouseholdOverviewPageState
                                 element: {
                                   localizations.translate(i18.householdOverView
                                           .householdOverViewHouseholdHeadNameLabel):
-                                      state.householdMemberWrapper
-                                          .headOfHousehold.name?.givenName,
+                                      ('${state.householdMemberWrapper.headOfHousehold.name!.givenName as String} ${state.householdMemberWrapper.headOfHousehold.name?.familyName as String}'),
                                   localizations.translate(
                                     i18.householdLocation
                                         .administrationAreaFormLabel,
@@ -227,7 +226,8 @@ class _HouseholdOverviewPageState
                                           ),
                                         );
                                       },
-                                      name: e.name?.givenName ?? ' - ',
+                                      name:
+                                          '${e.name?.givenName ?? ' - '} ${e.name?.familyName ?? ' - '}',
                                       age: (e.dateOfBirth == null
                                               ? null
                                               : DateFormat('dd/MM/yyyy')

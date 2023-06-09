@@ -104,7 +104,10 @@ class _HouseholdLocationPageState
                             var addressModel = AddressModel(
                               addressLine1: 'addressLine1',
                               addressLine2: 'addressLine2',
-                              landmark: landmark?.trim(),
+                              landmark:
+                                  (landmark == null || landmark.trim() == "")
+                                      ? null
+                                      : landmark.trim(),
                               pincode: 'postalCode',
                               type: AddressType.correspondence,
                               latitude: form.control(_latKey).value,
@@ -255,7 +258,7 @@ class _HouseholdLocationPageState
       ),
       _landmarkKey:
           FormControl<String>(value: addressModel?.landmark, validators: [
-        CustomValidator.requiredMin,
+        CustomValidator.nonRequiredMin,
       ]),
       _postalCodeKey:
           FormControl<String>(value: addressModel?.pincode, validators: [

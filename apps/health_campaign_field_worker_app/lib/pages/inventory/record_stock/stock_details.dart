@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:recase/recase.dart';
@@ -525,6 +526,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               ),
                               isRequired: true,
                               formControlName: _vehicleNumberKey,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^-?[A-Z0-9]+$'),
+                                ),
+                              ],
                               validationMessages: {
                                 'required': (object) => localizations.translate(
                                       module.vehicleNumberValidation,
@@ -557,6 +563,45 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                           .quantityIndicatedOnWaybillValidation,
                                     ),
                               },
+                              onChanged: (control) {
+                                final quantity = form
+                                    .control(_transactionQuantityKey)
+                                    .value as int?;
+                                final waybillQuantity = form
+                                    .control(_waybillQuantityKey)
+                                    .value as int?;
+                                if (StockRecordEntryType.receipt == entryType &&
+                                    quantity != waybillQuantity) {
+                                  setState(() {
+                                    form
+                                        .control(
+                                      _commentsKey,
+                                    )
+                                        .setValidators(
+                                      [Validators.required],
+                                      updateParent: true,
+                                      autoValidate: true,
+                                    );
+                                    form
+                                        .control(
+                                          _commentsKey,
+                                        )
+                                        .touched;
+                                  });
+                                } else {
+                                  setState(() {
+                                    form
+                                        .control(
+                                      _commentsKey,
+                                    )
+                                        .setValidators(
+                                      [],
+                                      updateParent: true,
+                                      autoValidate: true,
+                                    );
+                                  });
+                                }
+                              },
                             ),
                             DigitTextFormField(
                               formControlName: _transactionQuantityKey,
@@ -580,6 +625,45 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       quantityValidationMessage,
                                     ),
                               },
+                              onChanged: (control) {
+                                final quantity = form
+                                    .control(_transactionQuantityKey)
+                                    .value as int?;
+                                final waybillQuantity = form
+                                    .control(_waybillQuantityKey)
+                                    .value as int?;
+                                if (StockRecordEntryType.receipt == entryType &&
+                                    quantity != waybillQuantity) {
+                                  setState(() {
+                                    form
+                                        .control(
+                                      _commentsKey,
+                                    )
+                                        .setValidators(
+                                      [Validators.required],
+                                      updateParent: true,
+                                      autoValidate: true,
+                                    );
+                                    form
+                                        .control(
+                                          _commentsKey,
+                                        )
+                                        .touched;
+                                  });
+                                } else {
+                                  setState(() {
+                                    form
+                                        .control(
+                                      _commentsKey,
+                                    )
+                                        .setValidators(
+                                      [],
+                                      updateParent: true,
+                                      autoValidate: true,
+                                    );
+                                  });
+                                }
+                              },
                             ),
                             DigitTextFormField(
                               label: localizations.translate(
@@ -588,6 +672,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               minLines: 2,
                               maxLines: 3,
                               formControlName: _commentsKey,
+                              validationMessages: {
+                                'required': (object) => localizations.translate(
+                                      i18.common.corecommonRequired,
+                                    ),
+                              },
                             ),
                           ],
                         ),
