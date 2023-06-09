@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -247,6 +250,62 @@ class MainApplication extends StatelessWidget {
                               }
 
                               if (env == EnvType.training) {
+                                return Scaffold(
+                                  body: Column(
+                                    children: [
+                                      Expanded(child: child),
+                                      IgnorePointer(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          color: Colors.orange,
+                                          child: Center(
+                                            child: AutoSizeText(
+                                              'Training'.toUpperCase(),
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                fontSize: 22,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                return Scaffold(
+                                  body: Stack(
+                                    children: [
+                                      Positioned.fill(child: child),
+                                      Positioned.fill(
+                                        child: IgnorePointer(
+                                          child: Transform.rotate(
+                                            angle: -pi / 4,
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: AutoSizeText(
+                                                  'Training'.toUpperCase(),
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                    fontSize: 120,
+                                                    color: Colors.black
+                                                        .withAlpha(50),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
                                 return Scaffold(
                                   body: Stack(
                                     children: [
