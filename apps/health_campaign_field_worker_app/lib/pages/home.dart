@@ -3,10 +3,16 @@ import 'package:digit_components/widgets/digit_sync_dialog.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
 import 'package:overlay_builder/overlay_builder.dart';
+import 'package:path/path.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../data/local_store/no_sql/schema/app_configuration.dart'
+    as app_config;
+import '../blocs/app_initialization/app_initialization.dart';
 import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
@@ -16,6 +22,7 @@ import '../data/local_store/sql_store/sql_store.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
+import '../utils/debound.dart';
 import '../utils/i18_key_constants.dart' as i18;
 import '../utils/utils.dart';
 import '../widgets/header/back_navigation_help_header.dart';
@@ -219,20 +226,31 @@ class _HomePageState extends LocalizedState<HomePage> {
                   builder: (context, state) {
                     return state.maybeWhen(
                       orElse: () => const Offstage(),
-                      pendingSync: (count) => count == 0
-                          ? const Offstage()
-                          : DigitInfoCard(
-                              icon: Icons.info,
-                              backgroundColor:
-                                  theme.colorScheme.tertiaryContainer,
-                              iconColor: theme.colorScheme.surfaceTint,
-                              description: localizations
-                                  .translate(i18.home.dataSyncInfoContent)
-                                  .replaceAll('{}', count.toString()),
-                              title: localizations.translate(
-                                i18.home.dataSyncInfoLabel,
-                              ),
-                            ),
+                      pendingSync: (count) {
+                        final debouncer = Debouncer(seconds: 5);
+
+                        debouncer.run(() async {
+                          if (count == 0) {
+                            performBackgroundService(context, true, false);
+                          } else {
+                            performBackgroundService(context, false, false);
+                          }
+                        });
+
+                        return count == 0
+                            ? const Offstage()
+                            : DigitInfoCard(
+                                icon: Icons.info,
+                                backgroundColor:
+                                    theme.colorScheme.tertiaryContainer,
+                                iconColor: theme.colorScheme.surfaceTint,
+                                description: localizations
+                                    .translate(i18.home.dataSyncInfoContent)
+                                    .replaceAll('{}', count.toString()),
+                                title: localizations
+                                    .translate(i18.home.dataSyncInfoLabel),
+                              );
+                      },
                     );
                   },
                 ),

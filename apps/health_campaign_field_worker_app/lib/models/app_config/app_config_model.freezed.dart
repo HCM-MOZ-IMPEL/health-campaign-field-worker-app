@@ -1002,6 +1002,18 @@ mixin _$AppConfig {
   List<Languages> get languages => throw _privateConstructorUsedError;
   @JsonKey(name: 'TENANT_ID')
   String? get tenantId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+  List<DeletionReasonOptions> get householdDeletionReasonOptions =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+  List<BandWidthBatchSize> get bandWidthBatchSize =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+  BackgroundServiceConfig? get backgroundServiceConfig =>
+      throw _privateConstructorUsedError;
+  @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+  List<DeletionReasonOptions> get householdMemberDeletionReasonOptions =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
   List<GenderOptions> get genderOptions => throw _privateConstructorUsedError;
   @JsonKey(name: 'CHECKLIST_TYPES')
@@ -1013,6 +1025,9 @@ mixin _$AppConfig {
       throw _privateConstructorUsedError;
   @JsonKey(name: 'BACKEND_INTERFACE')
   BackendInterface get backendInterface => throw _privateConstructorUsedError;
+  @JsonKey(name: 'CALL_SUPPORT')
+  List<CallSupportList>? get callSupportOptions =>
+      throw _privateConstructorUsedError;
   @JsonKey(name: 'TRANSPORT_TYPES')
   List<TransportTypes> get transportTypes => throw _privateConstructorUsedError;
 
@@ -1040,6 +1055,14 @@ abstract class $AppConfigCopyWith<$Res> {
           List<Languages> languages,
       @JsonKey(name: 'TENANT_ID')
           String? tenantId,
+      @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+          List<DeletionReasonOptions> householdDeletionReasonOptions,
+      @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+          List<BandWidthBatchSize> bandWidthBatchSize,
+      @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+          BackgroundServiceConfig? backgroundServiceConfig,
+      @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+          List<DeletionReasonOptions> householdMemberDeletionReasonOptions,
       @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
           List<GenderOptions> genderOptions,
       @JsonKey(name: 'CHECKLIST_TYPES')
@@ -1050,9 +1073,12 @@ abstract class $AppConfigCopyWith<$Res> {
           List<DeliveryCommentOptions> deliveryCommentOptions,
       @JsonKey(name: 'BACKEND_INTERFACE')
           BackendInterface backendInterface,
+      @JsonKey(name: 'CALL_SUPPORT')
+          List<CallSupportList>? callSupportOptions,
       @JsonKey(name: 'TRANSPORT_TYPES')
           List<TransportTypes> transportTypes});
 
+  $BackgroundServiceConfigCopyWith<$Res>? get backgroundServiceConfig;
   $BackendInterfaceCopyWith<$Res> get backendInterface;
 }
 
@@ -1075,11 +1101,16 @@ class _$AppConfigCopyWithImpl<$Res, $Val extends AppConfig>
     Object? syncTrigger = null,
     Object? languages = null,
     Object? tenantId = freezed,
+    Object? householdDeletionReasonOptions = null,
+    Object? bandWidthBatchSize = null,
+    Object? backgroundServiceConfig = freezed,
+    Object? householdMemberDeletionReasonOptions = null,
     Object? genderOptions = null,
     Object? checklistTypes = null,
     Object? idTypeOptions = null,
     Object? deliveryCommentOptions = null,
     Object? backendInterface = null,
+    Object? callSupportOptions = freezed,
     Object? transportTypes = null,
   }) {
     return _then(_value.copyWith(
@@ -1107,6 +1138,23 @@ class _$AppConfigCopyWithImpl<$Res, $Val extends AppConfig>
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
+      householdDeletionReasonOptions: null == householdDeletionReasonOptions
+          ? _value.householdDeletionReasonOptions
+          : householdDeletionReasonOptions // ignore: cast_nullable_to_non_nullable
+              as List<DeletionReasonOptions>,
+      bandWidthBatchSize: null == bandWidthBatchSize
+          ? _value.bandWidthBatchSize
+          : bandWidthBatchSize // ignore: cast_nullable_to_non_nullable
+              as List<BandWidthBatchSize>,
+      backgroundServiceConfig: freezed == backgroundServiceConfig
+          ? _value.backgroundServiceConfig
+          : backgroundServiceConfig // ignore: cast_nullable_to_non_nullable
+              as BackgroundServiceConfig?,
+      householdMemberDeletionReasonOptions: null ==
+              householdMemberDeletionReasonOptions
+          ? _value.householdMemberDeletionReasonOptions
+          : householdMemberDeletionReasonOptions // ignore: cast_nullable_to_non_nullable
+              as List<DeletionReasonOptions>,
       genderOptions: null == genderOptions
           ? _value.genderOptions
           : genderOptions // ignore: cast_nullable_to_non_nullable
@@ -1127,11 +1175,28 @@ class _$AppConfigCopyWithImpl<$Res, $Val extends AppConfig>
           ? _value.backendInterface
           : backendInterface // ignore: cast_nullable_to_non_nullable
               as BackendInterface,
+      callSupportOptions: freezed == callSupportOptions
+          ? _value.callSupportOptions
+          : callSupportOptions // ignore: cast_nullable_to_non_nullable
+              as List<CallSupportList>?,
       transportTypes: null == transportTypes
           ? _value.transportTypes
           : transportTypes // ignore: cast_nullable_to_non_nullable
               as List<TransportTypes>,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BackgroundServiceConfigCopyWith<$Res>? get backgroundServiceConfig {
+    if (_value.backgroundServiceConfig == null) {
+      return null;
+    }
+
+    return $BackgroundServiceConfigCopyWith<$Res>(
+        _value.backgroundServiceConfig!, (value) {
+      return _then(_value.copyWith(backgroundServiceConfig: value) as $Val);
+    });
   }
 
   @override
@@ -1163,6 +1228,14 @@ abstract class _$$_AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Res> {
           List<Languages> languages,
       @JsonKey(name: 'TENANT_ID')
           String? tenantId,
+      @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+          List<DeletionReasonOptions> householdDeletionReasonOptions,
+      @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+          List<BandWidthBatchSize> bandWidthBatchSize,
+      @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+          BackgroundServiceConfig? backgroundServiceConfig,
+      @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+          List<DeletionReasonOptions> householdMemberDeletionReasonOptions,
       @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
           List<GenderOptions> genderOptions,
       @JsonKey(name: 'CHECKLIST_TYPES')
@@ -1173,9 +1246,13 @@ abstract class _$$_AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Res> {
           List<DeliveryCommentOptions> deliveryCommentOptions,
       @JsonKey(name: 'BACKEND_INTERFACE')
           BackendInterface backendInterface,
+      @JsonKey(name: 'CALL_SUPPORT')
+          List<CallSupportList>? callSupportOptions,
       @JsonKey(name: 'TRANSPORT_TYPES')
           List<TransportTypes> transportTypes});
 
+  @override
+  $BackgroundServiceConfigCopyWith<$Res>? get backgroundServiceConfig;
   @override
   $BackendInterfaceCopyWith<$Res> get backendInterface;
 }
@@ -1197,11 +1274,16 @@ class __$$_AppConfigCopyWithImpl<$Res>
     Object? syncTrigger = null,
     Object? languages = null,
     Object? tenantId = freezed,
+    Object? householdDeletionReasonOptions = null,
+    Object? bandWidthBatchSize = null,
+    Object? backgroundServiceConfig = freezed,
+    Object? householdMemberDeletionReasonOptions = null,
     Object? genderOptions = null,
     Object? checklistTypes = null,
     Object? idTypeOptions = null,
     Object? deliveryCommentOptions = null,
     Object? backendInterface = null,
+    Object? callSupportOptions = freezed,
     Object? transportTypes = null,
   }) {
     return _then(_$_AppConfig(
@@ -1229,6 +1311,23 @@ class __$$_AppConfigCopyWithImpl<$Res>
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
               as String?,
+      householdDeletionReasonOptions: null == householdDeletionReasonOptions
+          ? _value._householdDeletionReasonOptions
+          : householdDeletionReasonOptions // ignore: cast_nullable_to_non_nullable
+              as List<DeletionReasonOptions>,
+      bandWidthBatchSize: null == bandWidthBatchSize
+          ? _value._bandWidthBatchSize
+          : bandWidthBatchSize // ignore: cast_nullable_to_non_nullable
+              as List<BandWidthBatchSize>,
+      backgroundServiceConfig: freezed == backgroundServiceConfig
+          ? _value.backgroundServiceConfig
+          : backgroundServiceConfig // ignore: cast_nullable_to_non_nullable
+              as BackgroundServiceConfig?,
+      householdMemberDeletionReasonOptions: null ==
+              householdMemberDeletionReasonOptions
+          ? _value._householdMemberDeletionReasonOptions
+          : householdMemberDeletionReasonOptions // ignore: cast_nullable_to_non_nullable
+              as List<DeletionReasonOptions>,
       genderOptions: null == genderOptions
           ? _value._genderOptions
           : genderOptions // ignore: cast_nullable_to_non_nullable
@@ -1249,6 +1348,10 @@ class __$$_AppConfigCopyWithImpl<$Res>
           ? _value.backendInterface
           : backendInterface // ignore: cast_nullable_to_non_nullable
               as BackendInterface,
+      callSupportOptions: freezed == callSupportOptions
+          ? _value._callSupportOptions
+          : callSupportOptions // ignore: cast_nullable_to_non_nullable
+              as List<CallSupportList>?,
       transportTypes: null == transportTypes
           ? _value._transportTypes
           : transportTypes // ignore: cast_nullable_to_non_nullable
@@ -1273,6 +1376,16 @@ class _$_AppConfig implements _AppConfig {
           required final List<Languages> languages,
       @JsonKey(name: 'TENANT_ID')
           this.tenantId,
+      @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+          required final List<DeletionReasonOptions>
+              householdDeletionReasonOptions,
+      @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+          required final List<BandWidthBatchSize> bandWidthBatchSize,
+      @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+          this.backgroundServiceConfig,
+      @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+          required final List<DeletionReasonOptions>
+              householdMemberDeletionReasonOptions,
       @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
           required final List<GenderOptions> genderOptions,
       @JsonKey(name: 'CHECKLIST_TYPES')
@@ -1283,13 +1396,20 @@ class _$_AppConfig implements _AppConfig {
           required final List<DeliveryCommentOptions> deliveryCommentOptions,
       @JsonKey(name: 'BACKEND_INTERFACE')
           required this.backendInterface,
+      @JsonKey(name: 'CALL_SUPPORT')
+          required final List<CallSupportList>? callSupportOptions,
       @JsonKey(name: 'TRANSPORT_TYPES')
           required final List<TransportTypes> transportTypes})
       : _languages = languages,
+        _householdDeletionReasonOptions = householdDeletionReasonOptions,
+        _bandWidthBatchSize = bandWidthBatchSize,
+        _householdMemberDeletionReasonOptions =
+            householdMemberDeletionReasonOptions,
         _genderOptions = genderOptions,
         _checklistTypes = checklistTypes,
         _idTypeOptions = idTypeOptions,
         _deliveryCommentOptions = deliveryCommentOptions,
+        _callSupportOptions = callSupportOptions,
         _transportTypes = transportTypes;
 
   factory _$_AppConfig.fromJson(Map<String, dynamic> json) =>
@@ -1318,6 +1438,33 @@ class _$_AppConfig implements _AppConfig {
   @override
   @JsonKey(name: 'TENANT_ID')
   final String? tenantId;
+  final List<DeletionReasonOptions> _householdDeletionReasonOptions;
+  @override
+  @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+  List<DeletionReasonOptions> get householdDeletionReasonOptions {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_householdDeletionReasonOptions);
+  }
+
+  final List<BandWidthBatchSize> _bandWidthBatchSize;
+  @override
+  @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+  List<BandWidthBatchSize> get bandWidthBatchSize {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bandWidthBatchSize);
+  }
+
+  @override
+  @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+  final BackgroundServiceConfig? backgroundServiceConfig;
+  final List<DeletionReasonOptions> _householdMemberDeletionReasonOptions;
+  @override
+  @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+  List<DeletionReasonOptions> get householdMemberDeletionReasonOptions {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_householdMemberDeletionReasonOptions);
+  }
+
   final List<GenderOptions> _genderOptions;
   @override
   @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
@@ -1353,6 +1500,16 @@ class _$_AppConfig implements _AppConfig {
   @override
   @JsonKey(name: 'BACKEND_INTERFACE')
   final BackendInterface backendInterface;
+  final List<CallSupportList>? _callSupportOptions;
+  @override
+  @JsonKey(name: 'CALL_SUPPORT')
+  List<CallSupportList>? get callSupportOptions {
+    final value = _callSupportOptions;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<TransportTypes> _transportTypes;
   @override
   @JsonKey(name: 'TRANSPORT_TYPES')
@@ -1363,7 +1520,7 @@ class _$_AppConfig implements _AppConfig {
 
   @override
   String toString() {
-    return 'AppConfig(networkDetection: $networkDetection, persistenceMode: $persistenceMode, syncMethod: $syncMethod, syncTrigger: $syncTrigger, languages: $languages, tenantId: $tenantId, genderOptions: $genderOptions, checklistTypes: $checklistTypes, idTypeOptions: $idTypeOptions, deliveryCommentOptions: $deliveryCommentOptions, backendInterface: $backendInterface, transportTypes: $transportTypes)';
+    return 'AppConfig(networkDetection: $networkDetection, persistenceMode: $persistenceMode, syncMethod: $syncMethod, syncTrigger: $syncTrigger, languages: $languages, tenantId: $tenantId, householdDeletionReasonOptions: $householdDeletionReasonOptions, bandWidthBatchSize: $bandWidthBatchSize, backgroundServiceConfig: $backgroundServiceConfig, householdMemberDeletionReasonOptions: $householdMemberDeletionReasonOptions, genderOptions: $genderOptions, checklistTypes: $checklistTypes, idTypeOptions: $idTypeOptions, deliveryCommentOptions: $deliveryCommentOptions, backendInterface: $backendInterface, callSupportOptions: $callSupportOptions, transportTypes: $transportTypes)';
   }
 
   @override
@@ -1383,6 +1540,17 @@ class _$_AppConfig implements _AppConfig {
                 .equals(other._languages, _languages) &&
             (identical(other.tenantId, tenantId) ||
                 other.tenantId == tenantId) &&
+            const DeepCollectionEquality().equals(
+                other._householdDeletionReasonOptions,
+                _householdDeletionReasonOptions) &&
+            const DeepCollectionEquality()
+                .equals(other._bandWidthBatchSize, _bandWidthBatchSize) &&
+            (identical(
+                    other.backgroundServiceConfig, backgroundServiceConfig) ||
+                other.backgroundServiceConfig == backgroundServiceConfig) &&
+            const DeepCollectionEquality().equals(
+                other._householdMemberDeletionReasonOptions,
+                _householdMemberDeletionReasonOptions) &&
             const DeepCollectionEquality()
                 .equals(other._genderOptions, _genderOptions) &&
             const DeepCollectionEquality()
@@ -1393,6 +1561,8 @@ class _$_AppConfig implements _AppConfig {
                 other._deliveryCommentOptions, _deliveryCommentOptions) &&
             (identical(other.backendInterface, backendInterface) ||
                 other.backendInterface == backendInterface) &&
+            const DeepCollectionEquality()
+                .equals(other._callSupportOptions, _callSupportOptions) &&
             const DeepCollectionEquality()
                 .equals(other._transportTypes, _transportTypes));
   }
@@ -1407,11 +1577,17 @@ class _$_AppConfig implements _AppConfig {
       syncTrigger,
       const DeepCollectionEquality().hash(_languages),
       tenantId,
+      const DeepCollectionEquality().hash(_householdDeletionReasonOptions),
+      const DeepCollectionEquality().hash(_bandWidthBatchSize),
+      backgroundServiceConfig,
+      const DeepCollectionEquality()
+          .hash(_householdMemberDeletionReasonOptions),
       const DeepCollectionEquality().hash(_genderOptions),
       const DeepCollectionEquality().hash(_checklistTypes),
       const DeepCollectionEquality().hash(_idTypeOptions),
       const DeepCollectionEquality().hash(_deliveryCommentOptions),
       backendInterface,
+      const DeepCollectionEquality().hash(_callSupportOptions),
       const DeepCollectionEquality().hash(_transportTypes));
 
   @JsonKey(ignore: true)
@@ -1442,6 +1618,16 @@ abstract class _AppConfig implements AppConfig {
           required final List<Languages> languages,
       @JsonKey(name: 'TENANT_ID')
           final String? tenantId,
+      @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+          required final List<DeletionReasonOptions>
+              householdDeletionReasonOptions,
+      @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+          required final List<BandWidthBatchSize> bandWidthBatchSize,
+      @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+          final BackgroundServiceConfig? backgroundServiceConfig,
+      @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+          required final List<DeletionReasonOptions>
+              householdMemberDeletionReasonOptions,
       @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
           required final List<GenderOptions> genderOptions,
       @JsonKey(name: 'CHECKLIST_TYPES')
@@ -1452,6 +1638,8 @@ abstract class _AppConfig implements AppConfig {
           required final List<DeliveryCommentOptions> deliveryCommentOptions,
       @JsonKey(name: 'BACKEND_INTERFACE')
           required final BackendInterface backendInterface,
+      @JsonKey(name: 'CALL_SUPPORT')
+          required final List<CallSupportList>? callSupportOptions,
       @JsonKey(name: 'TRANSPORT_TYPES')
           required final List<TransportTypes> transportTypes}) = _$_AppConfig;
 
@@ -1477,6 +1665,18 @@ abstract class _AppConfig implements AppConfig {
   @JsonKey(name: 'TENANT_ID')
   String? get tenantId;
   @override
+  @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+  List<DeletionReasonOptions> get householdDeletionReasonOptions;
+  @override
+  @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+  List<BandWidthBatchSize> get bandWidthBatchSize;
+  @override
+  @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+  BackgroundServiceConfig? get backgroundServiceConfig;
+  @override
+  @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+  List<DeletionReasonOptions> get householdMemberDeletionReasonOptions;
+  @override
   @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
   List<GenderOptions> get genderOptions;
   @override
@@ -1491,6 +1691,9 @@ abstract class _AppConfig implements AppConfig {
   @override
   @JsonKey(name: 'BACKEND_INTERFACE')
   BackendInterface get backendInterface;
+  @override
+  @JsonKey(name: 'CALL_SUPPORT')
+  List<CallSupportList>? get callSupportOptions;
   @override
   @JsonKey(name: 'TRANSPORT_TYPES')
   List<TransportTypes> get transportTypes;
@@ -1654,6 +1857,200 @@ abstract class _IdTypeOptions implements IdTypeOptions {
       throw _privateConstructorUsedError;
 }
 
+BandWidthBatchSize _$BandWidthBatchSizeFromJson(Map<String, dynamic> json) {
+  return _BandWidthBatchSize.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BandWidthBatchSize {
+  @JsonKey(name: 'MIN_RANGE')
+  double get minRange => throw _privateConstructorUsedError;
+  @JsonKey(name: 'MAX_RANGE')
+  double get maxRange => throw _privateConstructorUsedError;
+  @JsonKey(name: 'BATCH_SIZE')
+  int get batchSize => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BandWidthBatchSizeCopyWith<BandWidthBatchSize> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BandWidthBatchSizeCopyWith<$Res> {
+  factory $BandWidthBatchSizeCopyWith(
+          BandWidthBatchSize value, $Res Function(BandWidthBatchSize) then) =
+      _$BandWidthBatchSizeCopyWithImpl<$Res, BandWidthBatchSize>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'MIN_RANGE') double minRange,
+      @JsonKey(name: 'MAX_RANGE') double maxRange,
+      @JsonKey(name: 'BATCH_SIZE') int batchSize});
+}
+
+/// @nodoc
+class _$BandWidthBatchSizeCopyWithImpl<$Res, $Val extends BandWidthBatchSize>
+    implements $BandWidthBatchSizeCopyWith<$Res> {
+  _$BandWidthBatchSizeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? minRange = null,
+    Object? maxRange = null,
+    Object? batchSize = null,
+  }) {
+    return _then(_value.copyWith(
+      minRange: null == minRange
+          ? _value.minRange
+          : minRange // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxRange: null == maxRange
+          ? _value.maxRange
+          : maxRange // ignore: cast_nullable_to_non_nullable
+              as double,
+      batchSize: null == batchSize
+          ? _value.batchSize
+          : batchSize // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BandWidthBatchSizeCopyWith<$Res>
+    implements $BandWidthBatchSizeCopyWith<$Res> {
+  factory _$$_BandWidthBatchSizeCopyWith(_$_BandWidthBatchSize value,
+          $Res Function(_$_BandWidthBatchSize) then) =
+      __$$_BandWidthBatchSizeCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'MIN_RANGE') double minRange,
+      @JsonKey(name: 'MAX_RANGE') double maxRange,
+      @JsonKey(name: 'BATCH_SIZE') int batchSize});
+}
+
+/// @nodoc
+class __$$_BandWidthBatchSizeCopyWithImpl<$Res>
+    extends _$BandWidthBatchSizeCopyWithImpl<$Res, _$_BandWidthBatchSize>
+    implements _$$_BandWidthBatchSizeCopyWith<$Res> {
+  __$$_BandWidthBatchSizeCopyWithImpl(
+      _$_BandWidthBatchSize _value, $Res Function(_$_BandWidthBatchSize) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? minRange = null,
+    Object? maxRange = null,
+    Object? batchSize = null,
+  }) {
+    return _then(_$_BandWidthBatchSize(
+      minRange: null == minRange
+          ? _value.minRange
+          : minRange // ignore: cast_nullable_to_non_nullable
+              as double,
+      maxRange: null == maxRange
+          ? _value.maxRange
+          : maxRange // ignore: cast_nullable_to_non_nullable
+              as double,
+      batchSize: null == batchSize
+          ? _value.batchSize
+          : batchSize // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BandWidthBatchSize implements _BandWidthBatchSize {
+  _$_BandWidthBatchSize(
+      {@JsonKey(name: 'MIN_RANGE') required this.minRange,
+      @JsonKey(name: 'MAX_RANGE') required this.maxRange,
+      @JsonKey(name: 'BATCH_SIZE') required this.batchSize});
+
+  factory _$_BandWidthBatchSize.fromJson(Map<String, dynamic> json) =>
+      _$$_BandWidthBatchSizeFromJson(json);
+
+  @override
+  @JsonKey(name: 'MIN_RANGE')
+  final double minRange;
+  @override
+  @JsonKey(name: 'MAX_RANGE')
+  final double maxRange;
+  @override
+  @JsonKey(name: 'BATCH_SIZE')
+  final int batchSize;
+
+  @override
+  String toString() {
+    return 'BandWidthBatchSize(minRange: $minRange, maxRange: $maxRange, batchSize: $batchSize)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BandWidthBatchSize &&
+            (identical(other.minRange, minRange) ||
+                other.minRange == minRange) &&
+            (identical(other.maxRange, maxRange) ||
+                other.maxRange == maxRange) &&
+            (identical(other.batchSize, batchSize) ||
+                other.batchSize == batchSize));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, minRange, maxRange, batchSize);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BandWidthBatchSizeCopyWith<_$_BandWidthBatchSize> get copyWith =>
+      __$$_BandWidthBatchSizeCopyWithImpl<_$_BandWidthBatchSize>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BandWidthBatchSizeToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BandWidthBatchSize implements BandWidthBatchSize {
+  factory _BandWidthBatchSize(
+          {@JsonKey(name: 'MIN_RANGE') required final double minRange,
+          @JsonKey(name: 'MAX_RANGE') required final double maxRange,
+          @JsonKey(name: 'BATCH_SIZE') required final int batchSize}) =
+      _$_BandWidthBatchSize;
+
+  factory _BandWidthBatchSize.fromJson(Map<String, dynamic> json) =
+      _$_BandWidthBatchSize.fromJson;
+
+  @override
+  @JsonKey(name: 'MIN_RANGE')
+  double get minRange;
+  @override
+  @JsonKey(name: 'MAX_RANGE')
+  double get maxRange;
+  @override
+  @JsonKey(name: 'BATCH_SIZE')
+  int get batchSize;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BandWidthBatchSizeCopyWith<_$_BandWidthBatchSize> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 DeliveryCommentOptions _$DeliveryCommentOptionsFromJson(
     Map<String, dynamic> json) {
   return _DeliveryCommentOptions.fromJson(json);
@@ -1812,6 +2209,163 @@ abstract class _DeliveryCommentOptions implements DeliveryCommentOptions {
       throw _privateConstructorUsedError;
 }
 
+DeletionReasonOptions _$DeletionReasonOptionsFromJson(
+    Map<String, dynamic> json) {
+  return _DeletionReasonOptions.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DeletionReasonOptions {
+  String get value => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DeletionReasonOptionsCopyWith<DeletionReasonOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DeletionReasonOptionsCopyWith<$Res> {
+  factory $DeletionReasonOptionsCopyWith(DeletionReasonOptions value,
+          $Res Function(DeletionReasonOptions) then) =
+      _$DeletionReasonOptionsCopyWithImpl<$Res, DeletionReasonOptions>;
+  @useResult
+  $Res call({String value, String code});
+}
+
+/// @nodoc
+class _$DeletionReasonOptionsCopyWithImpl<$Res,
+        $Val extends DeletionReasonOptions>
+    implements $DeletionReasonOptionsCopyWith<$Res> {
+  _$DeletionReasonOptionsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+    Object? code = null,
+  }) {
+    return _then(_value.copyWith(
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_DeletionReasonOptionsCopyWith<$Res>
+    implements $DeletionReasonOptionsCopyWith<$Res> {
+  factory _$$_DeletionReasonOptionsCopyWith(_$_DeletionReasonOptions value,
+          $Res Function(_$_DeletionReasonOptions) then) =
+      __$$_DeletionReasonOptionsCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String value, String code});
+}
+
+/// @nodoc
+class __$$_DeletionReasonOptionsCopyWithImpl<$Res>
+    extends _$DeletionReasonOptionsCopyWithImpl<$Res, _$_DeletionReasonOptions>
+    implements _$$_DeletionReasonOptionsCopyWith<$Res> {
+  __$$_DeletionReasonOptionsCopyWithImpl(_$_DeletionReasonOptions _value,
+      $Res Function(_$_DeletionReasonOptions) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? value = null,
+    Object? code = null,
+  }) {
+    return _then(_$_DeletionReasonOptions(
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_DeletionReasonOptions implements _DeletionReasonOptions {
+  _$_DeletionReasonOptions({required this.value, required this.code});
+
+  factory _$_DeletionReasonOptions.fromJson(Map<String, dynamic> json) =>
+      _$$_DeletionReasonOptionsFromJson(json);
+
+  @override
+  final String value;
+  @override
+  final String code;
+
+  @override
+  String toString() {
+    return 'DeletionReasonOptions(value: $value, code: $code)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_DeletionReasonOptions &&
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, value, code);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_DeletionReasonOptionsCopyWith<_$_DeletionReasonOptions> get copyWith =>
+      __$$_DeletionReasonOptionsCopyWithImpl<_$_DeletionReasonOptions>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_DeletionReasonOptionsToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DeletionReasonOptions implements DeletionReasonOptions {
+  factory _DeletionReasonOptions(
+      {required final String value,
+      required final String code}) = _$_DeletionReasonOptions;
+
+  factory _DeletionReasonOptions.fromJson(Map<String, dynamic> json) =
+      _$_DeletionReasonOptions.fromJson;
+
+  @override
+  String get value;
+  @override
+  String get code;
+  @override
+  @JsonKey(ignore: true)
+  _$$_DeletionReasonOptionsCopyWith<_$_DeletionReasonOptions> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 GenderOptions _$GenderOptionsFromJson(Map<String, dynamic> json) {
   return _GenderOptions.fromJson(json);
 }
@@ -1964,6 +2518,210 @@ abstract class _GenderOptions implements GenderOptions {
   @JsonKey(ignore: true)
   _$$_GenderOptionsCopyWith<_$_GenderOptions> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+BackgroundServiceConfig _$BackgroundServiceConfigFromJson(
+    Map<String, dynamic> json) {
+  return _BackgroundServiceConfig.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BackgroundServiceConfig {
+  @JsonKey(name: 'BATTERY_PERCENT_CUT_OFF')
+  int get batteryPercentCutOff => throw _privateConstructorUsedError;
+  @JsonKey(name: 'SERVICE_INTERVAL')
+  int get serviceInterval => throw _privateConstructorUsedError;
+  @JsonKey(name: 'API_CONCURRENCY')
+  int get apiConcurrency => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BackgroundServiceConfigCopyWith<BackgroundServiceConfig> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BackgroundServiceConfigCopyWith<$Res> {
+  factory $BackgroundServiceConfigCopyWith(BackgroundServiceConfig value,
+          $Res Function(BackgroundServiceConfig) then) =
+      _$BackgroundServiceConfigCopyWithImpl<$Res, BackgroundServiceConfig>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'BATTERY_PERCENT_CUT_OFF') int batteryPercentCutOff,
+      @JsonKey(name: 'SERVICE_INTERVAL') int serviceInterval,
+      @JsonKey(name: 'API_CONCURRENCY') int apiConcurrency});
+}
+
+/// @nodoc
+class _$BackgroundServiceConfigCopyWithImpl<$Res,
+        $Val extends BackgroundServiceConfig>
+    implements $BackgroundServiceConfigCopyWith<$Res> {
+  _$BackgroundServiceConfigCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? batteryPercentCutOff = null,
+    Object? serviceInterval = null,
+    Object? apiConcurrency = null,
+  }) {
+    return _then(_value.copyWith(
+      batteryPercentCutOff: null == batteryPercentCutOff
+          ? _value.batteryPercentCutOff
+          : batteryPercentCutOff // ignore: cast_nullable_to_non_nullable
+              as int,
+      serviceInterval: null == serviceInterval
+          ? _value.serviceInterval
+          : serviceInterval // ignore: cast_nullable_to_non_nullable
+              as int,
+      apiConcurrency: null == apiConcurrency
+          ? _value.apiConcurrency
+          : apiConcurrency // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_BackgroundServiceConfigCopyWith<$Res>
+    implements $BackgroundServiceConfigCopyWith<$Res> {
+  factory _$$_BackgroundServiceConfigCopyWith(_$_BackgroundServiceConfig value,
+          $Res Function(_$_BackgroundServiceConfig) then) =
+      __$$_BackgroundServiceConfigCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'BATTERY_PERCENT_CUT_OFF') int batteryPercentCutOff,
+      @JsonKey(name: 'SERVICE_INTERVAL') int serviceInterval,
+      @JsonKey(name: 'API_CONCURRENCY') int apiConcurrency});
+}
+
+/// @nodoc
+class __$$_BackgroundServiceConfigCopyWithImpl<$Res>
+    extends _$BackgroundServiceConfigCopyWithImpl<$Res,
+        _$_BackgroundServiceConfig>
+    implements _$$_BackgroundServiceConfigCopyWith<$Res> {
+  __$$_BackgroundServiceConfigCopyWithImpl(_$_BackgroundServiceConfig _value,
+      $Res Function(_$_BackgroundServiceConfig) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? batteryPercentCutOff = null,
+    Object? serviceInterval = null,
+    Object? apiConcurrency = null,
+  }) {
+    return _then(_$_BackgroundServiceConfig(
+      batteryPercentCutOff: null == batteryPercentCutOff
+          ? _value.batteryPercentCutOff
+          : batteryPercentCutOff // ignore: cast_nullable_to_non_nullable
+              as int,
+      serviceInterval: null == serviceInterval
+          ? _value.serviceInterval
+          : serviceInterval // ignore: cast_nullable_to_non_nullable
+              as int,
+      apiConcurrency: null == apiConcurrency
+          ? _value.apiConcurrency
+          : apiConcurrency // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_BackgroundServiceConfig implements _BackgroundServiceConfig {
+  _$_BackgroundServiceConfig(
+      {@JsonKey(name: 'BATTERY_PERCENT_CUT_OFF')
+          required this.batteryPercentCutOff,
+      @JsonKey(name: 'SERVICE_INTERVAL')
+          required this.serviceInterval,
+      @JsonKey(name: 'API_CONCURRENCY')
+          required this.apiConcurrency});
+
+  factory _$_BackgroundServiceConfig.fromJson(Map<String, dynamic> json) =>
+      _$$_BackgroundServiceConfigFromJson(json);
+
+  @override
+  @JsonKey(name: 'BATTERY_PERCENT_CUT_OFF')
+  final int batteryPercentCutOff;
+  @override
+  @JsonKey(name: 'SERVICE_INTERVAL')
+  final int serviceInterval;
+  @override
+  @JsonKey(name: 'API_CONCURRENCY')
+  final int apiConcurrency;
+
+  @override
+  String toString() {
+    return 'BackgroundServiceConfig(batteryPercentCutOff: $batteryPercentCutOff, serviceInterval: $serviceInterval, apiConcurrency: $apiConcurrency)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_BackgroundServiceConfig &&
+            (identical(other.batteryPercentCutOff, batteryPercentCutOff) ||
+                other.batteryPercentCutOff == batteryPercentCutOff) &&
+            (identical(other.serviceInterval, serviceInterval) ||
+                other.serviceInterval == serviceInterval) &&
+            (identical(other.apiConcurrency, apiConcurrency) ||
+                other.apiConcurrency == apiConcurrency));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, batteryPercentCutOff, serviceInterval, apiConcurrency);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_BackgroundServiceConfigCopyWith<_$_BackgroundServiceConfig>
+      get copyWith =>
+          __$$_BackgroundServiceConfigCopyWithImpl<_$_BackgroundServiceConfig>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BackgroundServiceConfigToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BackgroundServiceConfig implements BackgroundServiceConfig {
+  factory _BackgroundServiceConfig(
+      {@JsonKey(name: 'BATTERY_PERCENT_CUT_OFF')
+          required final int batteryPercentCutOff,
+      @JsonKey(name: 'SERVICE_INTERVAL')
+          required final int serviceInterval,
+      @JsonKey(name: 'API_CONCURRENCY')
+          required final int apiConcurrency}) = _$_BackgroundServiceConfig;
+
+  factory _BackgroundServiceConfig.fromJson(Map<String, dynamic> json) =
+      _$_BackgroundServiceConfig.fromJson;
+
+  @override
+  @JsonKey(name: 'BATTERY_PERCENT_CUT_OFF')
+  int get batteryPercentCutOff;
+  @override
+  @JsonKey(name: 'SERVICE_INTERVAL')
+  int get serviceInterval;
+  @override
+  @JsonKey(name: 'API_CONCURRENCY')
+  int get apiConcurrency;
+  @override
+  @JsonKey(ignore: true)
+  _$$_BackgroundServiceConfigCopyWith<_$_BackgroundServiceConfig>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 BackendInterface _$BackendInterfaceFromJson(Map<String, dynamic> json) {
@@ -2898,6 +3656,160 @@ abstract class _CheckListTypes implements CheckListTypes {
   @override
   @JsonKey(ignore: true)
   _$$_CheckListTypesCopyWith<_$_CheckListTypes> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CallSupportList _$CallSupportListFromJson(Map<String, dynamic> json) {
+  return _CallSupportList.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CallSupportList {
+  String get name => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CallSupportListCopyWith<CallSupportList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CallSupportListCopyWith<$Res> {
+  factory $CallSupportListCopyWith(
+          CallSupportList value, $Res Function(CallSupportList) then) =
+      _$CallSupportListCopyWithImpl<$Res, CallSupportList>;
+  @useResult
+  $Res call({String name, String code});
+}
+
+/// @nodoc
+class _$CallSupportListCopyWithImpl<$Res, $Val extends CallSupportList>
+    implements $CallSupportListCopyWith<$Res> {
+  _$CallSupportListCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? code = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CallSupportListCopyWith<$Res>
+    implements $CallSupportListCopyWith<$Res> {
+  factory _$$_CallSupportListCopyWith(
+          _$_CallSupportList value, $Res Function(_$_CallSupportList) then) =
+      __$$_CallSupportListCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, String code});
+}
+
+/// @nodoc
+class __$$_CallSupportListCopyWithImpl<$Res>
+    extends _$CallSupportListCopyWithImpl<$Res, _$_CallSupportList>
+    implements _$$_CallSupportListCopyWith<$Res> {
+  __$$_CallSupportListCopyWithImpl(
+      _$_CallSupportList _value, $Res Function(_$_CallSupportList) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? code = null,
+  }) {
+    return _then(_$_CallSupportList(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CallSupportList implements _CallSupportList {
+  _$_CallSupportList({required this.name, required this.code});
+
+  factory _$_CallSupportList.fromJson(Map<String, dynamic> json) =>
+      _$$_CallSupportListFromJson(json);
+
+  @override
+  final String name;
+  @override
+  final String code;
+
+  @override
+  String toString() {
+    return 'CallSupportList(name: $name, code: $code)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CallSupportList &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.code, code) || other.code == code));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, code);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CallSupportListCopyWith<_$_CallSupportList> get copyWith =>
+      __$$_CallSupportListCopyWithImpl<_$_CallSupportList>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CallSupportListToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CallSupportList implements CallSupportList {
+  factory _CallSupportList(
+      {required final String name,
+      required final String code}) = _$_CallSupportList;
+
+  factory _CallSupportList.fromJson(Map<String, dynamic> json) =
+      _$_CallSupportList.fromJson;
+
+  @override
+  String get name;
+  @override
+  String get code;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CallSupportListCopyWith<_$_CallSupportList> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

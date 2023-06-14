@@ -1,8 +1,17 @@
 library app_utils;
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:digit_components/theme/digit_theme.dart';
+import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:isar/isar.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:uuid/uuid.dart';
+
+import '../data/local_store/no_sql/schema/service_registry.dart';
+import '../data/local_store/secure_store/secure_store.dart';
+import 'constants.dart';
 
 export 'app_exception.dart';
 export 'constants.dart';
@@ -123,5 +132,72 @@ class CustomValidator {
     }
 
     return null;
+  }
+}
+
+setBgrunning(bool isBgRunning) async {
+  final localSecureStore = LocalSecureStore.instance;
+  await localSecureStore.setBackgroundService(isBgRunning);
+}
+
+performBackgroundService(context, stopService, isBackground) async {
+  final connectivityResult = await (Connectivity().checkConnectivity());
+
+  final isOnline = connectivityResult == ConnectivityResult.wifi ||
+      connectivityResult == ConnectivityResult.mobile;
+  final service = FlutterBackgroundService();
+  var isRunning = await service.isRunning();
+
+  if (stopService) {
+    if (isRunning) {
+      // service.invoke("stopService");
+      if (isBackground == false) {
+        DigitToast.show(
+          context,
+          options: DigitToastOptions(
+            'Background Service Stopped',
+            true,
+            DigitTheme.instance.mobileTheme,
+          ),
+        );
+      }
+      try {
+        // await Constants().isar.close(deleteFromDisk: false);
+        // final serviceRegistryList =
+        //     await Constants().isar.serviceRegistrys.where().findAll();
+        // print(serviceRegistryList.length);
+        // Constants().initilize();
+      } catch (e) {
+        print(e);
+      }
+    }
+  } else {
+    if (!isRunning && isOnline) {
+      service.startService();
+
+      DigitToast.show(
+        context,
+        options: DigitToastOptions(
+          'Background Service stated',
+          false,
+          DigitTheme.instance.mobileTheme,
+        ),
+      );
+    } else if (isRunning && !isOnline) {
+      // service.invoke("stopService");
+      // DigitToast.show(
+      //   context,
+      //   options: DigitToastOptions(
+      //     'Background Service Stopped',
+      //     true,
+      //     DigitTheme.instance.mobileTheme,
+      //   ),
+      // );
+      try {
+        // Constants().isar.close(deleteFromDisk: false);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }
