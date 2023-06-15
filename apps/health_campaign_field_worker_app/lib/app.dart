@@ -1,8 +1,12 @@
+import 'dart:math';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:health_campaign_field_worker_app/widgets/custom_banner.dart';
 import 'package:isar/isar.dart';
 import 'package:location/location.dart';
 
@@ -204,6 +208,7 @@ class MainApplication extends StatelessWidget {
                       child: BlocBuilder<LocalizationBloc, LocalizationState>(
                         builder: (context, langState) {
                           return MaterialApp.router(
+                            debugShowCheckedModeBanner: false,
                             supportedLocales: languages != null
                                 ? languages.map((e) {
                                     final results = e.value.split('_');
@@ -237,9 +242,87 @@ class MainApplication extends StatelessWidget {
                                 appRouter.defaultRouteParser(),
                             scaffoldMessengerKey: scaffoldMessengerKey,
                             builder: (context, child) {
+                              if (child == null) return const SizedBox.shrink();
+
                               final env = envConfig.variables.envType;
                               if (env == EnvType.prod) {
-                                return child ?? const SizedBox.shrink();
+                                return child;
+                              }
+
+                              if (env == EnvType.training) {
+                                return Scaffold(
+                                  body: Column(
+                                    children: [
+                                      Expanded(child: child),
+                                      IgnorePointer(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          color: Colors.orange,
+                                          child: Center(
+                                            child: AutoSizeText(
+                                              'Training'.toUpperCase(),
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                fontSize: 22,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                return Scaffold(
+                                  body: Stack(
+                                    children: [
+                                      Positioned.fill(child: child),
+                                      Positioned.fill(
+                                        child: IgnorePointer(
+                                          child: Transform.rotate(
+                                            angle: -pi / 4,
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: AutoSizeText(
+                                                  'Training'.toUpperCase(),
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                    fontSize: 120,
+                                                    color: Colors.black
+                                                        .withAlpha(50),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                return Scaffold(
+                                  body: Stack(
+                                    children: [
+                                      Positioned.fill(child: child),
+                                      CustomBanner(
+                                        bannerColor: Colors.orange,
+                                        child: Text(
+                                          'Training'.toUpperCase(),
+                                          style: const TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }
 
                               return Banner(
