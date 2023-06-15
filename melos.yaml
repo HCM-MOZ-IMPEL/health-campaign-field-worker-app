@@ -17,19 +17,9 @@ scripts:
 
   generate:
     description: Generate code for all packages.
-    run: melos run generate-flutter --no-select && melos run generate-dart --no-select
+    run: melos run generate-dart --no-select
     exec:
       concurrency: 1
-
-  generate-flutter:
-    description: Generate code for all flutter packages.
-    run: flutter packages run build_runner build --delete-conflicting-outputs
-    exec:
-      concurrency: 1
-    packageFilters:
-      flutter: true
-      dependsOn:
-        - build_runner
 
   generate-dart:
     description: Generate code for all packages.
