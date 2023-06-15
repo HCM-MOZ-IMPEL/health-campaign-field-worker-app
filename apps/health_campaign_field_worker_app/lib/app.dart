@@ -251,31 +251,6 @@ class MainApplication extends StatelessWidget {
 
                               if (env == EnvType.training) {
                                 return Scaffold(
-                                  body: Column(
-                                    children: [
-                                      Expanded(child: child),
-                                      IgnorePointer(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          color: Colors.orange,
-                                          child: Center(
-                                            child: AutoSizeText(
-                                              'Training'.toUpperCase(),
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                fontSize: 22,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-
-                                return Scaffold(
                                   body: Stack(
                                     children: [
                                       Positioned.fill(child: child),
@@ -297,6 +272,31 @@ class MainApplication extends StatelessWidget {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                return Scaffold(
+                                  body: Column(
+                                    children: [
+                                      Expanded(child: child),
+                                      IgnorePointer(
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          color: Colors.orange,
+                                          child: Center(
+                                            child: AutoSizeText(
+                                              'Training'.toUpperCase(),
+                                              maxLines: 1,
+                                              style: const TextStyle(
+                                                fontSize: 22,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),

@@ -13,6 +13,8 @@ import '../widgets/beneficiary/beneficiary_statistics_card.dart';
 import '../widgets/beneficiary/view_beneficiary_card.dart';
 import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/localized.dart';
+import '../widgets/showcase/config/showcase_constants.dart';
+import '../widgets/showcase/showcase_button.dart';
 
 class SearchBeneficiaryPage extends LocalizedStatefulWidget {
   const SearchBeneficiaryPage({
@@ -37,8 +39,10 @@ class _SearchBeneficiaryPageState
         body: BlocBuilder<SearchHouseholdsBloc, SearchHouseholdsState>(
           builder: (context, searchState) {
             return ScrollableContent(
-              header: Column(children: const [
-                BackNavigationHelpHeaderWidget(),
+              header: const Column(children: [
+                BackNavigationHelpHeaderWidget(
+                  showcaseButton: ShowcaseButton(),
+                ),
               ]),
               slivers: [
                 SliverToBoxAdapter(
@@ -78,27 +82,30 @@ class _SearchBeneficiaryPageState
                           ],
                         ),
                       ),
-                      DigitSearchBar(
-                        controller: searchController,
-                        hintText: localizations.translate(
-                          i18.searchBeneficiary.beneficiarySearchHintText,
+                      searchBeneficiariesShowcaseData.nameOfHouseholdHead
+                          .buildWith(
+                        child: DigitSearchBar(
+                          controller: searchController,
+                          hintText: localizations.translate(
+                            i18.searchBeneficiary.beneficiarySearchHintText,
+                          ),
+                          textCapitalization: TextCapitalization.words,
+                          onChanged: (value) {
+                            final bloc = context.read<SearchHouseholdsBloc>();
+                            if (value.trim().length < 2) {
+                              bloc.add(const SearchHouseholdsClearEvent());
+
+                              return;
+                            }
+
+                            bloc.add(
+                              SearchHouseholdsSearchByHouseholdHeadEvent(
+                                searchText: value.trim(),
+                                projectId: context.projectId,
+                              ),
+                            );
+                          },
                         ),
-                        textCapitalization: TextCapitalization.words,
-                        onChanged: (value) {
-                          final bloc = context.read<SearchHouseholdsBloc>();
-                          if (value.trim().length < 2) {
-                            bloc.add(const SearchHouseholdsClearEvent());
-
-                            return;
-                          }
-
-                          bloc.add(
-                            SearchHouseholdsSearchByHouseholdHeadEvent(
-                              searchText: value.trim(),
-                              projectId: context.projectId,
-                            ),
-                          );
-                        },
                       ),
                       const SizedBox(height: 16),
                       if (searchState.resultsNotFound)
@@ -156,55 +163,58 @@ class _SearchBeneficiaryPageState
           offstage: isKeyboardVisible,
           child: SizedBox(
             height: 85,
-            child: DigitCard(
-              margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
-              child: BlocBuilder<SearchHouseholdsBloc, SearchHouseholdsState>(
-                builder: (context, state) {
-                  final router = context.router;
+            child:
+                searchBeneficiariesShowcaseData.registerNewHousehold.buildWith(
+              child: DigitCard(
+                margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
+                child: BlocBuilder<SearchHouseholdsBloc, SearchHouseholdsState>(
+                  builder: (context, state) {
+                    final router = context.router;
 
-                  final searchQuery = state.searchQuery;
-                  VoidCallback? onPressed;
+                    final searchQuery = state.searchQuery;
+                    VoidCallback? onPressed;
 
-                  onPressed = state.loading
-                      // searchQuery == null ||
-                      // searchQuery.isEmpty
-                      ? null
-                      : () async {
-                          final bloc = context.read<SearchHouseholdsBloc>();
-                          final projectId = context.projectId;
+                    onPressed = state.loading
+                        // searchQuery == null ||
+                        // searchQuery.isEmpty
+                        ? null
+                        : () async {
+                            final bloc = context.read<SearchHouseholdsBloc>();
+                            final projectId = context.projectId;
 
-                          await router
-                              .push(BeneficiaryRegistrationWrapperRoute(
-                            initialState: BeneficiaryRegistrationCreateState(
-                              searchQuery: state.searchQuery,
-                            ),
-                          ))
-                              .then((value) async {
-                            await router.push(BeneficiaryWrapperRoute(
-                              wrapper: bloc.householdMemberWrapper,
-                            ));
-                          });
+                            await router
+                                .push(BeneficiaryRegistrationWrapperRoute(
+                              initialState: BeneficiaryRegistrationCreateState(
+                                searchQuery: state.searchQuery,
+                              ),
+                            ))
+                                .then((value) async {
+                              await router.push(BeneficiaryWrapperRoute(
+                                wrapper: bloc.householdMemberWrapper,
+                              ));
+                            });
 
-                          // await   router.push(BeneficiaryWrapperRoute(
-                          //     wrapper: bloc.householdMemberWrapper,
-                          //   ));
-                          bloc.add(
-                            SearchHouseholdsSearchByHouseholdHeadEvent(
-                              searchText: searchController.text,
-                              projectId: projectId,
-                            ),
-                          );
-                        };
+                            // await   router.push(BeneficiaryWrapperRoute(
+                            //     wrapper: bloc.householdMemberWrapper,
+                            //   ));
+                            bloc.add(
+                              SearchHouseholdsSearchByHouseholdHeadEvent(
+                                searchText: searchController.text,
+                                projectId: projectId,
+                              ),
+                            );
+                          };
 
-                  return DigitElevatedButton(
-                    onPressed: onPressed,
-                    child: Center(
-                      child: Text(localizations.translate(
-                        i18.searchBeneficiary.beneficiaryAddActionLabel,
-                      )),
-                    ),
-                  );
-                },
+                    return DigitElevatedButton(
+                      onPressed: onPressed,
+                      child: Center(
+                        child: Text(localizations.translate(
+                          i18.searchBeneficiary.beneficiaryAddActionLabel,
+                        )),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ),

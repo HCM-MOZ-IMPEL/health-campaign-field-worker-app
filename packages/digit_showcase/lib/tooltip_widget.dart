@@ -8,6 +8,9 @@ import 'measure_size.dart';
 const _kDefaultPaddingFromParent = 14.0;
 
 class ToolTipWidget extends StatefulWidget {
+  final VoidCallback? onSkip;
+  final VoidCallback? onNext;
+  final String? nextTitle;
   final GetPosition? position;
   final Offset? offset;
   final Size? screenSize;
@@ -41,6 +44,9 @@ class ToolTipWidget extends StatefulWidget {
 
   const ToolTipWidget({
     Key? key,
+    this.onSkip,
+    this.onNext,
+    this.nextTitle,
     required this.position,
     required this.offset,
     required this.screenSize,
@@ -328,6 +334,8 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
     }
 
     if (widget.container == null) {
+      final theme = Theme.of(context);
+
       return Positioned(
         top: contentY,
         left: _getLeft(),
@@ -436,6 +444,30 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                                 ),
                                               ),
                                     ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          foregroundColor:
+                                              theme.colorScheme.onBackground,
+                                          tapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                        onPressed: widget.onSkip,
+                                        child: const Text('Skip'),
+                                      ),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          tapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                        onPressed: widget.onNext,
+                                        child: const Text('Next'),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

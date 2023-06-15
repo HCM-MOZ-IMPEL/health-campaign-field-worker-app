@@ -7,11 +7,11 @@ packages:
   - mason_templates/digit_entity/hooks
   - mason_templates/freezed_bloc/hooks
 
-#command:
-#  bootstrap:
-#    usePubspecOverrides: true
-#    hooks:
-#      post: melos generate
+command:
+  bootstrap:
+    usePubspecOverrides: true
+    hooks:
+      post: melos generate
 
 scripts:
 

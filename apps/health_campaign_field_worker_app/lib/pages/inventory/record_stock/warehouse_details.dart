@@ -13,6 +13,8 @@ import '../../../utils/utils.dart';
 import '../../../widgets/header/back_navigation_help_header.dart';
 import '../../../widgets/inventory/no_facilities_assigned_dialog.dart';
 import '../../../widgets/localized.dart';
+import '../../../widgets/showcase/config/showcase_constants.dart';
+import '../../../widgets/showcase/showcase_button.dart';
 import '../facility_selection.dart';
 
 class WarehouseDetailsPage extends LocalizedStatefulWidget {
@@ -73,8 +75,10 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                   form: buildForm,
                   builder: (context, form, child) {
                     return ScrollableContent(
-                      header: Column(children: const [
-                        BackNavigationHelpHeaderWidget(),
+                      header: const Column(children: [
+                        BackNavigationHelpHeaderWidget(
+                          showcaseButton: ShowcaseButton(),
+                        ),
                       ]),
                       footer: SizedBox(
                         height: 85,
@@ -125,71 +129,85 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                           ),
                         ),
                       ),
-                      children: [
-                        DigitCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                localizations.translate(
-                                  i18.warehouseDetails.warehouseDetailsLabel,
-                                ),
-                                style: theme.textTheme.displayMedium,
-                              ),
-                              Column(children: [
-                                DigitDateFormPicker(
-                                  isEnabled: true,
-                                  lastDate: DateTime.now(),
-                                  formControlName: _dateOfEntryKey,
-                                  label: localizations.translate(
-                                    i18.warehouseDetails.dateOfReceipt,
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: DigitCard(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  localizations.translate(
+                                    i18.warehouseDetails.warehouseDetailsLabel,
                                   ),
-                                  isRequired: false,
+                                  style: theme.textTheme.displayMedium,
                                 ),
-                                DigitTextFormField(
-                                  readOnly: true,
-                                  formControlName: _administrativeUnitKey,
-                                  label: localizations.translate(
-                                    i18.warehouseDetails.administrativeUnit,
-                                  ),
-                                ),
-                              ]),
-                              DigitTextFormField(
-                                valueAccessor: FacilityValueAccessor(
-                                  facilities,
-                                ),
-                                isRequired: true,
-                                validationMessages: {
-                                  'required': (object) =>
-                                      localizations.translate(
-                                        i18.common.corecommonRequired,
+                                Column(children: [
+                                  warehouseDetailsShowcaseData.dateOfReceipt
+                                      .buildWith(
+                                    child: DigitDateFormPicker(
+                                      isEnabled: true,
+                                      lastDate: DateTime.now(),
+                                      formControlName: _dateOfEntryKey,
+                                      label: localizations.translate(
+                                        i18.warehouseDetails.dateOfReceipt,
                                       ),
-                                },
-                                label: localizations.translate(
-                                  i18.stockReconciliationDetails.facilityLabel,
-                                ),
-                                suffix: const Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(Icons.search),
-                                ),
-                                formControlName: _warehouseKey,
-                                readOnly: true,
-                                onTap: () async {
-                                  final parent =
-                                      context.router.parent() as StackRouter;
-                                  final facility =
-                                      await parent.push<FacilityModel>(
-                                    FacilitySelectionRoute(
-                                      facilities: facilities,
+                                      isRequired: false,
                                     ),
-                                  );
+                                  ),
+                                  warehouseDetailsShowcaseData
+                                      .administrativeUnit
+                                      .buildWith(
+                                    child: DigitTextFormField(
+                                      readOnly: true,
+                                      formControlName: _administrativeUnitKey,
+                                      label: localizations.translate(
+                                        i18.warehouseDetails.administrativeUnit,
+                                      ),
+                                    ),
+                                  ),
+                                ]),
+                                warehouseDetailsShowcaseData.warehouseName
+                                    .buildWith(
+                                  child: DigitTextFormField(
+                                    valueAccessor: FacilityValueAccessor(
+                                      facilities,
+                                    ),
+                                    isRequired: true,
+                                    validationMessages: {
+                                      'required': (object) =>
+                                          localizations.translate(
+                                            i18.common.corecommonRequired,
+                                          ),
+                                    },
+                                    label: localizations.translate(
+                                      i18.stockReconciliationDetails
+                                          .facilityLabel,
+                                    ),
+                                    suffix: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(Icons.search),
+                                    ),
+                                    formControlName: _warehouseKey,
+                                    readOnly: true,
+                                    onTap: () async {
+                                      final parent = context.router.parent()
+                                          as StackRouter;
+                                      final facility =
+                                          await parent.push<FacilityModel>(
+                                        FacilitySelectionRoute(
+                                          facilities: facilities,
+                                        ),
+                                      );
 
-                                  if (facility == null) return;
-                                  form.control(_warehouseKey).value = facility;
-                                },
-                              ),
-                            ],
+                                      if (facility == null) return;
+                                      form.control(_warehouseKey).value =
+                                          facility;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

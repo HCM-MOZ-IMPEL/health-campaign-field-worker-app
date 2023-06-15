@@ -5,19 +5,20 @@ import '../../blocs/auth/auth.dart';
 import '../../blocs/localization/app_localization.dart';
 import '../../router/app_router.dart';
 import '../../utils/i18_key_constants.dart' as i18;
+import '../showcase/showcase_button.dart';
 
 class BackNavigationHelpHeaderWidget extends StatelessWidget {
+  final ShowcaseButton? showcaseButton;
   final bool showHelp;
   final bool showBackNavigation;
   final bool showLogoutCTA;
-  final VoidCallback? helpClicked;
 
   const BackNavigationHelpHeaderWidget({
     super.key,
     this.showHelp = true,
+    this.showcaseButton,
     this.showBackNavigation = true,
     this.showLogoutCTA = false,
-    this.helpClicked,
   });
 
   @override
@@ -60,20 +61,7 @@ class BackNavigationHelpHeaderWidget extends StatelessWidget {
           ),
         ],
         const Spacer(),
-        if (showHelp) ...[
-          TextButton(
-            style: TextButton.styleFrom(padding: EdgeInsets.zero),
-            onPressed: helpClicked,
-            child: Row(
-              children: [
-                Text(AppLocalizations.of(context)
-                    .translate(i18.common.coreCommonHelp)),
-                const Icon(Icons.help_outline_outlined),
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
+        if (showcaseButton != null) showcaseButton!,
       ],
     );
   }

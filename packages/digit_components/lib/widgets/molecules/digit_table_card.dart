@@ -26,9 +26,10 @@ class DigitTableCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: Container(
         decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(4),
-            border: border),
+          color: color,
+          borderRadius: BorderRadius.circular(4),
+          border: border,
+        ),
         child: Padding(
           padding: padding ?? const EdgeInsets.only(right: 8, bottom: 16),
           child: Column(
@@ -48,16 +49,48 @@ class DigitTableCard extends StatelessWidget {
                           ),
                           SizedBox(width: gap),
                           Flexible(
-                              child: Padding(
-                            padding: const EdgeInsets.only(top: 1.4),
-                            child: Text(element[e].toString()),
-                          )),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 1.4),
+                              child: Text(element[e].toString()),
+                            ),
+                          ),
                         ],
                       ),
                     ))
                 .toList(),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TableValues extends StatelessWidget {
+  final String title;
+  final String value;
+
+  const TableValues({
+    super.key,
+    required this.title,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 6,
+            child: Text(title, style: theme.textTheme.headline5),
+          ),
+          const SizedBox(width: 6),
+          Expanded(flex: 5, child: Text(value)),
+        ],
       ),
     );
   }

@@ -598,6 +598,13 @@ class _ShowcaseState extends State<Showcase> {
             disableDefaultChildGestures: widget.disableDefaultTargetGestures,
           ),
           ToolTipWidget(
+            onNext: () {
+              _nextIfAny();
+            },
+            onSkip: () {
+              showCaseWidgetState.dismiss();
+            },
+            nextTitle: 'Next',
             position: position,
             offset: offset,
             screenSize: screenSize,

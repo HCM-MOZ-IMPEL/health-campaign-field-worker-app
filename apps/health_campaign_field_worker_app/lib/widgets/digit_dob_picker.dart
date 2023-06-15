@@ -2,6 +2,7 @@ import 'package:digit_components/widgets/atoms/digit_date_form_picker.dart';
 import 'package:digit_components/widgets/atoms/digit_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:health_campaign_field_worker_app/widgets/showcase/config/showcase_constants.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class DigitDobPicker extends StatelessWidget {
@@ -38,50 +39,59 @@ class DigitDobPicker extends StatelessWidget {
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
-              color: Colors.grey, style: BorderStyle.solid, width: 1.0),
+            color: Colors.grey,
+            style: BorderStyle.solid,
+            width: 1.0,
+          ),
         ),
         child: Column(
           children: [
-            DigitTextFormField(
-              maxLength: 3,
-              valueAccessor: DobValueAccessor(),
-              formControlName: datePickerFormControl,
-              label: ageFieldLabel,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              readOnly: isVerified,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^-?\d+$')),
-              ],
-              onChanged: (formControl) {
-                /// Validates that control's value must be `true`
-                Map<String, dynamic>? requiredTrue(
-                    AbstractControl<dynamic> control) {
-                  if (formControl.value == null ||
-                      formControl.value.toString().trim().isEmpty) {
-                    return {'O campo Idade é obrigatório': true};
-                  }
-                  String value =
-                      (DateTime.now().difference(formControl.value).inDays /
-                              365)
-                          .round()
-                          .toStringAsFixed(0);
-                  return int.parse(value) <= 150
-                      ? null
-                      : {'A idade não deve ser superior a 150 anos': true};
-                }
+            individualDetailsShowcaseData.age.buildWith(
+              child: DigitTextFormField(
+                maxLength: 3,
+                valueAccessor: DobValueAccessor(),
+                formControlName: datePickerFormControl,
+                label: ageFieldLabel,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                readOnly: isVerified,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d+$')),
+                ],
+                onChanged: (formControl) {
+                  /// Validates that control's value must be `true`
+                  Map<String, dynamic>? requiredTrue(
+                    AbstractControl<dynamic> control,
+                  ) {
+                    if (formControl.value == null ||
+                        formControl.value.toString().trim().isEmpty) {
+                      return {'O campo Idade é obrigatório': true};
+                    }
+                    String value =
+                        (DateTime.now().difference(formControl.value).inDays /
+                                365)
+                            .round()
+                            .toStringAsFixed(0);
 
-                formControl.setValidators([requiredTrue]);
-              },
+                    return int.parse(value) <= 150
+                        ? null
+                        : {'A idade não deve ser superior a 150 anos': true};
+                  }
+
+                  formControl.setValidators([requiredTrue]);
+                },
+              ),
             ),
             const SizedBox(height: 16),
             Text(
               separatorLabel,
               style: theme.textTheme.bodyLarge,
             ),
-            DigitDateFormPicker(
-              label: datePickerLabel,
-              formControlName: datePickerFormControl,
+            individualDetailsShowcaseData.dateOfBirth.buildWith(
+              child: DigitDateFormPicker(
+                label: datePickerLabel,
+                formControlName: datePickerFormControl,
+              ),
             ),
           ],
         ),
@@ -94,6 +104,7 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
   @override
   String? modelToViewValue(DateTime? modelValue) {
     if (modelValue == null) return null;
+
     return (DateTime.now().difference(modelValue).inDays / 365)
         .round()
         .toStringAsFixed(0);
@@ -104,6 +115,7 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
     if (viewValue == null || viewValue.trim().isEmpty) return null;
     final value = int.tryParse(viewValue);
     if (value == null) return null;
+
     return DateTime(
       DateTime.now().subtract(Duration(days: value * 365)).year,
       1,
