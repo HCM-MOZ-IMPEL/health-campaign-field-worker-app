@@ -2,6 +2,7 @@ import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/localization/app_localization.dart';
+import '../showcase/config/showcase_constants.dart';
 
 class BeneficiaryCard extends StatelessWidget {
   final String title;
@@ -29,28 +30,32 @@ class BeneficiaryCard extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(4),
-          child: Text(
-            title,
-            style: theme.textTheme.headlineSmall,
+          child: searchBeneficiariesShowcaseData.nameOfBeneficiary.buildWith(
+            child: Text(
+              title,
+              style: theme.textTheme.headlineSmall,
+            ),
           ),
         ),
         Offstage(
           offstage: status == null,
-          child: status == 'é entregue'
-              ? DigitIconButton(
-                  icon: Icons.check_circle,
-                  iconText:
-                      AppLocalizations.of(context).translate(status.toString()),
-                  iconTextColor: theme.colorScheme.onSurfaceVariant,
-                  iconColor: theme.colorScheme.onSurfaceVariant,
-                )
-              : DigitIconButton(
-                  icon: Icons.info_rounded,
-                  iconText:
-                      AppLocalizations.of(context).translate(status.toString()),
-                  iconTextColor: theme.colorScheme.error,
-                  iconColor: theme.colorScheme.error,
-                ),
+          child: searchBeneficiariesShowcaseData.deliveryStatus.buildWith(
+            child: status == 'é entregue'
+                ? DigitIconButton(
+                    icon: Icons.check_circle,
+                    iconText: AppLocalizations.of(context)
+                        .translate(status.toString()),
+                    iconTextColor: theme.colorScheme.onSurfaceVariant,
+                    iconColor: theme.colorScheme.onSurfaceVariant,
+                  )
+                : DigitIconButton(
+                    icon: Icons.info_rounded,
+                    iconText: AppLocalizations.of(context)
+                        .translate(status.toString()),
+                    iconTextColor: theme.colorScheme.error,
+                    iconColor: theme.colorScheme.error,
+                  ),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(4),

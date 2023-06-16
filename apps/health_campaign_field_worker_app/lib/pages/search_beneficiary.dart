@@ -133,6 +133,7 @@ class _SearchBeneficiaryPageState
 
                       return ViewBeneficiaryCard(
                         householdMember: i,
+                        hasShowcase: index == 0,
                         onOpenPressed: () async {
                           final bloc = context.read<SearchHouseholdsBloc>();
                           final projectId = context.projectId;
