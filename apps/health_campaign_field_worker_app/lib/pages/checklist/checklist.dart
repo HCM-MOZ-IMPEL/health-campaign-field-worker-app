@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/digit_project_cell.dart';
 import 'package:flutter/material.dart';
@@ -48,46 +49,46 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
                     child: CircularProgressIndicator(),
                   ),
                   serviceDefinitionFetch:
-                      (ServiceDefinitionServiceFetchedState value) =>
-                          selectChecklistShowcaseData.selectChecklist.buildWith(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              localizations.translate(
-                                i18.checklist.checklistlabel,
-                              ),
-                              style: theme.textTheme.displayMedium,
+                      (ServiceDefinitionServiceFetchedState value) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            localizations.translate(
+                              i18.checklist.checklistlabel,
                             ),
+                            style: theme.textTheme.displayMedium,
                           ),
                         ),
-                        BlocBuilder<AuthBloc, AuthState>(
-                          builder: (context, authstate) {
-                            return authstate.maybeMap(
-                              orElse: () => const Offstage(),
-                              authenticated: (res) {
-                                List<String> roles = res.userModel.roles
-                                    .map((e) =>
-                                        e.code.name.snakeCase.toUpperCase())
-                                    .toList();
+                      ),
+                      BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, authstate) {
+                          return authstate.maybeMap(
+                            orElse: () => const Offstage(),
+                            authenticated: (res) {
+                              List<String> roles = res.userModel.roles
+                                  .map((e) =>
+                                      e.code.name.snakeCase.toUpperCase())
+                                  .toList();
 
-                                final values =
-                                    value.serviceDefinitionList.where(
-                                  (item) => !roles
-                                      .indexOf(item.code!.split('.').last)
-                                      .isNegative,
-                                );
+                              final values = value.serviceDefinitionList.where(
+                                (item) => !roles
+                                    .indexOf(item.code!.split('.').last)
+                                    .isNegative,
+                              );
 
-                                return Column(
-                                  children: values
-                                      .map((e) => Column(
-                                            children: [
-                                              DigitProjectCell(
+                              return Column(
+                                children: values
+                                    .mapIndexed((i, e) => Column(
+                                          children: [
+                                            selectChecklistShowcaseData
+                                                .selectChecklist
+                                                .buildWith(
+                                              child: DigitProjectCell(
                                                 projectText: localizations
                                                     .translate('${e.code}'),
                                                 onTap: () {
@@ -158,21 +159,19 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
                                                   );
                                                 },
                                               ),
-                                              const SizedBox(
-                                                height: 8,
-                                              ),
-                                            ],
-                                          ))
-                                      .toList(),
-                                );
-                              },
-                            );
-
-                            return Offstage();
-                          },
-                        ),
-                      ],
-                    ),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                          ],
+                                        ))
+                                    .toList(),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 );
               },
