@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/digit_project_cell.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +8,14 @@ import 'package:recase/recase.dart';
 import '../../blocs/auth/auth.dart';
 import '../../blocs/service/service.dart';
 import '../../blocs/service_definition/service_definition.dart';
-import '../../models/auth/auth_model.dart';
 import '../../models/entities/service.dart';
 import '../../router/app_router.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../../widgets/action_card/action_card.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class ChecklistPage extends LocalizedStatefulWidget {
   const ChecklistPage({
@@ -32,133 +34,140 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
 
     return Scaffold(
       body: ScrollableContent(
-        header: Column(children: const [
-          BackNavigationHelpHeaderWidget(),
+        header: const Column(children: [
+          BackNavigationHelpHeaderWidget(
+            showcaseButton: ShowcaseButton(),
+          ),
         ]),
-        children: [
-          BlocBuilder<ServiceDefinitionBloc, ServiceDefinitionState>(
-            builder: (context, state) {
-              return state.map(
-                empty: (value) => const Text('No Checklist'),
-                isloading: (value) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                serviceDefinitionFetch:
-                    (ServiceDefinitionServiceFetchedState value) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          localizations.translate(
-                            i18.checklist.checklistlabel,
+        slivers: [
+          SliverToBoxAdapter(
+            child: BlocBuilder<ServiceDefinitionBloc, ServiceDefinitionState>(
+              builder: (context, state) {
+                return state.map(
+                  empty: (value) => const Text('No Checklist'),
+                  isloading: (value) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  serviceDefinitionFetch:
+                      (ServiceDefinitionServiceFetchedState value) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            localizations.translate(
+                              i18.checklist.checklistlabel,
+                            ),
+                            style: theme.textTheme.displayMedium,
                           ),
-                          style: theme.textTheme.displayMedium,
                         ),
                       ),
-                    ),
-                    BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, authstate) {
-                        return authstate.maybeMap(
-                          orElse: () => const Offstage(),
-                          authenticated: (res) {
-                            List<String> roles = res.userModel.roles
-                                .map((e) => e.code.name.snakeCase.toUpperCase())
-                                .toList();
+                      BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, authstate) {
+                          return authstate.maybeMap(
+                            orElse: () => const Offstage(),
+                            authenticated: (res) {
+                              List<String> roles = res.userModel.roles
+                                  .map((e) =>
+                                      e.code.name.snakeCase.toUpperCase())
+                                  .toList();
 
-                            final values = value.serviceDefinitionList.where(
-                              (item) => !roles
-                                  .indexOf(item.code!.split('.').last)
-                                  .isNegative,
-                            );
+                              final values = value.serviceDefinitionList.where(
+                                (item) => !roles
+                                    .indexOf(item.code!.split('.').last)
+                                    .isNegative,
+                              );
 
-                            return Column(
-                              children: values
-                                  .map((e) => Column(
+                              return Column(
+                                children: values.mapIndexed((i, e) {
+                                  Widget child = DigitProjectCell(
+                                    projectText:
+                                        localizations.translate('${e.code}'),
+                                    onTap: () {
+                                      context.read<ServiceDefinitionBloc>().add(
+                                            ServiceDefinitionSelectionEvent(
+                                              serviceDefinition: e,
+                                            ),
+                                          );
+
+                                      DigitActionDialog.show(
+                                        context,
+                                        widget: ActionCard(
+                                          items: [
+                                            ActionCardModel(
+                                              icon: Icons.edit_calendar,
+                                              label: localizations.translate(
+                                                i18.checklist
+                                                    .checklistCreateActionLabel,
+                                              ),
+                                              action: () {
+                                                context.router.push(
+                                                  ChecklistBoundaryViewRoute(),
+                                                );
+                                                Navigator.of(
+                                                  context,
+                                                  rootNavigator: true,
+                                                ).pop();
+                                              },
+                                            ),
+                                            ActionCardModel(
+                                              icon: Icons.visibility,
+                                              label: localizations.translate(
+                                                i18.checklist
+                                                    .checklistViewActionLabel,
+                                              ),
+                                              action: () {
+                                                context.read<ServiceBloc>().add(
+                                                      ServiceSearchEvent(
+                                                        serviceSearchModel:
+                                                            ServiceSearchModel(
+                                                          id: e.id,
+                                                        ),
+                                                      ),
+                                                    );
+                                                context.router.push(
+                                                  ChecklistPreviewRoute(),
+                                                );
+                                                Navigator.of(
+                                                  context,
+                                                  rootNavigator: true,
+                                                ).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+
+                                  if (i == 0) {
+                                    child = selectChecklistShowcaseData
+                                        .selectChecklist
+                                        .buildWith(
+                                      child: child,
+                                    );
+                                  }
+
+                                  return Column(
                                     children: [
-                                      DigitProjectCell(
-                                            projectText: localizations
-                                                .translate('${e.code}'),
-                                            onTap: () {
-                                              context
-                                                  .read<ServiceDefinitionBloc>()
-                                                  .add(
-                                                    ServiceDefinitionSelectionEvent(
-                                                      serviceDefinition: e,
-                                                    ),
-                                                  );
-
-                                              DigitActionDialog.show(
-                                                context,
-                                                widget: ActionCard(
-                                                  items: [
-                                                    ActionCardModel(
-                                                      icon: Icons.edit_calendar,
-                                                      label:
-                                                          localizations.translate(
-                                                        i18.checklist
-                                                            .checklistCreateActionLabel,
-                                                      ),
-                                                      action: () {
-                                                        context.router.push(
-                                                          ChecklistBoundaryViewRoute(),
-                                                        );
-                                                        Navigator.of(
-                                                          context,
-                                                          rootNavigator: true,
-                                                        ).pop();
-                                                      },
-                                                    ),
-                                                    ActionCardModel(
-                                                      icon: Icons.visibility,
-                                                      label:
-                                                          localizations.translate(
-                                                        i18.checklist
-                                                            .checklistViewActionLabel,
-                                                      ),
-                                                      action: () {
-                                                        context
-                                                            .read<ServiceBloc>()
-                                                            .add(
-                                                              ServiceSearchEvent(
-                                                                serviceSearchModel:
-                                                                    ServiceSearchModel(
-                                                                  id: e.id,
-                                                                ),
-                                                              ),
-                                                            );
-                                                        context.router.push(
-                                                          ChecklistPreviewRoute(),
-                                                        );
-                                                        Navigator.of(
-                                                          context,
-                                                          rootNavigator: true,
-                                                        ).pop();
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                      const SizedBox(height: 8,),
+                                      child,
+                                      const SizedBox(height: 8),
                                     ],
-                                  ))
-                                  .toList(),
-                            );
-                          },
-                        );
-
-                        return Offstage();
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
+                                  );
+                                }).toList(),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
