@@ -149,62 +149,60 @@ class _HomePageState extends LocalizedState<HomePage> {
                   failedSync: () {
                     Navigator.of(context, rootNavigator: true).pop();
 
-                        DigitSyncDialog.show(
-                          context,
-                          type: DigitSyncDialogType.failed,
-                          // TODO: Localization Pending
-                          label: 'Sincronização falhada!',
-                          primaryAction: DigitDialogActions(
-                            // TODO: Localization Pending
-                            label: 'Tentativa',
-                            action: (ctx) {
-                              Navigator.pop(ctx);
-                              _attemptSyncUp(context);
-                            },
-                          ),
-                          secondaryAction: DigitDialogActions(
-                            // TODO: Localization Pending
-                            label: 'Fechar',
-                            action: (ctx) => Navigator.pop(ctx),
-                          ),
-                        );
-                      },
+                    DigitSyncDialog.show(
+                      context,
+                      type: DigitSyncDialogType.failed,
+                      // TODO: Localization Pending
+                      label: 'Sincronização falhada!',
+                      primaryAction: DigitDialogActions(
+                        // TODO: Localization Pending
+                        label: 'Tentativa',
+                        action: (ctx) {
+                          Navigator.pop(ctx);
+                          _attemptSyncUp(context);
+                        },
+                      ),
+                      secondaryAction: DigitDialogActions(
+                        // TODO: Localization Pending
+                        label: 'Fechar',
+                        action: (ctx) => Navigator.pop(ctx),
+                      ),
                     );
                   },
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      orElse: () => const Offstage(),
-                      pendingSync: (count) {
-                        final debouncer = Debouncer(seconds: 5);
+                );
+              },
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const Offstage(),
+                  pendingSync: (count) {
+                    final debouncer = Debouncer(seconds: 5);
 
-                        debouncer.run(() async {
-                          if (count == 0) {
-                            performBackgroundService(context, true, false);
-                          } else {
-                            performBackgroundService(context, false, false);
-                          }
-                        });
+                    debouncer.run(() async {
+                      if (count == 0) {
+                        performBackgroundService(context, true, false);
+                      } else {
+                        performBackgroundService(context, false, false);
+                      }
+                    });
 
-                        return count == 0
-                            ? const Offstage()
-                            : DigitInfoCard(
-                                icon: Icons.info,
-                                backgroundColor:
-                                    theme.colorScheme.tertiaryContainer,
-                                iconColor: theme.colorScheme.surfaceTint,
-                                description: localizations
-                                    .translate(i18.home.dataSyncInfoContent)
-                                    .replaceAll('{}', count.toString()),
-                                title: localizations
-                                    .translate(i18.home.dataSyncInfoLabel),
-                              );
-                      },
-                    );
+                    return count == 0
+                        ? const Offstage()
+                        : DigitInfoCard(
+                            icon: Icons.info,
+                            backgroundColor:
+                                theme.colorScheme.tertiaryContainer,
+                            iconColor: theme.colorScheme.surfaceTint,
+                            description: localizations
+                                .translate(i18.home.dataSyncInfoContent)
+                                .replaceAll('{}', count.toString()),
+                            title: localizations
+                                .translate(i18.home.dataSyncInfoLabel),
+                          );
                   },
-                ),
-              ],
+                );
+              },
             ),
-          ),
+          ],
         ),
       ),
     );
