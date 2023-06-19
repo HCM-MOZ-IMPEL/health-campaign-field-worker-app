@@ -11,6 +11,8 @@ import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class HouseholdLocationPage extends LocalizedStatefulWidget {
   const HouseholdLocationPage({
@@ -65,9 +67,11 @@ class _HouseholdLocationPageState
               BeneficiaryRegistrationState>(
             builder: (context, registrationState) {
               return ScrollableContent(
-                header: Column(
-                  children: const [
-                    BackNavigationHelpHeaderWidget(),
+                header: const Column(
+                  children: [
+                    BackNavigationHelpHeaderWidget(
+                      showcaseButton: ShowcaseButton(),
+                    ),
                   ],
                 ),
                 footer: SizedBox(
@@ -166,67 +170,75 @@ class _HouseholdLocationPageState
                     ),
                   ),
                 ),
-                children: [
-                  DigitCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          localizations.translate(
-                            i18.householdLocation.householdLocationLabelText,
-                          ),
-                          style: theme.textTheme.displayMedium,
-                        ),
-                        Column(children: [
-                          DigitTextFormField(
-                            formControlName: _administrationAreaKey,
-                            label: localizations.translate(
-                              i18.householdLocation.administrationAreaFormLabel,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: DigitCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            localizations.translate(
+                              i18.householdLocation.householdLocationLabelText,
                             ),
-                            readOnly: true,
-                            isRequired: true,
-                            validationMessages: {
-                              'required': (_) => localizations.translate(
-                                    i18.householdLocation
-                                        .administrationAreaRequiredValidation,
-                                  ),
-                            },
+                            style: theme.textTheme.displayMedium,
                           ),
-                          // DigitTextFormField(
-                          //   formControlName: _addressLine1Key,
-                          //   label: localizations.translate(
-                          //     i18.householdLocation
-                          //         .householdAddressLine1LabelText,
-                          //   ),
-                          //   maxLength: 64,
-                          // ),
-                          // DigitTextFormField(
-                          //   formControlName: _addressLine2Key,
-                          //   label: localizations.translate(
-                          //     i18.householdLocation
-                          //         .householdAddressLine2LabelText,
-                          //   ),
-                          //   maxLength: 64,
-                          // ),
-                          DigitTextFormField(
-                            formControlName: _landmarkKey,
-                            label: localizations.translate(
-                              i18.householdLocation.landmarkFormLabel,
+                          Column(children: [
+                            householdLocationShowcaseData.administrativeArea
+                                .buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _administrationAreaKey,
+                                label: localizations.translate(
+                                  i18.householdLocation
+                                      .administrationAreaFormLabel,
+                                ),
+                                readOnly: true,
+                                isRequired: true,
+                                validationMessages: {
+                                  'required': (_) => localizations.translate(
+                                        i18.householdLocation
+                                            .administrationAreaRequiredValidation,
+                                      ),
+                                },
+                              ),
                             ),
-                            maxLength: 64,
-                          ),
-                          // DigitTextFormField(
-                          //   keyboardType: TextInputType.text,
-                          //   formControlName: _postalCodeKey,
-                          //   label: localizations.translate(
-                          //     i18.householdLocation.postalCodeFormLabel,
-                          //   ),
-                          //   maxLength: 64,
-                          // ),
-                        ]),
-                        const SizedBox(height: 16),
-                      ],
+                            // DigitTextFormField(
+                            //   formControlName: _addressLine1Key,
+                            //   label: localizations.translate(
+                            //     i18.householdLocation
+                            //         .householdAddressLine1LabelText,
+                            //   ),
+                            //   maxLength: 64,
+                            // ),
+                            // DigitTextFormField(
+                            //   formControlName: _addressLine2Key,
+                            //   label: localizations.translate(
+                            //     i18.householdLocation
+                            //         .householdAddressLine2LabelText,
+                            //   ),
+                            //   maxLength: 64,
+                            // ),
+                            householdLocationShowcaseData.landmark.buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _landmarkKey,
+                                label: localizations.translate(
+                                  i18.householdLocation.landmarkFormLabel,
+                                ),
+                                maxLength: 64,
+                              ),
+                            ),
+                            // DigitTextFormField(
+                            //   keyboardType: TextInputType.text,
+                            //   formControlName: _postalCodeKey,
+                            //   label: localizations.translate(
+                            //     i18.householdLocation.postalCodeFormLabel,
+                            //   ),
+                            //   maxLength: 64,
+                            // ),
+                          ]),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
                     ),
                   ),
                 ],

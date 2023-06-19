@@ -7,14 +7,17 @@ import 'package:intl/intl.dart';
 import '../../blocs/search_households/search_households.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../localized.dart';
+import '../showcase/config/showcase_constants.dart';
 import 'beneficiary_card.dart';
 
 class ViewBeneficiaryCard extends LocalizedStatefulWidget {
+  final bool hasShowcase;
   final HouseholdMemberWrapper householdMember;
   final VoidCallback? onOpenPressed;
 
   const ViewBeneficiaryCard({
     Key? key,
+    this.hasShowcase = false,
     super.appLocalizations,
     required this.householdMember,
     this.onOpenPressed,
@@ -86,10 +89,12 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                 ),
               ),
               Flexible(
-                child: DigitOutLineButton(
-                  label:
-                      localizations.translate(i18.searchBeneficiary.iconLabel),
-                  onPressed: widget.onOpenPressed,
+                child: searchBeneficiariesShowcaseData.open.buildWith(
+                  child: DigitOutLineButton(
+                    label: localizations
+                        .translate(i18.searchBeneficiary.iconLabel),
+                    onPressed: widget.onOpenPressed,
+                  ),
                 ),
               ),
             ],

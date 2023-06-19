@@ -19,6 +19,22 @@ const checklist = Checklist();
 const stockReconciliationDetails = StockReconciliationDetails();
 const manageStock = ManageStock();
 const complaints = Complaints();
+const homeShowcase = HomeShowcase();
+const searchBeneficiariesShowcase = SearchBeneficiariesShowcase();
+const householdLocationShowcase = HouseholdLocationShowcase();
+const householdDetailsShowcase = HouseholdDetailsShowcase();
+const individualDetailsShowcase = IndividualDetailsShowcase();
+const householdOverviewShowcase = HouseholdOverviewShowcase();
+const deliverInterventionShowcase = DeliverInterventionShowcase();
+const selectStockShowcase = SelectStockShowcase();
+const warehouseDetailsShowcase = WarehouseDetailsShowcase();
+const stockDetailsReceiptShowcase = StockDetailsReceiptShowcase();
+const stockDetailsIssuedShowcase = StockDetailsIssuedShowcase();
+const stockDetailsReturnedShowcase = StockDetailsReturnedShowcase();
+const stockReconciliationShowcase = StockReconciliationShowcase();
+const selectChecklistShowcase = SelectChecklistShowcase();
+const checklistDataShowcase = ChecklistDataShowcase();
+const checklistListShowcase = ChecklistListShowcase();
 
 class Common {
   const Common();
@@ -472,6 +488,7 @@ class StockDetails {
 
   /// Waybill number label
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
+
   String get waybillNumberValidation => 'WAYBILL_NUMBER_VALIDATION';
 
   /// Number of product indicated on waybill title
@@ -692,4 +709,404 @@ class Complaints {
   String get raisedForMyself => 'COMPLAINTS_RAISED_FOR_MYSELF';
 
   String get raisedForAnotherUser => 'COMPLAINTS_RAISED_FOR_ANOTHER_USER';
+}
+
+class HomeShowcase {
+  const HomeShowcase();
+
+  String get distributorProgressBar {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_PROGRESS_BAR';
+  }
+
+  String get distributorBeneficiaries {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_BENEFICIARIES';
+  }
+
+  String get distributorFileComplaint {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_FILE_COMPLAINT';
+  }
+
+  String get distributorSyncData {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_SYNC_DATA';
+  }
+
+  String get warehouseManagerManageStock {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_MANAGE_STOCK';
+  }
+
+  String get wareHouseManagerStockReconciliation {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_STOCK_RECONCILIATION';
+  }
+
+  String get warehouseManagerFileComplaint {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_FILE_COMPLAINT';
+  }
+
+  String get warehouseManagerSyncData {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_SYNC_DATA';
+  }
+
+  String get supervisorProgressBar {
+    return 'SUPERVISOR_HOME_SHOWCASE_PROGRESS_BAR';
+  }
+
+  String get supervisorMyChecklist {
+    return 'SUPERVISOR_HOME_SHOWCASE_MY_CHECKLIST';
+  }
+
+  String get supervisorComplaints {
+    return 'SUPERVISOR_HOME_SHOWCASE_COMPLAINTS';
+  }
+
+  String get supervisorSyncData {
+    return 'SUPERVISOR_HOME_SHOWCASE_SYNC_DATA';
+  }
+}
+
+class SearchBeneficiariesShowcase {
+  const SearchBeneficiariesShowcase();
+
+  String get numberOfHouseholdsRegistered {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_NUMBER_OF_HOUSEHOLDS_REGISTERED';
+  }
+
+  String get numberOfBednetsDelivered {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_NUMBER_OF_BEDNETS_DELIVERED';
+  }
+
+  String get enterNameOfHouseholdHead {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_ENTER_NAME_OF_HOUSEHOLD_HEAD';
+  }
+
+  String get registerNewHousehold {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_REGISTER_NEW_HOUSEHOLD';
+  }
+
+  String get nameOfBeneficiary {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_NAME_OF_BENEFICIARY';
+  }
+
+  String get deliveryStatus {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_DELIVERY_STATUS';
+  }
+
+  String get open {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_OPEN';
+  }
+
+  String get beneficiary {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_BENEFICIARY';
+  }
+
+  String get age {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_AGE';
+  }
+
+  String get gender {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_GENDER';
+  }
+}
+
+class HouseholdLocationShowcase {
+  const HouseholdLocationShowcase();
+
+  String get administrativeArea {
+    return 'HOUSEHOLD_LOCATION_SHOWCASE_ADMINISTRATIVE_AREA';
+  }
+
+  String get landmark {
+    return 'HOUSEHOLD_LOCATION_SHOWCASE_LANDMARK';
+  }
+}
+
+class HouseholdDetailsShowcase {
+  const HouseholdDetailsShowcase();
+
+  String get dateOfRegistration {
+    return 'HOUSEHOLD_DETAILS_SHOWCASE_DATE_OF_REGISTRATION';
+  }
+
+  String get numberOfMembersLivingInHousehold {
+    return 'HOUSEHOLD_DETAILS_SHOWCASE_NUMBER_OF_MEMBERS_LIVING_IN_HOUSEHOLD';
+  }
+}
+
+class IndividualDetailsShowcase {
+  const IndividualDetailsShowcase();
+
+  String get nameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_NAME_OF_INDIVIDUAL';
+  }
+
+  String get headOfHousehold {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_HEAD_OF_HOUSEHOLD';
+  }
+
+  String get age {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_AGE';
+  }
+
+  String get dateOfBirth {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_DATE_OF_BIRTH';
+  }
+
+  String get gender {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_GENDER';
+  }
+
+  String get mobile {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_MOBILE';
+  }
+}
+
+class HouseholdOverviewShowcase {
+  const HouseholdOverviewShowcase();
+
+  String get editHousehold {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_EDIT_HOUSEHOLD';
+  }
+
+  String get deliveryStatus {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_DELIVERY_STATUS';
+  }
+
+  String get householdHead {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_HOUSEHOLD_HEAD';
+  }
+
+  String get administrativeArea {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_ADMINISTRATIVE_AREA';
+  }
+
+  String get memberCount {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_MEMBER_COUNT';
+  }
+
+  String get householdIndividualCardTitle {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_HOUSEHOLD_INDIVIDUAL_CARD_TITLE';
+  }
+
+  String get editMember {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_EDIT_MEMBER';
+  }
+
+  String get addMember {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_ADD_MEMBER';
+  }
+
+  String get deliverIntervention {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_DELIVER_INTERVENTION';
+  }
+}
+
+class DeliverInterventionShowcase {
+  const DeliverInterventionShowcase();
+
+  String get memberCount {
+    return 'DELIVER_INTERVENTION_SHOWCASE_MEMBER_COUNT';
+  }
+
+  String get numberOfBednetsToDeliver {
+    return 'DELIVER_INTERVENTION_SHOWCASE_NUMBER_OF_BEDNETS_TO_DELIVER';
+  }
+
+  String get numberOfBednetsDistributed {
+    return 'DELIVER_INTERVENTION_SHOWCASE_NUMBER_OF_BEDNETS_DISTRIBUTED';
+  }
+
+  String get deliveryComment {
+    return 'DELIVER_INTERVENTION_SHOWCASE_DELIVERY_COMMENT';
+  }
+}
+
+class SelectStockShowcase {
+  const SelectStockShowcase();
+
+  String get recordStockReceipt {
+    return 'SELECT_STOCK_SHOWCASE_RECORD_STOCK_RECEIPT';
+  }
+
+  String get recordStockIssued {
+    return 'SELECT_STOCK_SHOWCASE_RECORD_STOCK_ISSUED';
+  }
+
+  String get recordStockReturned {
+    return 'SELECT_STOCK_SHOWCASE_RECORD_STOCK_RETURNED';
+  }
+}
+
+class WarehouseDetailsShowcase {
+  const WarehouseDetailsShowcase();
+
+  String get dateOfReceipt {
+    return 'WAREHOUSE_DETAILS_SHOWCASE_DATE_OF_RECEIPT';
+  }
+
+  String get administrativeUnit {
+    return 'WAREHOUSE_DETAILS_SHOWCASE_ADMINISTRATIVE_UNIT';
+  }
+
+  String get warehouseName {
+    return 'WAREHOUSE_DETAILS_SHOWCASE_WAREHOUSE_NAME';
+  }
+}
+
+class StockDetailsReceiptShowcase {
+  const StockDetailsReceiptShowcase();
+
+  String get receivedFrom {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_RECEIVED_FROM';
+  }
+
+  String get numberOfBednetsReceived {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_NUMBER_OF_BEDNETS_RECEIVED';
+  }
+
+  String get packingSlipId {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_PACKING_SLIP_ID';
+  }
+
+  String get numberOfNetsIndicatedOnPackingSlip {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_NUMBER_OF_NETS_INDICATED_ON_PACKING_SLIP';
+  }
+
+  String get typeOfTransport {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_TYPE_OF_TRANSPORT';
+  }
+
+  String get vehicleNumber {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get comments {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_COMMENTS';
+  }
+}
+
+class StockDetailsIssuedShowcase {
+  const StockDetailsIssuedShowcase();
+
+  String get issuedTo {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_ISSUED_TO';
+  }
+
+  String get numberOfBednetsIssued {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_NUMBER_OF_BEDNETS_ISSUED';
+  }
+
+  String get packingSlipId {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_PACKING_SLIP_ID';
+  }
+
+  String get numberOfNetsIndicatedOnPackingSlip {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_NUMBER_OF_NETS_INDICATED_ON_PACKING_SLIP';
+  }
+
+  String get typeOfTransport {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_TYPE_OF_TRANSPORT';
+  }
+
+  String get vehicleNumber {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get comments {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_COMMENTS';
+  }
+}
+
+class StockDetailsReturnedShowcase {
+  const StockDetailsReturnedShowcase();
+
+  String get returnedFrom {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_RETURNED_FROM';
+  }
+
+  String get numberOfBednetsReturned {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_NUMBER_OF_BEDNETS_RETURNED';
+  }
+
+  String get packingSlipId {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_PACKING_SLIP_ID';
+  }
+
+  String get numberOfNetsIndicatedOnPackingSlip {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_NUMBER_OF_NETS_INDICATED_ON_PACKING_SLIP';
+  }
+
+  String get typeOfTransport {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_TYPE_OF_TRANSPORT';
+  }
+
+  String get vehicleNumber {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get comments {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_COMMENT';
+  }
+}
+
+class StockReconciliationShowcase {
+  const StockReconciliationShowcase();
+
+  String get warehouseName {
+    return 'STOCK_RECONCILIATION_SHOWCASE_WAREHOUSE_NAME';
+  }
+
+  String get dateOfReconciliation {
+    return 'STOCK_RECONCILIATION_SHOWCASE_DATE_OF_RECONCILIATION';
+  }
+
+  String get stockReceived {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_RECEIVED';
+  }
+
+  String get stockIssued {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_ISSUED';
+  }
+
+  String get stockReturned {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_RETURNED';
+  }
+
+  String get stockOnHand {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_ON_HAND';
+  }
+
+  String get manualStockCount {
+    return 'STOCK_RECONCILIATION_SHOWCASE_MANUAL_STOCK_COUNT';
+  }
+
+  String get comments {
+    return 'STOCK_RECONCILIATION_SHOWCASE_COMMENTS';
+  }
+}
+
+class SelectChecklistShowcase {
+  const SelectChecklistShowcase();
+
+  String get selectChecklist {
+    return 'SELECT_CHECKLIST_SHOWCASE_SELECT_CHECKLIST';
+  }
+}
+
+class ChecklistDataShowcase {
+  const ChecklistDataShowcase();
+
+  String get date {
+    return 'CHECKLIST_DATA_SHOWCASE_DATE';
+  }
+
+  String get administrativeUnit {
+    return 'CHECKLIST_DATA_SHOWCASE_ADMINISTRATIVE_UNIT';
+  }
+}
+
+class ChecklistListShowcase {
+  const ChecklistListShowcase();
+
+  String get open {
+    return 'CHECKLIST_LIST_SHOWCASE_OPEN';
+  }
 }

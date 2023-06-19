@@ -1,11 +1,14 @@
-import 'package:intl/intl.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../../router/app_router.dart';
+import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
-import '../../utils/i18_key_constants.dart' as i18;
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class ChecklistBoundaryViewPage extends LocalizedStatefulWidget {
   const ChecklistBoundaryViewPage({
@@ -26,8 +29,10 @@ class _ChecklistBoundaryViewPageState
 
     return Scaffold(
       body: ScrollableContent(
-        header: Column(children: const [
-          BackNavigationHelpHeaderWidget(),
+        header: const Column(children: [
+          BackNavigationHelpHeaderWidget(
+            showcaseButton: ShowcaseButton(),
+          ),
         ]),
         footer: DigitCard(
           child: DigitElevatedButton(
@@ -37,41 +42,48 @@ class _ChecklistBoundaryViewPageState
             )),
           ),
         ),
-        children: [
-          DigitCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  localizations.translate(
-                    i18.checklist.checklistDetailLabel,
+        slivers: [
+          SliverToBoxAdapter(
+            child: DigitCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    localizations.translate(
+                      i18.checklist.checklistDetailLabel,
+                    ),
+                    style: theme.textTheme.displayMedium,
                   ),
-                  style: theme.textTheme.displayMedium,
-                ),
-                DigitTextField(
-                  readOnly: true,
-                  label: localizations.translate(
-                    i18.checklist.checklistdate,
-                  ),
-                  suffixIcon: const Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Icon(
-                      Icons.date_range_outlined,
+                  checklistDataShowcaseData.date.buildWith(
+                    child: DigitTextField(
+                      readOnly: true,
+                      label: localizations.translate(
+                        i18.checklist.checklistdate,
+                      ),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.date_range_outlined,
+                        ),
+                      ),
+                      controller: TextEditingController(
+                        text: DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                      ),
                     ),
                   ),
-                  controller: TextEditingController(
-                    text: DateFormat('dd MMMM yyyy').format(DateTime.now()),
+                  checklistDataShowcaseData.administrativeUnit.buildWith(
+                    child: DigitTextField(
+                      readOnly: true,
+                      label: localizations.translate(
+                        i18.householdLocation.administrationAreaFormLabel,
+                      ),
+                      controller:
+                          TextEditingController(text: context.boundary.name),
+                    ),
                   ),
-                ),
-                DigitTextField(
-                  readOnly: true,
-                  label: localizations.translate(
-                    i18.householdLocation.administrationAreaFormLabel,
-                  ),
-                  controller: TextEditingController(text: context.boundary.name),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

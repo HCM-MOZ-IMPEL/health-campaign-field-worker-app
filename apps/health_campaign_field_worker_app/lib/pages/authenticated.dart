@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_toaster.dart';
+import 'package:digit_showcase/showcase_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
@@ -27,73 +28,77 @@ class AuthenticatedPageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: _drawerVisibilityController.stream,
-      builder: (context, snapshot) {
-        final showDrawer = snapshot.data ?? false;
+    return ShowcaseWidget(
+      enableAutoScroll: true,
+      builder: Builder(
+        builder: (context) => StreamBuilder<bool>(
+          stream: _drawerVisibilityController.stream,
+          builder: (context, snapshot) {
+            final showDrawer = snapshot.data ?? false;
 
-        return Portal(
-          child: Scaffold(
-            appBar: AppBar(
-              actions: [
-                BlocBuilder<BoundaryBloc, BoundaryState>(
-                  builder: (ctx, state) {
-                    final selectedBoundary = ctx.boundaryOrNull;
+            return Portal(
+              child: Scaffold(
+                appBar: AppBar(
+                  actions: [
+                    BlocBuilder<BoundaryBloc, BoundaryState>(
+                      builder: (ctx, state) {
+                        final selectedBoundary = ctx.boundaryOrNull;
 
-                    if (selectedBoundary == null) {
-                      return const SizedBox.shrink();
-                    }
+                        if (selectedBoundary == null) {
+                          return const SizedBox.shrink();
+                        }
 
-                    final boundaryName = selectedBoundary.name ??
-                        selectedBoundary.code ??
-                        'No boundary name';
+                        final boundaryName = selectedBoundary.name ??
+                            selectedBoundary.code ??
+                            'No boundary name';
 
-                    final theme = Theme.of(context);
+                        final theme = Theme.of(context);
 
-                    return TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: theme.colorScheme.onPrimary,
-                      ),
-                      onPressed: () {
-                        ctx.router.navigate(const BoundarySelectionRoute());
+                        return TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: theme.colorScheme.onPrimary,
+                          ),
+                          onPressed: () {
+                            ctx.router.navigate(const BoundarySelectionRoute());
+                          },
+                          child: Text(boundaryName),
+                        );
                       },
-                      child: Text(boundaryName),
-                    );
-                  },
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            drawer: showDrawer ? const Drawer(child: SideBar()) : null,
-            body: MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) {
-                    return SearchHouseholdsBloc(
-                      userUid: context.loggedInUserUuid,
-                      projectId: context.projectId,
-                      projectBeneficiary: context.repository<
-                          ProjectBeneficiaryModel,
-                          ProjectBeneficiarySearchModel>(),
-                      householdMember: context.repository<HouseholdMemberModel,
-                          HouseholdMemberSearchModel>(),
-                      household: context
-                          .repository<HouseholdModel, HouseholdSearchModel>(),
-                      individual: context
-                          .repository<IndividualModel, IndividualSearchModel>(),
-                      taskDataRepository:
-                          context.repository<TaskModel, TaskSearchModel>(),
-                    )..add(const SearchHouseholdsClearEvent());
-                  },
-                ),
-                BlocProvider(
-                  create: (context) {
-                    final userId = context.loggedInUserUuid;
+                drawer: showDrawer ? const Drawer(child: SideBar()) : null,
+                body: MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) {
+                        return SearchHouseholdsBloc(
+                          userUid: context.loggedInUserUuid,
+                          projectId: context.projectId,
+                          projectBeneficiary: context.repository<
+                              ProjectBeneficiaryModel,
+                              ProjectBeneficiarySearchModel>(),
+                          householdMember: context.repository<
+                              HouseholdMemberModel,
+                              HouseholdMemberSearchModel>(),
+                          household: context.repository<HouseholdModel,
+                              HouseholdSearchModel>(),
+                          individual: context.repository<IndividualModel,
+                              IndividualSearchModel>(),
+                          taskDataRepository:
+                              context.repository<TaskModel, TaskSearchModel>(),
+                        )..add(const SearchHouseholdsClearEvent());
+                      },
+                    ),
+                    BlocProvider(
+                      create: (context) {
+                        final userId = context.loggedInUserUuid;
 
-                    final isar = context.read<Isar>();
-                    final bloc = SyncBloc(
-                      isar: isar,
-                      networkManager: context.read(),
-                    )..add(SyncRefreshEvent(userId));
+                        final isar = context.read<Isar>();
+                        final bloc = SyncBloc(
+                          isar: isar,
+                          networkManager: context.read(),
+                        )..add(SyncRefreshEvent(userId));
 
                     isar.opLogs
                         .filter()
@@ -157,41 +162,43 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                       },
                     );
 
-                    return bloc;
-                  },
-                ),
-                BlocProvider(
-                  create: (_) => LocationBloc(location: Location())
-                    ..add(const LoadLocationEvent()),
-                ),
-                BlocProvider(
-                  create: (_) =>
-                      HouseholdDetailsBloc(const HouseholdDetailsState()),
-                ),
-              ],
-              child: AutoRouter(
-                navigatorObservers: () => [
-                  AuthenticatedRouteObserver(
-                    onNavigated: () {
-                      bool shouldShowDrawer;
-                      switch (context.router.topRoute.name) {
-                        case ProjectSelectionRoute.name:
-                        case BoundarySelectionRoute.name:
-                          shouldShowDrawer = false;
-                          break;
-                        default:
-                          shouldShowDrawer = true;
-                      }
+                        return bloc;
+                      },
+                    ),
+                    BlocProvider(
+                      create: (_) => LocationBloc(location: Location())
+                        ..add(const LoadLocationEvent()),
+                    ),
+                    BlocProvider(
+                      create: (_) =>
+                          HouseholdDetailsBloc(const HouseholdDetailsState()),
+                    ),
+                  ],
+                  child: AutoRouter(
+                    navigatorObservers: () => [
+                      AuthenticatedRouteObserver(
+                        onNavigated: () {
+                          bool shouldShowDrawer;
+                          switch (context.router.topRoute.name) {
+                            case ProjectSelectionRoute.name:
+                            case BoundarySelectionRoute.name:
+                              shouldShowDrawer = false;
+                              break;
+                            default:
+                              shouldShowDrawer = true;
+                          }
 
-                      _drawerVisibilityController.add(shouldShowDrawer);
-                    },
+                          _drawerVisibilityController.add(shouldShowDrawer);
+                        },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }

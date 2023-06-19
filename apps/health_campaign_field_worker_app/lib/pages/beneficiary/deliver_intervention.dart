@@ -7,13 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:recase/recase.dart';
 
 import '../../blocs/app_initialization/app_initialization.dart';
 import '../../blocs/delivery_intervention/deliver_intervention.dart';
 import '../../blocs/household_overview/household_overview.dart';
 import '../../blocs/product_variant/product_variant.dart';
-import '../../blocs/search_households/search_households.dart';
 import '../../data/local_store/no_sql/schema/app_configuration.dart';
 import '../../models/data_model.dart';
 import '../../router/app_router.dart';
@@ -23,6 +21,8 @@ import '../../utils/utils.dart';
 import '../../widgets/component_wrapper/product_variant_bloc_wrapper.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class DeliverInterventionPage extends LocalizedStatefulWidget {
   final bool isEditing;
@@ -64,8 +64,10 @@ class _DeliverInterventionPageState
                     form: () => buildForm(context),
                     builder: (context, form, child) {
                       return ScrollableContent(
-                        header: Column(children: const [
-                          BackNavigationHelpHeaderWidget(),
+                        header: const Column(children: [
+                          BackNavigationHelpHeaderWidget(
+                            showcaseButton: ShowcaseButton(),
+                          ),
                         ]),
                         footer: isDelivered
                             ? null
@@ -94,7 +96,8 @@ class _DeliverInterventionPageState
                                         ),
                                         primaryAction: DigitDialogActions(
                                           label: localizations.translate(
-                                              i18.common.coreCommonSubmit),
+                                            i18.common.coreCommonSubmit,
+                                          ),
                                           action: (ctx) {
                                             final clientReferenceId = state
                                                         .householdMemberWrapper
@@ -232,14 +235,16 @@ class _DeliverInterventionPageState
                                                 );
                                             // (router.parent() as StackRouter).pop();
 
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .pop(true);
+                                            Navigator.of(
+                                              context,
+                                              rootNavigator: true,
+                                            ).pop(true);
                                           },
                                         ),
                                         secondaryAction: DigitDialogActions(
                                           label: localizations.translate(
-                                              i18.common.coreCommonCancel),
+                                            i18.common.coreCommonCancel,
+                                          ),
                                           action: (context) => Navigator.of(
                                             context,
                                             rootNavigator: true,
@@ -266,254 +271,280 @@ class _DeliverInterventionPageState
                                   ),
                                 ),
                               ),
-                        children: [
-                          DigitCard(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        localizations.translate(
-                                          i18.deliverIntervention
-                                              .deliverInterventionLabel,
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: DigitCard(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          localizations.translate(
+                                            i18.deliverIntervention
+                                                .deliverInterventionLabel,
+                                          ),
+                                          style: theme.textTheme.displayMedium,
                                         ),
-                                        style: theme.textTheme.displayMedium,
                                       ),
+                                    ],
+                                  ),
+                                  DigitTableCard(
+                                    element: {
+                                      localizations.translate(i18
+                                          .deliverIntervention
+                                          .dateOfRegistrationLabel): () {
+                                        final date = householdMemberWrapper
+                                            .projectBeneficiary
+                                            .dateOfRegistration;
+
+                                        final registrationDate =
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                          date,
+                                        );
+
+                                        return DateFormat('dd MMMM yyyy')
+                                            .format(registrationDate);
+                                      }(),
+                                    },
+                                  ),
+                                  DigitTableCard(
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      style: BorderStyle.solid,
+                                      width: 1.0,
                                     ),
-                                  ],
-                                ),
-                                DigitTableCard(
-                                  element: {
-                                    localizations.translate(i18
-                                        .deliverIntervention
-                                        .dateOfRegistrationLabel): () {
-                                      final date = householdMemberWrapper
-                                          .projectBeneficiary
-                                          .dateOfRegistration;
+                                    padding: const EdgeInsets.only(
+                                      left: 8,
+                                      right: 8,
+                                      bottom: 16,
+                                    ),
+                                    element: {
+                                      localizations.translate(i18
+                                              .householdOverView
+                                              .householdOverViewHouseholdHeadLabel):
+                                          '${householdMemberWrapper.headOfHousehold.name?.givenName ?? ''} ${householdMemberWrapper.headOfHousehold.name?.familyName ?? ''}',
+                                      // localizations.translate(
+                                      //   i18.deliverIntervention.idTypeText,
+                                      // ): () {
+                                      //   final identifiers = householdMemberWrapper
+                                      //       .headOfHousehold.identifiers;
+                                      //   if (identifiers == null ||
+                                      //       identifiers.isEmpty) {
+                                      //     return '';
+                                      //   }
+                                      //
+                                      //   return identifiers.first.identifierType ??
+                                      //       '';
+                                      // }(),
+                                      // localizations.translate(
+                                      //   i18.deliverIntervention.idNumberText,
+                                      // ): () {
+                                      //   final identifiers = householdMemberWrapper
+                                      //       .headOfHousehold.identifiers;
+                                      //   if (identifiers == null ||
+                                      //       identifiers.isEmpty) {
+                                      //     return '';
+                                      //   }
+                                      //
+                                      //   return identifiers.first.identifierId ??
+                                      //       '';
+                                      // }(),
+                                      localizations.translate(
+                                        i18.common.coreCommonAge,
+                                      ): () {
+                                        final dob = householdMemberWrapper
+                                            .headOfHousehold.dateOfBirth;
+                                        if (dob == null || dob.isEmpty) {
+                                          return '';
+                                        }
 
-                                      final registrationDate =
-                                          DateTime.fromMillisecondsSinceEpoch(
-                                        date,
-                                      );
+                                        final date =
+                                            DateFormat('dd/MM/yyyy').parse(dob);
 
-                                      return DateFormat('dd MMMM yyyy')
-                                          .format(registrationDate);
-                                    }(),
-                                  },
-                                ),
-                                DigitTableCard(
-                                  color: Theme.of(context).colorScheme.surface,
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    style: BorderStyle.solid,
-                                    width: 1.0,
-                                  ),
-                                  padding: const EdgeInsets.only(
-                                    left: 8,
-                                    right: 8,
-                                    bottom: 16,
-                                  ),
-                                  element: {
-                                    localizations.translate(i18
-                                            .householdOverView
-                                            .householdOverViewHouseholdHeadLabel):
-                                        '${householdMemberWrapper.headOfHousehold.name?.givenName ?? ''} ${householdMemberWrapper.headOfHousehold.name?.familyName ?? ''}',
-                                    // localizations.translate(
-                                    //   i18.deliverIntervention.idTypeText,
-                                    // ): () {
-                                    //   final identifiers = householdMemberWrapper
-                                    //       .headOfHousehold.identifiers;
-                                    //   if (identifiers == null ||
-                                    //       identifiers.isEmpty) {
-                                    //     return '';
-                                    //   }
-                                    //
-                                    //   return identifiers.first.identifierType ??
-                                    //       '';
-                                    // }(),
-                                    // localizations.translate(
-                                    //   i18.deliverIntervention.idNumberText,
-                                    // ): () {
-                                    //   final identifiers = householdMemberWrapper
-                                    //       .headOfHousehold.identifiers;
-                                    //   if (identifiers == null ||
-                                    //       identifiers.isEmpty) {
-                                    //     return '';
-                                    //   }
-                                    //
-                                    //   return identifiers.first.identifierId ??
-                                    //       '';
-                                    // }(),
-                                    localizations.translate(
-                                      i18.common.coreCommonAge,
-                                    ): () {
-                                      final dob = householdMemberWrapper
-                                          .headOfHousehold.dateOfBirth;
-                                      if (dob == null || dob.isEmpty) {
-                                        return '';
-                                      }
-
-                                      final date =
-                                          DateFormat('dd/MM/yyyy').parse(dob);
-
-                                      return date.age.toString();
-                                    }(),
-                                    // localizations.translate(
-                                    //   i18.common.coreCommonGender,
-                                    // ): householdMemberWrapper.headOfHousehold
-                                    //         .gender?.name.sentenceCase ??
-                                    //     '',
-                                    localizations.translate(
-                                      i18.common.coreCommonGender,
-                                    ): localizations.translate(
+                                        return date.age.toString();
+                                      }(),
+                                      // localizations.translate(
+                                      //   i18.common.coreCommonGender,
+                                      // ): householdMemberWrapper.headOfHousehold
+                                      //         .gender?.name.sentenceCase ??
+                                      //     '',
+                                      localizations.translate(
+                                        i18.common.coreCommonGender,
+                                      ): localizations.translate(
                                         householdMemberWrapper
                                                 .headOfHousehold.gender?.name
                                                 .toUpperCase() ??
-                                            ''),
-                                    localizations.translate(
-                                      i18.common.coreCommonMobileNumber,
-                                    ): householdMemberWrapper
-                                            .headOfHousehold.mobileNumber ??
-                                        '',
-                                  },
-                                ),
-                                DigitTableCard(
-                                  element: {
-                                    localizations.translate(
-                                      i18.deliverIntervention.memberCountText,
-                                    ): householdMemberWrapper
-                                            .household.memberCount ??
-                                        householdMemberWrapper.members.length,
-                                  },
-                                ),
-                                const DigitDivider(),
-                                DigitTableCard(
-                                  element: {
-                                    localizations.translate(i18
-                                        .deliverIntervention
-                                        .noOfResourcesForDelivery): () {
-                                      count = householdMemberWrapper
-                                              .household.memberCount ??
-                                          householdMemberWrapper.members.length;
-
-                                      return min(count / 1.8, 3).round();
-                                    }(),
-                                  },
-                                ),
-                                const DigitDivider(),
-                                BlocBuilder<ProductVariantBloc,
-                                    ProductVariantState>(
-                                  builder: (context, productState) {
-                                    return productState.maybeWhen(
-                                      orElse: () => const Offstage(),
-                                      fetched: (productVariants) {
-                                        final productVariantId = state
-                                            .householdMemberWrapper
-                                            .task
-                                            ?.resources
-                                            ?.firstOrNull
-                                            ?.productVariantId;
-
-                                        productVariantModel =
-                                            productVariants[0];
-                                        final variant = productState.whenOrNull(
-                                          fetched: (productVariants) {
-                                            return productVariants
-                                                .firstWhereOrNull(
-                                              (element) =>
-                                                  element.id ==
-                                                  productVariantId,
-                                            );
-                                          },
-                                        );
-
-                                        return Container();
-                                        // form
-                                        //     .control(_resourceDeliveredKey)
-                                        //     .value = variant;
-                                        //
-                                        // return DigitReactiveDropdown<
-                                        //     ProductVariantModel>(
-                                        //   label: localizations.translate(
-                                        //     i18.deliverIntervention
-                                        //         .resourceDeliveredLabel,
-                                        //   ),
-                                        //   isRequired: true,
-                                        //   valueMapper: (value) {
-                                        //     return localizations.translate(
-                                        //       value.sku ?? value.id,
-                                        //     );
-                                        //   },
-                                        //   menuItems: productVariants,
-                                        //   validationMessages: {
-                                        //     'required': (object) =>
-                                        //         'Field is required',
-                                        //   },
-                                        //   formControlName:
-                                        //       _resourceDeliveredKey,
-                                        // );
-                                      },
-                                    );
-                                  },
-                                ),
-                                DigitIntegerFormPicker(
-                                  form: form,
-                                  minimum: 0,
-                                  maximum: min(
-                                    householdMemberWrapper
-                                            .household.memberCount ??
-                                        householdMemberWrapper.members.length /
-                                            1.8,
-                                    3,
-                                  ).round(),
-                                  formControlName: _quantityDistributedKey,
-                                  label: localizations.translate(
-                                    i18.deliverIntervention
-                                        .quantityDistributedLabel,
+                                            '',
+                                      ),
+                                      localizations.translate(
+                                        i18.common.coreCommonMobileNumber,
+                                      ): householdMemberWrapper
+                                              .headOfHousehold.mobileNumber ??
+                                          '',
+                                    },
                                   ),
-                                  incrementer: !isDelivered,
-                                ),
-                                BlocBuilder<AppInitializationBloc,
-                                    AppInitializationState>(
-                                  builder: (context, state) {
-                                    if (state is! AppInitialized) {
-                                      return const Offstage();
-                                    }
+                                  deliverInterventionShowcaseData.memberCount
+                                      .buildWith(
+                                    child: DigitTableCard(
+                                      element: {
+                                        localizations.translate(
+                                          i18.deliverIntervention
+                                              .memberCountText,
+                                        ): householdMemberWrapper
+                                                .household.memberCount ??
+                                            householdMemberWrapper
+                                                .members.length,
+                                      },
+                                    ),
+                                  ),
+                                  const DigitDivider(),
+                                  deliverInterventionShowcaseData
+                                      .numberOfBednetsToDeliver
+                                      .buildWith(
+                                    child: DigitTableCard(
+                                      element: {
+                                        localizations.translate(i18
+                                            .deliverIntervention
+                                            .noOfResourcesForDelivery): () {
+                                          count = householdMemberWrapper
+                                                  .household.memberCount ??
+                                              householdMemberWrapper
+                                                  .members.length;
 
-                                    final deliveryCommentOptions = state
-                                            .appConfiguration
-                                            .deliveryCommentOptions ??
-                                        <DeliveryCommentOptions>[];
+                                          return min(count / 1.8, 3).round();
+                                        }(),
+                                      },
+                                    ),
+                                  ),
+                                  const DigitDivider(),
+                                  BlocBuilder<ProductVariantBloc,
+                                      ProductVariantState>(
+                                    builder: (context, productState) {
+                                      return productState.maybeWhen(
+                                        orElse: () => const Offstage(),
+                                        fetched: (productVariants) {
+                                          final productVariantId = state
+                                              .householdMemberWrapper
+                                              .task
+                                              ?.resources
+                                              ?.firstOrNull
+                                              ?.productVariantId;
 
-                                    return DigitReactiveDropdown<String>(
+                                          productVariantModel =
+                                              productVariants[0];
+                                          final variant =
+                                              productState.whenOrNull(
+                                            fetched: (productVariants) {
+                                              return productVariants
+                                                  .firstWhereOrNull(
+                                                (element) =>
+                                                    element.id ==
+                                                    productVariantId,
+                                              );
+                                            },
+                                          );
+
+                                          return Container();
+                                          // form
+                                          //     .control(_resourceDeliveredKey)
+                                          //     .value = variant;
+                                          //
+                                          // return DigitReactiveDropdown<
+                                          //     ProductVariantModel>(
+                                          //   label: localizations.translate(
+                                          //     i18.deliverIntervention
+                                          //         .resourceDeliveredLabel,
+                                          //   ),
+                                          //   isRequired: true,
+                                          //   valueMapper: (value) {
+                                          //     return localizations.translate(
+                                          //       value.sku ?? value.id,
+                                          //     );
+                                          //   },
+                                          //   menuItems: productVariants,
+                                          //   validationMessages: {
+                                          //     'required': (object) =>
+                                          //         'Field is required',
+                                          //   },
+                                          //   formControlName:
+                                          //       _resourceDeliveredKey,
+                                          // );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  deliverInterventionShowcaseData
+                                      .numberOfBednetsDistributed
+                                      .buildWith(
+                                    child: DigitIntegerFormPicker(
+                                      form: form,
+                                      minimum: 0,
+                                      maximum: min(
+                                        householdMemberWrapper
+                                                .household.memberCount ??
+                                            householdMemberWrapper
+                                                    .members.length /
+                                                1.8,
+                                        3,
+                                      ).round(),
+                                      formControlName: _quantityDistributedKey,
                                       label: localizations.translate(
                                         i18.deliverIntervention
-                                            .deliveryCommentLabel,
+                                            .quantityDistributedLabel,
                                       ),
-                                      readOnly: isDelivered,
-                                      valueMapper: (value) => value,
-                                      initialValue: localizations.translate(
-                                          deliveryCommentOptions
-                                                  .firstOrNull?.code ??
-                                              ''),
-                                      menuItems:
-                                          deliveryCommentOptions.map((e) {
-                                        return localizations.translate(e.code);
-                                      }).toList(),
-                                      validationMessages: {
-                                        'required': (object) =>
-                                            localizations.translate(i18
-                                                .deliverIntervention
-                                                .deliveryCommentRequired),
-                                      },
-                                      formControlName: _deliveryCommentKey,
-                                    );
-                                  },
-                                ),
-                              ],
+                                      incrementer: !isDelivered,
+                                    ),
+                                  ),
+                                  BlocBuilder<AppInitializationBloc,
+                                      AppInitializationState>(
+                                    builder: (context, state) {
+                                      if (state is! AppInitialized) {
+                                        return const Offstage();
+                                      }
+
+                                      final deliveryCommentOptions = state
+                                              .appConfiguration
+                                              .deliveryCommentOptions ??
+                                          <DeliveryCommentOptions>[];
+
+                                      return deliverInterventionShowcaseData
+                                          .deliveryComment
+                                          .buildWith(
+                                        child: DigitReactiveDropdown<String>(
+                                          label: localizations.translate(
+                                            i18.deliverIntervention
+                                                .deliveryCommentLabel,
+                                          ),
+                                          readOnly: isDelivered,
+                                          valueMapper: (value) => value,
+                                          initialValue: localizations.translate(
+                                            deliveryCommentOptions
+                                                    .firstOrNull?.code ??
+                                                '',
+                                          ),
+                                          menuItems:
+                                              deliveryCommentOptions.map((e) {
+                                            return localizations
+                                                .translate(e.code);
+                                          }).toList(),
+                                          validationMessages: {
+                                            'required': (object) =>
+                                                localizations.translate(i18
+                                                    .deliverIntervention
+                                                    .deliveryCommentRequired),
+                                          },
+                                          formControlName: _deliveryCommentKey,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

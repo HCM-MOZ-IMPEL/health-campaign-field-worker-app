@@ -1,7 +1,6 @@
 import 'package:digit_components/widgets/atoms/digit_reactive_dropdown.dart';
 import 'package:digit_components/widgets/atoms/digit_text_form_field.dart';
 import 'package:digit_components/widgets/digit_card.dart';
-import 'package:digit_components/widgets/digit_dob_picker.dart';
 import 'package:digit_components/widgets/digit_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +12,7 @@ import 'package:health_campaign_field_worker_app/data/local_store/no_sql/schema/
 import 'package:health_campaign_field_worker_app/utils/i18_key_constants.dart'
     as i18;
 import 'package:health_campaign_field_worker_app/utils/typedefs.dart';
+import 'package:health_campaign_field_worker_app/widgets/digit_dob_picker.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../router/router.dart';
