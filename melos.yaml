@@ -28,7 +28,6 @@ scripts:
       concurrency: 1
     packageFilters:
       dart: true
-      flutter: false
       dependsOn:
         - build_runner
 

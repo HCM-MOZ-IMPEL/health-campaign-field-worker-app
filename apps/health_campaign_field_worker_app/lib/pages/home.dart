@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/digit_sync_dialog.dart';
 import 'package:drift/drift.dart' hide Column;
@@ -25,6 +28,7 @@ import '../router/app_router.dart';
 import '../utils/debound.dart';
 import '../utils/i18_key_constants.dart' as i18;
 import '../utils/utils.dart';
+import '../widgets/action_card/action_card.dart';
 import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/home/home_item_card.dart';
 import '../widgets/localized.dart';
@@ -44,6 +48,31 @@ class HomePage extends LocalizedStatefulWidget {
 
 class _HomePageState extends LocalizedState<HomePage> {
   bool skipProgressBar = false;
+  late StreamSubscription<ConnectivityResult> subscription;
+  @override
+  initState() {
+    super.initState();
+
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      performBackgroundService(
+        isBackground: false,
+        stopService: false,
+        context: null,
+      );
+      print("----Results----");
+
+      // Got a new connectivity status!
+    });
+  }
+
+  //  Be sure to cancel subscription after you are done
+  @override
+  dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,9 +208,17 @@ class _HomePageState extends LocalizedState<HomePage> {
 
                     debouncer.run(() async {
                       if (count == 0) {
-                        performBackgroundService(context, true, false);
+                        performBackgroundService(
+                          isBackground: false,
+                          stopService: true,
+                          context: context,
+                        );
                       } else {
-                        performBackgroundService(context, false, false);
+                        performBackgroundService(
+                          isBackground: false,
+                          stopService: false,
+                          context: context,
+                        );
                       }
                     });
 
