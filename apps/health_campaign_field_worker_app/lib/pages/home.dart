@@ -147,8 +147,9 @@ class _HomePageState extends LocalizedState<HomePage> {
                   syncInProgress: () => DigitSyncDialog.show(
                     context,
                     type: DigitSyncDialogType.inProgress,
-                    // TODO: Localization pending
-                    label: 'Sincronização em curso',
+                    label: localizations.translate(
+                      i18.syncDialog.syncInProgressTitle,
+                    ),
                     barrierDismissible: false,
                   ),
                   completedSync: () {
@@ -157,11 +158,13 @@ class _HomePageState extends LocalizedState<HomePage> {
                     DigitSyncDialog.show(
                       context,
                       type: DigitSyncDialogType.complete,
-                      // TODO: Localization Pending
-                      label: 'Sincronização de dados',
+                      label: localizations.translate(
+                        i18.syncDialog.dataSyncedTitle,
+                      ),
                       primaryAction: DigitDialogActions(
-                        // TODO: Localization Pending
-                        label: 'Fechar',
+                        label: localizations.translate(
+                          i18.syncDialog.closeButtonLabel,
+                        ),
                         action: (ctx) {
                           Navigator.pop(ctx);
                         },
@@ -169,25 +172,26 @@ class _HomePageState extends LocalizedState<HomePage> {
                     );
                   },
                   failedSync: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-
-                    DigitSyncDialog.show(
+                    _showSyncFailedDialog(
                       context,
-                      type: DigitSyncDialogType.failed,
-                      // TODO: Localization Pending
-                      label: 'Sincronização falhada!',
-                      primaryAction: DigitDialogActions(
-                        // TODO: Localization Pending
-                        label: 'Tentativa',
-                        action: (ctx) {
-                          Navigator.pop(ctx);
-                          _attemptSyncUp(context);
-                        },
+                      message: localizations.translate(
+                        i18.syncDialog.syncFailedTitle,
                       ),
-                      secondaryAction: DigitDialogActions(
-                        // TODO: Localization Pending
-                        label: 'Fechar',
-                        action: (ctx) => Navigator.pop(ctx),
+                    );
+                  },
+                  failedDownSync: () {
+                    _showSyncFailedDialog(
+                      context,
+                      message: localizations.translate(
+                        i18.syncDialog.downSyncFailedTitle,
+                      ),
+                    );
+                  },
+                  failedUpSync: () {
+                    _showSyncFailedDialog(
+                      context,
+                      message: localizations.translate(
+                        i18.syncDialog.upSyncFailedTitle,
                       ),
                     );
                   },
@@ -234,6 +238,34 @@ class _HomePageState extends LocalizedState<HomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showSyncFailedDialog(
+    BuildContext context, {
+    required String message,
+  }) {
+    Navigator.of(context, rootNavigator: true).pop();
+
+    DigitSyncDialog.show(
+      context,
+      type: DigitSyncDialogType.failed,
+      label: message,
+      primaryAction: DigitDialogActions(
+        label: localizations.translate(
+          i18.syncDialog.retryButtonLabel,
+        ),
+        action: (ctx) {
+          Navigator.pop(ctx);
+          _attemptSyncUp(context);
+        },
+      ),
+      secondaryAction: DigitDialogActions(
+        label: localizations.translate(
+          i18.syncDialog.closeButtonLabel,
+        ),
+        action: (ctx) => Navigator.pop(ctx),
       ),
     );
   }
