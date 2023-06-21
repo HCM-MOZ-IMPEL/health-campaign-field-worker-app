@@ -46,32 +46,57 @@ class _ShowcaseButtonState extends LocalizedState<ShowcaseButton> {
   }
 
   Iterable<GlobalKey>? _showcasePathsForRoute(String routeName) {
-    return switch (routeName) {
-      SearchBeneficiaryRoute.name =>
-        searchBeneficiariesShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      HouseholdLocationRoute.name =>
-        householdLocationShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      HouseHoldDetailsRoute.name =>
-        householdDetailsShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      IndividualDetailsRoute.name =>
-        individualDetailsShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      HouseholdOverviewRoute.name =>
-        householdOverviewShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      DeliverInterventionRoute.name =>
-        deliverInterventionShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      ManageStocksRoute.name =>
-        selectStockShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      WarehouseDetailsRoute.name =>
-        warehouseDetailsShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      StockReconciliationRoute.name =>
-        stockReconciliationShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      ChecklistRoute.name =>
-        selectChecklistShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      ChecklistBoundaryViewRoute.name =>
-        checklistDataShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      ChecklistPreviewRoute.name =>
-        checklistListShowcaseData.showcaseData.map((e) => e.showcaseKey),
-      _ => null,
-    };
+    switch (routeName) {
+      case SearchBeneficiaryRoute.name:
+        return searchBeneficiariesShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case HouseholdLocationRoute.name:
+        return householdLocationShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case HouseHoldDetailsRoute.name:
+        return householdDetailsShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case IndividualDetailsRoute.name:
+        return individualDetailsShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case HouseholdOverviewRoute.name:
+        return householdOverviewShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case DeliverInterventionRoute.name:
+        return deliverInterventionShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case ManageStocksRoute.name:
+        return selectStockShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case WarehouseDetailsRoute.name:
+        return warehouseDetailsShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case StockReconciliationRoute.name:
+        return stockReconciliationShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case ChecklistRoute.name:
+        return selectChecklistShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case ChecklistBoundaryViewRoute.name:
+        return checklistDataShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      case ChecklistPreviewRoute.name:
+        return checklistListShowcaseData.showcaseData.map(
+          (e) => e.showcaseKey,
+        );
+      default:
+        return null;
+    }
   }
 }

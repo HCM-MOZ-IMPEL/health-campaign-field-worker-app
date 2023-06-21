@@ -6,16 +6,9 @@ import 'package:digit_components/widgets/digit_sync_dialog.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
-import 'package:overlay_builder/overlay_builder.dart';
-import 'package:path/path.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../data/local_store/no_sql/schema/app_configuration.dart'
-    as app_config;
-import '../blocs/app_initialization/app_initialization.dart';
 import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
@@ -28,7 +21,6 @@ import '../router/app_router.dart';
 import '../utils/debound.dart';
 import '../utils/i18_key_constants.dart' as i18;
 import '../utils/utils.dart';
-import '../widgets/action_card/action_card.dart';
 import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/home/home_item_card.dart';
 import '../widgets/localized.dart';
@@ -49,6 +41,7 @@ class HomePage extends LocalizedStatefulWidget {
 class _HomePageState extends LocalizedState<HomePage> {
   bool skipProgressBar = false;
   late StreamSubscription<ConnectivityResult> subscription;
+
   @override
   initState() {
     super.initState();
@@ -96,10 +89,10 @@ class _HomePageState extends LocalizedState<HomePage> {
     }
 
     final mappedItems = _getItems(context);
-    final homeItems = mappedItems?.$1 ?? [];
+    final homeItems = mappedItems?.homeItems ?? [];
     final showcaseKeys = <GlobalKey>[
       if (!skipProgressBar) homeShowcaseData.distributorProgressBar.showcaseKey,
-      ...(mappedItems?.$2 ?? []),
+      ...(mappedItems?.showcaseKeys ?? []),
     ];
 
     return Scaffold(
@@ -245,7 +238,7 @@ class _HomePageState extends LocalizedState<HomePage> {
     );
   }
 
-  (List<Widget>, List<GlobalKey>)? _getItems(BuildContext context) {
+  _HomeItemDataModel? _getItems(BuildContext context) {
     final state = context.read<AuthBloc>().state;
     if (state is! AuthAuthenticatedState) {
       return null;
@@ -438,7 +431,7 @@ class _HomePageState extends LocalizedState<HomePage> {
       ],
     );
 
-    return (homeItems, showcaseKeys);
+    return _HomeItemDataModel(homeItems, showcaseKeys);
   }
 
   void _attemptSyncUp(BuildContext context) {
@@ -489,4 +482,11 @@ class _HomePageState extends LocalizedState<HomePage> {
           ),
         );
   }
+}
+
+class _HomeItemDataModel {
+  final List<Widget> homeItems;
+  final List<GlobalKey> showcaseKeys;
+
+  const _HomeItemDataModel(this.homeItems, this.showcaseKeys);
 }
