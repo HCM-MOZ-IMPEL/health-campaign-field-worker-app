@@ -391,8 +391,13 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                         tenantId: attribute[i].tenantId,
                                         additionalDetails:
                                             additionalController[i]
-                                                .text
-                                                .toString(),
+                                                    .text
+                                                    .toString()
+                                                    .isEmpty
+                                                ? null
+                                                : additionalController[i]
+                                                    .text
+                                                    .toString(),
                                       ));
                                     }
 
