@@ -63,6 +63,7 @@ class SyncBloc extends Bloc<SyncEvent, SyncState> {
           (await isar.opLogs
                   .filter()
                   .createdByEqualTo(event.createdBy)
+                  .syncedUpEqualTo(true)
                   .syncedDownEqualTo(false)
                   .findAll())
               .where((element) {
@@ -73,7 +74,6 @@ class SyncBloc extends Bloc<SyncEvent, SyncState> {
               case DataModelType.task:
               case DataModelType.stock:
               case DataModelType.stockReconciliation:
-              case DataModelType.service:
               case DataModelType.complaints:
                 return true;
               default:

@@ -9,7 +9,8 @@ class _IndividualDetailsShowcaseData {
   factory _IndividualDetailsShowcaseData() => _instance;
 
   List<ShowcaseItemBuilder> get showcaseData => [
-        nameOfIndividual,
+        firstNameOfIndividual,
+        lastNameOfIndividual,
         headOfHousehold,
         age,
         dateOfBirth,
@@ -17,8 +18,12 @@ class _IndividualDetailsShowcaseData {
         mobile,
       ];
 
-  final nameOfIndividual = ShowcaseItemBuilder(
-    messageLocalizationKey: i18.individualDetailsShowcase.nameOfIndividual,
+  final firstNameOfIndividual = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.individualDetailsShowcase.firstNameOfIndividual,
+  );
+
+  final lastNameOfIndividual = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.individualDetailsShowcase.lastNameOfIndividual,
   );
 
   final headOfHousehold = ShowcaseItemBuilder(

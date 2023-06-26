@@ -835,8 +835,12 @@ class HouseholdDetailsShowcase {
 class IndividualDetailsShowcase {
   const IndividualDetailsShowcase();
 
-  String get nameOfIndividual {
-    return 'INDIVIDUAL_DETAILS_SHOWCASE_NAME_OF_INDIVIDUAL';
+  String get firstNameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_FIRST_NAME_OF_INDIVIDUAL';
+  }
+
+  String get lastNameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_LAST_NAME_OF_INDIVIDUAL';
   }
 
   String get headOfHousehold {

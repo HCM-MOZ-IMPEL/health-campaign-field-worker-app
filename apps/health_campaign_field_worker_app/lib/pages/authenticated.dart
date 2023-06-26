@@ -100,67 +100,66 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                           networkManager: context.read(),
                         )..add(SyncRefreshEvent(userId));
 
-                    isar.opLogs
-                        .filter()
-                        .createdByEqualTo(userId)
-                        .syncedUpEqualTo(false)
-                        .watch()
-                        .listen(
-                      (event) {
-                        bloc.add(
-                          SyncRefreshEvent(
-                            userId,
-                            event.where((element) {
-                              switch (element.entityType) {
-                                case DataModelType.household:
-                                case DataModelType.individual:
-                                case DataModelType.householdMember:
-                                case DataModelType.projectBeneficiary:
-                                case DataModelType.task:
-                                case DataModelType.stock:
-                                case DataModelType.stockReconciliation:
-                                case DataModelType.service:
-                                case DataModelType.complaints:
-                                  return true;
-                                default:
-                                  return false;
-                              }
-                            }).length,
-                          ),
+                        isar.opLogs
+                            .filter()
+                            .createdByEqualTo(userId)
+                            .syncedUpEqualTo(false)
+                            .watch()
+                            .listen(
+                          (event) {
+                            bloc.add(
+                              SyncRefreshEvent(
+                                userId,
+                                event.where((element) {
+                                  switch (element.entityType) {
+                                    case DataModelType.household:
+                                    case DataModelType.individual:
+                                    case DataModelType.householdMember:
+                                    case DataModelType.projectBeneficiary:
+                                    case DataModelType.task:
+                                    case DataModelType.stock:
+                                    case DataModelType.stockReconciliation:
+                                    case DataModelType.service:
+                                    case DataModelType.complaints:
+                                      return true;
+                                    default:
+                                      return false;
+                                  }
+                                }).length,
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
 
-                    isar.opLogs
-                        .filter()
-                        .createdByEqualTo(userId)
-                        .syncedUpEqualTo(true)
-                        .syncedDownEqualTo(false)
-                        .watch()
-                        .listen(
-                      (event) {
-                        bloc.add(
-                          SyncRefreshEvent(
-                            userId,
-                            event.where((element) {
-                              switch (element.entityType) {
-                                case DataModelType.household:
-                                case DataModelType.individual:
-                                case DataModelType.projectBeneficiary:
-                                case DataModelType.task:
-                                case DataModelType.stock:
-                                case DataModelType.stockReconciliation:
-                                case DataModelType.service:
-                                case DataModelType.complaints:
-                                  return true;
-                                default:
-                                  return false;
-                              }
-                            }).length,
-                          ),
+                        isar.opLogs
+                            .filter()
+                            .createdByEqualTo(userId)
+                            .syncedUpEqualTo(true)
+                            .syncedDownEqualTo(false)
+                            .watch()
+                            .listen(
+                          (event) {
+                            bloc.add(
+                              SyncRefreshEvent(
+                                userId,
+                                event.where((element) {
+                                  switch (element.entityType) {
+                                    case DataModelType.household:
+                                    case DataModelType.individual:
+                                    case DataModelType.projectBeneficiary:
+                                    case DataModelType.task:
+                                    case DataModelType.stock:
+                                    case DataModelType.stockReconciliation:
+                                    case DataModelType.complaints:
+                                      return true;
+                                    default:
+                                      return false;
+                                  }
+                                }).length,
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
 
                         return bloc;
                       },
