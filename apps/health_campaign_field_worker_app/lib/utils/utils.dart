@@ -153,28 +153,28 @@ performBackgroundService({
   if (stopService) {
     if (isRunning) {
       if (!isBackground && context != null) {
-        DigitToast.show(
-          context!,
-          options: DigitToastOptions(
-            'Background Service Stopped',
-            true,
-            DigitTheme.instance.mobileTheme,
-          ),
-        );
+        // DigitToast.show(
+        //   context!,
+        //   options: DigitToastOptions(
+        //     'Background Service Stopped',
+        //     true,
+        //     DigitTheme.instance.mobileTheme,
+        //   ),
+        // );
       }
     }
   } else {
     if (!isRunning && isOnline) {
       service.startService();
       if (context != null) {
-        DigitToast.show(
-          context,
-          options: DigitToastOptions(
-            'Background Service stated',
-            false,
-            DigitTheme.instance.mobileTheme,
-          ),
-        );
+        // DigitToast.show(
+        //   context,
+        //   options: DigitToastOptions(
+        //     'Background Service stated',
+        //     false,
+        //     DigitTheme.instance.mobileTheme,
+        //   ),
+        // );
       }
     }
   }

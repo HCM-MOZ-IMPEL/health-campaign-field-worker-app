@@ -37,24 +37,24 @@ Future<void> initializeService(
   const notificationId = 888;
   // this will be used as notification channel id
   const notificationChannelId = 'my_foreground';
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    notificationChannelId, // id
-    'Background Sync', // title
-    description: 'Background sync triggered.', // description
-    importance: Importance.high, // importance must be at low or higher level
-  );
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  // const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  //   notificationChannelId, // id
+  //   'Background Sync', // title
+  //   description: 'Background sync triggered.', // description
+  //   importance: Importance.high, // importance must be at low or higher level
+  // );
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
 
-  flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.requestPermission();
+  // flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.requestPermission();
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(
@@ -64,11 +64,11 @@ Future<void> initializeService(
       // auto start service
       autoStart: false,
       isForegroundMode: true,
-      initialNotificationContent:
-          'BackGround Service Started at ${DateTime.now()}',
-      initialNotificationTitle: 'Background service',
-      notificationChannelId: notificationChannelId,
-      foregroundServiceNotificationId: notificationId,
+      // initialNotificationContent:
+      //     'BackGround Service Started at ${DateTime.now()}',
+      // initialNotificationTitle: 'Background service',
+      // notificationChannelId: notificationChannelId,
+      // foregroundServiceNotificationId: notificationId,
     ),
     iosConfiguration: IosConfiguration(
       // auto start service
@@ -125,9 +125,9 @@ void onStart(ServiceInstance service) async {
                 .first.backgroundServiceConfig!.batteryPercentCutOff!) {
           service.stopSelf();
         } else {
-          final FlutterLocalNotificationsPlugin
-              flutterLocalNotificationsPlugin =
-              FlutterLocalNotificationsPlugin();
+          // final FlutterLocalNotificationsPlugin
+          //     flutterLocalNotificationsPlugin =
+          //     FlutterLocalNotificationsPlugin();
           if (frequencyCount != null) {
             final serviceRegistryList =
                 await Constants().isar.serviceRegistrys.where().findAll();
@@ -162,19 +162,19 @@ void onStart(ServiceInstance service) async {
                 'batchSize': configuredBatchSize,
               });
 
-              flutterLocalNotificationsPlugin.show(
-                888,
-                'Auto Sync',
-                'Speed : ${speedArray.first.toString().substring(0, 1)}Mb/ps - BatchSize : $configuredBatchSize',
-                const NotificationDetails(
-                  android: AndroidNotificationDetails(
-                    "my_foreground",
-                    'AUTO SYNC',
-                    icon: 'ic_bg_service_small',
-                    ongoing: true,
-                  ),
-                ),
-              );
+              // flutterLocalNotificationsPlugin.show(
+              //   888,
+              //   'Auto Sync',
+              //   'Speed : ${speedArray.first.toString().substring(0, 1)}Mb/ps - BatchSize : $configuredBatchSize',
+              //   const NotificationDetails(
+              //     android: AndroidNotificationDetails(
+              //       "my_foreground",
+              //       'AUTO SYNC',
+              //       icon: 'ic_bg_service_small',
+              //       ongoing: true,
+              //     ),
+              //   ),
+              // );
               const NetworkManager(
                 configuration: NetworkManagerConfiguration(
                   persistenceConfig: PersistenceConfiguration.offlineFirst,
