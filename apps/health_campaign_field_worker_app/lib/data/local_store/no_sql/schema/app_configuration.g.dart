@@ -23,69 +23,87 @@ const AppConfigurationSchema = CollectionSchema(
       type: IsarType.object,
       target: r'BackendInterface',
     ),
-    r'CHECKLIST_TYPES': PropertySchema(
+    r'BACKGROUND_SERVICE_CONFIG': PropertySchema(
       id: 1,
+      name: r'BACKGROUND_SERVICE_CONFIG',
+      type: IsarType.object,
+      target: r'BackgroundServiceConfig',
+    ),
+    r'BANDWIDTH_BATCH_SIZE': PropertySchema(
+      id: 2,
+      name: r'BANDWIDTH_BATCH_SIZE',
+      type: IsarType.objectList,
+      target: r'BandwidthBatchSize',
+    ),
+    r'CALL_SUPPORT': PropertySchema(
+      id: 3,
+      name: r'CALL_SUPPORT',
+      type: IsarType.objectList,
+      target: r'CallSupportList',
+    ),
+    r'CHECKLIST_TYPES': PropertySchema(
+      id: 4,
       name: r'CHECKLIST_TYPES',
       type: IsarType.objectList,
       target: r'ChecklistTypes',
     ),
     r'COMPLAINT_TYPES': PropertySchema(
-      id: 2,
+      id: 5,
       name: r'COMPLAINT_TYPES',
       type: IsarType.objectList,
       target: r'ComplaintTypes',
     ),
     r'DELIVERY_COMMENT_OPTIONS_POPULATOR': PropertySchema(
-      id: 3,
+      id: 6,
       name: r'DELIVERY_COMMENT_OPTIONS_POPULATOR',
       type: IsarType.objectList,
       target: r'DeliveryCommentOptions',
     ),
     r'GENDER_OPTIONS_POPULATOR': PropertySchema(
-      id: 4,
+      id: 7,
       name: r'GENDER_OPTIONS_POPULATOR',
       type: IsarType.objectList,
       target: r'GenderOptions',
     ),
     r'ID_TYPE_OPTIONS_POPULATOR': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'ID_TYPE_OPTIONS_POPULATOR',
       type: IsarType.objectList,
       target: r'IdTypeOptions',
     ),
     r'LANGUAGES': PropertySchema(
-      id: 6,
+      id: 9,
       name: r'LANGUAGES',
       type: IsarType.objectList,
       target: r'Languages',
     ),
     r'NETWORK_DETECTION': PropertySchema(
-      id: 7,
+      id: 10,
       name: r'NETWORK_DETECTION',
       type: IsarType.string,
     ),
     r'PERSISTENCE_MODE': PropertySchema(
-      id: 8,
+      id: 11,
       name: r'PERSISTENCE_MODE',
       type: IsarType.string,
     ),
     r'SYNC_METHOD': PropertySchema(
-      id: 9,
+      id: 12,
       name: r'SYNC_METHOD',
       type: IsarType.string,
     ),
     r'SYNC_TRIGGER': PropertySchema(
-      id: 10,
+      id: 13,
       name: r'SYNC_TRIGGER',
       type: IsarType.string,
     ),
     r'TENANT_ID': PropertySchema(
-      id: 11,
+      id: 14,
       name: r'TENANT_ID',
       type: IsarType.string,
     ),
     r'TRANSPORT_TYPES': PropertySchema(
-      id: 12,
+      id: 15,
       name: r'TRANSPORT_TYPES',
       type: IsarType.objectList,
       target: r'TransportTypes',
@@ -105,10 +123,13 @@ const AppConfigurationSchema = CollectionSchema(
     r'Config': ConfigSchema,
     r'GenderOptions': GenderOptionsSchema,
     r'ChecklistTypes': ChecklistTypesSchema,
+    r'BackgroundServiceConfig': BackgroundServiceConfigSchema,
+    r'BandwidthBatchSize': BandwidthBatchSizeSchema,
     r'IdTypeOptions': IdTypeOptionsSchema,
     r'DeliveryCommentOptions': DeliveryCommentOptionsSchema,
     r'TransportTypes': TransportTypesSchema,
-    r'ComplaintTypes': ComplaintTypesSchema
+    r'ComplaintTypes': ComplaintTypesSchema,
+    r'CallSupportList': CallSupportListSchema
   },
   getId: _appConfigurationGetId,
   getLinks: _appConfigurationGetLinks,
@@ -128,6 +149,42 @@ int _appConfigurationEstimateSize(
       bytesCount += 3 +
           BackendInterfaceSchema.estimateSize(
               value, allOffsets[BackendInterface]!, allOffsets);
+    }
+  }
+  {
+    final value = object.backgroundServiceConfig;
+    if (value != null) {
+      bytesCount += 3 +
+          BackgroundServiceConfigSchema.estimateSize(
+              value, allOffsets[BackgroundServiceConfig]!, allOffsets);
+    }
+  }
+  {
+    final list = object.bandwidthBatchSize;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        final offsets = allOffsets[BandwidthBatchSize]!;
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount +=
+              BandwidthBatchSizeSchema.estimateSize(value, offsets, allOffsets);
+        }
+      }
+    }
+  }
+  {
+    final list = object.callSupportOptions;
+    if (list != null) {
+      bytesCount += 3 + list.length * 3;
+      {
+        final offsets = allOffsets[CallSupportList]!;
+        for (var i = 0; i < list.length; i++) {
+          final value = list[i];
+          bytesCount +=
+              CallSupportListSchema.estimateSize(value, offsets, allOffsets);
+        }
+      }
     }
   }
   {
@@ -273,49 +330,67 @@ void _appConfigurationSerialize(
     BackendInterfaceSchema.serialize,
     object.backendInterface,
   );
-  writer.writeObjectList<ChecklistTypes>(
+  writer.writeObject<BackgroundServiceConfig>(
     offsets[1],
+    allOffsets,
+    BackgroundServiceConfigSchema.serialize,
+    object.backgroundServiceConfig,
+  );
+  writer.writeObjectList<BandwidthBatchSize>(
+    offsets[2],
+    allOffsets,
+    BandwidthBatchSizeSchema.serialize,
+    object.bandwidthBatchSize,
+  );
+  writer.writeObjectList<CallSupportList>(
+    offsets[3],
+    allOffsets,
+    CallSupportListSchema.serialize,
+    object.callSupportOptions,
+  );
+  writer.writeObjectList<ChecklistTypes>(
+    offsets[4],
     allOffsets,
     ChecklistTypesSchema.serialize,
     object.checklistTypes,
   );
   writer.writeObjectList<ComplaintTypes>(
-    offsets[2],
+    offsets[5],
     allOffsets,
     ComplaintTypesSchema.serialize,
     object.complaintTypes,
   );
   writer.writeObjectList<DeliveryCommentOptions>(
-    offsets[3],
+    offsets[6],
     allOffsets,
     DeliveryCommentOptionsSchema.serialize,
     object.deliveryCommentOptions,
   );
   writer.writeObjectList<GenderOptions>(
-    offsets[4],
+    offsets[7],
     allOffsets,
     GenderOptionsSchema.serialize,
     object.genderOptions,
   );
   writer.writeObjectList<IdTypeOptions>(
-    offsets[5],
+    offsets[8],
     allOffsets,
     IdTypeOptionsSchema.serialize,
     object.idTypeOptions,
   );
   writer.writeObjectList<Languages>(
-    offsets[6],
+    offsets[9],
     allOffsets,
     LanguagesSchema.serialize,
     object.languages,
   );
-  writer.writeString(offsets[7], object.networkDetection);
-  writer.writeString(offsets[8], object.persistenceMode);
-  writer.writeString(offsets[9], object.syncMethod);
-  writer.writeString(offsets[10], object.syncTrigger);
-  writer.writeString(offsets[11], object.tenantId);
+  writer.writeString(offsets[10], object.networkDetection);
+  writer.writeString(offsets[11], object.persistenceMode);
+  writer.writeString(offsets[12], object.syncMethod);
+  writer.writeString(offsets[13], object.syncTrigger);
+  writer.writeString(offsets[14], object.tenantId);
   writer.writeObjectList<TransportTypes>(
-    offsets[12],
+    offsets[15],
     allOffsets,
     TransportTypesSchema.serialize,
     object.transportTypes,
@@ -334,49 +409,67 @@ AppConfiguration _appConfigurationDeserialize(
     BackendInterfaceSchema.deserialize,
     allOffsets,
   );
-  object.checklistTypes = reader.readObjectList<ChecklistTypes>(
+  object.backgroundServiceConfig =
+      reader.readObjectOrNull<BackgroundServiceConfig>(
     offsets[1],
+    BackgroundServiceConfigSchema.deserialize,
+    allOffsets,
+  );
+  object.bandwidthBatchSize = reader.readObjectList<BandwidthBatchSize>(
+    offsets[2],
+    BandwidthBatchSizeSchema.deserialize,
+    allOffsets,
+    BandwidthBatchSize(),
+  );
+  object.callSupportOptions = reader.readObjectList<CallSupportList>(
+    offsets[3],
+    CallSupportListSchema.deserialize,
+    allOffsets,
+    CallSupportList(),
+  );
+  object.checklistTypes = reader.readObjectList<ChecklistTypes>(
+    offsets[4],
     ChecklistTypesSchema.deserialize,
     allOffsets,
     ChecklistTypes(),
   );
   object.complaintTypes = reader.readObjectList<ComplaintTypes>(
-    offsets[2],
+    offsets[5],
     ComplaintTypesSchema.deserialize,
     allOffsets,
     ComplaintTypes(),
   );
   object.deliveryCommentOptions = reader.readObjectList<DeliveryCommentOptions>(
-    offsets[3],
+    offsets[6],
     DeliveryCommentOptionsSchema.deserialize,
     allOffsets,
     DeliveryCommentOptions(),
   );
   object.genderOptions = reader.readObjectList<GenderOptions>(
-    offsets[4],
+    offsets[7],
     GenderOptionsSchema.deserialize,
     allOffsets,
     GenderOptions(),
   );
   object.idTypeOptions = reader.readObjectList<IdTypeOptions>(
-    offsets[5],
+    offsets[8],
     IdTypeOptionsSchema.deserialize,
     allOffsets,
     IdTypeOptions(),
   );
   object.languages = reader.readObjectList<Languages>(
-    offsets[6],
+    offsets[9],
     LanguagesSchema.deserialize,
     allOffsets,
     Languages(),
   );
-  object.networkDetection = reader.readStringOrNull(offsets[7]);
-  object.persistenceMode = reader.readStringOrNull(offsets[8]);
-  object.syncMethod = reader.readStringOrNull(offsets[9]);
-  object.syncTrigger = reader.readStringOrNull(offsets[10]);
-  object.tenantId = reader.readStringOrNull(offsets[11]);
+  object.networkDetection = reader.readStringOrNull(offsets[10]);
+  object.persistenceMode = reader.readStringOrNull(offsets[11]);
+  object.syncMethod = reader.readStringOrNull(offsets[12]);
+  object.syncTrigger = reader.readStringOrNull(offsets[13]);
+  object.tenantId = reader.readStringOrNull(offsets[14]);
   object.transportTypes = reader.readObjectList<TransportTypes>(
-    offsets[12],
+    offsets[15],
     TransportTypesSchema.deserialize,
     allOffsets,
     TransportTypes(),
@@ -399,58 +492,78 @@ P _appConfigurationDeserializeProp<P>(
         allOffsets,
       )) as P;
     case 1:
+      return (reader.readObjectOrNull<BackgroundServiceConfig>(
+        offset,
+        BackgroundServiceConfigSchema.deserialize,
+        allOffsets,
+      )) as P;
+    case 2:
+      return (reader.readObjectList<BandwidthBatchSize>(
+        offset,
+        BandwidthBatchSizeSchema.deserialize,
+        allOffsets,
+        BandwidthBatchSize(),
+      )) as P;
+    case 3:
+      return (reader.readObjectList<CallSupportList>(
+        offset,
+        CallSupportListSchema.deserialize,
+        allOffsets,
+        CallSupportList(),
+      )) as P;
+    case 4:
       return (reader.readObjectList<ChecklistTypes>(
         offset,
         ChecklistTypesSchema.deserialize,
         allOffsets,
         ChecklistTypes(),
       )) as P;
-    case 2:
+    case 5:
       return (reader.readObjectList<ComplaintTypes>(
         offset,
         ComplaintTypesSchema.deserialize,
         allOffsets,
         ComplaintTypes(),
       )) as P;
-    case 3:
+    case 6:
       return (reader.readObjectList<DeliveryCommentOptions>(
         offset,
         DeliveryCommentOptionsSchema.deserialize,
         allOffsets,
         DeliveryCommentOptions(),
       )) as P;
-    case 4:
+    case 7:
       return (reader.readObjectList<GenderOptions>(
         offset,
         GenderOptionsSchema.deserialize,
         allOffsets,
         GenderOptions(),
       )) as P;
-    case 5:
+    case 8:
       return (reader.readObjectList<IdTypeOptions>(
         offset,
         IdTypeOptionsSchema.deserialize,
         allOffsets,
         IdTypeOptions(),
       )) as P;
-    case 6:
+    case 9:
       return (reader.readObjectList<Languages>(
         offset,
         LanguagesSchema.deserialize,
         allOffsets,
         Languages(),
       )) as P;
-    case 7:
-      return (reader.readStringOrNull(offset)) as P;
-    case 8:
-      return (reader.readStringOrNull(offset)) as P;
-    case 9:
-      return (reader.readStringOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
+      return (reader.readStringOrNull(offset)) as P;
+    case 13:
+      return (reader.readStringOrNull(offset)) as P;
+    case 14:
+      return (reader.readStringOrNull(offset)) as P;
+    case 15:
       return (reader.readObjectList<TransportTypes>(
         offset,
         TransportTypesSchema.deserialize,
@@ -571,6 +684,238 @@ extension AppConfigurationQueryFilter
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'BACKEND_INTERFACE',
       ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      backgroundServiceConfigIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'BACKGROUND_SERVICE_CONFIG',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      backgroundServiceConfigIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'BACKGROUND_SERVICE_CONFIG',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'BANDWIDTH_BATCH_SIZE',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'BANDWIDTH_BATCH_SIZE',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'BANDWIDTH_BATCH_SIZE',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'BANDWIDTH_BATCH_SIZE',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'BANDWIDTH_BATCH_SIZE',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'BANDWIDTH_BATCH_SIZE',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'BANDWIDTH_BATCH_SIZE',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'BANDWIDTH_BATCH_SIZE',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'CALL_SUPPORT',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'CALL_SUPPORT',
+      ));
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'CALL_SUPPORT',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'CALL_SUPPORT',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'CALL_SUPPORT',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'CALL_SUPPORT',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'CALL_SUPPORT',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'CALL_SUPPORT',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -2160,6 +2505,27 @@ extension AppConfigurationQueryObject
   }
 
   QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      backgroundServiceConfig(FilterQuery<BackgroundServiceConfig> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'BACKGROUND_SERVICE_CONFIG');
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      bandwidthBatchSizeElement(FilterQuery<BandwidthBatchSize> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'BANDWIDTH_BATCH_SIZE');
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
+      callSupportOptionsElement(FilterQuery<CallSupportList> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'CALL_SUPPORT');
+    });
+  }
+
+  QueryBuilder<AppConfiguration, AppConfiguration, QAfterFilterCondition>
       checklistTypesElement(FilterQuery<ChecklistTypes> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'CHECKLIST_TYPES');
@@ -2423,6 +2789,27 @@ extension AppConfigurationQueryProperty
       backendInterfaceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'BACKEND_INTERFACE');
+    });
+  }
+
+  QueryBuilder<AppConfiguration, BackgroundServiceConfig?, QQueryOperations>
+      backgroundServiceConfigProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'BACKGROUND_SERVICE_CONFIG');
+    });
+  }
+
+  QueryBuilder<AppConfiguration, List<BandwidthBatchSize>?, QQueryOperations>
+      bandwidthBatchSizeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'BANDWIDTH_BATCH_SIZE');
+    });
+  }
+
+  QueryBuilder<AppConfiguration, List<CallSupportList>?, QQueryOperations>
+      callSupportOptionsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'CALL_SUPPORT');
     });
   }
 
@@ -4099,6 +4486,280 @@ extension DeliveryCommentOptionsQueryObject on QueryBuilder<
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
 
+const BandwidthBatchSizeSchema = Schema(
+  name: r'BandwidthBatchSize',
+  id: 2371716893182025373,
+  properties: {
+    r'BATCH_SIZE': PropertySchema(
+      id: 0,
+      name: r'BATCH_SIZE',
+      type: IsarType.long,
+    ),
+    r'MAX_RANGE': PropertySchema(
+      id: 1,
+      name: r'MAX_RANGE',
+      type: IsarType.double,
+    ),
+    r'MIN_RANGE': PropertySchema(
+      id: 2,
+      name: r'MIN_RANGE',
+      type: IsarType.double,
+    )
+  },
+  estimateSize: _bandwidthBatchSizeEstimateSize,
+  serialize: _bandwidthBatchSizeSerialize,
+  deserialize: _bandwidthBatchSizeDeserialize,
+  deserializeProp: _bandwidthBatchSizeDeserializeProp,
+);
+
+int _bandwidthBatchSizeEstimateSize(
+  BandwidthBatchSize object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  return bytesCount;
+}
+
+void _bandwidthBatchSizeSerialize(
+  BandwidthBatchSize object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.batchSize);
+  writer.writeDouble(offsets[1], object.maxRange);
+  writer.writeDouble(offsets[2], object.minRange);
+}
+
+BandwidthBatchSize _bandwidthBatchSizeDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = BandwidthBatchSize();
+  object.batchSize = reader.readLong(offsets[0]);
+  object.maxRange = reader.readDouble(offsets[1]);
+  object.minRange = reader.readDouble(offsets[2]);
+  return object;
+}
+
+P _bandwidthBatchSizeDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readDouble(offset)) as P;
+    case 2:
+      return (reader.readDouble(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension BandwidthBatchSizeQueryFilter
+    on QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QFilterCondition> {
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      batchSizeEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'BATCH_SIZE',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      batchSizeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'BATCH_SIZE',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      batchSizeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'BATCH_SIZE',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      batchSizeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'BATCH_SIZE',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      maxRangeEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'MAX_RANGE',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      maxRangeGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'MAX_RANGE',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      maxRangeLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'MAX_RANGE',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      maxRangeBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'MAX_RANGE',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      minRangeEqualTo(
+    double value, {
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'MIN_RANGE',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      minRangeGreaterThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'MIN_RANGE',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      minRangeLessThan(
+    double value, {
+    bool include = false,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'MIN_RANGE',
+        value: value,
+        epsilon: epsilon,
+      ));
+    });
+  }
+
+  QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QAfterFilterCondition>
+      minRangeBetween(
+    double lower,
+    double upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    double epsilon = Query.epsilon,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'MIN_RANGE',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        epsilon: epsilon,
+      ));
+    });
+  }
+}
+
+extension BandwidthBatchSizeQueryObject
+    on QueryBuilder<BandwidthBatchSize, BandwidthBatchSize, QFilterCondition> {}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
 const InterfacesSchema = Schema(
   name: r'Interfaces',
   id: -2649961598896689542,
@@ -5640,3 +6301,662 @@ extension ComplaintTypesQueryFilter
 
 extension ComplaintTypesQueryObject
     on QueryBuilder<ComplaintTypes, ComplaintTypes, QFilterCondition> {}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
+const BackgroundServiceConfigSchema = Schema(
+  name: r'BackgroundServiceConfig',
+  id: -4588382602375483726,
+  properties: {
+    r'API_CONCURRENCY': PropertySchema(
+      id: 0,
+      name: r'API_CONCURRENCY',
+      type: IsarType.long,
+    ),
+    r'BATTERY_PERCENT_CUT_OFF': PropertySchema(
+      id: 1,
+      name: r'BATTERY_PERCENT_CUT_OFF',
+      type: IsarType.long,
+    ),
+    r'SERVICE_INTERVAL': PropertySchema(
+      id: 2,
+      name: r'SERVICE_INTERVAL',
+      type: IsarType.long,
+    )
+  },
+  estimateSize: _backgroundServiceConfigEstimateSize,
+  serialize: _backgroundServiceConfigSerialize,
+  deserialize: _backgroundServiceConfigDeserialize,
+  deserializeProp: _backgroundServiceConfigDeserializeProp,
+);
+
+int _backgroundServiceConfigEstimateSize(
+  BackgroundServiceConfig object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  return bytesCount;
+}
+
+void _backgroundServiceConfigSerialize(
+  BackgroundServiceConfig object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.apiConcurrency);
+  writer.writeLong(offsets[1], object.batteryPercentCutOff);
+  writer.writeLong(offsets[2], object.serviceInterval);
+}
+
+BackgroundServiceConfig _backgroundServiceConfigDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = BackgroundServiceConfig();
+  object.apiConcurrency = reader.readLongOrNull(offsets[0]);
+  object.batteryPercentCutOff = reader.readLongOrNull(offsets[1]);
+  object.serviceInterval = reader.readLongOrNull(offsets[2]);
+  return object;
+}
+
+P _backgroundServiceConfigDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLongOrNull(offset)) as P;
+    case 1:
+      return (reader.readLongOrNull(offset)) as P;
+    case 2:
+      return (reader.readLongOrNull(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension BackgroundServiceConfigQueryFilter on QueryBuilder<
+    BackgroundServiceConfig, BackgroundServiceConfig, QFilterCondition> {
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> apiConcurrencyIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'API_CONCURRENCY',
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> apiConcurrencyIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'API_CONCURRENCY',
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> apiConcurrencyEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'API_CONCURRENCY',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> apiConcurrencyGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'API_CONCURRENCY',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> apiConcurrencyLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'API_CONCURRENCY',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> apiConcurrencyBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'API_CONCURRENCY',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> batteryPercentCutOffIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'BATTERY_PERCENT_CUT_OFF',
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> batteryPercentCutOffIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'BATTERY_PERCENT_CUT_OFF',
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> batteryPercentCutOffEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'BATTERY_PERCENT_CUT_OFF',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> batteryPercentCutOffGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'BATTERY_PERCENT_CUT_OFF',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> batteryPercentCutOffLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'BATTERY_PERCENT_CUT_OFF',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> batteryPercentCutOffBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'BATTERY_PERCENT_CUT_OFF',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> serviceIntervalIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'SERVICE_INTERVAL',
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> serviceIntervalIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'SERVICE_INTERVAL',
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> serviceIntervalEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'SERVICE_INTERVAL',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> serviceIntervalGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'SERVICE_INTERVAL',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> serviceIntervalLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'SERVICE_INTERVAL',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<BackgroundServiceConfig, BackgroundServiceConfig,
+      QAfterFilterCondition> serviceIntervalBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'SERVICE_INTERVAL',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension BackgroundServiceConfigQueryObject on QueryBuilder<
+    BackgroundServiceConfig, BackgroundServiceConfig, QFilterCondition> {}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters
+
+const CallSupportListSchema = Schema(
+  name: r'CallSupportList',
+  id: 5777143171447971980,
+  properties: {
+    r'code': PropertySchema(
+      id: 0,
+      name: r'code',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 1,
+      name: r'name',
+      type: IsarType.string,
+    )
+  },
+  estimateSize: _callSupportListEstimateSize,
+  serialize: _callSupportListSerialize,
+  deserialize: _callSupportListDeserialize,
+  deserializeProp: _callSupportListDeserializeProp,
+);
+
+int _callSupportListEstimateSize(
+  CallSupportList object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.code.length * 3;
+  bytesCount += 3 + object.name.length * 3;
+  return bytesCount;
+}
+
+void _callSupportListSerialize(
+  CallSupportList object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeString(offsets[0], object.code);
+  writer.writeString(offsets[1], object.name);
+}
+
+CallSupportList _callSupportListDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = CallSupportList();
+  object.code = reader.readString(offsets[0]);
+  object.name = reader.readString(offsets[1]);
+  return object;
+}
+
+P _callSupportListDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readString(offset)) as P;
+    case 1:
+      return (reader.readString(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension CallSupportListQueryFilter
+    on QueryBuilder<CallSupportList, CallSupportList, QFilterCondition> {
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'code',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'code',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'code',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'code',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'code',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'code',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'code',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'code',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'code',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      codeIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'code',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<CallSupportList, CallSupportList, QAfterFilterCondition>
+      nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+}
+
+extension CallSupportListQueryObject
+    on QueryBuilder<CallSupportList, CallSupportList, QFilterCondition> {}

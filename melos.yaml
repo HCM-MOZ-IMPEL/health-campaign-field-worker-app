@@ -28,7 +28,6 @@ scripts:
       concurrency: 1
     packageFilters:
       dart: true
-      flutter: false
       dependsOn:
         - build_runner
 
@@ -77,7 +76,7 @@ scripts:
 
   upgrade-dependencies:
     description: Upgrade all dependencies to their latest major versions.
-    run: flutter pub upgrade --major-versions
+    run: flutter pub upgrade
     exec:
       concurrency: 1
     packageFilters:

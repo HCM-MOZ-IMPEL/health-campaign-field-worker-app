@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:digit_components/digit_components.dart';
@@ -391,8 +392,13 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                         tenantId: attribute[i].tenantId,
                                         additionalDetails:
                                             additionalController[i]
-                                                .text
-                                                .toString(),
+                                                    .text
+                                                    .toString()
+                                                    .isEmpty
+                                                ? null
+                                                : additionalController[i]
+                                                    .text
+                                                    .toString(),
                                       ));
                                     }
 
@@ -411,13 +417,15 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                                   ?.id,
                                               attributes: attributes,
                                               rowVersion: 1,
-                                              accountId: IdGen.i.identifier,
+                                              accountId: context.projectId,
                                               auditDetails: AuditDetails(
                                                 createdBy:
                                                     context.loggedInUserUuid,
                                                 createdTime: DateTime.now()
                                                     .millisecondsSinceEpoch,
                                               ),
+                                              additionalDetails:
+                                                  context.boundary.code,
                                             ),
                                           ),
                                         );

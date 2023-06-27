@@ -1,7 +1,7 @@
 home="$PWD"
 
 dart pub global activate mason_cli
-dart pub global activate melos 2.9.0
+dart pub global activate melos
 
 melos run  hooks:build-runner
 

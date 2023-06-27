@@ -130,7 +130,13 @@ class _HouseholdOverviewPageState
                                       i18.householdLocation
                                           .administrationAreaFormLabel,
                                     ),
-                                    value: 'Solimbo',
+                                    value: state
+                                            .householdMemberWrapper
+                                            .household
+                                            .address
+                                            ?.locality
+                                            ?.name ??
+                                        "",
                                   ),
                                 ),
                                 householdOverviewShowcaseData.memberCount
@@ -186,7 +192,8 @@ class _HouseholdOverviewPageState
                                               ),
                                               children: [
                                                 IndividualDetailsRoute(
-                                                  isHeadOfHousehold: false,
+                                                  isHeadOfHousehold:
+                                                      true, //since we have only household head in impel
                                                 ),
                                               ],
                                             ),

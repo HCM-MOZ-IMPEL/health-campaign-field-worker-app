@@ -247,7 +247,7 @@ class _IndividualDetailsPageState
                         ),
                         Column(
                           children: [
-                            individualDetailsShowcaseData.nameOfIndividual
+                            individualDetailsShowcaseData.firstNameOfIndividual
                                 .buildWith(
                               child: DigitTextFormField(
                                 formControlName: _individualNameKey,
@@ -265,19 +265,23 @@ class _IndividualDetailsPageState
                                 },
                               ),
                             ),
-                            DigitTextFormField(
-                              formControlName: _individualLastNameKey,
-                              label: localizations.translate(
-                                i18.individualDetails.lastNameLabelText,
+                            individualDetailsShowcaseData.lastNameOfIndividual
+                                .buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _individualLastNameKey,
+                                label: localizations.translate(
+                                  i18.individualDetails.lastNameLabelText,
+                                ),
+                                maxLength: 200,
+                                isRequired: true,
+                                validationMessages: {
+                                  'required': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .lastNameIsRequiredError,
+                                      ),
+                                },
                               ),
-                              maxLength: 200,
-                              isRequired: true,
-                              validationMessages: {
-                                'required': (object) => localizations.translate(
-                                      i18.individualDetails
-                                          .lastNameIsRequiredError,
-                                    ),
-                              },
                             ),
                             Offstage(
                               offstage: !widget.isHeadOfHousehold,

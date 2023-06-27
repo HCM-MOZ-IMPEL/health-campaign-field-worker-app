@@ -128,7 +128,7 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                           [
                             e.name?.givenName,
                             e.name?.familyName,
-                          ].whereNotNull().join('-'),
+                          ].whereNotNull().join(' '),
                           cellKey: 'beneficiary',
                         ),
                         // TableData(

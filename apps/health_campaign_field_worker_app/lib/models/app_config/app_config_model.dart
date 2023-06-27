@@ -1,5 +1,3 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_config_model.freezed.dart';
@@ -73,12 +71,27 @@ class AppConfigSecondaryWrapperModel with _$AppConfigSecondaryWrapperModel {
 @freezed
 class AppConfig with _$AppConfig {
   factory AppConfig({
-    @JsonKey(name: 'NETWORK_DETECTION') required String networkDetection,
-    @JsonKey(name: 'PERSISTENCE_MODE') required String persistenceMode,
-    @JsonKey(name: 'SYNC_METHOD') required String syncMethod,
-    @JsonKey(name: 'SYNC_TRIGGER') required String syncTrigger,
-    @JsonKey(name: 'LANGUAGES') required List<Languages> languages,
-    @JsonKey(name: 'TENANT_ID') final String? tenantId,
+    @JsonKey(name: 'NETWORK_DETECTION')
+        required String networkDetection,
+    @JsonKey(name: 'PERSISTENCE_MODE')
+        required String persistenceMode,
+    @JsonKey(name: 'SYNC_METHOD')
+        required String syncMethod,
+    @JsonKey(name: 'SYNC_TRIGGER')
+        required String syncTrigger,
+    @JsonKey(name: 'LANGUAGES')
+        required List<Languages> languages,
+    @JsonKey(name: 'TENANT_ID')
+        final String? tenantId,
+    @JsonKey(name: 'HOUSEHOLD_DELETION_REASON_OPTIONS')
+        required List<DeletionReasonOptions> householdDeletionReasonOptions,
+    @JsonKey(name: 'BANDWIDTH_BATCH_SIZE')
+        required List<BandWidthBatchSize> bandWidthBatchSize,
+    @JsonKey(name: 'BACKGROUND_SERVICE_CONFIG')
+        BackgroundServiceConfig? backgroundServiceConfig,
+    @JsonKey(name: 'HOUSEHOLD_MEMBER_DELETION_REASON_OPTIONS')
+        required List<DeletionReasonOptions>
+            householdMemberDeletionReasonOptions,
     @JsonKey(name: 'GENDER_OPTIONS_POPULATOR')
         required List<GenderOptions> genderOptions,
     @JsonKey(name: 'CHECKLIST_TYPES')
@@ -89,6 +102,8 @@ class AppConfig with _$AppConfig {
         required List<DeliveryCommentOptions> deliveryCommentOptions,
     @JsonKey(name: 'BACKEND_INTERFACE')
         required BackendInterface backendInterface,
+    @JsonKey(name: 'CALL_SUPPORT')
+        required List<CallSupportList>? callSupportOptions,
     @JsonKey(name: 'TRANSPORT_TYPES')
         required List<TransportTypes> transportTypes,
   }) = _AppConfig;
@@ -109,6 +124,17 @@ class IdTypeOptions with _$IdTypeOptions {
 }
 
 @freezed
+class BandWidthBatchSize with _$BandWidthBatchSize {
+  factory BandWidthBatchSize({
+    @JsonKey(name: 'MIN_RANGE') required double minRange,
+    @JsonKey(name: 'MAX_RANGE') required double maxRange,
+    @JsonKey(name: 'BATCH_SIZE') required int batchSize,
+  }) = _BandWidthBatchSize;
+  factory BandWidthBatchSize.fromJson(Map<String, dynamic> json) =>
+      _$BandWidthBatchSizeFromJson(json);
+}
+
+@freezed
 class DeliveryCommentOptions with _$DeliveryCommentOptions {
   factory DeliveryCommentOptions({
     required String name,
@@ -120,6 +146,17 @@ class DeliveryCommentOptions with _$DeliveryCommentOptions {
 }
 
 @freezed
+class DeletionReasonOptions with _$DeletionReasonOptions {
+  factory DeletionReasonOptions({
+    required String value,
+    required String code,
+  }) = _DeletionReasonOptions;
+
+  factory DeletionReasonOptions.fromJson(Map<String, dynamic> json) =>
+      _$DeletionReasonOptionsFromJson(json);
+}
+
+@freezed
 class GenderOptions with _$GenderOptions {
   factory GenderOptions({
     required String name,
@@ -128,6 +165,18 @@ class GenderOptions with _$GenderOptions {
 
   factory GenderOptions.fromJson(Map<String, dynamic> json) =>
       _$GenderOptionsFromJson(json);
+}
+
+@freezed
+class BackgroundServiceConfig with _$BackgroundServiceConfig {
+  factory BackgroundServiceConfig({
+    @JsonKey(name: 'BATTERY_PERCENT_CUT_OFF') required int batteryPercentCutOff,
+    @JsonKey(name: 'SERVICE_INTERVAL') required int serviceInterval,
+    @JsonKey(name: 'API_CONCURRENCY') required int apiConcurrency,
+  }) = _BackgroundServiceConfig;
+
+  factory BackgroundServiceConfig.fromJson(Map<String, dynamic> json) =>
+      _$BackgroundServiceConfigFromJson(json);
 }
 
 @freezed
@@ -192,6 +241,17 @@ class CheckListTypes with _$CheckListTypes {
 
   factory CheckListTypes.fromJson(Map<String, dynamic> json) =>
       _$CheckListTypesFromJson(json);
+}
+
+@freezed
+class CallSupportList with _$CallSupportList {
+  factory CallSupportList({
+    required String name,
+    required String code,
+  }) = _CallSupportList;
+
+  factory CallSupportList.fromJson(Map<String, dynamic> json) =>
+      _$CallSupportListFromJson(json);
 }
 
 @freezed
