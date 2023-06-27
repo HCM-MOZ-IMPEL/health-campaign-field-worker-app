@@ -27,6 +27,7 @@ import '../widgets/localized.dart';
 import '../widgets/progress_indicator/progress_indicator.dart';
 import '../widgets/showcase/config/showcase_constants.dart';
 import '../widgets/showcase/showcase_button.dart';
+import '../widgets/progress_bar/beneficiary_progress.dart';
 
 class HomePage extends LocalizedStatefulWidget {
   const HomePage({
@@ -124,15 +125,13 @@ class _HomePageState extends LocalizedState<HomePage> {
               skipProgressBar
                   ? const SizedBox.shrink()
                   : homeShowcaseData.distributorProgressBar.buildWith(
-                      child: ProgressIndicatorContainer(
+                      child: BeneficiaryProgressBar(
                         label: localizations.translate(
                           i18.home.progressIndicatorTitle,
                         ),
                         prefixLabel: localizations.translate(
                           i18.home.progressIndicatorPrefixLabel,
                         ),
-                        suffixLabel: '200',
-                        value: .08,
                       ),
                     ),
             ],
