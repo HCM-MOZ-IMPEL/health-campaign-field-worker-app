@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/digit_sync_dialog.dart';
 import 'package:drift/drift.dart' hide Column;
@@ -15,6 +18,7 @@ import '../data/local_store/sql_store/sql_store.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
+import '../utils/debound.dart';
 import '../utils/i18_key_constants.dart' as i18;
 import '../utils/utils.dart';
 import '../widgets/header/back_navigation_help_header.dart';
@@ -36,6 +40,32 @@ class HomePage extends LocalizedStatefulWidget {
 
 class _HomePageState extends LocalizedState<HomePage> {
   bool skipProgressBar = false;
+  late StreamSubscription<ConnectivityResult> subscription;
+
+  @override
+  initState() {
+    super.initState();
+
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      performBackgroundService(
+        isBackground: false,
+        stopService: false,
+        context: null,
+      );
+      print("----Results----");
+
+      // Got a new connectivity status!
+    });
+  }
+
+  //  Be sure to cancel subscription after you are done
+  @override
+  dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +89,10 @@ class _HomePageState extends LocalizedState<HomePage> {
     }
 
     final mappedItems = _getItems(context);
-    final homeItems = mappedItems?.$1 ?? [];
+    final homeItems = mappedItems?.homeItems ?? [];
     final showcaseKeys = <GlobalKey>[
       if (!skipProgressBar) homeShowcaseData.distributorProgressBar.showcaseKey,
-      ...(mappedItems?.$2 ?? []),
+      ...(mappedItems?.showcaseKeys ?? []),
     ];
 
     return Scaffold(
@@ -117,8 +147,9 @@ class _HomePageState extends LocalizedState<HomePage> {
                   syncInProgress: () => DigitSyncDialog.show(
                     context,
                     type: DigitSyncDialogType.inProgress,
-                    // TODO: Localization pending
-                    label: 'Sincronização em curso',
+                    label: localizations.translate(
+                      i18.syncDialog.syncInProgressTitle,
+                    ),
                     barrierDismissible: false,
                   ),
                   completedSync: () {
@@ -127,11 +158,13 @@ class _HomePageState extends LocalizedState<HomePage> {
                     DigitSyncDialog.show(
                       context,
                       type: DigitSyncDialogType.complete,
-                      // TODO: Localization Pending
-                      label: 'Sincronização de dados',
+                      label: localizations.translate(
+                        i18.syncDialog.dataSyncedTitle,
+                      ),
                       primaryAction: DigitDialogActions(
-                        // TODO: Localization Pending
-                        label: 'Fechar',
+                        label: localizations.translate(
+                          i18.syncDialog.closeButtonLabel,
+                        ),
                         action: (ctx) {
                           Navigator.pop(ctx);
                         },
@@ -139,25 +172,26 @@ class _HomePageState extends LocalizedState<HomePage> {
                     );
                   },
                   failedSync: () {
-                    Navigator.of(context, rootNavigator: true).pop();
-
-                    DigitSyncDialog.show(
+                    _showSyncFailedDialog(
                       context,
-                      type: DigitSyncDialogType.failed,
-                      // TODO: Localization Pending
-                      label: 'Sincronização falhada!',
-                      primaryAction: DigitDialogActions(
-                        // TODO: Localization Pending
-                        label: 'Tentativa',
-                        action: (ctx) {
-                          Navigator.pop(ctx);
-                          _attemptSyncUp(context);
-                        },
+                      message: localizations.translate(
+                        i18.syncDialog.syncFailedTitle,
                       ),
-                      secondaryAction: DigitDialogActions(
-                        // TODO: Localization Pending
-                        label: 'Fechar',
-                        action: (ctx) => Navigator.pop(ctx),
+                    );
+                  },
+                  failedDownSync: () {
+                    _showSyncFailedDialog(
+                      context,
+                      message: localizations.translate(
+                        i18.syncDialog.downSyncFailedTitle,
+                      ),
+                    );
+                  },
+                  failedUpSync: () {
+                    _showSyncFailedDialog(
+                      context,
+                      message: localizations.translate(
+                        i18.syncDialog.upSyncFailedTitle,
                       ),
                     );
                   },
@@ -166,19 +200,39 @@ class _HomePageState extends LocalizedState<HomePage> {
               builder: (context, state) {
                 return state.maybeWhen(
                   orElse: () => const Offstage(),
-                  pendingSync: (count) => count == 0
-                      ? const Offstage()
-                      : DigitInfoCard(
-                          icon: Icons.info,
-                          backgroundColor: theme.colorScheme.tertiaryContainer,
-                          iconColor: theme.colorScheme.surfaceTint,
-                          description: localizations
-                              .translate(i18.home.dataSyncInfoContent)
-                              .replaceAll('{}', count.toString()),
-                          title: localizations.translate(
-                            i18.home.dataSyncInfoLabel,
-                          ),
-                        ),
+                  pendingSync: (count) {
+                    final debouncer = Debouncer(seconds: 5);
+
+                    debouncer.run(() async {
+                      if (count == 0) {
+                        performBackgroundService(
+                          isBackground: false,
+                          stopService: true,
+                          context: context,
+                        );
+                      } else {
+                        performBackgroundService(
+                          isBackground: false,
+                          stopService: false,
+                          context: context,
+                        );
+                      }
+                    });
+
+                    return count == 0
+                        ? const Offstage()
+                        : DigitInfoCard(
+                            icon: Icons.info,
+                            backgroundColor:
+                                theme.colorScheme.tertiaryContainer,
+                            iconColor: theme.colorScheme.surfaceTint,
+                            description: localizations
+                                .translate(i18.home.dataSyncInfoContent)
+                                .replaceAll('{}', count.toString()),
+                            title: localizations
+                                .translate(i18.home.dataSyncInfoLabel),
+                          );
+                  },
                 );
               },
             ),
@@ -188,7 +242,35 @@ class _HomePageState extends LocalizedState<HomePage> {
     );
   }
 
-  (List<Widget>, List<GlobalKey>)? _getItems(BuildContext context) {
+  void _showSyncFailedDialog(
+    BuildContext context, {
+    required String message,
+  }) {
+    Navigator.of(context, rootNavigator: true).pop();
+
+    DigitSyncDialog.show(
+      context,
+      type: DigitSyncDialogType.failed,
+      label: message,
+      primaryAction: DigitDialogActions(
+        label: localizations.translate(
+          i18.syncDialog.retryButtonLabel,
+        ),
+        action: (ctx) {
+          Navigator.pop(ctx);
+          _attemptSyncUp(context);
+        },
+      ),
+      secondaryAction: DigitDialogActions(
+        label: localizations.translate(
+          i18.syncDialog.closeButtonLabel,
+        ),
+        action: (ctx) => Navigator.pop(ctx),
+      ),
+    );
+  }
+
+  _HomeItemDataModel? _getItems(BuildContext context) {
     final state = context.read<AuthBloc>().state;
     if (state is! AuthAuthenticatedState) {
       return null;
@@ -342,46 +424,46 @@ class _HomePageState extends LocalizedState<HomePage> {
       ]);
     }
 
-    homeItems.addAll(
-      [
-        HomeItemCard(
-          icon: Icons.call,
-          label: i18.home.callbackLabel,
-        ),
-        HomeItemCard(
-          icon: Icons.table_chart,
-          label: 'DB',
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DriftDbViewer(
-                  context.read<LocalSqlDataStore>(),
-                ),
-              ),
-            );
-          },
-        ),
-        HomeItemCard(
-          icon: Icons.delete_forever,
-          label: 'Delete all',
-          onPressed: () async {
-            final sql = context.read<LocalSqlDataStore>();
-            final isar = context.read<Isar>();
-            int count = 0;
-            for (var element in sql.allTables) {
-              final selector = sql.delete(element)
-                ..where((_) => const Constant(true));
-              count += await selector.go();
-            }
-            debugPrint('deleted: $count');
+    // homeItems.addAll(
+    //   [
+    //     HomeItemCard(
+    //       icon: Icons.call,
+    //       label: i18.home.callbackLabel,
+    //     ),
+    //     HomeItemCard(
+    //       icon: Icons.table_chart,
+    //       label: 'DB',
+    //       onPressed: () {
+    //         Navigator.of(context).push(
+    //           MaterialPageRoute(
+    //             builder: (context) => DriftDbViewer(
+    //               context.read<LocalSqlDataStore>(),
+    //             ),
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //     HomeItemCard(
+    //       icon: Icons.delete_forever,
+    //       label: 'Delete all',
+    //       onPressed: () async {
+    //         final sql = context.read<LocalSqlDataStore>();
+    //         final isar = context.read<Isar>();
+    //         int count = 0;
+    //         for (var element in sql.allTables) {
+    //           final selector = sql.delete(element)
+    //             ..where((_) => const Constant(true));
+    //           count += await selector.go();
+    //         }
+    //         debugPrint('deleted: $count');
 
-            await isar.writeTxn(() async => await isar.opLogs.clear());
-          },
-        ),
-      ],
-    );
+    //         await isar.writeTxn(() async => await isar.opLogs.clear());
+    //       },
+    //     ),
+    //   ],
+    // );
 
-    return (homeItems, showcaseKeys);
+    return _HomeItemDataModel(homeItems, showcaseKeys);
   }
 
   void _attemptSyncUp(BuildContext context) {
@@ -432,4 +514,11 @@ class _HomePageState extends LocalizedState<HomePage> {
           ),
         );
   }
+}
+
+class _HomeItemDataModel {
+  final List<Widget> homeItems;
+  final List<GlobalKey> showcaseKeys;
+
+  const _HomeItemDataModel(this.homeItems, this.showcaseKeys);
 }

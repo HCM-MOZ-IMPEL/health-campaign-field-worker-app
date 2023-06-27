@@ -35,6 +35,7 @@ const stockReconciliationShowcase = StockReconciliationShowcase();
 const selectChecklistShowcase = SelectChecklistShowcase();
 const checklistDataShowcase = ChecklistDataShowcase();
 const checklistListShowcase = ChecklistListShowcase();
+const syncDialog = SyncDialog();
 
 class Common {
   const Common();
@@ -834,8 +835,12 @@ class HouseholdDetailsShowcase {
 class IndividualDetailsShowcase {
   const IndividualDetailsShowcase();
 
-  String get nameOfIndividual {
-    return 'INDIVIDUAL_DETAILS_SHOWCASE_NAME_OF_INDIVIDUAL';
+  String get firstNameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_FIRST_NAME_OF_INDIVIDUAL';
+  }
+
+  String get lastNameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_LAST_NAME_OF_INDIVIDUAL';
   }
 
   String get headOfHousehold {
@@ -1109,4 +1114,22 @@ class ChecklistListShowcase {
   String get open {
     return 'CHECKLIST_LIST_SHOWCASE_OPEN';
   }
+}
+
+class SyncDialog {
+  const SyncDialog();
+
+  String get syncFailedTitle => 'SYNC_DIALOG_SYNC_FAILED_TITLE';
+
+  String get downSyncFailedTitle => 'SYNC_DIALOG_DOWN_SYNC_FAILED_TITLE';
+
+  String get upSyncFailedTitle => 'SYNC_DIALOG_UP_SYNC_FAILED_TITLE';
+
+  String get syncInProgressTitle => 'SYNC_DIALOG_SYNC_IN_PROGRESS_TITLE';
+
+  String get dataSyncedTitle => 'SYNC_DIALOG_DATA_SYNCED_TITLE';
+
+  String get closeButtonLabel => 'SYNC_DIALOG_CLOSE_BUTTON_LABEL';
+
+  String get retryButtonLabel => 'SYNC_DIALOG_RETRY_BUTTON_LABEL';
 }

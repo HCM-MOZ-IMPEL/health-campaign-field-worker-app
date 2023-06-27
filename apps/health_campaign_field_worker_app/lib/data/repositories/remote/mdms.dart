@@ -114,12 +114,19 @@ class MdmsRepository {
   ) async {
     final appConfiguration = AppConfiguration();
     result.appConfig?.appConfiglist?.forEach((element) {
+      final backgroundServiceConfig = BackgroundServiceConfig()
+        ..apiConcurrency = element.backgroundServiceConfig?.apiConcurrency
+        ..batteryPercentCutOff =
+            element.backgroundServiceConfig?.batteryPercentCutOff
+        ..serviceInterval = element.backgroundServiceConfig?.serviceInterval;
+
       appConfiguration
         ..networkDetection = element.networkDetection
         ..persistenceMode = element.persistenceMode
         ..syncMethod = element.syncMethod
         ..syncTrigger = element.syncTrigger
-        ..tenantId = element.tenantId;
+        ..tenantId = element.tenantId
+        ..backgroundServiceConfig = backgroundServiceConfig;
 
       final List<Languages> languageList = element.languages.map((element) {
         final languages = Languages()
@@ -127,6 +134,24 @@ class MdmsRepository {
           ..value = element.value;
 
         return languages;
+      }).toList();
+
+      final List<BandwidthBatchSize> bandwidthBatchSize =
+          element.bandWidthBatchSize.map((e) {
+        final bandwithBatchSizeElement = BandwidthBatchSize()
+          ..batchSize = e.batchSize
+          ..maxRange = e.maxRange
+          ..minRange = e.minRange;
+
+        return bandwithBatchSizeElement;
+      }).toList();
+      final List<CallSupportList> callSupportList =
+          element.callSupportOptions!.map((element) {
+        final callNumber = CallSupportList()
+          ..name = element.name
+          ..code = element.code;
+
+        return callNumber;
       }).toList();
 
       final List<GenderOptions> genderOptions =
@@ -202,9 +227,10 @@ class MdmsRepository {
       appConfiguration.checklistTypes = checklistTypes;
       appConfiguration.transportTypes = transportTypes;
       appConfiguration.backendInterface = backendInterface;
-
+      appConfiguration.callSupportOptions = callSupportList;
       appConfiguration.languages = languageList;
       appConfiguration.complaintTypes = complaintTypesList;
+      appConfiguration.bandwidthBatchSize = bandwidthBatchSize;
     });
 
     await isar.writeTxn(() async {

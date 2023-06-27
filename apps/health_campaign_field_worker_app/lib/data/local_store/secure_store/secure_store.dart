@@ -1,15 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:isar/isar.dart';
 
 import '../../../models/auth/auth_model.dart';
 import '../../../models/data_model.dart';
+import '../no_sql/schema/app_configuration.dart';
+import '../no_sql/schema/localization.dart';
+import '../no_sql/schema/service_registry.dart';
 
 class LocalSecureStore {
   static const accessTokenKey = 'accessTokenKey';
   static const refreshTokenKey = 'refreshTokenKey';
   static const userObjectKey = 'userObject';
   static const selectedProjectKey = 'selectedProject';
+  static const hasAppRunBeforeKey = 'hasAppRunBefore';
+  static const backgroundServiceKey = 'backgroundServiceKey';
 
   final storage = const FlutterSecureStorage();
 
@@ -24,6 +30,17 @@ class LocalSecureStore {
 
   Future<String?> get refreshToken {
     return storage.read(key: refreshTokenKey);
+  }
+
+  Future<bool> get isBackgroundSerivceRunning async {
+    final hasRun = await storage.read(key: backgroundServiceKey);
+
+    switch (hasRun) {
+      case 'true':
+        return true;
+      default:
+        return false;
+    }
   }
 
   Future<UserRequestModel?> get userRequestModel async {
@@ -66,6 +83,25 @@ class LocalSecureStore {
       key: userObjectKey,
       value: json.encode(model.userRequestModel),
     );
+  }
+
+  Future<void> setBackgroundService(bool isRunning) async {
+    await storage.write(key: backgroundServiceKey, value: isRunning.toString());
+  }
+
+  Future<void> setHasAppRunBefore(bool hasRunBefore) async {
+    await storage.write(key: hasAppRunBeforeKey, value: '$hasRunBefore');
+  }
+
+  Future<bool> get hasAppRunBefore async {
+    final hasRun = await storage.read(key: hasAppRunBeforeKey);
+
+    switch (hasRun) {
+      case 'true':
+        return true;
+      default:
+        return false;
+    }
   }
 
   Future<void> deleteAll() async {

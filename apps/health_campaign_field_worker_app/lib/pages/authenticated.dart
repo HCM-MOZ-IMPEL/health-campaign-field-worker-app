@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:digit_showcase/showcase_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,12 +114,42 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                                   switch (element.entityType) {
                                     case DataModelType.household:
                                     case DataModelType.individual:
-                                    case DataModelType.task:
                                     case DataModelType.householdMember:
                                     case DataModelType.projectBeneficiary:
+                                    case DataModelType.task:
                                     case DataModelType.stock:
                                     case DataModelType.stockReconciliation:
                                     case DataModelType.service:
+                                    case DataModelType.complaints:
+                                      return true;
+                                    default:
+                                      return false;
+                                  }
+                                }).length,
+                              ),
+                            );
+                          },
+                        );
+
+                        isar.opLogs
+                            .filter()
+                            .createdByEqualTo(userId)
+                            .syncedUpEqualTo(true)
+                            .syncedDownEqualTo(false)
+                            .watch()
+                            .listen(
+                          (event) {
+                            bloc.add(
+                              SyncRefreshEvent(
+                                userId,
+                                event.where((element) {
+                                  switch (element.entityType) {
+                                    case DataModelType.household:
+                                    case DataModelType.individual:
+                                    case DataModelType.projectBeneficiary:
+                                    case DataModelType.task:
+                                    case DataModelType.stock:
+                                    case DataModelType.stockReconciliation:
                                     case DataModelType.complaints:
                                       return true;
                                     default:
