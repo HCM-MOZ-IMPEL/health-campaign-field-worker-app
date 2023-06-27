@@ -14,7 +14,11 @@ dependencies:
   freezed_annotation: ^2.2.0
   google_fonts: ^4.0.4
   horizontal_data_table: ^4.1.3
-  location: ^4.4.0
+  location:
+    git:
+      url: https://github.com/781flyingdutchman/flutterlocation.git
+      ref: V4
+      path: packages/location
   location_platform_interface: ^2.3.0
   json_annotation: ^4.7.0
   logging: ^1.1.0

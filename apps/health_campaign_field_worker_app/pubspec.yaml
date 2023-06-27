@@ -24,7 +24,12 @@ dependencies:
   flutter_bloc: ^8.1.1
   collection: ^1.16.0
   reactive_forms: ^14.1.0
-  location: ^4.4.0
+  # https://github.com/Lyokone/flutterlocation/issues/838#issuecomment-1546739392
+  location:
+    git:
+      url: https://github.com/781flyingdutchman/flutterlocation.git
+      ref: V4
+      path: packages/location
   dart_mappable: ^1.2.0
   dio: ^5.1.2
   flutter_keyboard_visibility: ^5.4.0
