@@ -457,7 +457,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                               MaterialTapTargetSize.shrinkWrap,
                                         ),
                                         onPressed: widget.onSkip,
-                                        child: const Text('Skip'),
+                                        child: const Text('PASSO'),
                                       ),
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
@@ -465,7 +465,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget>
                                               MaterialTapTargetSize.shrinkWrap,
                                         ),
                                         onPressed: widget.onNext,
-                                        child: const Text('Next'),
+                                        child: const Text('PRÓXIMO'),
                                       ),
                                     ],
                                   ),

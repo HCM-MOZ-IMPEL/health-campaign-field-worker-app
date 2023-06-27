@@ -77,7 +77,7 @@ class CustomShowcaseWidget extends StatelessWidget {
                     onPressed: () {
                       ShowcaseWidget.of(context).dismiss();
                     },
-                    child: const Text('Skip'),
+                    child: const Text('PASSO'),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -90,7 +90,7 @@ class CustomShowcaseWidget extends StatelessWidget {
                     onPressed: () {
                       ShowcaseWidget.of(context).next();
                     },
-                    child: const Text('Next'),
+                    child: const Text('PRÓXIMO'),
                   ),
                 ],
               ),
