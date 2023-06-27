@@ -75,7 +75,7 @@ class _BeneficiaryProgressBarState extends State<BeneficiaryProgressBar> {
     final targetModel = selectedProject.targets?.firstWhereOrNull(
         (element) => element.beneficiaryType == BeneficiaryType.household);
 
-    final target = targetModel?.targetNo ?? 0.0;
+    final target = 40;
 
     return ProgressIndicatorContainer(
       label: '${max(target - current, 0).round()} ${widget.label}',
