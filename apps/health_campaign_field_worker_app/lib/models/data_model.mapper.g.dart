@@ -3321,15 +3321,15 @@ class TargetModelMapper extends BaseMapper<TargetModel> {
 
   @override Function get decoder => decode;
   TargetModel decode(dynamic v) => checked(v, (Map<String, dynamic> map) => fromMap(map));
-  TargetModel fromMap(Map<String, dynamic> map) => TargetModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), id: Mapper.i.$get(map, 'id'), beneficiaryType: Mapper.i.$getOpt(map, 'beneficiaryType'), baseline: Mapper.i.$getOpt(map, 'baseline'), target: Mapper.i.$getOpt(map, 'target'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted') ?? false);
+  TargetModel fromMap(Map<String, dynamic> map) => TargetModel(additionalFields: Mapper.i.$getOpt(map, 'additionalFields'), id: Mapper.i.$get(map, 'id'), clientReferenceId: Mapper.i.$getOpt(map, 'clientReferenceId'), totalNo: Mapper.i.$getOpt(map, 'totalNo'), targetNo: Mapper.i.$getOpt(map, 'targetNo'), tenantId: Mapper.i.$getOpt(map, 'tenantId'), rowVersion: Mapper.i.$getOpt(map, 'rowVersion'), beneficiaryType: Mapper.i.$getOpt(map, 'beneficiaryType'), auditDetails: Mapper.i.$getOpt(map, 'auditDetails'), isDeleted: Mapper.i.$getOpt(map, 'isDeleted') ?? false);
 
   @override Function get encoder => (TargetModel v) => encode(v);
   dynamic encode(TargetModel v) => toMap(v);
-  Map<String, dynamic> toMap(TargetModel t) => {if (Mapper.i.$enc(t.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(t.additionalFields, 'additionalFields'), 'id': Mapper.i.$enc(t.id, 'id'), if (Mapper.i.$enc(t.beneficiaryType, 'beneficiaryType') != null) 'beneficiaryType': Mapper.i.$enc(t.beneficiaryType, 'beneficiaryType'), if (Mapper.i.$enc(t.baseline, 'baseline') != null) 'baseline': Mapper.i.$enc(t.baseline, 'baseline'), if (Mapper.i.$enc(t.target, 'target') != null) 'target': Mapper.i.$enc(t.target, 'target'), if (Mapper.i.$enc(t.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(t.tenantId, 'tenantId'), if (Mapper.i.$enc(t.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(t.rowVersion, 'rowVersion'), if (Mapper.i.$enc(t.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(t.auditDetails, 'auditDetails'), if (Mapper.i.$enc(t.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(t.isDeleted, 'isDeleted')};
+  Map<String, dynamic> toMap(TargetModel t) => {if (Mapper.i.$enc(t.additionalFields, 'additionalFields') != null) 'additionalFields': Mapper.i.$enc(t.additionalFields, 'additionalFields'), 'id': Mapper.i.$enc(t.id, 'id'), if (Mapper.i.$enc(t.clientReferenceId, 'clientReferenceId') != null) 'clientReferenceId': Mapper.i.$enc(t.clientReferenceId, 'clientReferenceId'), if (Mapper.i.$enc(t.totalNo, 'totalNo') != null) 'totalNo': Mapper.i.$enc(t.totalNo, 'totalNo'), if (Mapper.i.$enc(t.targetNo, 'targetNo') != null) 'targetNo': Mapper.i.$enc(t.targetNo, 'targetNo'), if (Mapper.i.$enc(t.tenantId, 'tenantId') != null) 'tenantId': Mapper.i.$enc(t.tenantId, 'tenantId'), if (Mapper.i.$enc(t.rowVersion, 'rowVersion') != null) 'rowVersion': Mapper.i.$enc(t.rowVersion, 'rowVersion'), if (Mapper.i.$enc(t.beneficiaryType, 'beneficiaryType') != null) 'beneficiaryType': Mapper.i.$enc(t.beneficiaryType, 'beneficiaryType'), if (Mapper.i.$enc(t.auditDetails, 'auditDetails') != null) 'auditDetails': Mapper.i.$enc(t.auditDetails, 'auditDetails'), if (Mapper.i.$enc(t.isDeleted, 'isDeleted') != null) 'isDeleted': Mapper.i.$enc(t.isDeleted, 'isDeleted')};
 
-  @override String stringify(TargetModel self) => 'TargetModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, isDeleted: ${Mapper.asString(self.isDeleted)}, auditDetails: ${Mapper.asString(self.auditDetails)}, id: ${Mapper.asString(self.id)}, beneficiaryType: ${Mapper.asString(self.beneficiaryType)}, baseline: ${Mapper.asString(self.baseline)}, target: ${Mapper.asString(self.target)}, tenantId: ${Mapper.asString(self.tenantId)}, rowVersion: ${Mapper.asString(self.rowVersion)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
-  @override int hash(TargetModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.id) ^ Mapper.hash(self.beneficiaryType) ^ Mapper.hash(self.baseline) ^ Mapper.hash(self.target) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.additionalFields);
-  @override bool equals(TargetModel self, TargetModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.beneficiaryType, other.beneficiaryType) && Mapper.isEqual(self.baseline, other.baseline) && Mapper.isEqual(self.target, other.target) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.additionalFields, other.additionalFields);
+  @override String stringify(TargetModel self) => 'TargetModel(boundaryCode: ${Mapper.asString(self.boundaryCode)}, isDeleted: ${Mapper.asString(self.isDeleted)}, auditDetails: ${Mapper.asString(self.auditDetails)}, id: ${Mapper.asString(self.id)}, clientReferenceId: ${Mapper.asString(self.clientReferenceId)}, totalNo: ${Mapper.asString(self.totalNo)}, targetNo: ${Mapper.asString(self.targetNo)}, tenantId: ${Mapper.asString(self.tenantId)}, rowVersion: ${Mapper.asString(self.rowVersion)}, beneficiaryType: ${Mapper.asString(self.beneficiaryType)}, additionalFields: ${Mapper.asString(self.additionalFields)})';
+  @override int hash(TargetModel self) => Mapper.hash(self.boundaryCode) ^ Mapper.hash(self.isDeleted) ^ Mapper.hash(self.auditDetails) ^ Mapper.hash(self.id) ^ Mapper.hash(self.clientReferenceId) ^ Mapper.hash(self.totalNo) ^ Mapper.hash(self.targetNo) ^ Mapper.hash(self.tenantId) ^ Mapper.hash(self.rowVersion) ^ Mapper.hash(self.beneficiaryType) ^ Mapper.hash(self.additionalFields);
+  @override bool equals(TargetModel self, TargetModel other) => Mapper.isEqual(self.boundaryCode, other.boundaryCode) && Mapper.isEqual(self.isDeleted, other.isDeleted) && Mapper.isEqual(self.auditDetails, other.auditDetails) && Mapper.isEqual(self.id, other.id) && Mapper.isEqual(self.clientReferenceId, other.clientReferenceId) && Mapper.isEqual(self.totalNo, other.totalNo) && Mapper.isEqual(self.targetNo, other.targetNo) && Mapper.isEqual(self.tenantId, other.tenantId) && Mapper.isEqual(self.rowVersion, other.rowVersion) && Mapper.isEqual(self.beneficiaryType, other.beneficiaryType) && Mapper.isEqual(self.additionalFields, other.additionalFields);
 
   @override Function get typeFactory => (f) => f<TargetModel>();
 }
@@ -3344,7 +3344,7 @@ abstract class TargetModelCopyWith<$R> {
   factory TargetModelCopyWith(TargetModel value, Then<TargetModel, $R> then) = _TargetModelCopyWithImpl<$R>;
   TargetAdditionalFieldsCopyWith<$R>? get additionalFields;
   AuditDetailsCopyWith<$R>? get auditDetails;
-  $R call({TargetAdditionalFields? additionalFields, String? id, String? beneficiaryType, String? baseline, String? target, String? tenantId, int? rowVersion, AuditDetails? auditDetails, bool? isDeleted});
+  $R call({TargetAdditionalFields? additionalFields, String? id, String? clientReferenceId, double? totalNo, double? targetNo, String? tenantId, int? rowVersion, BeneficiaryType? beneficiaryType, AuditDetails? auditDetails, bool? isDeleted});
   $R apply(TargetModel Function(TargetModel) transform);
 }
 
@@ -3353,7 +3353,7 @@ class _TargetModelCopyWithImpl<$R> extends BaseCopyWith<TargetModel, $R> impleme
 
   @override TargetAdditionalFieldsCopyWith<$R>? get additionalFields => $value.additionalFields != null ? TargetAdditionalFieldsCopyWith($value.additionalFields!, (v) => call(additionalFields: v)) : null;
   @override AuditDetailsCopyWith<$R>? get auditDetails => $value.auditDetails != null ? AuditDetailsCopyWith($value.auditDetails!, (v) => call(auditDetails: v)) : null;
-  @override $R call({Object? additionalFields = $none, String? id, Object? beneficiaryType = $none, Object? baseline = $none, Object? target = $none, Object? tenantId = $none, Object? rowVersion = $none, Object? auditDetails = $none, Object? isDeleted = $none}) => $then(TargetModel(additionalFields: or(additionalFields, $value.additionalFields), id: id ?? $value.id, beneficiaryType: or(beneficiaryType, $value.beneficiaryType), baseline: or(baseline, $value.baseline), target: or(target, $value.target), tenantId: or(tenantId, $value.tenantId), rowVersion: or(rowVersion, $value.rowVersion), auditDetails: or(auditDetails, $value.auditDetails), isDeleted: or(isDeleted, $value.isDeleted)));
+  @override $R call({Object? additionalFields = $none, String? id, Object? clientReferenceId = $none, Object? totalNo = $none, Object? targetNo = $none, Object? tenantId = $none, Object? rowVersion = $none, Object? beneficiaryType = $none, Object? auditDetails = $none, Object? isDeleted = $none}) => $then(TargetModel(additionalFields: or(additionalFields, $value.additionalFields), id: id ?? $value.id, clientReferenceId: or(clientReferenceId, $value.clientReferenceId), totalNo: or(totalNo, $value.totalNo), targetNo: or(targetNo, $value.targetNo), tenantId: or(tenantId, $value.tenantId), rowVersion: or(rowVersion, $value.rowVersion), beneficiaryType: or(beneficiaryType, $value.beneficiaryType), auditDetails: or(auditDetails, $value.auditDetails), isDeleted: or(isDeleted, $value.isDeleted)));
 }
 
 class TargetAdditionalFieldsMapper extends BaseMapper<TargetAdditionalFields> {
@@ -4367,6 +4367,7 @@ class BeneficiaryTypeMapper extends EnumMapper<BeneficiaryType> {
     switch (value) {
       case "INDIVIDUAL": return BeneficiaryType.individual;
       case "HOUSEHOLD": return BeneficiaryType.household;
+      case "PRODUCT": return BeneficiaryType.product;
       default: throw MapperException.unknownEnumValue(value);
     }
   }
@@ -4375,6 +4376,7 @@ class BeneficiaryTypeMapper extends EnumMapper<BeneficiaryType> {
     switch (self) {
       case BeneficiaryType.individual: return "INDIVIDUAL";
       case BeneficiaryType.household: return "HOUSEHOLD";
+      case BeneficiaryType.product: return "PRODUCT";
     }
   }
 }

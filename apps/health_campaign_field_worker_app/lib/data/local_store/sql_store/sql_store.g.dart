@@ -14328,9 +14328,9 @@ class $StockReconciliationTable extends StockReconciliation
 
 class TargetData extends DataClass implements Insertable<TargetData> {
   final String id;
-  final String? beneficiaryType;
-  final String? baseline;
-  final String? target;
+  final String? clientReferenceId;
+  final double? totalNo;
+  final double? targetNo;
   final String? auditCreatedBy;
   final int? auditCreatedTime;
   final String? auditModifiedBy;
@@ -14338,12 +14338,13 @@ class TargetData extends DataClass implements Insertable<TargetData> {
   final String? tenantId;
   final bool? isDeleted;
   final int? rowVersion;
+  final BeneficiaryType? beneficiaryType;
   final String? additionalFields;
   TargetData(
       {required this.id,
-      this.beneficiaryType,
-      this.baseline,
-      this.target,
+      this.clientReferenceId,
+      this.totalNo,
+      this.targetNo,
       this.auditCreatedBy,
       this.auditCreatedTime,
       this.auditModifiedBy,
@@ -14351,18 +14352,19 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       this.tenantId,
       this.isDeleted,
       this.rowVersion,
+      this.beneficiaryType,
       this.additionalFields});
   factory TargetData.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return TargetData(
       id: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      beneficiaryType: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}beneficiary_type']),
-      baseline: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}baseline']),
-      target: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}target']),
+      clientReferenceId: const StringType().mapFromDatabaseResponse(
+          data['${effectivePrefix}client_reference_id']),
+      totalNo: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}total_no']),
+      targetNo: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}target_no']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
       auditCreatedTime: const IntType().mapFromDatabaseResponse(
@@ -14377,6 +14379,8 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
       rowVersion: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}row_version']),
+      beneficiaryType: $TargetTable.$converter0.mapToDart(const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}beneficiary_type'])),
       additionalFields: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}additional_fields']),
     );
@@ -14385,14 +14389,14 @@ class TargetData extends DataClass implements Insertable<TargetData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
-    if (!nullToAbsent || beneficiaryType != null) {
-      map['beneficiary_type'] = Variable<String?>(beneficiaryType);
+    if (!nullToAbsent || clientReferenceId != null) {
+      map['client_reference_id'] = Variable<String?>(clientReferenceId);
     }
-    if (!nullToAbsent || baseline != null) {
-      map['baseline'] = Variable<String?>(baseline);
+    if (!nullToAbsent || totalNo != null) {
+      map['total_no'] = Variable<double?>(totalNo);
     }
-    if (!nullToAbsent || target != null) {
-      map['target'] = Variable<String?>(target);
+    if (!nullToAbsent || targetNo != null) {
+      map['target_no'] = Variable<double?>(targetNo);
     }
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
@@ -14415,6 +14419,11 @@ class TargetData extends DataClass implements Insertable<TargetData> {
     if (!nullToAbsent || rowVersion != null) {
       map['row_version'] = Variable<int?>(rowVersion);
     }
+    if (!nullToAbsent || beneficiaryType != null) {
+      final converter = $TargetTable.$converter0;
+      map['beneficiary_type'] =
+          Variable<int?>(converter.mapToSql(beneficiaryType));
+    }
     if (!nullToAbsent || additionalFields != null) {
       map['additional_fields'] = Variable<String?>(additionalFields);
     }
@@ -14424,14 +14433,15 @@ class TargetData extends DataClass implements Insertable<TargetData> {
   TargetCompanion toCompanion(bool nullToAbsent) {
     return TargetCompanion(
       id: Value(id),
-      beneficiaryType: beneficiaryType == null && nullToAbsent
+      clientReferenceId: clientReferenceId == null && nullToAbsent
           ? const Value.absent()
-          : Value(beneficiaryType),
-      baseline: baseline == null && nullToAbsent
+          : Value(clientReferenceId),
+      totalNo: totalNo == null && nullToAbsent
           ? const Value.absent()
-          : Value(baseline),
-      target:
-          target == null && nullToAbsent ? const Value.absent() : Value(target),
+          : Value(totalNo),
+      targetNo: targetNo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetNo),
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
@@ -14453,6 +14463,9 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       rowVersion: rowVersion == null && nullToAbsent
           ? const Value.absent()
           : Value(rowVersion),
+      beneficiaryType: beneficiaryType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(beneficiaryType),
       additionalFields: additionalFields == null && nullToAbsent
           ? const Value.absent()
           : Value(additionalFields),
@@ -14464,9 +14477,10 @@ class TargetData extends DataClass implements Insertable<TargetData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TargetData(
       id: serializer.fromJson<String>(json['id']),
-      beneficiaryType: serializer.fromJson<String?>(json['beneficiaryType']),
-      baseline: serializer.fromJson<String?>(json['baseline']),
-      target: serializer.fromJson<String?>(json['target']),
+      clientReferenceId:
+          serializer.fromJson<String?>(json['clientReferenceId']),
+      totalNo: serializer.fromJson<double?>(json['totalNo']),
+      targetNo: serializer.fromJson<double?>(json['targetNo']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
       auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
@@ -14474,6 +14488,8 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       tenantId: serializer.fromJson<String?>(json['tenantId']),
       isDeleted: serializer.fromJson<bool?>(json['isDeleted']),
       rowVersion: serializer.fromJson<int?>(json['rowVersion']),
+      beneficiaryType:
+          serializer.fromJson<BeneficiaryType?>(json['beneficiaryType']),
       additionalFields: serializer.fromJson<String?>(json['additionalFields']),
     );
   }
@@ -14482,9 +14498,9 @@ class TargetData extends DataClass implements Insertable<TargetData> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
-      'beneficiaryType': serializer.toJson<String?>(beneficiaryType),
-      'baseline': serializer.toJson<String?>(baseline),
-      'target': serializer.toJson<String?>(target),
+      'clientReferenceId': serializer.toJson<String?>(clientReferenceId),
+      'totalNo': serializer.toJson<double?>(totalNo),
+      'targetNo': serializer.toJson<double?>(targetNo),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
       'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
@@ -14492,15 +14508,16 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       'tenantId': serializer.toJson<String?>(tenantId),
       'isDeleted': serializer.toJson<bool?>(isDeleted),
       'rowVersion': serializer.toJson<int?>(rowVersion),
+      'beneficiaryType': serializer.toJson<BeneficiaryType?>(beneficiaryType),
       'additionalFields': serializer.toJson<String?>(additionalFields),
     };
   }
 
   TargetData copyWith(
           {String? id,
-          String? beneficiaryType,
-          String? baseline,
-          String? target,
+          String? clientReferenceId,
+          double? totalNo,
+          double? targetNo,
           String? auditCreatedBy,
           int? auditCreatedTime,
           String? auditModifiedBy,
@@ -14508,12 +14525,13 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           String? tenantId,
           bool? isDeleted,
           int? rowVersion,
+          BeneficiaryType? beneficiaryType,
           String? additionalFields}) =>
       TargetData(
         id: id ?? this.id,
-        beneficiaryType: beneficiaryType ?? this.beneficiaryType,
-        baseline: baseline ?? this.baseline,
-        target: target ?? this.target,
+        clientReferenceId: clientReferenceId ?? this.clientReferenceId,
+        totalNo: totalNo ?? this.totalNo,
+        targetNo: targetNo ?? this.targetNo,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
         auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
@@ -14521,15 +14539,16 @@ class TargetData extends DataClass implements Insertable<TargetData> {
         tenantId: tenantId ?? this.tenantId,
         isDeleted: isDeleted ?? this.isDeleted,
         rowVersion: rowVersion ?? this.rowVersion,
+        beneficiaryType: beneficiaryType ?? this.beneficiaryType,
         additionalFields: additionalFields ?? this.additionalFields,
       );
   @override
   String toString() {
     return (StringBuffer('TargetData(')
           ..write('id: $id, ')
-          ..write('beneficiaryType: $beneficiaryType, ')
-          ..write('baseline: $baseline, ')
-          ..write('target: $target, ')
+          ..write('clientReferenceId: $clientReferenceId, ')
+          ..write('totalNo: $totalNo, ')
+          ..write('targetNo: $targetNo, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
           ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
@@ -14537,6 +14556,7 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           ..write('tenantId: $tenantId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
+          ..write('beneficiaryType: $beneficiaryType, ')
           ..write('additionalFields: $additionalFields')
           ..write(')'))
         .toString();
@@ -14545,9 +14565,9 @@ class TargetData extends DataClass implements Insertable<TargetData> {
   @override
   int get hashCode => Object.hash(
       id,
-      beneficiaryType,
-      baseline,
-      target,
+      clientReferenceId,
+      totalNo,
+      targetNo,
       auditCreatedBy,
       auditCreatedTime,
       auditModifiedBy,
@@ -14555,15 +14575,16 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       tenantId,
       isDeleted,
       rowVersion,
+      beneficiaryType,
       additionalFields);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is TargetData &&
           other.id == this.id &&
-          other.beneficiaryType == this.beneficiaryType &&
-          other.baseline == this.baseline &&
-          other.target == this.target &&
+          other.clientReferenceId == this.clientReferenceId &&
+          other.totalNo == this.totalNo &&
+          other.targetNo == this.targetNo &&
           other.auditCreatedBy == this.auditCreatedBy &&
           other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
@@ -14571,14 +14592,15 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           other.tenantId == this.tenantId &&
           other.isDeleted == this.isDeleted &&
           other.rowVersion == this.rowVersion &&
+          other.beneficiaryType == this.beneficiaryType &&
           other.additionalFields == this.additionalFields);
 }
 
 class TargetCompanion extends UpdateCompanion<TargetData> {
   final Value<String> id;
-  final Value<String?> beneficiaryType;
-  final Value<String?> baseline;
-  final Value<String?> target;
+  final Value<String?> clientReferenceId;
+  final Value<double?> totalNo;
+  final Value<double?> targetNo;
   final Value<String?> auditCreatedBy;
   final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
@@ -14586,12 +14608,13 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
   final Value<String?> tenantId;
   final Value<bool?> isDeleted;
   final Value<int?> rowVersion;
+  final Value<BeneficiaryType?> beneficiaryType;
   final Value<String?> additionalFields;
   const TargetCompanion({
     this.id = const Value.absent(),
-    this.beneficiaryType = const Value.absent(),
-    this.baseline = const Value.absent(),
-    this.target = const Value.absent(),
+    this.clientReferenceId = const Value.absent(),
+    this.totalNo = const Value.absent(),
+    this.targetNo = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
@@ -14599,13 +14622,14 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     this.tenantId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
+    this.beneficiaryType = const Value.absent(),
     this.additionalFields = const Value.absent(),
   });
   TargetCompanion.insert({
     required String id,
-    this.beneficiaryType = const Value.absent(),
-    this.baseline = const Value.absent(),
-    this.target = const Value.absent(),
+    this.clientReferenceId = const Value.absent(),
+    this.totalNo = const Value.absent(),
+    this.targetNo = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
     this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
@@ -14613,13 +14637,14 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     this.tenantId = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
+    this.beneficiaryType = const Value.absent(),
     this.additionalFields = const Value.absent(),
   }) : id = Value(id);
   static Insertable<TargetData> custom({
     Expression<String>? id,
-    Expression<String?>? beneficiaryType,
-    Expression<String?>? baseline,
-    Expression<String?>? target,
+    Expression<String?>? clientReferenceId,
+    Expression<double?>? totalNo,
+    Expression<double?>? targetNo,
     Expression<String?>? auditCreatedBy,
     Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
@@ -14627,13 +14652,14 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     Expression<String?>? tenantId,
     Expression<bool?>? isDeleted,
     Expression<int?>? rowVersion,
+    Expression<BeneficiaryType?>? beneficiaryType,
     Expression<String?>? additionalFields,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (beneficiaryType != null) 'beneficiary_type': beneficiaryType,
-      if (baseline != null) 'baseline': baseline,
-      if (target != null) 'target': target,
+      if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
+      if (totalNo != null) 'total_no': totalNo,
+      if (targetNo != null) 'target_no': targetNo,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
       if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
@@ -14641,15 +14667,16 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
       if (tenantId != null) 'tenant_id': tenantId,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowVersion != null) 'row_version': rowVersion,
+      if (beneficiaryType != null) 'beneficiary_type': beneficiaryType,
       if (additionalFields != null) 'additional_fields': additionalFields,
     });
   }
 
   TargetCompanion copyWith(
       {Value<String>? id,
-      Value<String?>? beneficiaryType,
-      Value<String?>? baseline,
-      Value<String?>? target,
+      Value<String?>? clientReferenceId,
+      Value<double?>? totalNo,
+      Value<double?>? targetNo,
       Value<String?>? auditCreatedBy,
       Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
@@ -14657,12 +14684,13 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
       Value<String?>? tenantId,
       Value<bool?>? isDeleted,
       Value<int?>? rowVersion,
+      Value<BeneficiaryType?>? beneficiaryType,
       Value<String?>? additionalFields}) {
     return TargetCompanion(
       id: id ?? this.id,
-      beneficiaryType: beneficiaryType ?? this.beneficiaryType,
-      baseline: baseline ?? this.baseline,
-      target: target ?? this.target,
+      clientReferenceId: clientReferenceId ?? this.clientReferenceId,
+      totalNo: totalNo ?? this.totalNo,
+      targetNo: targetNo ?? this.targetNo,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
       auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
@@ -14670,6 +14698,7 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
       tenantId: tenantId ?? this.tenantId,
       isDeleted: isDeleted ?? this.isDeleted,
       rowVersion: rowVersion ?? this.rowVersion,
+      beneficiaryType: beneficiaryType ?? this.beneficiaryType,
       additionalFields: additionalFields ?? this.additionalFields,
     );
   }
@@ -14680,14 +14709,14 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     if (id.present) {
       map['id'] = Variable<String>(id.value);
     }
-    if (beneficiaryType.present) {
-      map['beneficiary_type'] = Variable<String?>(beneficiaryType.value);
+    if (clientReferenceId.present) {
+      map['client_reference_id'] = Variable<String?>(clientReferenceId.value);
     }
-    if (baseline.present) {
-      map['baseline'] = Variable<String?>(baseline.value);
+    if (totalNo.present) {
+      map['total_no'] = Variable<double?>(totalNo.value);
     }
-    if (target.present) {
-      map['target'] = Variable<String?>(target.value);
+    if (targetNo.present) {
+      map['target_no'] = Variable<double?>(targetNo.value);
     }
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
@@ -14710,6 +14739,11 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     if (rowVersion.present) {
       map['row_version'] = Variable<int?>(rowVersion.value);
     }
+    if (beneficiaryType.present) {
+      final converter = $TargetTable.$converter0;
+      map['beneficiary_type'] =
+          Variable<int?>(converter.mapToSql(beneficiaryType.value));
+    }
     if (additionalFields.present) {
       map['additional_fields'] = Variable<String?>(additionalFields.value);
     }
@@ -14720,9 +14754,9 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
   String toString() {
     return (StringBuffer('TargetCompanion(')
           ..write('id: $id, ')
-          ..write('beneficiaryType: $beneficiaryType, ')
-          ..write('baseline: $baseline, ')
-          ..write('target: $target, ')
+          ..write('clientReferenceId: $clientReferenceId, ')
+          ..write('totalNo: $totalNo, ')
+          ..write('targetNo: $targetNo, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
           ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
@@ -14730,6 +14764,7 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
           ..write('tenantId: $tenantId, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
+          ..write('beneficiaryType: $beneficiaryType, ')
           ..write('additionalFields: $additionalFields')
           ..write(')'))
         .toString();
@@ -14746,22 +14781,22 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _beneficiaryTypeMeta =
-      const VerificationMeta('beneficiaryType');
+  final VerificationMeta _clientReferenceIdMeta =
+      const VerificationMeta('clientReferenceId');
   @override
-  late final GeneratedColumn<String?> beneficiaryType =
-      GeneratedColumn<String?>('beneficiary_type', aliasedName, true,
+  late final GeneratedColumn<String?> clientReferenceId =
+      GeneratedColumn<String?>('client_reference_id', aliasedName, true,
           type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _baselineMeta = const VerificationMeta('baseline');
+  final VerificationMeta _totalNoMeta = const VerificationMeta('totalNo');
   @override
-  late final GeneratedColumn<String?> baseline = GeneratedColumn<String?>(
-      'baseline', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _targetMeta = const VerificationMeta('target');
+  late final GeneratedColumn<double?> totalNo = GeneratedColumn<double?>(
+      'total_no', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
+  final VerificationMeta _targetNoMeta = const VerificationMeta('targetNo');
   @override
-  late final GeneratedColumn<String?> target = GeneratedColumn<String?>(
-      'target', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
+  late final GeneratedColumn<double?> targetNo = GeneratedColumn<double?>(
+      'target_no', aliasedName, true,
+      type: const RealType(), requiredDuringInsert: false);
   final VerificationMeta _auditCreatedByMeta =
       const VerificationMeta('auditCreatedBy');
   @override
@@ -14804,6 +14839,14 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
       'row_version', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _beneficiaryTypeMeta =
+      const VerificationMeta('beneficiaryType');
+  @override
+  late final GeneratedColumnWithTypeConverter<BeneficiaryType?, int?>
+      beneficiaryType = GeneratedColumn<int?>(
+              'beneficiary_type', aliasedName, true,
+              type: const IntType(), requiredDuringInsert: false)
+          .withConverter<BeneficiaryType?>($TargetTable.$converter0);
   final VerificationMeta _additionalFieldsMeta =
       const VerificationMeta('additionalFields');
   @override
@@ -14813,9 +14856,9 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        beneficiaryType,
-        baseline,
-        target,
+        clientReferenceId,
+        totalNo,
+        targetNo,
         auditCreatedBy,
         auditCreatedTime,
         auditModifiedBy,
@@ -14823,6 +14866,7 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
         tenantId,
         isDeleted,
         rowVersion,
+        beneficiaryType,
         additionalFields
       ];
   @override
@@ -14839,19 +14883,19 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
     } else if (isInserting) {
       context.missing(_idMeta);
     }
-    if (data.containsKey('beneficiary_type')) {
+    if (data.containsKey('client_reference_id')) {
       context.handle(
-          _beneficiaryTypeMeta,
-          beneficiaryType.isAcceptableOrUnknown(
-              data['beneficiary_type']!, _beneficiaryTypeMeta));
+          _clientReferenceIdMeta,
+          clientReferenceId.isAcceptableOrUnknown(
+              data['client_reference_id']!, _clientReferenceIdMeta));
     }
-    if (data.containsKey('baseline')) {
-      context.handle(_baselineMeta,
-          baseline.isAcceptableOrUnknown(data['baseline']!, _baselineMeta));
+    if (data.containsKey('total_no')) {
+      context.handle(_totalNoMeta,
+          totalNo.isAcceptableOrUnknown(data['total_no']!, _totalNoMeta));
     }
-    if (data.containsKey('target')) {
-      context.handle(_targetMeta,
-          target.isAcceptableOrUnknown(data['target']!, _targetMeta));
+    if (data.containsKey('target_no')) {
+      context.handle(_targetNoMeta,
+          targetNo.isAcceptableOrUnknown(data['target_no']!, _targetNoMeta));
     }
     if (data.containsKey('audit_created_by')) {
       context.handle(
@@ -14891,6 +14935,7 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
           rowVersion.isAcceptableOrUnknown(
               data['row_version']!, _rowVersionMeta));
     }
+    context.handle(_beneficiaryTypeMeta, const VerificationResult.success());
     if (data.containsKey('additional_fields')) {
       context.handle(
           _additionalFieldsMeta,
@@ -14912,6 +14957,9 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
   $TargetTable createAlias(String alias) {
     return $TargetTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<BeneficiaryType?, int> $converter0 =
+      const EnumIndexConverter<BeneficiaryType>(BeneficiaryType.values);
 }
 
 class TaskData extends DataClass implements Insertable<TaskData> {

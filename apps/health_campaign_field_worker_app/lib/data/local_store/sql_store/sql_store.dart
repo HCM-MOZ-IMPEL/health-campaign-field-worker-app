@@ -12,6 +12,7 @@ import '../../../models/entities/gender.dart';
 import '../../../models/entities/transaction_reason.dart';
 import '../../../models/entities/transaction_type.dart';
 import '../../../models/pgr_complaints/pgr_complaints.dart';
+import '../../../models/entities/beneficiary_type.dart';
 import 'tables/address.dart';
 import 'tables/attributes.dart';
 import 'tables/boundary.dart';
