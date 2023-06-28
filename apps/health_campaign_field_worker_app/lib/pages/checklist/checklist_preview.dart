@@ -201,7 +201,9 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                                         ),
                                                       ),
                                                     ),
-                                                    e.additionalDetails != ''
+                                                    e.additionalDetails != '' &&
+                                                            e.additionalDetails !=
+                                                                null
                                                         ? Container(
                                                             margin:
                                                                 const EdgeInsets
