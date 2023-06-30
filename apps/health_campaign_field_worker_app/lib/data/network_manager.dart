@@ -90,7 +90,9 @@ class NetworkManager {
       if (pendingSyncUpEntries.isNotEmpty ||
           pendingSyncDownEntries
               .where(
-                (element) => element.type != DataModelType.householdMember,
+                (element) =>
+                    element.type != DataModelType.householdMember &&
+                    element.type != DataModelType.service,
               )
               .toList()
               .isNotEmpty) {
@@ -102,7 +104,9 @@ class NetworkManager {
       } else if (pendingSyncUpEntries.isEmpty &&
           pendingSyncDownEntries
               .where(
-                (element) => element.type != DataModelType.householdMember,
+                (element) =>
+                    element.type != DataModelType.householdMember &&
+                    element.type != DataModelType.service,
               )
               .toList()
               .isEmpty) {
@@ -130,7 +134,9 @@ class NetworkManager {
     pendingSyncEntries.sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
     final groupedEntries = pendingSyncEntries
-        .where((element) => element.type != DataModelType.householdMember)
+        .where((element) =>
+            element.type != DataModelType.householdMember &&
+            element.type != DataModelType.service)
         .toList()
         .groupListsBy(
           (element) => element.type,

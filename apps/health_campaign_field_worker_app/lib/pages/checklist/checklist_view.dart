@@ -133,6 +133,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                 onChange: (value) {
                                   abcKey.currentState?.validate();
                                 },
+                                textStyle: theme.textTheme.headlineMedium,
                                 textInputType: TextInputType.number,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.allow(RegExp(
@@ -155,8 +156,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                 },
                                 controller: controller[index],
                                 label: '${localizations.translate(
-                                  '${value.selectedServiceDefinition?.code}.${e.code}',
-                                )} ${e.required == true ? '*' : ''}',
+                                      '${value.selectedServiceDefinition?.code}.${e.code}',
+                                    ).trim()} ${e.required == true ? '*' : ''}',
                               ),
                             ] else if (e.dataType == 'MultiValueList') ...[
                               Align(

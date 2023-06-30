@@ -91,7 +91,7 @@ class DigitDobPicker extends StatelessWidget {
               child: DigitDateFormPicker(
                 label: datePickerLabel,
                 formControlName: datePickerFormControl,
-                firstDate: DateTime(
+                end: DateTime(
                   DateTime.now().year - 1,
                   1,
                   1,
@@ -110,11 +110,9 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
   String? modelToViewValue(DateTime? modelValue) {
     if (modelValue == null) return null;
 
-    String value = (DateTime.now().difference(modelValue).inDays / 365)
+    return (DateTime.now().difference(modelValue).inDays / 365)
         .round()
         .toStringAsFixed(0);
-
-    return value == "0" ? "1" : value;
   }
 
   @override

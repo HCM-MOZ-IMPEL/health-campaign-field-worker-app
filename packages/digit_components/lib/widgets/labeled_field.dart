@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class LabeledField extends StatelessWidget {
   final Widget child;
   final String label;
+  final TextStyle? textStyle;
 
   const LabeledField({
     super.key,
     required this.child,
     required this.label,
+    this.textStyle,
   });
 
   @override
@@ -19,7 +21,7 @@ class LabeledField extends StatelessWidget {
           children: [
             Text(
               label,
-              style: Theme.of(context).textTheme.labelSmall,
+              style: textStyle ?? Theme.of(context).textTheme.labelSmall,
             ),
             const SizedBox(height: 8),
             child,

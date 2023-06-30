@@ -329,6 +329,7 @@ class SearchHouseholdsBloc
     emit(state.copyWith(
       searchQuery: null,
       householdMembers: [],
+      householdMemberWrapper: null,
     ));
   }
 

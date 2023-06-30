@@ -12,7 +12,6 @@ import '../../blocs/app_initialization/app_initialization.dart';
 import '../../blocs/delivery_intervention/deliver_intervention.dart';
 import '../../blocs/household_overview/household_overview.dart';
 import '../../blocs/product_variant/product_variant.dart';
-import '../../blocs/search_households/search_households.dart';
 import '../../data/local_store/no_sql/schema/app_configuration.dart';
 import '../../models/data_model.dart';
 import '../../router/app_router.dart';
@@ -75,9 +74,6 @@ class _DeliverInterventionPageState
                             : DigitCard(
                                 child: DigitElevatedButton(
                                   onPressed: () async {
-                                    final searchHouseholdBloc =
-                                        context.read<SearchHouseholdsBloc>();
-
                                     final formValue = form
                                         .control(
                                           'quantityDistributed',
@@ -264,9 +260,6 @@ class _DeliverInterventionPageState
                                         ..pop()
                                         ..pop();
 
-                                      searchHouseholdBloc.add(
-                                        SearchHouseholdsClearEvent(),
-                                      );
                                       router.push(AcknowledgementRoute());
                                     }
                                   },
