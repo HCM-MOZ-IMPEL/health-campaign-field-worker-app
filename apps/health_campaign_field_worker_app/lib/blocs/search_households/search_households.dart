@@ -28,7 +28,6 @@ class SearchHouseholdsBloc
   final HouseholdMemberDataRepository householdMember;
   final ProjectBeneficiaryDataRepository projectBeneficiary;
   final TaskDataRepository taskDataRepository;
-  late HouseholdMemberWrapper householdMemberWrapper;
 
   SearchHouseholdsBloc({
     required this.userUid,
@@ -48,6 +47,7 @@ class SearchHouseholdsBloc
     on(_handleClear);
     on(_handleSearchByHousehold);
     on(_handleInitialize);
+    on(_handleSetBeneficiaryWrapper);
 
     if (projectBeneficiary is ProjectBeneficiaryLocalRepository) {
       (projectBeneficiary as ProjectBeneficiaryLocalRepository).listenToChanges(
@@ -306,6 +306,15 @@ class SearchHouseholdsBloc
       householdMembers: [],
     ));
   }
+
+  FutureOr<void> _handleSetBeneficiaryWrapper(
+    SearchHouseholdsSetBeneficiaryWrapperEvent event,
+    SearchHouseholdsEmitter emit,
+  ) async {
+    emit(state.copyWith(
+      householdMemberWrapper: event.householdMemberWrapper,
+    ));
+  }
 }
 
 @freezed
@@ -323,6 +332,10 @@ class SearchHouseholdsEvent with _$SearchHouseholdsEvent {
     required String projectId,
   }) = SearchHouseholdsSearchByHouseholdHeadEvent;
 
+  const factory SearchHouseholdsEvent.setBeneficiaryWrapper({
+    required HouseholdMemberWrapper householdMemberWrapper,
+  }) = SearchHouseholdsSetBeneficiaryWrapperEvent;
+
   const factory SearchHouseholdsEvent.clear() = SearchHouseholdsClearEvent;
 }
 
@@ -336,6 +349,7 @@ class SearchHouseholdsState with _$SearchHouseholdsState {
     @Default([]) List<HouseholdMemberWrapper> householdMembers,
     @Default(0) int registeredHouseholds,
     @Default(0) int deliveredInterventions,
+    HouseholdMemberWrapper? householdMemberWrapper,
   }) = _SearchHouseholdsState;
 
   bool get resultsNotFound {
