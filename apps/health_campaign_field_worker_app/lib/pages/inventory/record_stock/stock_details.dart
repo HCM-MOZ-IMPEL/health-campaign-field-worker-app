@@ -607,11 +607,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   ),
                                   isRequired: true,
                                   formControlName: _vehicleNumberKey,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp(r'^-?[A-Z0-9]+$'),
-                                    ),
-                                  ],
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(
+                                  //     RegExp(r'^-?[A-Z0-9]+$'),
+                                  //   ),
+                                  // ],
                                   validationMessages: {
                                     'required': (object) =>
                                         localizations.translate(

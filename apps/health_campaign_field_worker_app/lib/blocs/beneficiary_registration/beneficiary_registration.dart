@@ -252,9 +252,13 @@ class BeneficiaryRegistrationBloc
             await individualRepository.update(
               element.copyWith(
                 address: [
-                  value.addressModel.copyWith(
-                    relatedClientReferenceId: element.clientReferenceId,
-                  ),
+                  if (element.address != null)
+                    ...element.address!.map((e) {
+                      return value.addressModel.copyWith(
+                        id: e.id,
+                        relatedClientReferenceId: e.relatedClientReferenceId,
+                      );
+                    }),
                 ],
               ),
             );

@@ -72,6 +72,9 @@ class DigitDobPicker extends StatelessWidget {
                                 365)
                             .round()
                             .toStringAsFixed(0);
+                    if (int.parse(value) == 0) {
+                      return {'A idade não pode ser inferior a 0 anos': true};
+                    }
 
                     return int.parse(value) <= 150
                         ? null
@@ -91,6 +94,11 @@ class DigitDobPicker extends StatelessWidget {
               child: DigitDateFormPicker(
                 label: datePickerLabel,
                 formControlName: datePickerFormControl,
+                firstDate: DateTime(
+                  DateTime.now().year - 1,
+                  1,
+                  1,
+                ),
               ),
             ),
           ],
