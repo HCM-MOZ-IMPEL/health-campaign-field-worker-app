@@ -56,7 +56,7 @@ class DigitDobPicker extends StatelessWidget {
                     const TextInputType.numberWithOptions(decimal: true),
                 readOnly: isVerified,
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d+$')),
+                  FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9]*')),
                 ],
                 onChanged: (formControl) {
                   /// Validates that control's value must be `true`
@@ -72,9 +72,6 @@ class DigitDobPicker extends StatelessWidget {
                                 365)
                             .round()
                             .toStringAsFixed(0);
-                    if (int.parse(value) == 0) {
-                      return {'A idade não pode ser inferior a 0 anos': true};
-                    }
 
                     return int.parse(value) <= 150
                         ? null
@@ -113,9 +110,11 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
   String? modelToViewValue(DateTime? modelValue) {
     if (modelValue == null) return null;
 
-    return (DateTime.now().difference(modelValue).inDays / 365)
+    String value = (DateTime.now().difference(modelValue).inDays / 365)
         .round()
         .toStringAsFixed(0);
+
+    return value == "0" ? "1" : value;
   }
 
   @override

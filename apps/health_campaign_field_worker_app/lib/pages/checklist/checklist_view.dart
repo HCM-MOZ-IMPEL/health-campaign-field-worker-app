@@ -133,6 +133,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                 onChange: (value) {
                                   abcKey.currentState?.validate();
                                 },
+                                textInputType: TextInputType.number,
                                 inputFormatter: [
                                   FilteringTextInputFormatter.allow(RegExp(
                                     "[0-9]",

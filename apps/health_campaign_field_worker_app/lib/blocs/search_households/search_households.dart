@@ -204,11 +204,36 @@ class SearchHouseholdsBloc
       searchQuery: event.searchText,
     ));
 
-    final results = await individual.search(
+    final firstNameResults = await individual.search(
       IndividualSearchModel(
-        name: NameSearchModel(givenName: event.searchText.trim()),
+        name: NameSearchModel(
+          givenName: event.searchText.trim(),
+        ),
       ),
     );
+
+    final lastNameResults = await individual.search(
+      IndividualSearchModel(
+        name: NameSearchModel(
+          familyName: event.searchText.trim(),
+        ),
+      ),
+    );
+
+    Set<String> uniqueIds = {};
+
+    for (final obj in firstNameResults) {
+      uniqueIds.add(obj.clientReferenceId);
+    }
+
+    for (final obj in lastNameResults) {
+      uniqueIds.add(obj.clientReferenceId);
+    }
+
+    List<IndividualModel> results = [
+      ...firstNameResults,
+      ...lastNameResults,
+    ].where((obj) => uniqueIds.contains(obj.clientReferenceId)).toList();
 
     final householdMembers = <HouseholdMemberModel>[];
     for (final element in results) {
@@ -301,7 +326,10 @@ class SearchHouseholdsBloc
     SearchHouseholdsClearEvent event,
     SearchHouseholdsEmitter emit,
   ) async {
-    emit(const SearchHouseholdsState());
+    emit(state.copyWith(
+      searchQuery: null,
+      householdMembers: [],
+    ));
   }
 
   FutureOr<void> _handleSetBeneficiaryWrapper(
