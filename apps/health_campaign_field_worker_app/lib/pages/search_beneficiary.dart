@@ -172,7 +172,7 @@ class _SearchBeneficiaryPageState
                   builder: (context, state) {
                     final router = context.router;
 
-                    final searchQuery = state.searchQuery;
+                    // final searchQuery = state.searchQuery;
                     VoidCallback? onPressed;
 
                     onPressed = state.loading
@@ -183,21 +183,24 @@ class _SearchBeneficiaryPageState
                             final bloc = context.read<SearchHouseholdsBloc>();
                             final projectId = context.projectId;
 
-                            await router
-                                .push(BeneficiaryRegistrationWrapperRoute(
-                              initialState: BeneficiaryRegistrationCreateState(
-                                searchQuery: state.searchQuery,
+                            await router.push(
+                              BeneficiaryRegistrationWrapperRoute(
+                                initialState:
+                                    BeneficiaryRegistrationCreateState(
+                                  searchQuery: state.searchQuery,
+                                ),
                               ),
-                            ))
-                                .then((value) async {
-                              await router.push(BeneficiaryWrapperRoute(
-                                wrapper: bloc.householdMemberWrapper,
-                              ));
-                            });
+                            );
 
-                            // await   router.push(BeneficiaryWrapperRoute(
-                            //     wrapper: bloc.householdMemberWrapper,
-                            //   ));
+                            final householdMemberWrapper =
+                                bloc.state.householdMemberWrapper;
+
+                            if (householdMemberWrapper != null) {
+                              await router.push(BeneficiaryWrapperRoute(
+                                wrapper: householdMemberWrapper,
+                              ));
+                            }
+
                             bloc.add(
                               SearchHouseholdsSearchByHouseholdHeadEvent(
                                 searchText: searchController.text,

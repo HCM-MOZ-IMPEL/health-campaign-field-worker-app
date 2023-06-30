@@ -59,8 +59,14 @@ class _IndividualDetailsPageState
           listener: (context, state) {
             state.mapOrNull(
               persisted: (value) {
-                context.read<SearchHouseholdsBloc>().householdMemberWrapper =
-                    bloc.householdMemberWrapper;
+                final householdMemberWrapper = value.householdMemberWrapper;
+                if (householdMemberWrapper != null) {
+                  context.read<SearchHouseholdsBloc>().add(
+                        SearchHouseholdsSetBeneficiaryWrapperEvent(
+                          householdMemberWrapper: householdMemberWrapper,
+                        ),
+                      );
+                }
                 (router.parent() as StackRouter).pop();
 
                 // if (value.navigateToRoot) {
