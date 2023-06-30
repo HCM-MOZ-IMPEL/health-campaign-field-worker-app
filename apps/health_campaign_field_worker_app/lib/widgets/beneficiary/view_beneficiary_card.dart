@@ -69,6 +69,7 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.7,
                 child: BeneficiaryCard(
+                  hasShowcase: widget.hasShowcase,
                   description: [
                     householdMember.household.address?.doorNo,
                     // householdMember.household.address?.addressLine1,
@@ -89,13 +90,18 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                 ),
               ),
               Flexible(
-                child: searchBeneficiariesShowcaseData.open.buildWith(
-                  child: DigitOutLineButton(
+                child: () {
+                  final child = DigitOutLineButton(
                     label: localizations
                         .translate(i18.searchBeneficiary.iconLabel),
                     onPressed: widget.onOpenPressed,
-                  ),
-                ),
+                  );
+
+                  return !widget.hasShowcase
+                      ? child
+                      : searchBeneficiariesShowcaseData.open
+                          .buildWith(child: child);
+                }(),
               ),
             ],
           ),
