@@ -40,9 +40,9 @@ class SearchHouseholdsBloc
   }) : super(const SearchHouseholdsState()) {
     on(
       _handleSearchByHouseholdHead,
-      transformer: debounce<SearchHouseholdsSearchByHouseholdHeadEvent>(
-        const Duration(milliseconds: 500),
-      ),
+      // transformer: debounce<SearchHouseholdsSearchByHouseholdHeadEvent>(
+      //   const Duration(milliseconds: 500),
+      // ),
     );
     on(_handleClear);
     on(_handleSearchByHousehold);
@@ -301,10 +301,7 @@ class SearchHouseholdsBloc
     SearchHouseholdsClearEvent event,
     SearchHouseholdsEmitter emit,
   ) async {
-    emit(state.copyWith(
-      searchQuery: null,
-      householdMembers: [],
-    ));
+    emit(const SearchHouseholdsState());
   }
 
   FutureOr<void> _handleSetBeneficiaryWrapper(
