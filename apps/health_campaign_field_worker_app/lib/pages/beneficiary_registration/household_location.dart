@@ -41,6 +41,13 @@ class _HouseholdLocationPageState
     final bloc = context.read<BeneficiaryRegistrationBloc>();
     final router = context.router;
 
+    final locationBloc = context.read<LocationBloc>();
+    final locationInitialState = locationBloc.state;
+
+    final initialLat = locationInitialState.latitude;
+    final initialLng = locationInitialState.longitude;
+    final initialAccuracy = locationInitialState.accuracy;
+
     return Scaffold(
       body: ReactiveFormBuilder(
         form: () => buildForm(bloc.state),
@@ -50,9 +57,15 @@ class _HouseholdLocationPageState
             final lng = locationState.longitude;
             final accuracy = locationState.accuracy;
 
-            form.control(_latKey).value ??= lat;
-            form.control(_lngKey).value ??= lng;
-            form.control(_accuracyKey).value ??= accuracy;
+            if (lat != null) {
+              form.control(_latKey).value = lat;
+            }
+            if (lng != null) {
+              form.control(_lngKey).value = lng;
+            }
+            if (accuracy != null) {
+              form.control(_accuracyKey).value = accuracy;
+            }
           },
           listenWhen: (previous, current) {
             final lat = form.control(_latKey).value;
@@ -114,10 +127,13 @@ class _HouseholdLocationPageState
                                       : landmark.trim(),
                               pincode: 'postalCode',
                               type: AddressType.correspondence,
-                              latitude: form.control(_latKey).value,
-                              longitude: form.control(_lngKey).value,
+                              latitude:
+                                  form.control(_latKey).value ?? initialLat,
+                              longitude:
+                                  form.control(_lngKey).value ?? initialLng,
                               locationAccuracy:
-                                  form.control(_accuracyKey).value,
+                                  form.control(_accuracyKey).value ??
+                                      initialAccuracy,
                               locality: LocalityModel(
                                 code: context.boundary.code!,
                                 name: context.boundary.name,

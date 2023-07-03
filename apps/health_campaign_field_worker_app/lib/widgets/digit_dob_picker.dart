@@ -69,7 +69,7 @@ class DigitDobPicker extends StatelessWidget {
                     }
                     String value =
                         (DateTime.now().difference(formControl.value).inDays /
-                                365)
+                                366)
                             .round()
                             .toStringAsFixed(0);
 
@@ -110,7 +110,7 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
   String? modelToViewValue(DateTime? modelValue) {
     if (modelValue == null) return null;
 
-    return (DateTime.now().difference(modelValue).inDays / 365)
+    return (DateTime.now().difference(modelValue).inDays / 366)
         .round()
         .toStringAsFixed(0);
   }
@@ -122,7 +122,7 @@ class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
     if (value == null) return null;
 
     return DateTime(
-      DateTime.now().subtract(Duration(days: value * 365)).year,
+      DateTime.now().subtract(Duration(days: value * 366)).year,
       1,
       1,
     );
