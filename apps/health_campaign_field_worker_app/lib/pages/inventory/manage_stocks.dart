@@ -79,22 +79,22 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                       ),
                     ),
                   ),
-                  selectStockShowcaseData.recordStockReturned.buildWith(
-                    child: DigitListView(
-                      title: localizations
-                          .translate(i18.manageStock.recordstockReturnedLabel),
-                      description: localizations.translate(
-                        i18.manageStock.recordstockReturnedtDescription,
-                      ),
-                      prefixIcon: Icons.settings_backup_restore,
-                      sufixIcon: Icons.arrow_circle_right,
-                      onPressed: () => context.router.push(
-                        RecordStockWrapperRoute(
-                          type: StockRecordEntryType.returned,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // selectStockShowcaseData.recordStockReturned.buildWith(
+                  //   child: DigitListView(
+                  //     title: localizations
+                  //         .translate(i18.manageStock.recordstockReturnedLabel),
+                  //     description: localizations.translate(
+                  //       i18.manageStock.recordstockReturnedtDescription,
+                  //     ),
+                  //     prefixIcon: Icons.settings_backup_restore,
+                  //     sufixIcon: Icons.arrow_circle_right,
+                  //     onPressed: () => context.router.push(
+                  //       RecordStockWrapperRoute(
+                  //         type: StockRecordEntryType.returned,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   // DigitListView(
                   //   title: localizations
                   //       .translate(i18.manageStock.recordstockDamagedLabel),

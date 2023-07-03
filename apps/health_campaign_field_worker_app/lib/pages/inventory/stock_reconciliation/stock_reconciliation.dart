@@ -465,22 +465,22 @@ class _StockReconciliationPageState
                                           },
                                         ),
                                       ),
-                                      const DigitDivider(),
-                                      stockReconciliationShowcaseData
-                                          .stockReturned
-                                          .buildWith(
-                                        child: DigitTableCard(
-                                          fraction: 2.5,
-                                          gap: kPadding,
-                                          element: {
-                                            localizations.translate(
-                                              i18.stockReconciliationDetails
-                                                  .stockReturned,
-                                            ): stockState.stockReturned
-                                                .toStringAsFixed(0),
-                                          },
-                                        ),
-                                      ),
+                                      // const DigitDivider(),
+                                      // stockReconciliationShowcaseData
+                                      //     .stockReturned
+                                      //     .buildWith(
+                                      //   child: DigitTableCard(
+                                      //     fraction: 2.5,
+                                      //     gap: kPadding,
+                                      //     element: {
+                                      //       localizations.translate(
+                                      //         i18.stockReconciliationDetails
+                                      //             .stockReturned,
+                                      //       ): stockState.stockReturned
+                                      //           .toStringAsFixed(0),
+                                      //     },
+                                      //   ),
+                                      // ),
                                       const DigitDivider(),
                                       // DigitTableCard(
                                       //   fraction: 2.5,

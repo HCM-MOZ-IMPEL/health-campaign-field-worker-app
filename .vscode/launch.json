@@ -1,0 +1,105 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "health-campaign-field-worker-app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "health_campaign_field_worker_app",
+            "cwd": "apps/health_campaign_field_worker_app",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "health_campaign_field_worker_app (profile mode)",
+            "cwd": "apps/health_campaign_field_worker_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "health_campaign_field_worker_app (release mode)",
+            "cwd": "apps/health_campaign_field_worker_app",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "digit_components",
+            "cwd": "packages/digit_components",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "digit_components (profile mode)",
+            "cwd": "packages/digit_components",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "digit_components (release mode)",
+            "cwd": "packages/digit_components",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "digit_showcase",
+            "cwd": "packages/digit_showcase",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "digit_showcase (profile mode)",
+            "cwd": "packages/digit_showcase",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "digit_showcase (release mode)",
+            "cwd": "packages/digit_showcase",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "forms_engine",
+            "cwd": "packages/forms_engine",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "forms_engine (profile mode)",
+            "cwd": "packages/forms_engine",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "forms_engine (release mode)",
+            "cwd": "packages/forms_engine",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "hooks",
+            "cwd": "mason_templates/digit_entity/hooks",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "hooks",
+            "cwd": "mason_templates/freezed_bloc/hooks",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

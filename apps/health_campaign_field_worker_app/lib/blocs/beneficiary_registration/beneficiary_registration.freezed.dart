@@ -1929,7 +1929,9 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) =>
       throw _privateConstructorUsedError;
@@ -1960,7 +1962,8 @@ mixin _$BeneficiaryRegistrationState {
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) =>
       throw _privateConstructorUsedError;
@@ -1991,7 +1994,8 @@ mixin _$BeneficiaryRegistrationState {
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) =>
@@ -2229,7 +2233,9 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return create(addressModel, householdModel, individualModel,
@@ -2264,7 +2270,8 @@ class _$BeneficiaryRegistrationCreateState
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return create?.call(addressModel, householdModel, individualModel,
@@ -2299,7 +2306,8 @@ class _$BeneficiaryRegistrationCreateState
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -2538,7 +2546,9 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return editHousehold(addressModel, householdModel, individualModel,
@@ -2573,7 +2583,8 @@ class _$BeneficiaryRegistrationEditHouseholdState
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return editHousehold?.call(addressModel, householdModel, individualModel,
@@ -2608,7 +2619,8 @@ class _$BeneficiaryRegistrationEditHouseholdState
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -2822,7 +2834,9 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return editIndividual(
@@ -2857,7 +2871,8 @@ class _$BeneficiaryRegistrationEditIndividualState
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return editIndividual?.call(
@@ -2892,7 +2907,8 @@ class _$BeneficiaryRegistrationEditIndividualState
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -3090,7 +3106,9 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return addMember(addressModel, householdModel, loading);
@@ -3124,7 +3142,8 @@ class _$BeneficiaryRegistrationAddMemberState
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return addMember?.call(addressModel, householdModel, loading);
@@ -3158,7 +3177,8 @@ class _$BeneficiaryRegistrationAddMemberState
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -3240,7 +3260,12 @@ abstract class _$$BeneficiaryRegistrationPersistedStateCopyWith<$Res> {
           $Res Function(_$BeneficiaryRegistrationPersistedState) then) =
       __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({bool navigateToRoot, HouseholdModel householdModel});
+  $Res call(
+      {bool navigateToRoot,
+      HouseholdModel householdModel,
+      HouseholdMemberWrapper? householdMemberWrapper});
+
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper;
 }
 
 /// @nodoc
@@ -3258,6 +3283,7 @@ class __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>
   $Res call({
     Object? navigateToRoot = null,
     Object? householdModel = null,
+    Object? householdMemberWrapper = freezed,
   }) {
     return _then(_$BeneficiaryRegistrationPersistedState(
       navigateToRoot: null == navigateToRoot
@@ -3268,7 +3294,24 @@ class __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>
           ? _value.householdModel
           : householdModel // ignore: cast_nullable_to_non_nullable
               as HouseholdModel,
+      householdMemberWrapper: freezed == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper?,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper {
+    if (_value.householdMemberWrapper == null) {
+      return null;
+    }
+
+    return $HouseholdMemberWrapperCopyWith<$Res>(_value.householdMemberWrapper!,
+        (value) {
+      return _then(_value.copyWith(householdMemberWrapper: value));
+    });
   }
 }
 
@@ -3277,17 +3320,21 @@ class __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>
 class _$BeneficiaryRegistrationPersistedState
     implements BeneficiaryRegistrationPersistedState {
   const _$BeneficiaryRegistrationPersistedState(
-      {this.navigateToRoot = true, required this.householdModel});
+      {this.navigateToRoot = true,
+      required this.householdModel,
+      this.householdMemberWrapper});
 
   @override
   @JsonKey()
   final bool navigateToRoot;
   @override
   final HouseholdModel householdModel;
+  @override
+  final HouseholdMemberWrapper? householdMemberWrapper;
 
   @override
   String toString() {
-    return 'BeneficiaryRegistrationState.persisted(navigateToRoot: $navigateToRoot, householdModel: $householdModel)';
+    return 'BeneficiaryRegistrationState.persisted(navigateToRoot: $navigateToRoot, householdModel: $householdModel, householdMemberWrapper: $householdMemberWrapper)';
   }
 
   @override
@@ -3298,11 +3345,14 @@ class _$BeneficiaryRegistrationPersistedState
             (identical(other.navigateToRoot, navigateToRoot) ||
                 other.navigateToRoot == navigateToRoot) &&
             (identical(other.householdModel, householdModel) ||
-                other.householdModel == householdModel));
+                other.householdModel == householdModel) &&
+            (identical(other.householdMemberWrapper, householdMemberWrapper) ||
+                other.householdMemberWrapper == householdMemberWrapper));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, navigateToRoot, householdModel);
+  int get hashCode => Object.hash(
+      runtimeType, navigateToRoot, householdModel, householdMemberWrapper);
 
   @JsonKey(ignore: true)
   @override
@@ -3341,10 +3391,12 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
-    return persisted(navigateToRoot, householdModel);
+    return persisted(navigateToRoot, householdModel, householdMemberWrapper);
   }
 
   @override
@@ -3375,10 +3427,12 @@ class _$BeneficiaryRegistrationPersistedState
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
-    return persisted?.call(navigateToRoot, householdModel);
+    return persisted?.call(
+        navigateToRoot, householdModel, householdMemberWrapper);
   }
 
   @override
@@ -3409,12 +3463,13 @@ class _$BeneficiaryRegistrationPersistedState
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
     if (persisted != null) {
-      return persisted(navigateToRoot, householdModel);
+      return persisted(navigateToRoot, householdModel, householdMemberWrapper);
     }
     return orElse();
   }
@@ -3472,11 +3527,13 @@ abstract class BeneficiaryRegistrationPersistedState
     implements BeneficiaryRegistrationState {
   const factory BeneficiaryRegistrationPersistedState(
           {final bool navigateToRoot,
-          required final HouseholdModel householdModel}) =
+          required final HouseholdModel householdModel,
+          final HouseholdMemberWrapper? householdMemberWrapper}) =
       _$BeneficiaryRegistrationPersistedState;
 
   bool get navigateToRoot;
   HouseholdModel get householdModel;
+  HouseholdMemberWrapper? get householdMemberWrapper;
   @JsonKey(ignore: true)
   _$$BeneficiaryRegistrationPersistedStateCopyWith<
           _$BeneficiaryRegistrationPersistedState>

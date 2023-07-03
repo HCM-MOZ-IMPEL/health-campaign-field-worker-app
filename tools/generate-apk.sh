@@ -21,6 +21,17 @@ echo
 
 echo "Creating env configs"
 echo "--------------------"
+cp -fr .env-qa .env
+echo
+
+echo "Generating QA APK"
+echo "------------------"
+flutter build apk
+cp -fr build/app/outputs/flutter-apk/app-release.apk release-apk/apk-qa.apk
+echo
+
+echo "Creating env configs"
+echo "--------------------"
 cp -fr .env-uat .env
 echo
 

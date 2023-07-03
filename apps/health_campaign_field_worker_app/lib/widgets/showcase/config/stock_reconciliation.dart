@@ -13,7 +13,6 @@ class _StockReconciliationShowcaseData {
         dateOfReconciliation,
         stockReceived,
         stockIssued,
-        stockReturned,
         stockOnHand,
         manualStockCount,
         comments,
@@ -34,10 +33,6 @@ class _StockReconciliationShowcaseData {
 
   final stockIssued = ShowcaseItemBuilder(
     messageLocalizationKey: i18.stockReconciliationShowcase.stockIssued,
-  );
-
-  final stockReturned = ShowcaseItemBuilder(
-    messageLocalizationKey: i18.stockReconciliationShowcase.stockReturned,
   );
 
   final stockOnHand = ShowcaseItemBuilder(

@@ -259,6 +259,7 @@ class _DeliverInterventionPageState
                                       parent
                                         ..pop()
                                         ..pop();
+
                                       router.push(AcknowledgementRoute());
                                     }
                                   },
@@ -483,7 +484,7 @@ class _DeliverInterventionPageState
                                       .buildWith(
                                     child: DigitIntegerFormPicker(
                                       form: form,
-                                      minimum: 0,
+                                      minimum: 1,
                                       maximum: min(
                                         householdMemberWrapper
                                                 .household.memberCount ??

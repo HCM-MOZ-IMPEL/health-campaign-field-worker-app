@@ -10,12 +10,14 @@ class BeneficiaryCard extends StatelessWidget {
   final String description;
   final String? status;
   final String? statusType;
+  final bool hasShowcase;
 
   const BeneficiaryCard({
     super.key,
     required this.title,
     required this.subtitle,
     required this.description,
+    this.hasShowcase = false,
     this.status,
     this.statusType,
   });
@@ -30,17 +32,23 @@ class BeneficiaryCard extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(4),
-          child: searchBeneficiariesShowcaseData.nameOfBeneficiary.buildWith(
-            child: Text(
+          child: () {
+            final child = Text(
               title,
               style: theme.textTheme.headlineSmall,
-            ),
-          ),
+              textAlign: TextAlign.start,
+            );
+
+            return hasShowcase
+                ? searchBeneficiariesShowcaseData.nameOfBeneficiary
+                    .buildWith(child: child)
+                : child;
+          }(),
         ),
         Offstage(
           offstage: status == null,
-          child: searchBeneficiariesShowcaseData.deliveryStatus.buildWith(
-            child: status == 'é entregue'
+          child: () {
+            final child = status == 'é entregue'
                 ? DigitIconButton(
                     icon: Icons.check_circle,
                     iconText: AppLocalizations.of(context)
@@ -54,8 +62,13 @@ class BeneficiaryCard extends StatelessWidget {
                         .translate(status.toString()),
                     iconTextColor: theme.colorScheme.error,
                     iconColor: theme.colorScheme.error,
-                  ),
-          ),
+                  );
+
+            return hasShowcase
+                ? searchBeneficiariesShowcaseData.deliveryStatus
+                    .buildWith(child: child)
+                : child;
+          }(),
         ),
         Padding(
           padding: const EdgeInsets.all(4),

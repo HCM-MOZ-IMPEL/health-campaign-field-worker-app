@@ -1,35 +1,20 @@
-import 'dart:async';
-import 'dart:ui';
-import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:health_campaign_field_worker_app/utils/checkbandwidth.dart';
 import 'package:isar/isar.dart';
-import 'package:recase/recase.dart';
+
 import 'app.dart';
 import 'blocs/app_bloc_observer.dart';
 import 'data/local_store/app_shared_preferences.dart';
-import 'data/local_store/no_sql/schema/app_configuration.dart';
-import 'data/local_store/no_sql/schema/localization.dart';
-import 'data/local_store/no_sql/schema/oplog.dart';
-import 'data/local_store/no_sql/schema/service_registry.dart';
 import 'data/local_store/secure_store/secure_store.dart';
 import 'data/local_store/sql_store/sql_store.dart';
-import 'data/network_manager.dart';
 import 'data/remote_client.dart';
-import 'data/repositories/remote/bandwidth_check.dart';
-import 'models/bandwidth/bandwidth_model.dart';
-import 'models/data_model.dart';
 import 'router/app_router.dart';
 import 'utils/environment_config.dart';
 import 'utils/utils.dart';
-import 'widgets/network_manager_provider_wrapper.dart';
 
 final LocalSqlDataStore _sql = LocalSqlDataStore();
 late Dio _dio;
@@ -53,7 +38,6 @@ void main() async {
   DigitUi.instance.initThemeComponents();
 
   await initializeService(_dio);
-  print("--OPEN---");
   if (Isar.getInstance('HCM') == null) {
     await Constants().initilize();
   }

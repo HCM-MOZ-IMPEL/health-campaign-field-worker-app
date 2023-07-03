@@ -24,6 +24,7 @@ class DigitTextField extends StatelessWidget {
   final bool readOnly;
   final bool? isFilled;
   final Widget? suffixIcon;
+  final TextStyle? textStyle;
 
   const DigitTextField({
     super.key,
@@ -47,12 +48,14 @@ class DigitTextField extends StatelessWidget {
     this.readOnly = false,
     this.isFilled,
     this.suffixIcon,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return LabeledField(
       label: label,
+      textStyle: textStyle,
       child: TextFormField(
         style: TextStyle(
             color: readOnly == true

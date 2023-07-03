@@ -56,7 +56,7 @@ class DigitDobPicker extends StatelessWidget {
                     const TextInputType.numberWithOptions(decimal: true),
                 readOnly: isVerified,
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^-?\d+$')),
+                  FilteringTextInputFormatter.allow(RegExp(r'^[1-9][0-9]*')),
                 ],
                 onChanged: (formControl) {
                   /// Validates that control's value must be `true`
@@ -91,6 +91,11 @@ class DigitDobPicker extends StatelessWidget {
               child: DigitDateFormPicker(
                 label: datePickerLabel,
                 formControlName: datePickerFormControl,
+                end: DateTime(
+                  DateTime.now().year - 1,
+                  1,
+                  1,
+                ),
               ),
             ),
           ],

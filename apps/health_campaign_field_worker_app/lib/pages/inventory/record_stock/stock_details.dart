@@ -607,11 +607,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   ),
                                   isRequired: true,
                                   formControlName: _vehicleNumberKey,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp(r'^-?[A-Z0-9]+$'),
-                                    ),
-                                  ],
+                                  inputFormatters: [UpperCaseTextFormatter()],
                                   validationMessages: {
                                     'required': (object) =>
                                         localizations.translate(
@@ -807,6 +803,19 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
           );
         },
       ),
+    );
+  }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
     );
   }
 }
