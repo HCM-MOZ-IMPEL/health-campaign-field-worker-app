@@ -1,7 +1,9 @@
-# melos_managed_dependency_overrides: digit_components,digit_showcase,forms_engine,intl
+# melos_managed_dependency_overrides: digit_components,digit_firebase_services,digit_showcase,forms_engine,intl
 dependency_overrides:
   digit_components:
     path: ../../packages/digit_components
+  digit_firebase_services:
+    path: ../../packages/digit_firebase_services
   digit_showcase:
     path: ../../packages/digit_showcase
   forms_engine:
