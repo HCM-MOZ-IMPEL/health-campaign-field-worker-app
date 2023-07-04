@@ -119,6 +119,9 @@ class MdmsRepository {
         ..batteryPercentCutOff =
             element.backgroundServiceConfig?.batteryPercentCutOff
         ..serviceInterval = element.backgroundServiceConfig?.serviceInterval;
+      final firebaseConfig = FirebaseConfig()
+        ..enableCrashlytics = element.firebaseConfig.enableCrashlytics
+        ..enableAnalytics = element.firebaseConfig.enableAnalytics;
 
       appConfiguration
         ..networkDetection = element.networkDetection
@@ -126,7 +129,8 @@ class MdmsRepository {
         ..syncMethod = element.syncMethod
         ..syncTrigger = element.syncTrigger
         ..tenantId = element.tenantId
-        ..backgroundServiceConfig = backgroundServiceConfig;
+        ..backgroundServiceConfig = backgroundServiceConfig
+        ..firebaseConfig = firebaseConfig;
 
       final List<Languages> languageList = element.languages.map((element) {
         final languages = Languages()
