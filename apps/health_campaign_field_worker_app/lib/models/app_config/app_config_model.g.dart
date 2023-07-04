@@ -135,6 +135,8 @@ _$_AppConfig _$$_AppConfigFromJson(Map<String, dynamic> json) => _$_AppConfig(
       transportTypes: (json['TRANSPORT_TYPES'] as List<dynamic>)
           .map((e) => TransportTypes.fromJson(e as Map<String, dynamic>))
           .toList(),
+      firebaseConfig: FirebaseConfig.fromJson(
+          json['FIREBASE_CONFIG'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_AppConfigToJson(_$_AppConfig instance) =>
@@ -158,6 +160,7 @@ Map<String, dynamic> _$$_AppConfigToJson(_$_AppConfig instance) =>
       'BACKEND_INTERFACE': instance.backendInterface,
       'CALL_SUPPORT': instance.callSupportOptions,
       'TRANSPORT_TYPES': instance.transportTypes,
+      'FIREBASE_CONFIG': instance.firebaseConfig,
     };
 
 _$_IdTypeOptions _$$_IdTypeOptionsFromJson(Map<String, dynamic> json) =>
@@ -254,6 +257,18 @@ _$_BackendInterface _$$_BackendInterfaceFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_BackendInterfaceToJson(_$_BackendInterface instance) =>
     <String, dynamic>{
       'interfaces': instance.interface,
+    };
+
+_$_FirebaseConfig _$$_FirebaseConfigFromJson(Map<String, dynamic> json) =>
+    _$_FirebaseConfig(
+      enableCrashlytics: json['enableCrashlytics'] as bool,
+      enableAnalytics: json['enableAnalytics'] as bool,
+    );
+
+Map<String, dynamic> _$$_FirebaseConfigToJson(_$_FirebaseConfig instance) =>
+    <String, dynamic>{
+      'enableCrashlytics': instance.enableCrashlytics,
+      'enableAnalytics': instance.enableAnalytics,
     };
 
 _$_InterfacesWrapper _$$_InterfacesWrapperFromJson(Map<String, dynamic> json) =>

@@ -53,6 +53,9 @@ class AppConfiguration {
 
   @Name("TENANT_ID")
   late String? tenantId;
+
+  @Name('FIREBASE_CONFIG')
+  late FirebaseConfig? firebaseConfig;
 }
 
 @embedded
@@ -135,6 +138,15 @@ class BackgroundServiceConfig {
 
   @Name("API_CONCURRENCY")
   late int? apiConcurrency;
+}
+
+@embedded
+class FirebaseConfig {
+  @Name("enableCrashlytics")
+  late bool? enableCrashlytics;
+
+  @Name("enableAnalytics")
+  late bool? enableAnalytics;
 }
 
 @embedded
