@@ -31,8 +31,10 @@ class DeliverInterventionBloc
       if (event.isEditing) {
         await taskRepository.update(event.task);
       } else {
-        final code = event.boundaryModel.code;
-        final name = event.boundaryModel.name;
+        final code =
+            event.task.address?.locality?.code ?? event.boundaryModel.code;
+        final name =
+            event.task.address?.addressLine1 ?? event.boundaryModel.name;
 
         final localityModel = code == null || name == null
             ? null

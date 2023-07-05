@@ -84,6 +84,10 @@ class HouseholdLocalRepository extends HouseholdLocalBaseRepository {
                     pincode: address.pincode,
                     type: address.type,
                     rowVersion: address.rowVersion,
+                    locality: LocalityModel(
+                      code: address.localityBoundaryCode ?? "",
+                      name: address.localityBoundaryName,
+                    ),
                     auditDetails: AuditDetails(
                       createdBy: household.auditCreatedBy!,
                       createdTime: household.auditCreatedTime!,
