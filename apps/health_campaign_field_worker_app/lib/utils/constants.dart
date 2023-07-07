@@ -1,8 +1,12 @@
 import 'package:collection/collection.dart';
+import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:digit_firebase_services/digit_firebase_services.dart'
+    as firebase_services;
+import '../firebase_options.dart';
 
 import '../blocs/app_initialization/app_initialization.dart';
 import '../data/data_repository.dart';
@@ -131,6 +135,20 @@ class Constants {
       directory: dir.path,
       name: 'HCM',
     );
+
+    final appConfigs = await _isar.appConfigurations.where().findAll();
+    final config = appConfigs.firstOrNull;
+
+    final enableCrashlytics =
+        config?.firebaseConfig?.enableCrashlytics ?? false;
+    if (enableCrashlytics) {
+      firebase_services.initialize(
+        options: DefaultFirebaseOptions.currentPlatform,
+        onErrorMessage: (value) {
+          AppLogger.instance.error(title: 'CRASHLYTICS', message: value);
+        },
+      );
+    }
   }
 
   static List<RemoteRepository> getRemoteRepositories(
