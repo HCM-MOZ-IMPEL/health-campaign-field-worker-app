@@ -37,6 +37,13 @@ class _ComplaintsLocationPageState
     final bloc = context.read<ComplaintsRegistrationBloc>();
     final router = context.router;
 
+    final locationBloc = context.read<LocationBloc>();
+    final locationInitialState = locationBloc.state;
+
+    final initialLat = locationInitialState.latitude;
+    final initialLng = locationInitialState.longitude;
+    final initialAccuracy = locationInitialState.accuracy;
+
     return Scaffold(
       body: ReactiveFormBuilder(
         form: () => bloc.state.map(
@@ -51,9 +58,15 @@ class _ComplaintsLocationPageState
             final lng = locationState.longitude;
             final accuracy = locationState.accuracy;
 
-            form.control(_latKey).value ??= lat;
-            form.control(_lngKey).value ??= lng;
-            form.control(_accuracyKey).value ??= accuracy;
+            if (lat != null) {
+              form.control(_latKey).value = lat;
+            }
+            if (lng != null) {
+              form.control(_lngKey).value = lng;
+            }
+            if (accuracy != null) {
+              form.control(_accuracyKey).value = accuracy;
+            }
           },
           listenWhen: (previous, current) {
             final lat = form.control(_latKey).value;
@@ -108,8 +121,10 @@ class _ComplaintsLocationPageState
                                 landmark: landmark,
                                 pincode: postalCode,
                                 geoLocation: GeoLocation(
-                                  latitude: form.control(_latKey).value,
-                                  longitude: form.control(_lngKey).value,
+                                  latitude:
+                                      form.control(_latKey).value ?? initialLat,
+                                  longitude:
+                                      form.control(_lngKey).value ?? initialLng,
                                 ),
                               ),
                             ));

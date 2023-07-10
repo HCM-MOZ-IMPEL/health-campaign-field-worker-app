@@ -1,6 +1,4 @@
 import 'package:digit_components/digit_components.dart';
-import 'package:digit_firebase_services/digit_firebase_services.dart'
-    as firebase_services;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -15,7 +13,6 @@ import 'data/local_store/no_sql/schema/app_configuration.dart';
 import 'data/local_store/secure_store/secure_store.dart';
 import 'data/local_store/sql_store/sql_store.dart';
 import 'data/remote_client.dart';
-import 'firebase_options.dart';
 import 'router/app_router.dart';
 import 'utils/environment_config.dart';
 import 'utils/utils.dart';
@@ -44,19 +41,6 @@ void main() async {
   await initializeService(_dio);
   if (Isar.getInstance('HCM') == null) {
     await Constants().initilize();
-  }
-
-  final appConfigs = await Constants().isar.appConfigurations.where().findAll();
-  final config = appConfigs.firstOrNull;
-
-  final enableCrashlytics = config?.firebaseConfig?.enableCrashlytics ?? true;
-  if (enableCrashlytics) {
-    firebase_services.initialize(
-      options: DefaultFirebaseOptions.currentPlatform,
-      onErrorMessage: (value) {
-        AppLogger.instance.error(title: 'CRASHLYTICS', message: value);
-      },
-    );
   }
 
   runApp(

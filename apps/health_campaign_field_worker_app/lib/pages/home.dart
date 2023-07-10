@@ -350,6 +350,7 @@ class _HomePageState extends LocalizedState<HomePage> {
       showcaseKeys.addAll([
         homeShowcaseData.warehouseManagerManageStock.showcaseKey,
         homeShowcaseData.wareHouseManagerStockReconciliation.showcaseKey,
+        homeShowcaseData.wareHouseManagerChecklist.showcaseKey,
         homeShowcaseData.warehouseManagerFileComplaint.showcaseKey,
         homeShowcaseData.warehouseManagerSyncData.showcaseKey,
       ]);
@@ -371,6 +372,13 @@ class _HomePageState extends LocalizedState<HomePage> {
               onPressed: () {
                 context.router.push(StockReconciliationRoute());
               },
+            ),
+          ),
+          homeShowcaseData.wareHouseManagerChecklist.buildWith(
+            child: HomeItemCard(
+              icon: Icons.menu_book,
+              label: i18.home.warehouseManagerCheckList,
+              onPressed: () => context.router.push(ChecklistWrapperRoute()),
             ),
           ),
           homeShowcaseData.warehouseManagerFileComplaint.buildWith(

@@ -119,7 +119,7 @@ class _HouseholdLocationPageState
                             isHeadOfHousehold,
                           ) {
                             var addressModel = AddressModel(
-                              addressLine1: 'addressLine1',
+                              addressLine1: context.boundary.name,
                               addressLine2: 'addressLine2',
                               landmark:
                                   (landmark == null || landmark.trim() == "")
@@ -161,7 +161,7 @@ class _HouseholdLocationPageState
                             loading,
                           ) {
                             var addressModel = address.copyWith(
-                              addressLine1: 'addressLine1',
+                              addressLine1: context.boundary.name,
                               addressLine2: 'addressLine2',
                               landmark: landmark,
                               locality: address.locality,

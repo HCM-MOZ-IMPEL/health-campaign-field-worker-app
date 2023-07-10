@@ -325,9 +325,7 @@ class _DeliverInterventionPageState
                                       bottom: 16,
                                     ),
                                     element: {
-                                      localizations.translate(i18
-                                              .householdOverView
-                                              .householdOverViewHouseholdHeadLabel):
+                                      "${localizations.translate(i18.householdOverView.householdOverViewHouseholdHeadLabel)}:":
                                           '${householdMemberWrapper.headOfHousehold.name?.givenName ?? ''} ${householdMemberWrapper.headOfHousehold.name?.familyName ?? ''}',
                                       // localizations.translate(
                                       //   i18.deliverIntervention.idTypeText,
@@ -355,9 +353,9 @@ class _DeliverInterventionPageState
                                       //   return identifiers.first.identifierId ??
                                       //       '';
                                       // }(),
-                                      localizations.translate(
+                                      "${localizations.translate(
                                         i18.common.coreCommonAge,
-                                      ): () {
+                                      )}:": () {
                                         final dob = householdMemberWrapper
                                             .headOfHousehold.dateOfBirth;
                                         if (dob == null || dob.isEmpty) {
@@ -374,17 +372,17 @@ class _DeliverInterventionPageState
                                       // ): householdMemberWrapper.headOfHousehold
                                       //         .gender?.name.sentenceCase ??
                                       //     '',
-                                      localizations.translate(
+                                      "${localizations.translate(
                                         i18.common.coreCommonGender,
-                                      ): localizations.translate(
+                                      )}:": localizations.translate(
                                         householdMemberWrapper
                                                 .headOfHousehold.gender?.name
                                                 .toUpperCase() ??
                                             '',
                                       ),
-                                      localizations.translate(
+                                      "${localizations.translate(
                                         i18.common.coreCommonMobileNumber,
-                                      ): householdMemberWrapper
+                                      )}:": householdMemberWrapper
                                               .headOfHousehold.mobileNumber ??
                                           '',
                                     },
@@ -393,10 +391,10 @@ class _DeliverInterventionPageState
                                       .buildWith(
                                     child: DigitTableCard(
                                       element: {
-                                        localizations.translate(
+                                        "${localizations.translate(
                                           i18.deliverIntervention
                                               .memberCountText,
-                                        ): householdMemberWrapper
+                                        )}:": householdMemberWrapper
                                                 .household.memberCount ??
                                             householdMemberWrapper
                                                 .members.length,
@@ -409,9 +407,8 @@ class _DeliverInterventionPageState
                                       .buildWith(
                                     child: DigitTableCard(
                                       element: {
-                                        localizations.translate(i18
-                                            .deliverIntervention
-                                            .noOfResourcesForDelivery): () {
+                                        "${localizations.translate(i18.deliverIntervention.noOfResourcesForDelivery)}:":
+                                            () {
                                           count = householdMemberWrapper
                                                   .household.memberCount ??
                                               householdMemberWrapper
@@ -486,18 +483,18 @@ class _DeliverInterventionPageState
                                       form: form,
                                       minimum: 1,
                                       maximum: min(
-                                        householdMemberWrapper
-                                                .household.memberCount ??
-                                            householdMemberWrapper
-                                                    .members.length /
-                                                1.8,
+                                        (householdMemberWrapper
+                                                    .household.memberCount ??
+                                                householdMemberWrapper
+                                                    .members.length) /
+                                            1.8,
                                         3,
                                       ).round(),
                                       formControlName: _quantityDistributedKey,
-                                      label: localizations.translate(
+                                      label: "${localizations.translate(
                                         i18.deliverIntervention
                                             .quantityDistributedLabel,
-                                      ),
+                                      )}*",
                                       incrementer: !isDelivered,
                                     ),
                                   ),

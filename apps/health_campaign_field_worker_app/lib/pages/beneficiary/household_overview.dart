@@ -126,25 +126,22 @@ class _HouseholdOverviewPageState
                                 householdOverviewShowcaseData.administrativeArea
                                     .buildWith(
                                   child: TableValues(
-                                    title: localizations.translate(
+                                    title: "${localizations.translate(
                                       i18.householdLocation
                                           .administrationAreaFormLabel,
-                                    ),
-                                    value: state
-                                            .householdMemberWrapper
-                                            .household
-                                            .address
-                                            ?.locality
-                                            ?.name ??
+                                    )}:",
+                                    // change to pick boundary name from boundarycode
+                                    value: state.householdMemberWrapper
+                                            .household.address?.addressLine1 ??
                                         "",
                                   ),
                                 ),
                                 householdOverviewShowcaseData.memberCount
                                     .buildWith(
                                   child: TableValues(
-                                    title: localizations.translate(
+                                    title: "${localizations.translate(
                                       i18.deliverIntervention.memberCountText,
-                                    ),
+                                    )}:",
                                     value: state.householdMemberWrapper
                                         .household.memberCount
                                         .toString(),
