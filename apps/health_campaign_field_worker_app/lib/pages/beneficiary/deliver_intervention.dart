@@ -483,11 +483,11 @@ class _DeliverInterventionPageState
                                       form: form,
                                       minimum: 1,
                                       maximum: min(
-                                        householdMemberWrapper
-                                                .household.memberCount ??
-                                            householdMemberWrapper
-                                                    .members.length /
-                                                1.8,
+                                        (householdMemberWrapper
+                                                    .household.memberCount ??
+                                                householdMemberWrapper
+                                                    .members.length) /
+                                            1.8,
                                         3,
                                       ).round(),
                                       formControlName: _quantityDistributedKey,
