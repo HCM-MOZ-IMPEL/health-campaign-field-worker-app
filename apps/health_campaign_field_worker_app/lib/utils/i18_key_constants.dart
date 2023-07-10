@@ -172,6 +172,8 @@ class Home {
   String get dataSyncInfoContent => 'DATA_SYNC_INFO_CONTENT';
 
   String get myCheckList => 'MY_CHECK_LIST_LABEL';
+
+  String get warehouseManagerCheckList => 'WAREHOUSE_MANAGER_CHECK_LIST_LABEL';
 }
 
 class SearchBeneficiary {
@@ -737,6 +739,10 @@ class HomeShowcase {
 
   String get wareHouseManagerStockReconciliation {
     return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_STOCK_RECONCILIATION';
+  }
+
+  String get wareHouseManagerChecklist {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_CHECKLIST';
   }
 
   String get warehouseManagerFileComplaint {

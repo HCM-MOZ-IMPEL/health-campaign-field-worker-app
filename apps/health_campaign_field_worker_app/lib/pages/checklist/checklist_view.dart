@@ -334,6 +334,15 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             ],
                           ]);
                         }).toList(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
+                        const DigitDivider(),
                         DigitElevatedButton(
                           onPressed: () async {
                             final router = context.router;
@@ -388,7 +397,12 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                         dataType: attribute[i].dataType,
                                         clientReferenceId: IdGen.i.identifier,
                                         referenceId: referenceId,
-                                        value: controller[i].text.toString(),
+                                        value: controller[i]
+                                                .text
+                                                .toString()
+                                                .isEmpty
+                                            ? null
+                                            : controller[i].text.toString(),
                                         rowVersion: 1,
                                         tenantId: attribute[i].tenantId,
                                         additionalDetails:

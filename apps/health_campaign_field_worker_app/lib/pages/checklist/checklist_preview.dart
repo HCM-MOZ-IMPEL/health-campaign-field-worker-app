@@ -196,7 +196,7 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                                         child: Text(
                                                           localizations
                                                               .translate(
-                                                            e.value,
+                                                            e.value ?? "",
                                                           ),
                                                         ),
                                                       ),

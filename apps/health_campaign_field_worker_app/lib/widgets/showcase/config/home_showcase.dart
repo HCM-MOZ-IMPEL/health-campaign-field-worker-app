@@ -14,6 +14,7 @@ class _HomePageShowcaseData {
         distributorSyncData,
         warehouseManagerManageStock,
         wareHouseManagerStockReconciliation,
+        wareHouseManagerChecklist,
         warehouseManagerFileComplaint,
         warehouseManagerSyncData,
         supervisorProgressBar,
@@ -45,6 +46,10 @@ class _HomePageShowcaseData {
   final wareHouseManagerStockReconciliation = ShowcaseItemBuilder(
     messageLocalizationKey:
         i18.homeShowcase.wareHouseManagerStockReconciliation,
+  );
+
+  final wareHouseManagerChecklist = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.homeShowcase.wareHouseManagerChecklist,
   );
 
   final warehouseManagerFileComplaint = ShowcaseItemBuilder(
