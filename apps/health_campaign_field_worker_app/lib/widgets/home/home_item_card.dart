@@ -36,7 +36,7 @@ class HomeItemCard extends StatelessWidget {
                   : theme.colorScheme.secondary,
               size: 30,
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 12),
             Text(
               AppLocalizations.of(context).translate(
                 label,
