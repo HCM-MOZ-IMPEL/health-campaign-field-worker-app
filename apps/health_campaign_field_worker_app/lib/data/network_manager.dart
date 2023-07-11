@@ -211,6 +211,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
@@ -278,6 +281,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
@@ -311,6 +317,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
@@ -356,6 +365,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(taskModel.clientReferenceId);
               }
             }
 
@@ -390,6 +402,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
@@ -424,6 +439,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
@@ -490,6 +508,9 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
+              } else {
+                local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
