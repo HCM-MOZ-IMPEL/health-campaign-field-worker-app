@@ -211,7 +211,8 @@ abstract class OpLogManager<T extends EntityModel> {
 
     for (final oplog in oplogs) {
       final entry = OpLogEntry.fromOpLog<T>(oplog);
-      final syncDownRetryCount = entry.syncDownRetryCount;
+      final syncDownRetryCount =
+          entry.syncDownRetryCount < 0 ? 0 : entry.syncDownRetryCount;
       if (syncDownRetryCount >= 3) {
         OpLogEntry updatedEntry = entry.copyWith(
           syncDownRetryCount: 0,
