@@ -19,22 +19,24 @@ class OpLogEntry<T extends EntityModel> {
   final String? serverGeneratedId;
   final String? clientReferenceId;
   final List<AdditionalId> additionalIds;
+  final int syncDownRetryCount;
 
   const OpLogEntry(
-      this.entity,
-      this.operation, {
-        this.id,
-        required this.createdAt,
-        required this.createdBy,
-        required this.type,
-        this.syncedUp = false,
-        this.syncedDown = false,
-        this.syncedUpOn,
-        this.syncedDownOn,
-        this.serverGeneratedId,
-        this.clientReferenceId,
-        this.additionalIds = const [],
-      });
+    this.entity,
+    this.operation, {
+    this.id,
+    required this.createdAt,
+    required this.createdBy,
+    required this.type,
+    this.syncedUp = false,
+    this.syncedDown = false,
+    this.syncedUpOn,
+    this.syncedDownOn,
+    this.serverGeneratedId,
+    this.clientReferenceId,
+    this.additionalIds = const [],
+    this.syncDownRetryCount = 0,
+  });
 
   static OpLogEntry<T> fromOpLog<T extends EntityModel>(OpLog e) {
     return OpLogEntry<T>(
@@ -53,6 +55,7 @@ class OpLogEntry<T extends EntityModel> {
       additionalIds: e.additionalIds
           .map((e) => AdditionalId(idType: e.idType, id: e.id))
           .toList(),
+      syncDownRetryCount: e.syncDownRetryCount,
     );
   }
 
@@ -70,10 +73,11 @@ class OpLogEntry<T extends EntityModel> {
       ..syncedUp = syncedUp
       ..additionalIds = additionalIds
           .map((e) => o.AdditionalId()
-        ..id = e.id
-        ..idType = e.idType)
+            ..id = e.id
+            ..idType = e.idType)
           .toList()
-      ..syncedDown = syncedDown;
+      ..syncedDown = syncedDown
+      ..syncDownRetryCount = syncDownRetryCount;
 
     if (id != null) {
       oplog.id = id!;

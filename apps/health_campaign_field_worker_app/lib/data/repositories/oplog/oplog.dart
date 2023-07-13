@@ -169,6 +169,7 @@ abstract class OpLogManager<T extends EntityModel> {
       if (entry.syncedUp) {
         updatedEntry = updatedEntry.copyWith(
           syncedDown: true,
+          syncDownRetryCount: 0,
           syncedDownOn: DateTime.now(),
         );
       }
@@ -196,6 +197,40 @@ abstract class OpLogManager<T extends EntityModel> {
     }
 
     return oplog.map((e) => OpLogEntry.fromOpLog<T>(e)).toList();
+  }
+
+  Future<void> updateSyncDownRetry(String clientReferenceId) async {
+    final oplogs = await isar.opLogs
+        .filter()
+        .clientReferenceIdEqualTo(clientReferenceId)
+        .findAll();
+
+    if (oplogs.isEmpty) {
+      throw AppException('OpLog not found for id: $clientReferenceId');
+    }
+
+    for (final oplog in oplogs) {
+      final entry = OpLogEntry.fromOpLog<T>(oplog);
+      final syncDownRetryCount =
+          entry.syncDownRetryCount < 0 ? 0 : entry.syncDownRetryCount;
+      if (syncDownRetryCount >= 3) {
+        OpLogEntry updatedEntry = entry.copyWith(
+          syncDownRetryCount: 0,
+          syncedUp: false,
+          syncedUpOn: null,
+        );
+        await isar.writeTxn(() async {
+          await isar.opLogs.put(updatedEntry.oplog);
+        });
+      } else {
+        OpLogEntry updatedEntry = entry.copyWith(
+          syncDownRetryCount: syncDownRetryCount + 1,
+        );
+        await isar.writeTxn(() async {
+          await isar.opLogs.put(updatedEntry.oplog);
+        });
+      }
+    }
   }
 
   String? getServerGeneratedId(T entity);
