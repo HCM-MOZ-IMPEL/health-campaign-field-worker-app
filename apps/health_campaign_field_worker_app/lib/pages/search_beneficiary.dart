@@ -144,11 +144,9 @@ class _SearchBeneficiaryPageState
                             ),
                           );
 
+                          searchController.clear();
                           bloc.add(
-                            SearchHouseholdsSearchByHouseholdHeadEvent(
-                              searchText: searchController.text,
-                              projectId: projectId,
-                            ),
+                            const SearchHouseholdsClearEvent(),
                           );
                         },
                       );

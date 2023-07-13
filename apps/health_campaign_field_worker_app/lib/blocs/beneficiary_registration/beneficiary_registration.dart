@@ -277,21 +277,29 @@ class BeneficiaryRegistrationBloc
       },
       editIndividual: (value) async {
         emit(value.copyWith(loading: true));
+
+        final individual = event.model.copyWith(
+          address: [
+            event.addressModel.copyWith(
+              relatedClientReferenceId: event.model.clientReferenceId,
+            ),
+          ],
+        );
         try {
-          final individual = event.model.copyWith(
-            address: [
-              event.addressModel.copyWith(
-                relatedClientReferenceId: event.model.clientReferenceId,
-              ),
-            ],
-          );
           await individualRepository.update(individual);
         } catch (error) {
           rethrow;
         } finally {
           emit(value.copyWith(loading: false));
+          final householdMemberWrapper = value.householdMemberWrapper == null
+              ? null
+              : value.householdMemberWrapper?.copyWith(
+                  headOfHousehold: individual,
+                  members: [individual],
+                );
           emit(BeneficiaryRegistrationPersistedState(
             householdModel: value.householdModel,
+            householdMemberWrapper: householdMemberWrapper,
           ));
         }
       },
@@ -415,6 +423,7 @@ class BeneficiaryRegistrationState with _$BeneficiaryRegistrationState {
     required HouseholdModel householdModel,
     required IndividualModel individualModel,
     required AddressModel addressModel,
+    HouseholdMemberWrapper? householdMemberWrapper,
     @Default(false) bool loading,
   }) = BeneficiaryRegistrationEditIndividualState;
 

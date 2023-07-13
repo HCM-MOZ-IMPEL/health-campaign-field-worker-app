@@ -187,6 +187,7 @@ class _IndividualDetailsPageState
                           householdModel,
                           individualModel,
                           addressModel,
+                          householdMemberWrapper,
                           loading,
                         ) {
                           final individual = _getIndividualModel(
@@ -201,7 +202,7 @@ class _IndividualDetailsPageState
                               model: individual,
                             ),
                           );
-                          context.router.pop();
+                          // context.router.pop();
                         },
                         addMember: (
                           addressModel,

@@ -186,6 +186,8 @@ class _HouseholdOverviewPageState
                                                     .householdMemberWrapper
                                                     .household,
                                                 addressModel: address,
+                                                householdMemberWrapper: state
+                                                    .householdMemberWrapper,
                                               ),
                                               children: [
                                                 IndividualDetailsRoute(

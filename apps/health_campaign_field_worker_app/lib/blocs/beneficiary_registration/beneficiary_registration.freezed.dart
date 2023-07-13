@@ -1923,6 +1923,7 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
@@ -1957,6 +1958,7 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -1989,6 +1991,7 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2227,6 +2230,7 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
@@ -2265,6 +2269,7 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2301,6 +2306,7 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2540,6 +2546,7 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
@@ -2578,6 +2585,7 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2614,6 +2622,7 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2711,7 +2720,10 @@ abstract class _$$BeneficiaryRegistrationEditIndividualStateCopyWith<$Res> {
       {HouseholdModel householdModel,
       IndividualModel individualModel,
       AddressModel addressModel,
+      HouseholdMemberWrapper? householdMemberWrapper,
       bool loading});
+
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper;
 }
 
 /// @nodoc
@@ -2730,6 +2742,7 @@ class __$$BeneficiaryRegistrationEditIndividualStateCopyWithImpl<$Res>
     Object? householdModel = null,
     Object? individualModel = null,
     Object? addressModel = null,
+    Object? householdMemberWrapper = freezed,
     Object? loading = null,
   }) {
     return _then(_$BeneficiaryRegistrationEditIndividualState(
@@ -2745,11 +2758,28 @@ class __$$BeneficiaryRegistrationEditIndividualStateCopyWithImpl<$Res>
           ? _value.addressModel
           : addressModel // ignore: cast_nullable_to_non_nullable
               as AddressModel,
+      householdMemberWrapper: freezed == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper?,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper {
+    if (_value.householdMemberWrapper == null) {
+      return null;
+    }
+
+    return $HouseholdMemberWrapperCopyWith<$Res>(_value.householdMemberWrapper!,
+        (value) {
+      return _then(_value.copyWith(householdMemberWrapper: value));
+    });
   }
 }
 
@@ -2761,6 +2791,7 @@ class _$BeneficiaryRegistrationEditIndividualState
       {required this.householdModel,
       required this.individualModel,
       required this.addressModel,
+      this.householdMemberWrapper,
       this.loading = false});
 
   @override
@@ -2770,12 +2801,14 @@ class _$BeneficiaryRegistrationEditIndividualState
   @override
   final AddressModel addressModel;
   @override
+  final HouseholdMemberWrapper? householdMemberWrapper;
+  @override
   @JsonKey()
   final bool loading;
 
   @override
   String toString() {
-    return 'BeneficiaryRegistrationState.editIndividual(householdModel: $householdModel, individualModel: $individualModel, addressModel: $addressModel, loading: $loading)';
+    return 'BeneficiaryRegistrationState.editIndividual(householdModel: $householdModel, individualModel: $individualModel, addressModel: $addressModel, householdMemberWrapper: $householdMemberWrapper, loading: $loading)';
   }
 
   @override
@@ -2789,12 +2822,14 @@ class _$BeneficiaryRegistrationEditIndividualState
                 other.individualModel == individualModel) &&
             (identical(other.addressModel, addressModel) ||
                 other.addressModel == addressModel) &&
+            (identical(other.householdMemberWrapper, householdMemberWrapper) ||
+                other.householdMemberWrapper == householdMemberWrapper) &&
             (identical(other.loading, loading) || other.loading == loading));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, householdModel, individualModel, addressModel, loading);
+  int get hashCode => Object.hash(runtimeType, householdModel, individualModel,
+      addressModel, householdMemberWrapper, loading);
 
   @JsonKey(ignore: true)
   @override
@@ -2828,6 +2863,7 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
@@ -2839,8 +2875,8 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
-    return editIndividual(
-        householdModel, individualModel, addressModel, loading);
+    return editIndividual(householdModel, individualModel, addressModel,
+        householdMemberWrapper, loading);
   }
 
   @override
@@ -2866,6 +2902,7 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2875,8 +2912,8 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
-    return editIndividual?.call(
-        householdModel, individualModel, addressModel, loading);
+    return editIndividual?.call(householdModel, individualModel, addressModel,
+        householdMemberWrapper, loading);
   }
 
   @override
@@ -2902,6 +2939,7 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -2913,8 +2951,8 @@ class _$BeneficiaryRegistrationEditIndividualState
     required TResult orElse(),
   }) {
     if (editIndividual != null) {
-      return editIndividual(
-          householdModel, individualModel, addressModel, loading);
+      return editIndividual(householdModel, individualModel, addressModel,
+          householdMemberWrapper, loading);
     }
     return orElse();
   }
@@ -2974,11 +3012,13 @@ abstract class BeneficiaryRegistrationEditIndividualState
       {required final HouseholdModel householdModel,
       required final IndividualModel individualModel,
       required final AddressModel addressModel,
+      final HouseholdMemberWrapper? householdMemberWrapper,
       final bool loading}) = _$BeneficiaryRegistrationEditIndividualState;
 
   HouseholdModel get householdModel;
   IndividualModel get individualModel;
   AddressModel get addressModel;
+  HouseholdMemberWrapper? get householdMemberWrapper;
   bool get loading;
   @JsonKey(ignore: true)
   _$$BeneficiaryRegistrationEditIndividualStateCopyWith<
@@ -3100,6 +3140,7 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
@@ -3137,6 +3178,7 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -3172,6 +3214,7 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -3385,6 +3428,7 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
@@ -3422,6 +3466,7 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
@@ -3458,6 +3503,7 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
