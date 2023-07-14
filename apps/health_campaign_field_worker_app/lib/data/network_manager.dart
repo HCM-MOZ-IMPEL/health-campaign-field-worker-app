@@ -508,9 +508,6 @@ class NetworkManager {
                     dataOperation: element.operation,
                   ),
                 );
-              } else {
-                local.opLogManager
-                    .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
 
