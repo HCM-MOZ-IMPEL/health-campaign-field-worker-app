@@ -10,15 +10,11 @@ class _HouseholdOverviewShowcaseData {
 
   List<ShowcaseItemBuilder> get showcaseData => [
         deliveryStatus,
-        // TODO: This is missing from UI
-        // editHousehold,
         householdHead,
         administrativeArea,
         memberCount,
         householdIndividualCard,
         editMember,
-        // TODO: This is missing from UI
-        // addMember,
         deliverIntervention,
       ];
 

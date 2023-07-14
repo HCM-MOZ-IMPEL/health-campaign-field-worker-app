@@ -89,7 +89,7 @@ class _HouseholdOverviewPageState
                                                   .householdOverViewNotDeliveredIconLabel,
                                         ),
                                         iconTextColor:
-                                            state.task?.status == 'é entregue'
+                                            state.task?.status == 'delivered'
                                                 ? DigitTheme
                                                     .instance
                                                     .colorScheme
@@ -97,7 +97,7 @@ class _HouseholdOverviewPageState
                                                 : DigitTheme
                                                     .instance.colorScheme.error,
                                         iconColor:
-                                            state.task?.status == 'é entregue'
+                                            state.task?.status == 'delivered'
                                                 ? DigitTheme
                                                     .instance
                                                     .colorScheme

@@ -35,6 +35,10 @@ const stockReconciliationShowcase = StockReconciliationShowcase();
 const selectChecklistShowcase = SelectChecklistShowcase();
 const checklistDataShowcase = ChecklistDataShowcase();
 const checklistListShowcase = ChecklistListShowcase();
+const complaintTypeShowcase = ComplaintTypeShowcase();
+const complaintsDetailsShowcase = ComplaintsDetailsShowcase();
+const complaintsDetailsViewShowcase = ComplaintsDetailsViewShowcase();
+const complaintsInboxShowcase = ComplaintsInboxShowcase();
 const syncDialog = SyncDialog();
 
 class Common {
@@ -1119,6 +1123,142 @@ class ChecklistListShowcase {
 
   String get open {
     return 'CHECKLIST_LIST_SHOWCASE_OPEN';
+  }
+}
+
+class ComplaintTypeShowcase {
+  const ComplaintTypeShowcase();
+
+  String get complaintType {
+    return 'COMPLAINT_TYPE_SHOWCASE_COMPLAINT_TYPE';
+  }
+
+  String get complaintTypeNext {
+    return 'COMPLAINT_TYPE_SHOWCASE_COMPLAINT_TYPE_NEXT';
+  }
+}
+
+class ComplaintsDetailsShowcase {
+  const ComplaintsDetailsShowcase();
+
+  String get complaintDate {
+    return 'COMPLAINT_DETAILS_SHOWCASE_DATE';
+  }
+
+  String get complaintOrganizationUnit {
+    return 'COMPLAINT_DETAILS_SHOWCASE_ORGANIZATION_UNIT';
+  }
+
+  String get complaintSelfOrOther {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SELF_OR_OTHER';
+  }
+
+  String get complaintName {
+    return 'COMPLAINT_DETAILS_SHOWCASE_NAME';
+  }
+
+  String get complaintContact {
+    return 'COMPLAINT_DETAILS_SHOWCASE_CONTACT';
+  }
+
+  String get complaintSupervisorName {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SUPERVISOR_NAME';
+  }
+
+  String get complaintSupervisorContact {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SUPERVISOR_CONTACT';
+  }
+
+  String get complaintDescription {
+    return 'COMPLAINT_DETAILS_SHOWCASE_DESCRIPTION';
+  }
+
+  String get complaintSubmit {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SUBMIT';
+  }
+}
+
+class ComplaintsDetailsViewShowcase {
+  const ComplaintsDetailsViewShowcase();
+
+  String get complaintNumber {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_NUMBER';
+  }
+
+  String get complaintType {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_TYPE';
+  }
+
+  String get complaintDate {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_DATE';
+  }
+
+  String get complaintName {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_NAME';
+  }
+
+  String get complaintArea {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_AREA';
+  }
+
+  String get complaintContact {
+    return 'COMPLAINT_DETAILS_VIEW_CONTACT';
+  }
+
+  String get complaintStatus {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_STATUS';
+  }
+
+  String get complaintDescription {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_DESCRIPTION';
+  }
+
+  String get complaintClose {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_CLOSE';
+  }
+}
+
+class ComplaintsInboxShowcase {
+  const ComplaintsInboxShowcase();
+
+  String get complaintSearch {
+    return 'COMPLAINT_INBOX_SHOWCASE_SEARCH';
+  }
+
+  String get complaintFilter {
+    return 'COMPLAINT_INBOX_SHOWCASE_FILTER';
+  }
+
+  String get complaintSort {
+    return 'COMPLAINT_INBOX_SHOWCASE_SORT';
+  }
+
+  String get complaintNumber {
+    return 'COMPLAINT_INBOX_SHOWCASE_NUMBER';
+  }
+
+  String get complaintType {
+    return 'COMPLAINT_INBOX_SHOWCASE_TYPE';
+  }
+
+  String get complaintDate {
+    return 'COMPLAINT_INBOX_SHOWCASE_DATE';
+  }
+
+  String get complaintArea {
+    return 'COMPLAINT_INBOX_SHOWCASE_AREA';
+  }
+
+  String get complaintStatus {
+    return 'COMPLAINT_INBOX_SHOWCASE_STATUS';
+  }
+
+  String get complaintOpen {
+    return 'COMPLAINT_INBOX_SHOWCASE_OPEN';
+  }
+
+  String get complaintCreate {
+    return 'COMPLAINT_INBOX_SHOWCASE_CREATE';
   }
 }
 
