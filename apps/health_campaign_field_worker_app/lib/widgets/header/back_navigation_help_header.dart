@@ -25,44 +25,54 @@ class BackNavigationHelpHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Row(
-      children: [
-        if (context.router.canPop() && showBackNavigation) ...[
-          const SizedBox(width: 8),
-          TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: theme.colorScheme.onBackground,
-              padding: EdgeInsets.zero,
-            ),
-            onPressed: () => context.router.pop(),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
             child: Row(
               children: [
-                const Icon(Icons.arrow_left_sharp),
-                Text(AppLocalizations.of(context)
-                    .translate(i18.common.coreCommonBack)),
+                if (context.router.canPop() && showBackNavigation)
+                  Flexible(
+                    child: TextButton.icon(
+                      style: TextButton.styleFrom(
+                        foregroundColor: theme.colorScheme.onBackground,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () => context.router.pop(),
+                      icon: const Icon(Icons.arrow_left_sharp),
+                      label: Text(
+                        AppLocalizations.of(context).translate(
+                          i18.common.coreCommonBack,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                SizedBox(width: showBackNavigation ? 16 : 0),
+                if (showLogoutCTA)
+                  Flexible(
+                    child: TextButton.icon(
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      onPressed: () {
+                        context.read<AuthBloc>().add(const AuthLogoutEvent());
+                      },
+                      icon: const Icon(Icons.logout_outlined),
+                      label: Text(
+                        AppLocalizations.of(context).translate(
+                          i18.common.coreCommonLogout,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
+          SizedBox(width: showcaseButton != null ? 16 : 0),
+          if (showcaseButton != null) showcaseButton!,
         ],
-        if (showLogoutCTA) ...[
-          const SizedBox(width: 8),
-          TextButton(
-            style: TextButton.styleFrom(padding: EdgeInsets.zero),
-            onPressed: () {
-              context.read<AuthBloc>().add(const AuthLogoutEvent());
-            },
-            child: Row(
-              children: [
-                Text(AppLocalizations.of(context)
-                    .translate(i18.common.coreCommonLogout)),
-                const Icon(Icons.logout_outlined),
-              ],
-            ),
-          ),
-        ],
-        const Spacer(),
-        if (showcaseButton != null) showcaseButton!,
-      ],
+      ),
     );
   }
 }
