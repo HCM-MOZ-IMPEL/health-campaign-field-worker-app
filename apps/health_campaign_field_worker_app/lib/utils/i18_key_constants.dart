@@ -128,6 +128,11 @@ class Checklist {
 
   String get checklistDialogDescription => 'CHECKLIST_DIALOG_DESCRITPTION';
 
+  String get checklistBackDialogLabel => 'CHECKLIST_BACK_DIALOG_LABEL';
+
+  String get checklistBackDialogDescription =>
+      'CHECKLIST_BACK_DIALOG_DESCRITPTION';
+
   String get checklistDialogPrimaryAction => 'CHECKLIST_DIALOG_PRIMARY_ACTION';
 
   String get checklistDialogSecondaryAction =>
