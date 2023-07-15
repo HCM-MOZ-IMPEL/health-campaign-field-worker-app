@@ -540,7 +540,11 @@ class NetworkManager {
       (element) => element.type,
     );
 
-    for (final typeGroupedEntity in groupedEntries.entries) {
+    final entries = groupedEntries.entries.toList();
+    entries.sort((a, b) => DataModelType.values
+        .indexOf(a.key)
+        .compareTo(DataModelType.values.indexOf(b.key)));
+    for (final typeGroupedEntity in entries) {
       final groupedOperations = typeGroupedEntity.value.groupListsBy(
         (element) => element.operation,
       );
