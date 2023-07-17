@@ -112,6 +112,7 @@ class FacilityValueAccessor
   @override
   FacilityModel? viewToModelValue(String? viewValue) {
     return models.firstWhereOrNull(
-        (element) => element.id == viewValue?.split("(")[1].split(")")[0]);
+      (element) => element.id == viewValue?.split("(")[1].split(")")[0],
+    );
   }
 }
