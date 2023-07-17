@@ -750,7 +750,7 @@ class NetworkManager {
         );
         for (final syncedEntity in items) {
           if (syncedEntity.type == DataModelType.complaints) continue;
-          local.markSyncedUp(entry: syncedEntity);
+          await local.markSyncedUp(entry: syncedEntity);
         }
       }
     }
