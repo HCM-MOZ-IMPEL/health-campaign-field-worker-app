@@ -120,6 +120,7 @@ class AuditDetails {
         lastModifiedTime = lastModifiedTime ?? createdTime;
 }
 
+// Do not change this order it will break the sync flow
 enum DataModelType {
   user,
   facility,
