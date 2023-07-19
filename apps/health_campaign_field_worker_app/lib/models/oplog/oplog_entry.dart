@@ -20,6 +20,7 @@ class OpLogEntry<T extends EntityModel> {
   final String? clientReferenceId;
   final List<AdditionalId> additionalIds;
   final int syncDownRetryCount;
+  final int rowVersion;
 
   const OpLogEntry(
     this.entity,
@@ -36,6 +37,7 @@ class OpLogEntry<T extends EntityModel> {
     this.clientReferenceId,
     this.additionalIds = const [],
     this.syncDownRetryCount = 0,
+    this.rowVersion = 1,
   });
 
   static OpLogEntry<T> fromOpLog<T extends EntityModel>(OpLog e) {
@@ -56,6 +58,7 @@ class OpLogEntry<T extends EntityModel> {
           .map((e) => AdditionalId(idType: e.idType, id: e.id))
           .toList(),
       syncDownRetryCount: e.syncDownRetryCount,
+      rowVersion: e.rowVersion,
     );
   }
 
@@ -77,7 +80,8 @@ class OpLogEntry<T extends EntityModel> {
             ..idType = e.idType)
           .toList()
       ..syncedDown = syncedDown
-      ..syncDownRetryCount = syncDownRetryCount;
+      ..syncDownRetryCount = syncDownRetryCount
+      ..rowVersion = rowVersion;
 
     if (id != null) {
       oplog.id = id!;

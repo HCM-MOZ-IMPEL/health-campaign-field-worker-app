@@ -104,6 +104,7 @@ abstract class OpLogManager<T extends EntityModel> {
           .copyWith(
             clientReferenceId: getClientReferenceId(entry.entity),
             serverGeneratedId: getServerGeneratedId(entry.entity),
+            rowVersion: getRowVersion(entry.entity),
           )
           .oplog);
     });
@@ -164,6 +165,7 @@ abstract class OpLogManager<T extends EntityModel> {
       OpLogEntry updatedEntry = entry.copyWith(
         serverGeneratedId: model.serverGeneratedId,
         additionalIds: model.additionalIds,
+        rowVersion: model.rowVersion,
       );
 
       if (entry.syncedUp) {
@@ -235,11 +237,14 @@ abstract class OpLogManager<T extends EntityModel> {
 
   String? getServerGeneratedId(T entity);
 
+  int? getRowVersion(T entity);
+
   String getClientReferenceId(T entity);
 
   T applyServerGeneratedIdToEntity(
     T entity,
     String serverGeneratedId,
+    int rowVersion,
   );
 }
 
@@ -250,8 +255,9 @@ class IndividualOpLogManager extends OpLogManager<IndividualModel> {
   IndividualModel applyServerGeneratedIdToEntity(
     IndividualModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(IndividualModel entity) =>
@@ -259,6 +265,9 @@ class IndividualOpLogManager extends OpLogManager<IndividualModel> {
 
   @override
   String? getServerGeneratedId(IndividualModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(IndividualModel entity) => entity.rowVersion;
 }
 
 class HouseholdOpLogManager extends OpLogManager<HouseholdModel> {
@@ -268,8 +277,12 @@ class HouseholdOpLogManager extends OpLogManager<HouseholdModel> {
   HouseholdModel applyServerGeneratedIdToEntity(
     HouseholdModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(
+        id: serverGeneratedId,
+        rowVersion: rowVersion,
+      );
 
   @override
   String getClientReferenceId(HouseholdModel entity) =>
@@ -277,6 +290,9 @@ class HouseholdOpLogManager extends OpLogManager<HouseholdModel> {
 
   @override
   String? getServerGeneratedId(HouseholdModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(HouseholdModel entity) => entity.rowVersion;
 }
 
 class FacilityOpLogManager extends OpLogManager<FacilityModel> {
@@ -286,14 +302,18 @@ class FacilityOpLogManager extends OpLogManager<FacilityModel> {
   FacilityModel applyServerGeneratedIdToEntity(
     FacilityModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(FacilityModel entity) => entity.id;
 
   @override
   String? getServerGeneratedId(FacilityModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(FacilityModel entity) => entity.rowVersion;
 }
 
 class HouseholdMemberOpLogManager extends OpLogManager<HouseholdMemberModel> {
@@ -303,8 +323,9 @@ class HouseholdMemberOpLogManager extends OpLogManager<HouseholdMemberModel> {
   HouseholdMemberModel applyServerGeneratedIdToEntity(
     HouseholdMemberModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(HouseholdMemberModel entity) =>
@@ -312,6 +333,9 @@ class HouseholdMemberOpLogManager extends OpLogManager<HouseholdMemberModel> {
 
   @override
   String? getServerGeneratedId(HouseholdMemberModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(HouseholdMemberModel entity) => entity.rowVersion;
 }
 
 class ProjectBeneficiaryOpLogManager
@@ -322,8 +346,9 @@ class ProjectBeneficiaryOpLogManager
   ProjectBeneficiaryModel applyServerGeneratedIdToEntity(
     ProjectBeneficiaryModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ProjectBeneficiaryModel entity) =>
@@ -331,6 +356,9 @@ class ProjectBeneficiaryOpLogManager
 
   @override
   String? getServerGeneratedId(ProjectBeneficiaryModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ProjectBeneficiaryModel entity) => entity.rowVersion;
 }
 
 class ProjectFacilityOpLogManager extends OpLogManager<ProjectFacilityModel> {
@@ -340,14 +368,18 @@ class ProjectFacilityOpLogManager extends OpLogManager<ProjectFacilityModel> {
   ProjectFacilityModel applyServerGeneratedIdToEntity(
     ProjectFacilityModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ProjectFacilityModel entity) => entity.id;
 
   @override
   String? getServerGeneratedId(ProjectFacilityModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ProjectFacilityModel entity) => entity.rowVersion;
 }
 
 class TaskOpLogManager extends OpLogManager<TaskModel> {
@@ -357,14 +389,18 @@ class TaskOpLogManager extends OpLogManager<TaskModel> {
   TaskModel applyServerGeneratedIdToEntity(
     TaskModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(TaskModel entity) => entity.clientReferenceId;
 
   @override
   String? getServerGeneratedId(TaskModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(TaskModel entity) => entity.rowVersion;
 }
 
 class ProjectStaffOpLogManager extends OpLogManager<ProjectStaffModel> {
@@ -374,14 +410,18 @@ class ProjectStaffOpLogManager extends OpLogManager<ProjectStaffModel> {
   ProjectStaffModel applyServerGeneratedIdToEntity(
     ProjectStaffModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ProjectStaffModel entity) => entity.id;
 
   @override
   String? getServerGeneratedId(ProjectStaffModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ProjectStaffModel entity) => entity.rowVersion;
 }
 
 class ProjectOpLogManager extends OpLogManager<ProjectModel> {
@@ -391,14 +431,18 @@ class ProjectOpLogManager extends OpLogManager<ProjectModel> {
   ProjectModel applyServerGeneratedIdToEntity(
     ProjectModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ProjectModel entity) => entity.id;
 
   @override
   String? getServerGeneratedId(ProjectModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ProjectModel entity) => entity.rowVersion;
 }
 
 class StockOpLogManager extends OpLogManager<StockModel> {
@@ -408,14 +452,18 @@ class StockOpLogManager extends OpLogManager<StockModel> {
   StockModel applyServerGeneratedIdToEntity(
     StockModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(StockModel entity) => entity.clientReferenceId;
 
   @override
   String? getServerGeneratedId(StockModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(StockModel entity) => entity.rowVersion;
 }
 
 class StockReconciliationOpLogManager
@@ -426,8 +474,9 @@ class StockReconciliationOpLogManager
   StockReconciliationModel applyServerGeneratedIdToEntity(
     StockReconciliationModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(StockReconciliationModel entity) =>
@@ -435,6 +484,9 @@ class StockReconciliationOpLogManager
 
   @override
   String? getServerGeneratedId(StockReconciliationModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(StockReconciliationModel entity) => entity.rowVersion;
 }
 
 class ServiceDefinitionOpLogManager
@@ -445,8 +497,9 @@ class ServiceDefinitionOpLogManager
   ServiceDefinitionModel applyServerGeneratedIdToEntity(
     ServiceDefinitionModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ServiceDefinitionModel entity) {
@@ -455,6 +508,9 @@ class ServiceDefinitionOpLogManager
 
   @override
   String? getServerGeneratedId(ServiceDefinitionModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ServiceDefinitionModel entity) => entity.rowVersion;
 }
 
 class ServiceOpLogManager extends OpLogManager<ServiceModel> {
@@ -464,14 +520,18 @@ class ServiceOpLogManager extends OpLogManager<ServiceModel> {
   ServiceModel applyServerGeneratedIdToEntity(
     ServiceModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ServiceModel entity) => entity.clientId;
 
   @override
   String? getServerGeneratedId(ServiceModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ServiceModel entity) => entity.rowVersion;
 }
 
 class ProjectResourceOpLogManager extends OpLogManager<ProjectResourceModel> {
@@ -481,8 +541,9 @@ class ProjectResourceOpLogManager extends OpLogManager<ProjectResourceModel> {
   ProjectResourceModel applyServerGeneratedIdToEntity(
     ProjectResourceModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ProjectResourceModel entity) =>
@@ -490,6 +551,9 @@ class ProjectResourceOpLogManager extends OpLogManager<ProjectResourceModel> {
 
   @override
   String? getServerGeneratedId(ProjectResourceModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ProjectResourceModel entity) => entity.rowVersion;
 }
 
 class ProductVariantOpLogManager extends OpLogManager<ProductVariantModel> {
@@ -499,14 +563,18 @@ class ProductVariantOpLogManager extends OpLogManager<ProductVariantModel> {
   ProductVariantModel applyServerGeneratedIdToEntity(
     ProductVariantModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(id: serverGeneratedId);
+      entity.copyWith(id: serverGeneratedId, rowVersion: rowVersion);
 
   @override
   String getClientReferenceId(ProductVariantModel entity) => entity.id;
 
   @override
   String? getServerGeneratedId(ProductVariantModel entity) => entity.id;
+
+  @override
+  int? getRowVersion(ProductVariantModel entity) => entity.rowVersion;
 }
 
 class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
@@ -516,6 +584,7 @@ class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
   BoundaryModel applyServerGeneratedIdToEntity(
     BoundaryModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
       throw UnimplementedError();
 
@@ -526,6 +595,8 @@ class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
   @override
   String? getServerGeneratedId(BoundaryModel entity) =>
       throw UnimplementedError();
+  @override
+  int? getRowVersion(BoundaryModel entity) => throw UnimplementedError();
 }
 
 class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
@@ -535,8 +606,12 @@ class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
   PgrServiceModel applyServerGeneratedIdToEntity(
     PgrServiceModel entity,
     String serverGeneratedId,
+    int rowVersion,
   ) =>
-      entity.copyWith(serviceRequestId: serverGeneratedId);
+      entity.copyWith(
+        serviceRequestId: serverGeneratedId,
+        rowVersion: rowVersion,
+      );
 
   @override
   String getClientReferenceId(PgrServiceModel entity) {
@@ -547,6 +622,9 @@ class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
   String? getServerGeneratedId(PgrServiceModel entity) {
     return entity.serviceRequestId;
   }
+
+  @override
+  int? getRowVersion(PgrServiceModel entity) => entity.rowVersion;
 
   @override
   Future<List<OpLogEntry<PgrServiceModel>>> getPendingUpSync(
@@ -610,6 +688,7 @@ class UpdateServerGeneratedIdModel {
   final DataOperation dataOperation;
   final List<AdditionalId>? additionalIds;
   final OpLogEntry? entry;
+  final int? rowVersion;
 
   const UpdateServerGeneratedIdModel({
     required this.clientReferenceId,
@@ -617,5 +696,6 @@ class UpdateServerGeneratedIdModel {
     required this.dataOperation,
     this.additionalIds,
     this.entry,
+    this.rowVersion,
   });
 }

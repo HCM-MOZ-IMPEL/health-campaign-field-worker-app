@@ -157,10 +157,12 @@ class NetworkManager {
       for (final operationGroupedEntity in groupedOperations.entries) {
         final entities = operationGroupedEntity.value.map((e) {
           final serverGeneratedId = e.serverGeneratedId;
+          final rowVersion = e.rowVersion;
           if (serverGeneratedId != null) {
             return local.opLogManager.applyServerGeneratedIdToEntity(
               e.entity,
               serverGeneratedId,
+              rowVersion,
             );
           }
 
@@ -189,6 +191,7 @@ class NetworkManager {
                       );
 
               final serverGeneratedId = responseEntity?.id;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
                 final addressAdditionalId = responseEntity?.address?.id == null
@@ -198,7 +201,7 @@ class NetworkManager {
                         id: responseEntity!.address!.id!,
                       );
 
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
@@ -206,10 +209,11 @@ class NetworkManager {
                       if (addressAdditionalId != null) addressAdditionalId,
                     ],
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               } else {
-                local.opLogManager
+                await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
@@ -236,6 +240,7 @@ class NetworkManager {
                   );
 
               final serverGeneratedId = responseEntity?.id;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
                 final identifierAdditionalIds = responseEntity?.identifiers
@@ -266,7 +271,7 @@ class NetworkManager {
                     .whereNotNull()
                     .toList();
 
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
@@ -276,10 +281,11 @@ class NetworkManager {
                       if (addressAdditionalIds != null) ...addressAdditionalIds,
                     ],
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               } else {
-                local.opLogManager
+                await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
@@ -305,17 +311,19 @@ class NetworkManager {
                     (e) => e.clientReferenceId == entity.clientReferenceId,
                   );
               final serverGeneratedId = responseEntity?.id;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               } else {
-                local.opLogManager
+                await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
@@ -341,9 +349,10 @@ class NetworkManager {
                       );
 
               final serverGeneratedId = responseEntity?.id;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: taskModel.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
@@ -360,10 +369,11 @@ class NetworkManager {
                         .whereNotNull()
                         .toList(),
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               } else {
-                local.opLogManager
+                await local.opLogManager
                     .updateSyncDownRetry(taskModel.clientReferenceId);
               }
             }
@@ -390,17 +400,19 @@ class NetworkManager {
                       );
 
               final serverGeneratedId = responseEntity?.id;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               } else {
-                local.opLogManager
+                await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
@@ -427,17 +439,19 @@ class NetworkManager {
                   );
 
               final serverGeneratedId = responseEntity?.id;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               } else {
-                local.opLogManager
+                await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
               }
             }
@@ -496,13 +510,15 @@ class NetworkManager {
                   );
 
               final serverGeneratedId = responseEntity?.serviceRequestId;
+              final rowVersion = responseEntity?.rowVersion;
 
               if (serverGeneratedId != null) {
-                local.opLogManager.updateServerGeneratedIds(
+                await local.opLogManager.updateServerGeneratedIds(
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
                     dataOperation: element.operation,
+                    rowVersion: rowVersion,
                   ),
                 );
               }
@@ -562,11 +578,13 @@ class NetworkManager {
               final oplogEntryEntity = e.entity;
 
               final serverGeneratedId = e.serverGeneratedId;
+              final rowVersion = e.rowVersion;
               if (serverGeneratedId != null) {
                 var updatedEntity =
                     local.opLogManager.applyServerGeneratedIdToEntity(
                   oplogEntryEntity,
                   serverGeneratedId,
+                  rowVersion,
                 );
 
                 if (updatedEntity is HouseholdModel) {

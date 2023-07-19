@@ -55,33 +55,38 @@ const OpLogSchema = CollectionSchema(
       type: IsarType.string,
       enumMap: _OpLogoperationEnumValueMap,
     ),
-    r'serverGeneratedId': PropertySchema(
+    r'rowVersion': PropertySchema(
       id: 7,
+      name: r'rowVersion',
+      type: IsarType.long,
+    ),
+    r'serverGeneratedId': PropertySchema(
+      id: 8,
       name: r'serverGeneratedId',
       type: IsarType.string,
     ),
     r'syncDownRetryCount': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'syncDownRetryCount',
       type: IsarType.long,
     ),
     r'syncedDown': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'syncedDown',
       type: IsarType.bool,
     ),
     r'syncedDownOn': PropertySchema(
-      id: 10,
+      id: 11,
       name: r'syncedDownOn',
       type: IsarType.dateTime,
     ),
     r'syncedUp': PropertySchema(
-      id: 11,
+      id: 12,
       name: r'syncedUp',
       type: IsarType.bool,
     ),
     r'syncedUpOn': PropertySchema(
-      id: 12,
+      id: 13,
       name: r'syncedUpOn',
       type: IsarType.dateTime,
     )
@@ -151,12 +156,13 @@ void _opLogSerialize(
   writer.writeString(offsets[4], object.entityString);
   writer.writeString(offsets[5], object.entityType.name);
   writer.writeString(offsets[6], object.operation.name);
-  writer.writeString(offsets[7], object.serverGeneratedId);
-  writer.writeLong(offsets[8], object.syncDownRetryCount);
-  writer.writeBool(offsets[9], object.syncedDown);
-  writer.writeDateTime(offsets[10], object.syncedDownOn);
-  writer.writeBool(offsets[11], object.syncedUp);
-  writer.writeDateTime(offsets[12], object.syncedUpOn);
+  writer.writeLong(offsets[7], object.rowVersion);
+  writer.writeString(offsets[8], object.serverGeneratedId);
+  writer.writeLong(offsets[9], object.syncDownRetryCount);
+  writer.writeBool(offsets[10], object.syncedDown);
+  writer.writeDateTime(offsets[11], object.syncedDownOn);
+  writer.writeBool(offsets[12], object.syncedUp);
+  writer.writeDateTime(offsets[13], object.syncedUpOn);
 }
 
 OpLog _opLogDeserialize(
@@ -184,12 +190,13 @@ OpLog _opLogDeserialize(
   object.operation =
       _OpLogoperationValueEnumMap[reader.readStringOrNull(offsets[6])] ??
           DataOperation.create;
-  object.serverGeneratedId = reader.readStringOrNull(offsets[7]);
-  object.syncDownRetryCount = reader.readLong(offsets[8]);
-  object.syncedDown = reader.readBool(offsets[9]);
-  object.syncedDownOn = reader.readDateTimeOrNull(offsets[10]);
-  object.syncedUp = reader.readBool(offsets[11]);
-  object.syncedUpOn = reader.readDateTimeOrNull(offsets[12]);
+  object.rowVersion = reader.readLong(offsets[7]);
+  object.serverGeneratedId = reader.readStringOrNull(offsets[8]);
+  object.syncDownRetryCount = reader.readLong(offsets[9]);
+  object.syncedDown = reader.readBool(offsets[10]);
+  object.syncedDownOn = reader.readDateTimeOrNull(offsets[11]);
+  object.syncedUp = reader.readBool(offsets[12]);
+  object.syncedUpOn = reader.readDateTimeOrNull(offsets[13]);
   return object;
 }
 
@@ -223,16 +230,18 @@ P _opLogDeserializeProp<P>(
       return (_OpLogoperationValueEnumMap[reader.readStringOrNull(offset)] ??
           DataOperation.create) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
-    case 8:
       return (reader.readLong(offset)) as P;
+    case 8:
+      return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readBool(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 10:
-      return (reader.readDateTimeOrNull(offset)) as P;
-    case 11:
       return (reader.readBool(offset)) as P;
+    case 11:
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 12:
+      return (reader.readBool(offset)) as P;
+    case 13:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1253,6 +1262,59 @@ extension OpLogQueryFilter on QueryBuilder<OpLog, OpLog, QFilterCondition> {
     });
   }
 
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> rowVersionEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rowVersion',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> rowVersionGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rowVersion',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> rowVersionLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rowVersion',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterFilterCondition> rowVersionBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rowVersion',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<OpLog, OpLog, QAfterFilterCondition> serverGeneratedIdIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1699,6 +1761,18 @@ extension OpLogQuerySortBy on QueryBuilder<OpLog, OpLog, QSortBy> {
     });
   }
 
+  QueryBuilder<OpLog, OpLog, QAfterSortBy> sortByRowVersion() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rowVersion', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterSortBy> sortByRowVersionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rowVersion', Sort.desc);
+    });
+  }
+
   QueryBuilder<OpLog, OpLog, QAfterSortBy> sortByServerGeneratedId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'serverGeneratedId', Sort.asc);
@@ -1857,6 +1931,18 @@ extension OpLogQuerySortThenBy on QueryBuilder<OpLog, OpLog, QSortThenBy> {
     });
   }
 
+  QueryBuilder<OpLog, OpLog, QAfterSortBy> thenByRowVersion() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rowVersion', Sort.asc);
+    });
+  }
+
+  QueryBuilder<OpLog, OpLog, QAfterSortBy> thenByRowVersionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rowVersion', Sort.desc);
+    });
+  }
+
   QueryBuilder<OpLog, OpLog, QAfterSortBy> thenByServerGeneratedId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'serverGeneratedId', Sort.asc);
@@ -1973,6 +2059,12 @@ extension OpLogQueryWhereDistinct on QueryBuilder<OpLog, OpLog, QDistinct> {
     });
   }
 
+  QueryBuilder<OpLog, OpLog, QDistinct> distinctByRowVersion() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rowVersion');
+    });
+  }
+
   QueryBuilder<OpLog, OpLog, QDistinct> distinctByServerGeneratedId(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2059,6 +2151,12 @@ extension OpLogQueryProperty on QueryBuilder<OpLog, OpLog, QQueryProperty> {
   QueryBuilder<OpLog, DataOperation, QQueryOperations> operationProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'operation');
+    });
+  }
+
+  QueryBuilder<OpLog, int, QQueryOperations> rowVersionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rowVersion');
     });
   }
 
