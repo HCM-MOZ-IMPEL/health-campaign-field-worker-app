@@ -505,7 +505,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
           )),
           primaryAction: DigitDialogActions(
             label: localizations
-                .translate(i18.checklist.checklistDialogPrimaryAction),
+                .translate(i18.checklist.checklistBackDialogPrimaryAction),
             action: (ctx) {
               Navigator.of(
                 context,
@@ -515,7 +515,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
           ),
           secondaryAction: DigitDialogActions(
             label: localizations
-                .translate(i18.checklist.checklistDialogSecondaryAction),
+                .translate(i18.checklist.checklistBackDialogSecondaryAction),
             action: (context) {
               Navigator.of(
                 context,

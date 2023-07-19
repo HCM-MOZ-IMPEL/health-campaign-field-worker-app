@@ -138,6 +138,12 @@ class Checklist {
   String get checklistDialogSecondaryAction =>
       'CHECKLIST_DIALOG_SECONDARY_ACTION';
 
+  String get checklistBackDialogPrimaryAction =>
+      'CHECKLIST_BACK_DIALOG_PRIMARY_ACTION';
+
+  String get checklistBackDialogSecondaryAction =>
+      'CHECKLIST_BACK_DIALOG_SECONDARY_ACTION';
+
   String get checklistdate => 'CHECKLIST_DATE';
 }
 
