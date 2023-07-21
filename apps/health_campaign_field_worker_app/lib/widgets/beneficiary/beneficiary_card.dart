@@ -48,7 +48,7 @@ class BeneficiaryCard extends StatelessWidget {
         Offstage(
           offstage: status == null,
           child: () {
-            final child = status == 'Entregue'
+            final child = status == 'HOUSEHOLD_OVER_VIEW_DELIVERED_ICON_LABEL'
                 ? DigitIconButton(
                     icon: Icons.check_circle,
                     iconText: AppLocalizations.of(context)
