@@ -81,8 +81,8 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                   subtitle:
                       '${householdMember.household.memberCount ?? 1} ${member}',
                   status: householdMember.task?.status != null
-                      ? 'é entregue'
-                      : 'não entregue',
+                      ? 'Entregue'
+                      : 'Não Entregue',
                   title: [
                     householdMember.headOfHousehold.name?.givenName,
                     householdMember.headOfHousehold.name?.familyName,
