@@ -153,7 +153,7 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                                           ).parse(e.dateOfBirth!).toString()))
                                           .inDays /
                                       366)
-                                  .round()
+                                  .floor()
                                   .toStringAsFixed(0),
                           cellKey: 'age',
                         ),
