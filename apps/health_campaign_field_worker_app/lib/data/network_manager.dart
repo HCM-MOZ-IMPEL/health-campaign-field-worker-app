@@ -85,31 +85,34 @@ class NetworkManager {
 
     if (syncError != null) throw syncError;
 
-    if (pendingSyncUpEntries.isNotEmpty ||
-        pendingSyncDownEntries
-            .where(
-              (element) =>
-                  element.type != DataModelType.householdMember &&
-                  element.type != DataModelType.service,
-            )
-            .toList()
-            .isNotEmpty) {
-      performSync(
-        bandwidthModel: bandwidthModel,
-        localRepositories: localRepositories,
-        remoteRepositories: remoteRepositories,
-      );
-    } else if (pendingSyncUpEntries.isEmpty &&
-        pendingSyncDownEntries
-            .where(
-              (element) =>
-                  element.type != DataModelType.householdMember &&
-                  element.type != DataModelType.service,
-            )
-            .toList()
-            .isEmpty) {
-      service?.stopSelf();
-    }
+    final debouncer = Debouncer(seconds: 5);
+    debouncer.run(() async {
+      if (pendingSyncUpEntries.isNotEmpty ||
+          pendingSyncDownEntries
+              .where(
+                (element) =>
+                    element.type != DataModelType.householdMember &&
+                    element.type != DataModelType.service,
+              )
+              .toList()
+              .isNotEmpty) {
+        performSync(
+          bandwidthModel: bandwidthModel,
+          localRepositories: localRepositories,
+          remoteRepositories: remoteRepositories,
+        );
+      } else if (pendingSyncUpEntries.isEmpty &&
+          pendingSyncDownEntries
+              .where(
+                (element) =>
+                    element.type != DataModelType.householdMember &&
+                    element.type != DataModelType.service,
+              )
+              .toList()
+              .isEmpty) {
+        service?.stopSelf();
+      }
+    });
   }
 
   FutureOr<void> syncDown({
