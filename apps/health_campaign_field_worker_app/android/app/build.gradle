@@ -21,8 +21,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-flutterVersionCode = '2'
-flutterVersionName = '1.1'
+flutterVersionCode = '3'
+flutterVersionName = '1.0'
 
 apply plugin: 'com.android.application'
 // START: FlutterFire Configuration
