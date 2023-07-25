@@ -34,28 +34,28 @@ class _BeneficiaryProgressBarState extends State<BeneficiaryProgressBar> {
                 ProjectBeneficiarySearchModel>>()
         as ProjectBeneficiaryLocalRepository;
 
-    final now = DateTime.now();
-    final gte = DateTime(
-      now.year,
-      now.month,
-      now.day,
-    );
-
-    final lte = DateTime(
-      now.year,
-      now.month,
-      now.day,
-      23,
-      59,
-      59,
-      999,
-    );
-
     repository.listenToChanges(
       query: ProjectBeneficiarySearchModel(
         projectId: context.projectId,
       ),
       listener: (data) => setState(() {
+        final now = DateTime.now();
+        final gte = DateTime(
+          now.year,
+          now.month,
+          now.day,
+        );
+
+        final lte = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          23,
+          59,
+          59,
+          999,
+        );
+
         current = data
             .where((element) =>
                 element.dateOfRegistrationTime.isAfter(gte) &&

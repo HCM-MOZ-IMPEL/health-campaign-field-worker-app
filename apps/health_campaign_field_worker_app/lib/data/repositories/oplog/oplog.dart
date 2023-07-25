@@ -225,6 +225,13 @@ abstract class OpLogManager<T extends EntityModel> {
           await isar.opLogs.put(updatedEntry.oplog);
         });
       } else {
+        if (syncDownRetryCount == 0) {
+          await Future.delayed(const Duration(seconds: 1));
+        } else if (syncDownRetryCount == 1) {
+          await Future.delayed(const Duration(seconds: 5));
+        } else if (syncDownRetryCount == 2) {
+          await Future.delayed(const Duration(seconds: 10));
+        }
         OpLogEntry updatedEntry = entry.copyWith(
           syncDownRetryCount: syncDownRetryCount + 1,
         );

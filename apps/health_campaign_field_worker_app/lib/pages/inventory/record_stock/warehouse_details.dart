@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +35,8 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
   static const _administrativeUnitKey = 'administrativeUnit';
   static const _warehouseKey = 'warehouse';
 
+  FacilityModel? facility;
+
   FormGroup buildForm() => fb.group(<String, Object>{
         _dateOfEntryKey: FormControl<DateTime>(value: DateTime.now()),
         _administrativeUnitKey: FormControl<String>(
@@ -39,8 +44,19 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
         ),
         _warehouseKey: FormControl<FacilityModel>(
           validators: [Validators.required],
+          value: facility,
         ),
       });
+  FutureOr<void> setFaclity(List<FacilityModel> facilities) async {
+    final stockRepository = context.repository<StockModel, EntitySearchModel>();
+    final stocks = await stockRepository.search(StockSearchModel());
+    stocks.sort((a, b) =>
+        b.auditDetails!.createdTime.compareTo(a.auditDetails!.createdTime));
+    final latestStock = stocks.firstWhereOrNull((element) =>
+        element.auditDetails?.createdBy == context.loggedInUserUuid);
+    facility = facilities
+        .firstWhereOrNull((element) => element.id == latestStock?.facilityId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +81,7 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                   fetched: (facilities, _) => facilities,
                 ) ??
                 [];
+            setFaclity(facilities);
 
             return Scaffold(
               body: GestureDetector(

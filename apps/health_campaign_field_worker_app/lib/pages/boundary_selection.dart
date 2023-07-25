@@ -46,7 +46,7 @@ class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
                           final label = labelList.elementAt(labelIndex);
 
                           final filteredItems =
-                          state.boundaryList.where((element) {
+                              state.boundaryList.where((element) {
                             if (element.label != label) return false;
 
                             if (labelIndex == 0) return true;
@@ -66,6 +66,9 @@ class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
                             return false;
                           }).toList();
 
+                          filteredItems
+                              .sort((a, b) => a.name!.compareTo(b.name!));
+
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: kPadding * 2,
@@ -74,7 +77,7 @@ class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
                               value: state.selectedBoundaryMap.entries
                                   .firstWhereOrNull(
                                     (element) => element.key == label,
-                              )
+                                  )
                                   ?.value,
                               label: label,
                               menuItems: filteredItems,
@@ -82,11 +85,11 @@ class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
                                 if (value == null) return;
 
                                 context.read<BoundaryBloc>().add(
-                                  BoundarySelectEvent(
-                                    label: label,
-                                    selectedBoundary: value,
-                                  ),
-                                );
+                                      BoundarySelectEvent(
+                                        label: label,
+                                        selectedBoundary: value,
+                                      ),
+                                    );
                               },
                               valueMapper: (value) {
                                 return value.name ?? value.code ?? 'No Value';
@@ -103,19 +106,19 @@ class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
                           onPressed: selectedBoundary == null
                               ? null
                               : () async {
-                            setState(() {
-                              shouldPop = true;
-                            });
+                                  setState(() {
+                                    shouldPop = true;
+                                  });
 
-                            context.read<BoundaryBloc>().add(
-                              const BoundarySubmitEvent(),
-                            );
+                                  context.read<BoundaryBloc>().add(
+                                        const BoundarySubmitEvent(),
+                                      );
 
-                            Future.delayed(
-                              const Duration(milliseconds: 100),
-                                  () => context.router.pop(),
-                            );
-                          },
+                                  Future.delayed(
+                                    const Duration(milliseconds: 100),
+                                    () => context.router.pop(),
+                                  );
+                                },
                           child: const Text('Submeter'),
                         ),
                       ),
