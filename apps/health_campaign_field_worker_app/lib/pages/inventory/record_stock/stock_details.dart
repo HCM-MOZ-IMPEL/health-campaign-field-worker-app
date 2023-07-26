@@ -469,7 +469,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               BlocBuilder<FacilityBloc, FacilityState>(
                                 builder: (context, state) {
                                   final facilities = state.whenOrNull(
-                                        fetched: (_, facilities) => facilities,
+                                        fetched: (_, facilities, __) =>
+                                            facilities,
                                       ) ??
                                       [];
 

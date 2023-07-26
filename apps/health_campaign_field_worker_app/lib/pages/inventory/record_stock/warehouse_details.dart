@@ -47,16 +47,6 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
           value: facility,
         ),
       });
-  FutureOr<void> setFaclity(List<FacilityModel> facilities) async {
-    final stockRepository = context.repository<StockModel, EntitySearchModel>();
-    final stocks = await stockRepository.search(StockSearchModel());
-    stocks.sort((a, b) =>
-        b.auditDetails!.createdTime.compareTo(a.auditDetails!.createdTime));
-    final latestStock = stocks.firstWhereOrNull((element) =>
-        element.auditDetails?.createdBy == context.loggedInUserUuid);
-    facility = facilities
-        .firstWhereOrNull((element) => element.id == latestStock?.facilityId);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +68,12 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
           },
           builder: (ctx, facilityState) {
             final facilities = facilityState.whenOrNull(
-                  fetched: (facilities, _) => facilities,
+                  fetched: (facilities, _, __) => facilities,
                 ) ??
                 [];
-            setFaclity(facilities);
+            facility = facilityState.whenOrNull(
+              fetched: (_, __, facility) => facility,
+            );
 
             return Scaffold(
               body: GestureDetector(
