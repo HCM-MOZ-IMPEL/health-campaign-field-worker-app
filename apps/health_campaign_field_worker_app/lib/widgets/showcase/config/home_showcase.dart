@@ -17,6 +17,7 @@ class _HomePageShowcaseData {
         wareHouseManagerChecklist,
         warehouseManagerFileComplaint,
         warehouseManagerSyncData,
+        inventoryReport,
         supervisorProgressBar,
         supervisorMyChecklist,
         supervisorComplaints,
@@ -74,5 +75,9 @@ class _HomePageShowcaseData {
 
   final supervisorSyncData = ShowcaseItemBuilder(
     messageLocalizationKey: i18.homeShowcase.supervisorSyncData,
+  );
+
+  final inventoryReport = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.homeShowcase.inventoryReport,
   );
 }

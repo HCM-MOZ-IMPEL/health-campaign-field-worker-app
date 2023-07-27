@@ -50,11 +50,7 @@ class _StockReconciliationPageState
         validators: [Validators.required],
       ),
       _dateOfReconciliationKey: FormControl<DateTime>(value: DateTime.now()),
-      // _productVariantKey: FormControl<ProductVariantModel>(
-      //   validators: [Validators.required],
-      // ),
       _manualCountKey: FormControl<String>(
-        // value: '0',
         validators: [
           Validators.number,
           Validators.required,
@@ -369,40 +365,6 @@ class _StockReconciliationPageState
                                                   );
 
                                               return Container();
-                                              // return DigitReactiveDropdown<
-                                              //     ProductVariantModel>(
-                                              //   formControlName:
-                                              //       _productVariantKey,
-                                              //   label: localizations.translate(
-                                              //     i18.stockReconciliationDetails
-                                              //         .productLabel,
-                                              //   ),
-                                              //   isRequired: true,
-                                              //   onChanged: (value) {
-                                              //     ctx
-                                              //         .read<
-                                              //             StockReconciliationBloc>()
-                                              //         .add(
-                                              //           StockReconciliationSelectProductEvent(
-                                              //             value.id,
-                                              //           ),
-                                              //         );
-                                              //   },
-                                              //   valueMapper: (value) {
-                                              //     return localizations.translate(
-                                              //       value.sku ?? value.id,
-                                              //     );
-                                              //   },
-                                              //   menuItems: productVariants,
-                                              //   validationMessages: {
-                                              //     'required': (object) =>
-                                              //         AppLocalizations.of(
-                                              //           context,
-                                              //         ).translate(i18
-                                              //             .stockReconciliationDetails
-                                              //             .fieldRequired),
-                                              //   },
-                                              // );
                                             },
                                           );
                                         },
@@ -421,18 +383,6 @@ class _StockReconciliationPageState
                                           isRequired: false,
                                         ),
                                       ),
-                                      // DigitTableCard(
-                                      //   fraction: 2.5,
-                                      //   gap: kPadding,
-                                      //   element: {
-                                      //     localizations.translate(i18
-                                      //             .stockReconciliationDetails
-                                      //             .dateOfReconciliation):
-                                      //         DateFormat('dd MMMM yyyy').format(
-                                      //       stockState.dateOfReconciliation,
-                                      //     ),
-                                      //   },
-                                      // ),
                                       const DigitDivider(),
                                       stockReconciliationShowcaseData
                                           .stockReceived
@@ -465,47 +415,7 @@ class _StockReconciliationPageState
                                           },
                                         ),
                                       ),
-                                      // const DigitDivider(),
-                                      // stockReconciliationShowcaseData
-                                      //     .stockReturned
-                                      //     .buildWith(
-                                      //   child: DigitTableCard(
-                                      //     fraction: 2.5,
-                                      //     gap: kPadding,
-                                      //     element: {
-                                      //       localizations.translate(
-                                      //         i18.stockReconciliationDetails
-                                      //             .stockReturned,
-                                      //       ): stockState.stockReturned
-                                      //           .toStringAsFixed(0),
-                                      //     },
-                                      //   ),
-                                      // ),
                                       const DigitDivider(),
-                                      // DigitTableCard(
-                                      //   fraction: 2.5,
-                                      //   gap: kPadding,
-                                      //   element: {
-                                      //     localizations.translate(
-                                      //       i18.stockReconciliationDetails
-                                      //           .stockLost,
-                                      //     ): stockState.stockLost
-                                      //         .toStringAsFixed(0),
-                                      //   },
-                                      // ),
-                                      // const DigitDivider(),
-                                      // DigitTableCard(
-                                      //   fraction: 2.5,
-                                      //   gap: kPadding,
-                                      //   element: {
-                                      //     localizations.translate(
-                                      //       i18.stockReconciliationDetails
-                                      //           .stockDamaged,
-                                      //     ): stockState.stockDamaged
-                                      //         .toStringAsFixed(0),
-                                      //   },
-                                      // ),
-                                      // const DigitDivider(),
                                       stockReconciliationShowcaseData
                                           .stockOnHand
                                           .buildWith(

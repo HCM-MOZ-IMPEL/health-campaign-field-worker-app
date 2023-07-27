@@ -163,6 +163,29 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    InventoryReportSelectionRoute.name: (routeData) {
+      final args = routeData.argsAs<InventoryReportSelectionRouteArgs>(
+          orElse: () => const InventoryReportSelectionRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: InventoryReportSelectionPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+        ),
+      );
+    },
+    InventoryReportDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<InventoryReportDetailsRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: InventoryReportDetailsPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+          reportType: args.reportType,
+        )),
+      );
+    },
     ProjectSelectionRoute.name: (routeData) {
       final args = routeData.argsAs<ProjectSelectionRouteArgs>(
           orElse: () => const ProjectSelectionRouteArgs());
@@ -578,6 +601,16 @@ class _$AppRouter extends RootStackRouter {
             RouteConfig(
               FacilitySelectionRoute.name,
               path: 'select-facilities',
+              parent: AuthenticatedRouteWrapper.name,
+            ),
+            RouteConfig(
+              InventoryReportSelectionRoute.name,
+              path: 'inventory-report-selection',
+              parent: AuthenticatedRouteWrapper.name,
+            ),
+            RouteConfig(
+              InventoryReportDetailsRoute.name,
+              path: 'inventory-report-details',
               parent: AuthenticatedRouteWrapper.name,
             ),
             RouteConfig(
@@ -1127,6 +1160,81 @@ class FacilitySelectionRouteArgs {
   @override
   String toString() {
     return 'FacilitySelectionRouteArgs{key: $key, facilities: $facilities}';
+  }
+}
+
+/// generated route for
+/// [InventoryReportSelectionPage]
+class InventoryReportSelectionRoute
+    extends PageRouteInfo<InventoryReportSelectionRouteArgs> {
+  InventoryReportSelectionRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          InventoryReportSelectionRoute.name,
+          path: 'inventory-report-selection',
+          args: InventoryReportSelectionRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'InventoryReportSelectionRoute';
+}
+
+class InventoryReportSelectionRouteArgs {
+  const InventoryReportSelectionRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'InventoryReportSelectionRouteArgs{key: $key, appLocalizations: $appLocalizations}';
+  }
+}
+
+/// generated route for
+/// [InventoryReportDetailsPage]
+class InventoryReportDetailsRoute
+    extends PageRouteInfo<InventoryReportDetailsRouteArgs> {
+  InventoryReportDetailsRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+    required InventoryReportType reportType,
+  }) : super(
+          InventoryReportDetailsRoute.name,
+          path: 'inventory-report-details',
+          args: InventoryReportDetailsRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+            reportType: reportType,
+          ),
+        );
+
+  static const String name = 'InventoryReportDetailsRoute';
+}
+
+class InventoryReportDetailsRouteArgs {
+  const InventoryReportDetailsRouteArgs({
+    this.key,
+    this.appLocalizations,
+    required this.reportType,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  final InventoryReportType reportType;
+
+  @override
+  String toString() {
+    return 'InventoryReportDetailsRouteArgs{key: $key, appLocalizations: $appLocalizations, reportType: $reportType}';
   }
 }
 

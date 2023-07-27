@@ -353,6 +353,7 @@ class _HomePageState extends LocalizedState<HomePage> {
         homeShowcaseData.wareHouseManagerChecklist.showcaseKey,
         homeShowcaseData.warehouseManagerFileComplaint.showcaseKey,
         homeShowcaseData.warehouseManagerSyncData.showcaseKey,
+        homeShowcaseData.inventoryReport.showcaseKey,
       ]);
       homeItems.addAll(
         [
@@ -394,6 +395,17 @@ class _HomePageState extends LocalizedState<HomePage> {
               icon: Icons.sync_alt,
               label: i18.home.syncDataLabel,
               onPressed: () => _attemptSyncUp(context),
+            ),
+          ),
+          homeShowcaseData.inventoryReport.buildWith(
+            child: HomeItemCard(
+              icon: Icons.announcement,
+              label: i18.home.viewReportsLabel,
+              onPressed: () {
+                context.router.push(
+                  InventoryReportSelectionRoute(),
+                );
+              },
             ),
           ),
         ],
