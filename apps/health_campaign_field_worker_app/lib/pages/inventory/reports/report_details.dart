@@ -87,16 +87,19 @@ class _InventoryReportDetailsPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: DigitCard(
-        padding: const EdgeInsets.all(8.0),
-        child: DigitElevatedButton(
-          onPressed: () => context.router.popUntilRoot(),
-          child: Text(
-            localizations.translate(
-              i18.inventoryReportDetails.backToHomeButtonLabel,
+      bottomNavigationBar: SizedBox(
+        height: 85,
+        child: DigitCard(
+          padding: const EdgeInsets.all(8.0),
+          child: DigitElevatedButton(
+            onPressed: () => context.router.popUntilRoot(),
+            child: Text(
+              localizations.translate(
+                i18.inventoryReportDetails.backToHomeButtonLabel,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 1,
             ),
-            textAlign: TextAlign.center,
-            maxLines: 1,
           ),
         ),
       ),
