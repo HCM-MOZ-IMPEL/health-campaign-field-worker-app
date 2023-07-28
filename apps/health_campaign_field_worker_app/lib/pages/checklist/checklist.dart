@@ -79,6 +79,7 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
                                 ...value.serviceDefinitionList,
                               ];
 
+                              //Temporary to sort the checklists need to find a better way
                               final checklistArray = [
                                 "DISTRICT_MONITOR_TRAINING",
                                 "AS_MONITORING",
