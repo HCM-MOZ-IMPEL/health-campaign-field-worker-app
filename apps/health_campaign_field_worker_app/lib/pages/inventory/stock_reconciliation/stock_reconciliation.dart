@@ -196,6 +196,24 @@ class _StockReconciliationPageState
                                                 createdTime: context
                                                     .millisecondsSinceEpoch(),
                                               ),
+                                              additionalFields:
+                                                  StockReconciliationAdditionalFields(
+                                                version: 1,
+                                                fields: [
+                                                  AdditionalField(
+                                                    'received',
+                                                    stockState.stockReceived,
+                                                  ),
+                                                  AdditionalField(
+                                                    'issued',
+                                                    stockState.stockIssued,
+                                                  ),
+                                                  AdditionalField(
+                                                    'inHand',
+                                                    stockState.stockInHand,
+                                                  ),
+                                                ],
+                                              ),
                                             );
 
                                             final submit =

@@ -14,6 +14,7 @@ class ReadonlyDigitGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlutoGrid(
+      key: UniqueKey(),
       mode: PlutoGridMode.readOnly,
       noRowsWidget: const Center(child: Text('No data found')),
       configuration: PlutoGridConfiguration(
