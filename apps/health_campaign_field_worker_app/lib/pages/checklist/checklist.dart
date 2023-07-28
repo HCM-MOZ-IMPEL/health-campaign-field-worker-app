@@ -75,7 +75,27 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
                                       e.code.name.snakeCase.toUpperCase())
                                   .toList();
 
-                              final values = value.serviceDefinitionList.where(
+                              var serviceDefinitionList = [
+                                ...value.serviceDefinitionList,
+                              ];
+
+                              final checklistArray = [
+                                "DISTRICT_MONITOR_TRAINING",
+                                "AS_MONITORING",
+                                "LOCAL_MONITOR_TRAINING",
+                                "REGISTRATION_TEAM_TRAINING",
+                                "REGISTRATION_BASIC",
+                                "MATERIAL_RECEIVED",
+                                "MATERIAL_ISSUED",
+                              ];
+
+                              serviceDefinitionList.sort((a, b) =>
+                                  checklistArray
+                                      .indexOf(a.code!.split('.')[1])
+                                      .compareTo(checklistArray
+                                          .indexOf(b.code!.split('.')[1])));
+
+                              final values = serviceDefinitionList.where(
                                 (item) => !roles
                                     .indexOf(item.code!.split('.').last)
                                     .isNegative,
