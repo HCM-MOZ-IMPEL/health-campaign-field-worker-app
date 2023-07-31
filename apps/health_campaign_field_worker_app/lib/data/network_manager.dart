@@ -740,6 +740,7 @@ class NetworkManager {
               }
           }
         } else if (operationGroupedEntity.key == DataOperation.update) {
+          await Future.delayed(const Duration(seconds: 1));
           final List<EntityModel> items = await filterEntitybyBandwidth(
             bandwidthModel.batchSize,
             entities,
@@ -750,6 +751,7 @@ class NetworkManager {
             }
           }
         } else if (operationGroupedEntity.key == DataOperation.delete) {
+          await Future.delayed(const Duration(seconds: 1));
           final List<EntityModel> items = await filterEntitybyBandwidth(
             bandwidthModel.batchSize,
             entities,
