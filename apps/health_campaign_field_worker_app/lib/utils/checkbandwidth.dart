@@ -131,65 +131,67 @@ void onStart(ServiceInstance service) async {
           if (frequencyCount != null) {
             final serviceRegistryList =
                 await Constants().isar.serviceRegistrys.where().findAll();
+
             if (serviceRegistryList.isNotEmpty) {
-              final bandwidthPath = serviceRegistryList
-                  .firstWhere((element) => element.service == 'BANDWIDTH-CHECK')
-                  .actions
-                  .first
-                  .path;
+              final bandwidthService = serviceRegistryList.firstWhereOrNull(
+                (element) => element.service == 'BANDWIDTH-CHECK',
+              );
+              if (bandwidthService != null) {
+                final bandwidthPath = bandwidthService.actions.first.path;
 
-              List speedArray = [];
-              for (var i = 0; i < frequencyCount; i++) {
-                try {
-                  final double speed = await BandwidthCheckRepository(
-                    _dio,
-                    bandwidthPath: bandwidthPath,
-                  ).pingBandwidthCheck(bandWidthCheckModel: null);
-                  speedArray.add(speed);
-                } catch (e) {
-                  service.stopSelf();
-                  break;
+                List speedArray = [];
+                for (var i = 0; i < frequencyCount; i++) {
+                  try {
+                    final double speed = await BandwidthCheckRepository(
+                      _dio,
+                      bandwidthPath: bandwidthPath,
+                    ).pingBandwidthCheck(bandWidthCheckModel: null);
+                    speedArray.add(speed);
+                  } catch (e) {
+                    service.stopSelf();
+                    break;
+                  }
                 }
+                double sum = speedArray.fold(0, (p, c) => p + c);
+
+                int configuredBatchSize = getBatchSizeToBandwidth(
+                  sum / speedArray.length,
+                  appConfiguration,
+                );
+                final BandwidthModel bandwidthModel = BandwidthModel.fromJson({
+                  'userId': userRequestModel!.uuid,
+                  'batchSize': configuredBatchSize,
+                });
+
+                // flutterLocalNotificationsPlugin.show(
+                //   888,
+                //   'Auto Sync',
+                //   'Speed : ${speedArray.first.toString().substring(0, 1)}Mb/ps - BatchSize : $configuredBatchSize',
+                //   const NotificationDetails(
+                //     android: AndroidNotificationDetails(
+                //       "my_foreground",
+                //       'AUTO SYNC',
+                //       icon: 'ic_bg_service_small',
+                //       ongoing: true,
+                //     ),
+                //   ),
+                // );
+                const NetworkManager(
+                  configuration: NetworkManagerConfiguration(
+                    persistenceConfig: PersistenceConfiguration.offlineFirst,
+                  ),
+                ).performSync(
+                  localRepositories:
+                      Constants.getLocalRepositories(_sql, Constants().isar)
+                          .toList(),
+                  remoteRepositories: Constants.getRemoteRepositories(
+                    _dio,
+                    getActionMap(serviceRegistryList),
+                  ),
+                  bandwidthModel: bandwidthModel,
+                  service: service,
+                );
               }
-              double sum = speedArray.fold(0, (p, c) => p + c);
-
-              int configuredBatchSize = getBatchSizeToBandwidth(
-                sum / speedArray.length,
-                appConfiguration,
-              );
-              final BandwidthModel bandwidthModel = BandwidthModel.fromJson({
-                'userId': userRequestModel!.uuid,
-                'batchSize': configuredBatchSize,
-              });
-
-              // flutterLocalNotificationsPlugin.show(
-              //   888,
-              //   'Auto Sync',
-              //   'Speed : ${speedArray.first.toString().substring(0, 1)}Mb/ps - BatchSize : $configuredBatchSize',
-              //   const NotificationDetails(
-              //     android: AndroidNotificationDetails(
-              //       "my_foreground",
-              //       'AUTO SYNC',
-              //       icon: 'ic_bg_service_small',
-              //       ongoing: true,
-              //     ),
-              //   ),
-              // );
-              const NetworkManager(
-                configuration: NetworkManagerConfiguration(
-                  persistenceConfig: PersistenceConfiguration.offlineFirst,
-                ),
-              ).performSync(
-                localRepositories:
-                    Constants.getLocalRepositories(_sql, Constants().isar)
-                        .toList(),
-                remoteRepositories: Constants.getRemoteRepositories(
-                  _dio,
-                  getActionMap(serviceRegistryList),
-                ),
-                bandwidthModel: bandwidthModel,
-                service: service,
-              );
             }
           }
         }

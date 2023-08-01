@@ -55,7 +55,9 @@ class SearchHouseholdsBloc
           projectId: projectId,
         ),
         listener: (data) {
-          add(const SearchHouseholdsInitializedEvent());
+          if (!isClosed) {
+            add(const SearchHouseholdsInitializedEvent());
+          }
         },
       );
     }
