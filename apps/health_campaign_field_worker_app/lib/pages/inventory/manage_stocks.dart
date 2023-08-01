@@ -54,7 +54,8 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                       title: localizations
                           .translate(i18.manageStock.recordstockReceiptLabel),
                       description: localizations.translate(
-                          i18.manageStock.recordstockReceiptDescription),
+                        i18.manageStock.recordstockReceiptDescription,
+                      ),
                       prefixIcon: Icons.login,
                       sufixIcon: Icons.arrow_circle_right,
                       onPressed: () => context.router.push(
@@ -69,7 +70,8 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                       title: localizations
                           .translate(i18.manageStock.recordstockIssuedLabel),
                       description: localizations.translate(
-                          i18.manageStock.recordstockIssuedtDescription),
+                        i18.manageStock.recordstockIssuedtDescription,
+                      ),
                       prefixIcon: Icons.logout,
                       sufixIcon: Icons.arrow_circle_right,
                       onPressed: () => context.router.push(
@@ -79,50 +81,6 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                       ),
                     ),
                   ),
-                  // selectStockShowcaseData.recordStockReturned.buildWith(
-                  //   child: DigitListView(
-                  //     title: localizations
-                  //         .translate(i18.manageStock.recordstockReturnedLabel),
-                  //     description: localizations.translate(
-                  //       i18.manageStock.recordstockReturnedtDescription,
-                  //     ),
-                  //     prefixIcon: Icons.settings_backup_restore,
-                  //     sufixIcon: Icons.arrow_circle_right,
-                  //     onPressed: () => context.router.push(
-                  //       RecordStockWrapperRoute(
-                  //         type: StockRecordEntryType.returned,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  // DigitListView(
-                  //   title: localizations
-                  //       .translate(i18.manageStock.recordstockDamagedLabel),
-                  //   description: localizations.translate(
-                  //     i18.manageStock.recordstockDamagedDescription,
-                  //   ),
-                  //   prefixIcon: Icons.store,
-                  //   sufixIcon: Icons.arrow_circle_right,
-                  //   onPressed: () => context.router.push(
-                  //     RecordStockWrapperRoute(
-                  //       type: StockRecordEntryType.damaged,
-                  //     ),
-                  //   ),
-                  // ),
-                  // DigitListView(
-                  //   title: localizations
-                  //       .translate(i18.manageStock.recordstockLossLabel),
-                  //   description: localizations.translate(
-                  //     i18.manageStock.recordstockDamagedDescription,
-                  //   ),
-                  //   prefixIcon: Icons.store,
-                  //   sufixIcon: Icons.arrow_circle_right,
-                  //   onPressed: () => context.router.push(
-                  //     RecordStockWrapperRoute(
-                  //       type: StockRecordEntryType.loss,
-                  //     ),
-                  //   ),
-                  // ),
                 ]),
                 const SizedBox(height: 16),
               ],

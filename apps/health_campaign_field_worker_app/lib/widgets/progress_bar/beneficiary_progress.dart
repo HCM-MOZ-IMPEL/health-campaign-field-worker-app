@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -69,13 +68,7 @@ class _BeneficiaryProgressBarState extends State<BeneficiaryProgressBar> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedProject = context.selectedProject;
-    final beneficiaryType = context.beneficiaryType;
-
-    final targetModel = selectedProject.targets?.firstWhereOrNull(
-        (element) => element.beneficiaryType == BeneficiaryType.household);
-
-    final target = 40;
+    const target = 40;
 
     return ProgressIndicatorContainer(
       label: '${max(target - current, 0).round()} ${widget.label}',

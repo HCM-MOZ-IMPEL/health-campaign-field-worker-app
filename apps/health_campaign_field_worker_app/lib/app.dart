@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:health_campaign_field_worker_app/widgets/custom_banner.dart';
 import 'package:isar/isar.dart';
 import 'package:location/location.dart';
 
@@ -137,7 +136,9 @@ class MainApplicationState extends State<MainApplication>
                               ? (context) => LocalizationBloc(
                                     const LocalizationState(),
                                     LocalizationRepository(
-                                        widget.client, widget.isar),
+                                      widget.client,
+                                      widget.isar,
+                                    ),
                                     widget.isar,
                                   )..add(
                                       LocalizationEvent.onLoadLocalization(
@@ -157,7 +158,9 @@ class MainApplicationState extends State<MainApplication>
                               : (context) => LocalizationBloc(
                                     const LocalizationState(),
                                     LocalizationRepository(
-                                        widget.client, widget.isar),
+                                      widget.client,
+                                      widget.isar,
+                                    ),
                                     widget.isar,
                                   ),
                         ),
@@ -221,17 +224,14 @@ class MainApplicationState extends State<MainApplication>
                             debugShowCheckedModeBanner: false,
                             supportedLocales: languages != null
                                 ? languages.map((e) {
-                                    final results = e.value.split('_');
-
                                     return defaultLocale;
-                                    // return results.isNotEmpty
-                                    //     ? Locale(results.first, results.last)
-                                    //     : defaultLocale;
                                   })
                                 : [defaultLocale],
                             localizationsDelegates: [
                               AppLocalizations.getDelegate(
-                                  appConfig, widget.isar),
+                                appConfig,
+                                widget.isar,
+                              ),
                               GlobalWidgetsLocalizations.delegate,
                               GlobalCupertinoLocalizations.delegate,
                               GlobalMaterialLocalizations.delegate,
@@ -285,49 +285,6 @@ class MainApplicationState extends State<MainApplication>
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-
-                                return Scaffold(
-                                  body: Column(
-                                    children: [
-                                      Expanded(child: child),
-                                      IgnorePointer(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8.0),
-                                          color: Colors.orange,
-                                          child: Center(
-                                            child: AutoSizeText(
-                                              'Training'.toUpperCase(),
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                fontSize: 22,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-
-                                return Scaffold(
-                                  body: Stack(
-                                    children: [
-                                      Positioned.fill(child: child),
-                                      CustomBanner(
-                                        bannerColor: Colors.orange,
-                                        child: Text(
-                                          'Training'.toUpperCase(),
-                                          style: const TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),

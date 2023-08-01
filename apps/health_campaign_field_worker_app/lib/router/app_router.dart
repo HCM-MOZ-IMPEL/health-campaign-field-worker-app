@@ -42,7 +42,6 @@ import '../pages/inventory/record_stock/warehouse_details.dart';
 import '../pages/inventory/reports/report_details.dart';
 import '../pages/inventory/reports/report_selection.dart';
 import '../pages/inventory/stock_reconciliation/stock_reconciliation.dart';
-import '../pages/language_selection.dart';
 import '../pages/login.dart';
 import '../pages/project_selection.dart';
 import '../pages/search_beneficiary.dart';
@@ -59,11 +58,6 @@ part 'app_router.gr.dart';
       page: UnauthenticatedPageWrapper,
       path: '/',
       children: [
-        // AutoRoute(
-        //   page: LanguageSelectionPage,
-        //   path: 'language_selection',
-        //   initial: true,
-        // ),
         AutoRoute(page: LoginPage, path: 'login', initial: true),
       ],
     ),
@@ -113,7 +107,10 @@ part 'app_router.gr.dart';
           AutoRoute(page: ChecklistPreviewPage, path: 'preview'),
         ]),
         AutoRoute(page: AcknowledgementPage, path: 'acknowledgement'),
-        AutoRoute(page: ComplaintsAcknowledgementPage, path: 'complaints-acknowledgement'),
+        AutoRoute(
+          page: ComplaintsAcknowledgementPage,
+          path: 'complaints-acknowledgement',
+        ),
 
         /// Inventory Routes
         AutoRoute(

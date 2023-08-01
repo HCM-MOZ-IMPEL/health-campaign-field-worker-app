@@ -40,9 +40,6 @@ class SearchHouseholdsBloc
   }) : super(const SearchHouseholdsState()) {
     on(
       _handleSearchByHouseholdHead,
-      // transformer: debounce<SearchHouseholdsSearchByHouseholdHeadEvent>(
-      //   const Duration(milliseconds: 500),
-      // ),
     );
     on(_handleClear);
     on(_handleSearchByHousehold);

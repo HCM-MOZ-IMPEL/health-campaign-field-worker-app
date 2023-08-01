@@ -3,8 +3,6 @@ library app_utils;
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:digit_components/theme/digit_theme.dart';
-import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -150,32 +148,9 @@ performBackgroundService({
   final service = FlutterBackgroundService();
   var isRunning = await service.isRunning();
 
-  if (stopService) {
-    if (isRunning) {
-      if (!isBackground && context != null) {
-        // DigitToast.show(
-        //   context!,
-        //   options: DigitToastOptions(
-        //     'Background Service Stopped',
-        //     true,
-        //     DigitTheme.instance.mobileTheme,
-        //   ),
-        // );
-      }
-    }
-  } else {
+  if (!stopService) {
     if (!isRunning && isOnline) {
       service.startService();
-      if (context != null) {
-        // DigitToast.show(
-        //   context,
-        //   options: DigitToastOptions(
-        //     'Background Service stated',
-        //     false,
-        //     DigitTheme.instance.mobileTheme,
-        //   ),
-        // );
-      }
     }
   }
 }

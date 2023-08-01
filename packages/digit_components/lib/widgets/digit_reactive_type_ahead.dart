@@ -51,6 +51,7 @@ class DigitReactiveTypeAhead<T, V> extends ReactiveFormField<T, V> {
     TextAlignVertical? textAlignVertical,
     bool autofocus = false,
     bool readOnly = false,
+    // ignore: deprecated_member_use
     ToolbarOptions? toolbarOptions,
     bool? showCursor,
     bool obscureText = false,
@@ -176,21 +177,6 @@ class _ReactiveTypeaheadState<T, V> extends ReactiveFormFieldState<T, V> {
 
     super.onControlValueChanged(value);
   }
-
-  // @override
-  // ControlValueAccessor<T, V> selectValueAccessor() {
-  //   if (control is FormControl<int>) {
-  //     return IntValueAccessor() as ControlValueAccessor<T, String>;
-  //   } else if (control is FormControl<double>) {
-  //     return DoubleValueAccessor() as ControlValueAccessor<T, String>;
-  //   } else if (control is FormControl<DateTime>) {
-  //     return DateTimeValueAccessor() as ControlValueAccessor<T, String>;
-  //   } else if (control is FormControl<TimeOfDay>) {
-  //     return TimeOfDayValueAccessor() as ControlValueAccessor<T, String>;
-  //   }
-  //
-  //   return super.selectValueAccessor();
-  // }
 
   void _registerFocusController(FocusController focusController) {
     _focusController = focusController;

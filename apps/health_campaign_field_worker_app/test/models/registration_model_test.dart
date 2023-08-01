@@ -54,33 +54,11 @@ const requiredProperties = [
 
 void main() {
   group('Registration model', () {
-    // CampaignRegistrationModel? parsedModel;
-
     setUpAll(() {
       final parsed = jsonDecode(_targetModel);
       if (parsed is! Map<String, dynamic>) {
         throw Exception('Expected model not found');
       }
-
-      // parsedModel = CampaignRegistrationModel.fromJson(parsed);
     });
-
-    // test('is parsed successfully', () {
-    //   expect(parsedModel, isNot(null));
-    // });
-    //
-    // group('has required field', () {
-    //   late Map<String, dynamic> jsonMap;
-    //
-    //   setUpAll(() {
-    //     jsonMap = parsedModel!.toJson();
-    //   });
-    //
-    //   for (final key in _requiredProperties) {
-    //     test(key, () {
-    //       expect(jsonMap.keys.contains(key), true);
-    //     });
-    //   }
-    // });
   });
 }

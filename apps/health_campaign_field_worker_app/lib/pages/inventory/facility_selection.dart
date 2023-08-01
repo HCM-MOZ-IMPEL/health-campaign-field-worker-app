@@ -50,7 +50,7 @@ class FacilitySelectionPage extends StatelessWidget {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: DigitTextFormField(
                         label: localizations.translate(
                           i18.stockReconciliationDetails.facilitySearchText,

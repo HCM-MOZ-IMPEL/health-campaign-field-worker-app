@@ -95,15 +95,8 @@ class _HouseholdLocationPageState
                       onPressed: () {
                         form.markAllAsTouched();
                         if (!form.valid) return;
-
-                        final addressLine1 =
-                            form.control(_addressLine1Key).value as String?;
-                        final addressLine2 =
-                            form.control(_addressLine2Key).value as String?;
                         final landmark =
                             form.control(_landmarkKey).value as String?;
-                        final postalCode =
-                            form.control(_postalCodeKey).value as String?;
 
                         registrationState.maybeWhen(
                           orElse: () {
@@ -223,22 +216,6 @@ class _HouseholdLocationPageState
                                 },
                               ),
                             ),
-                            // DigitTextFormField(
-                            //   formControlName: _addressLine1Key,
-                            //   label: localizations.translate(
-                            //     i18.householdLocation
-                            //         .householdAddressLine1LabelText,
-                            //   ),
-                            //   maxLength: 64,
-                            // ),
-                            // DigitTextFormField(
-                            //   formControlName: _addressLine2Key,
-                            //   label: localizations.translate(
-                            //     i18.householdLocation
-                            //         .householdAddressLine2LabelText,
-                            //   ),
-                            //   maxLength: 64,
-                            // ),
                             householdLocationShowcaseData.landmark.buildWith(
                               child: DigitTextFormField(
                                 formControlName: _landmarkKey,
@@ -248,14 +225,6 @@ class _HouseholdLocationPageState
                                 maxLength: 64,
                               ),
                             ),
-                            // DigitTextFormField(
-                            //   keyboardType: TextInputType.text,
-                            //   formControlName: _postalCodeKey,
-                            //   label: localizations.translate(
-                            //     i18.householdLocation.postalCodeFormLabel,
-                            //   ),
-                            //   maxLength: 64,
-                            // ),
                           ]),
                           const SizedBox(height: 16),
                         ],

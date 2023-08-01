@@ -4,7 +4,7 @@ import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:health_campaign_field_worker_app/data/data_repository.dart';
+import '../../data/data_repository.dart';
 
 import '../../data/local_store/secure_store/secure_store.dart';
 import '../../data/repositories/remote/auth.dart';

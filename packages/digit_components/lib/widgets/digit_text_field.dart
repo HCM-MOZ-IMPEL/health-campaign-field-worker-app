@@ -1,5 +1,4 @@
 import 'package:digit_components/digit_components.dart';
-import 'package:digit_components/widgets/labeled_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -80,7 +79,6 @@ class DigitTextField extends StatelessWidget {
             maxHeight: 48,
             maxWidth: 48,
           ),
-          //maxLines = 1 if suffixIcon != null
           suffixIcon: suffixIcon,
         ),
       ),

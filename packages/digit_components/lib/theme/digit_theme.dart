@@ -99,7 +99,6 @@ class DigitTheme {
   OutlinedButtonThemeData get outlinedButtonTheme => OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: colorScheme.secondary,
-          // side: BorderSide(color: colorScheme.secondary),
           padding: buttonPadding,
         ),
       );

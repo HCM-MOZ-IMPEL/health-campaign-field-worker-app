@@ -42,7 +42,6 @@ class _ComplaintsLocationPageState
 
     final initialLat = locationInitialState.latitude;
     final initialLng = locationInitialState.longitude;
-    final initialAccuracy = locationInitialState.accuracy;
 
     return Scaffold(
       body: ReactiveFormBuilder(
@@ -81,8 +80,8 @@ class _ComplaintsLocationPageState
               ComplaintsRegistrationState>(
             builder: (context, state) {
               return ScrollableContent(
-                header: Column(
-                  children: const [
+                header: const Column(
+                  children: [
                     BackNavigationHelpHeaderWidget(),
                   ],
                 ),

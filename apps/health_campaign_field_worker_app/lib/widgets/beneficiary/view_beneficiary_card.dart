@@ -35,11 +35,7 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   @override
   void initState() {
     householdMember = widget.householdMember;
-    if (householdMember.household.memberCount! > 1) {
-      member = 'Membros';
-    } else {
-      member = 'Membro';
-    }
+    member = householdMember.household.memberCount! > 1 ? 'Membros' : 'Membro';
     super.initState();
   }
 
@@ -57,8 +53,6 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return DigitCard(
       child: Column(
         children: [
@@ -72,14 +66,11 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                   hasShowcase: widget.hasShowcase,
                   description: [
                     householdMember.household.address?.doorNo,
-                    // householdMember.household.address?.addressLine1,
-                    // householdMember.household.address?.addressLine2,
                     householdMember.household.address?.landmark,
                     householdMember.household.address?.city,
-                    // householdMember.household.address?.pincode,
                   ].whereNotNull().take(2).join(' '),
                   subtitle:
-                      '${householdMember.household.memberCount ?? 1} ${member}',
+                      '${householdMember.household.memberCount ?? 1} $member',
                   status: householdMember.task?.status != null
                       ? i18
                           .householdOverView.householdOverViewDeliveredIconLabel
@@ -115,10 +106,6 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                   'Beneficiário',
                   cellKey: 'beneficiary',
                 ),
-                // TableHeader(
-                //   'Delivery',
-                //   cellKey: 'delivery',
-                // ),
                 TableHeader(
                   'Idade',
                   cellKey: 'age',
@@ -139,13 +126,6 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                           ].whereNotNull().join(' '),
                           cellKey: 'beneficiary',
                         ),
-                        // TableData(
-                        //   'Not Delivered',
-                        //   cellKey: 'delivery',
-                        //   style: TextStyle(
-                        //     color: theme.colorScheme.error,
-                        //   ),
-                        // ),
                         TableData(
                           e.dateOfBirth == null
                               ? ''
@@ -162,7 +142,6 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                         TableData(
                           localizations
                               .translate(e.gender?.name.toUpperCase() ?? ''),
-                          // e.gender?.name ?? '',
                           cellKey: 'gender',
                         ),
                       ],

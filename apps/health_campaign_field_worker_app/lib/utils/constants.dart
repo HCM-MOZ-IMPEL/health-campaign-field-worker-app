@@ -124,7 +124,6 @@ class Constants {
 
   Future<void> _initializeIsar() async {
     final dir = await getApplicationDocumentsDirectory();
-    print(dir.path);
     _isar = await Isar.open(
       [
         ServiceRegistrySchema,

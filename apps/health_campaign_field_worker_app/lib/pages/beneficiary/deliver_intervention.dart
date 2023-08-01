@@ -40,7 +40,6 @@ class DeliverInterventionPage extends LocalizedStatefulWidget {
 
 class _DeliverInterventionPageState
     extends LocalizedState<DeliverInterventionPage> {
-  // static const _resourceDeliveredKey = 'resourceDelivered';
   static const _quantityDistributedKey = 'quantityDistributed';
   static const _deliveryCommentKey = 'deliveryComment';
   int count = 0;
@@ -74,12 +73,6 @@ class _DeliverInterventionPageState
                             : DigitCard(
                                 child: DigitElevatedButton(
                                   onPressed: () async {
-                                    final formValue = form
-                                        .control(
-                                          'quantityDistributed',
-                                        )
-                                        .value;
-
                                     form.markAllAsTouched();
                                     if (!form.valid) return;
                                     final router = context.router;
@@ -161,13 +154,6 @@ class _DeliverInterventionPageState
                                                               )
                                                               .value
                                                               .toString(),
-                                                          // productVariantId: (form
-                                                          //             .control(
-                                                          //               'resourceDelivered',
-                                                          //             )
-                                                          //             .value
-                                                          //         as ProductVariantModel)
-                                                          //     .id,
                                                           productVariantId:
                                                               productVariantModel
                                                                   .id,
@@ -233,7 +219,6 @@ class _DeliverInterventionPageState
                                                     context.boundary,
                                                   ),
                                                 );
-                                            // (router.parent() as StackRouter).pop();
 
                                             Navigator.of(
                                               context,
@@ -327,32 +312,6 @@ class _DeliverInterventionPageState
                                     element: {
                                       "${localizations.translate(i18.householdOverView.householdOverViewHouseholdHeadLabel)}:":
                                           '${householdMemberWrapper.headOfHousehold.name?.givenName ?? ''} ${householdMemberWrapper.headOfHousehold.name?.familyName ?? ''}',
-                                      // localizations.translate(
-                                      //   i18.deliverIntervention.idTypeText,
-                                      // ): () {
-                                      //   final identifiers = householdMemberWrapper
-                                      //       .headOfHousehold.identifiers;
-                                      //   if (identifiers == null ||
-                                      //       identifiers.isEmpty) {
-                                      //     return '';
-                                      //   }
-                                      //
-                                      //   return identifiers.first.identifierType ??
-                                      //       '';
-                                      // }(),
-                                      // localizations.translate(
-                                      //   i18.deliverIntervention.idNumberText,
-                                      // ): () {
-                                      //   final identifiers = householdMemberWrapper
-                                      //       .headOfHousehold.identifiers;
-                                      //   if (identifiers == null ||
-                                      //       identifiers.isEmpty) {
-                                      //     return '';
-                                      //   }
-                                      //
-                                      //   return identifiers.first.identifierId ??
-                                      //       '';
-                                      // }(),
                                       "${localizations.translate(
                                         i18.common.coreCommonAge,
                                       )}:": () {
@@ -367,11 +326,6 @@ class _DeliverInterventionPageState
 
                                         return date.age.toString();
                                       }(),
-                                      // localizations.translate(
-                                      //   i18.common.coreCommonGender,
-                                      // ): householdMemberWrapper.headOfHousehold
-                                      //         .gender?.name.sentenceCase ??
-                                      //     '',
                                       "${localizations.translate(
                                         i18.common.coreCommonGender,
                                       )}:": localizations.translate(
@@ -426,52 +380,10 @@ class _DeliverInterventionPageState
                                       return productState.maybeWhen(
                                         orElse: () => const Offstage(),
                                         fetched: (productVariants) {
-                                          final productVariantId = state
-                                              .householdMemberWrapper
-                                              .task
-                                              ?.resources
-                                              ?.firstOrNull
-                                              ?.productVariantId;
-
                                           productVariantModel =
                                               productVariants[0];
-                                          final variant =
-                                              productState.whenOrNull(
-                                            fetched: (productVariants) {
-                                              return productVariants
-                                                  .firstWhereOrNull(
-                                                (element) =>
-                                                    element.id ==
-                                                    productVariantId,
-                                              );
-                                            },
-                                          );
 
                                           return Container();
-                                          // form
-                                          //     .control(_resourceDeliveredKey)
-                                          //     .value = variant;
-                                          //
-                                          // return DigitReactiveDropdown<
-                                          //     ProductVariantModel>(
-                                          //   label: localizations.translate(
-                                          //     i18.deliverIntervention
-                                          //         .resourceDeliveredLabel,
-                                          //   ),
-                                          //   isRequired: true,
-                                          //   valueMapper: (value) {
-                                          //     return localizations.translate(
-                                          //       value.sku ?? value.id,
-                                          //     );
-                                          //   },
-                                          //   menuItems: productVariants,
-                                          //   validationMessages: {
-                                          //     'required': (object) =>
-                                          //         'Field is required',
-                                          //   },
-                                          //   formControlName:
-                                          //       _resourceDeliveredKey,
-                                          // );
                                         },
                                       );
                                     },
@@ -559,9 +471,6 @@ class _DeliverInterventionPageState
     final state = context.read<HouseholdOverviewBloc>().state;
 
     return fb.group(<String, Object>{
-      // _resourceDeliveredKey: FormControl<ProductVariantModel>(
-      //   validators: [Validators.required],
-      // ),
       _quantityDistributedKey: FormControl<int>(
         value: state.householdMemberWrapper.task?.resources?.first.quantity !=
                 null

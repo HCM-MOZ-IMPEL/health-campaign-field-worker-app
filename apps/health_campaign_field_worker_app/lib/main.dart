@@ -1,15 +1,13 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:health_campaign_field_worker_app/utils/checkbandwidth.dart';
+import 'utils/checkbandwidth.dart';
 import 'package:isar/isar.dart';
 
 import 'app.dart';
 import 'blocs/app_bloc_observer.dart';
 import 'data/local_store/app_shared_preferences.dart';
-import 'data/local_store/no_sql/schema/app_configuration.dart';
 import 'data/local_store/secure_store/secure_store.dart';
 import 'data/local_store/sql_store/sql_store.dart';
 import 'data/remote_client.dart';
@@ -65,10 +63,6 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     } else if (state == AppLifecycleState.resumed) {
       // Stop the background service when the app is terminated
       setBgrunning(false);
-      final isRunning = await FlutterBackgroundService().isRunning();
-      final localSecureStore = LocalSecureStore.instance,
-          isBgRunning = await localSecureStore.isBackgroundSerivceRunning;
-      if (!isRunning && isBgRunning) {}
     }
   }
 }

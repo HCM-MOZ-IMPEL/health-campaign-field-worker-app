@@ -1,5 +1,4 @@
 import 'package:digit_showcase/showcase.dart';
-import 'package:digit_showcase/showcase_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../localized.dart';
@@ -44,8 +43,8 @@ class _ShowcaseItemWrapperWidgetState
       disableMovingAnimation: true,
       disableScaleAnimation: true,
       description: localizations.translate(widget.messageLocalizationKey),
-      child: widget.child,
       targetPadding: const EdgeInsets.all(8),
+      child: widget.child,
     );
   }
 }

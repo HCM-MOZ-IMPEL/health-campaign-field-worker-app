@@ -89,9 +89,7 @@ void main() {
             routerDelegate: AutoRouterDelegate.declarative(
               appRouter,
               navigatorObservers: () => [mockObserver],
-              routes: (PendingRoutesHandler handler) => [
-                // HouseholdOverviewRoute(appLocalizations: mockLocalization),
-              ],
+              routes: (PendingRoutesHandler handler) => [],
             ),
           ),
         ),

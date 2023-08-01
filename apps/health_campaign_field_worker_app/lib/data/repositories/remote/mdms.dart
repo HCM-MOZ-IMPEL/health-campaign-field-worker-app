@@ -24,6 +24,7 @@ class MdmsRepository {
       final response = await _client.post(apiEndPoint, data: body);
 
       return ServiceRegistryPrimaryWrapperModel.fromJson(
+        // ignore: avoid_dynamic_calls
         json.decode(response.toString())['MdmsRes'],
       );
     } catch (_) {
@@ -75,6 +76,7 @@ class MdmsRepository {
       final response = await _client.post(apiEndPoint, data: body);
 
       return app_configuration.AppConfigPrimaryWrapperModel.fromJson(
+        // ignore: avoid_dynamic_calls
         json.decode(response.toString())['MdmsRes'],
       );
     } on DioError catch (e) {
@@ -95,6 +97,7 @@ class MdmsRepository {
       final response = await _client.post(apiEndPoint, data: body);
 
       return PGRServiceDefinitions.fromJson(
+        // ignore: avoid_dynamic_calls
         json.decode(response.toString())['MdmsRes'],
       );
     } on DioError catch (e) {
