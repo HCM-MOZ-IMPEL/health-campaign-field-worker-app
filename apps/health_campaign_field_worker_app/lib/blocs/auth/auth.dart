@@ -71,6 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       await localSecureStore.setAuthCredentials(result);
+      await localSecureStore.setBoundaryRefetch(true);
 
       emit(
         AuthAuthenticatedState(
@@ -97,7 +98,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onLogout(AuthLogoutEvent event, AuthEmitter emit) async {
     try {
       emit(const AuthLoadingState());
-      await boundaryLocalRepository.deleteAll();
       await localSecureStore.deleteAll();
     } catch (error) {
       rethrow;
