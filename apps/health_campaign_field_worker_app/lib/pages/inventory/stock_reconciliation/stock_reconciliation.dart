@@ -148,10 +148,6 @@ class _StockReconciliationPageState
                                                 .control(_facilityKey)
                                                 .value as FacilityModel;
 
-                                            // final productVariant = form
-                                            //     .control(_productVariantKey)
-                                            //     .value as ProductVariantModel;
-
                                             final productVariant =
                                                 productVariantModel;
 

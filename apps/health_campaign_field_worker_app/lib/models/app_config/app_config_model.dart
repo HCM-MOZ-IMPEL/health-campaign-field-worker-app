@@ -48,12 +48,25 @@ class AppConfigPrimaryWrapperModel with _$AppConfigPrimaryWrapperModel {
   const factory AppConfigPrimaryWrapperModel({
     @JsonKey(name: 'HCM-FIELD-APP-CONFIG')
     final AppConfigSecondaryWrapperModel? appConfig,
+    @JsonKey(name: 'module-version') final RowVersionWrapperModel? rowVersions,
   }) = _AppConfigPrimaryWrapperModel;
 
   factory AppConfigPrimaryWrapperModel.fromJson(
     Map<String, dynamic> json,
   ) =>
       _$AppConfigPrimaryWrapperModelFromJson(json);
+}
+
+@freezed
+class RowVersionWrapperModel with _$RowVersionWrapperModel {
+  const factory RowVersionWrapperModel({
+    @JsonKey(name: 'ROW_VERSIONS') List<RowVersions>? rowVersionslist,
+  }) = _RowVersionWrapperModel;
+
+  factory RowVersionWrapperModel.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$RowVersionWrapperModelFromJson(json);
 }
 
 @freezed
@@ -268,4 +281,14 @@ class TransportTypes with _$TransportTypes {
 
   factory TransportTypes.fromJson(Map<String, dynamic> json) =>
       _$TransportTypesFromJson(json);
+}
+
+@freezed
+class RowVersions with _$RowVersions {
+  factory RowVersions({
+    required String module,
+    required String version,
+  }) = _RowVersions;
+  factory RowVersions.fromJson(Map<String, dynamic> json) =>
+      _$RowVersionsFromJson(json);
 }

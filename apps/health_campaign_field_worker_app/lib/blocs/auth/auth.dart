@@ -4,7 +4,7 @@ import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:health_campaign_field_worker_app/data/data_repository.dart';
+import '../../data/data_repository.dart';
 
 import '../../data/local_store/secure_store/secure_store.dart';
 import '../../data/repositories/remote/auth.dart';
@@ -71,6 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       await localSecureStore.setAuthCredentials(result);
+      await localSecureStore.setBoundaryRefetch(true);
 
       emit(
         AuthAuthenticatedState(
@@ -97,7 +98,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onLogout(AuthLogoutEvent event, AuthEmitter emit) async {
     try {
       emit(const AuthLoadingState());
-      await boundaryLocalRepository.deleteAll();
       await localSecureStore.deleteAll();
     } catch (error) {
       rethrow;

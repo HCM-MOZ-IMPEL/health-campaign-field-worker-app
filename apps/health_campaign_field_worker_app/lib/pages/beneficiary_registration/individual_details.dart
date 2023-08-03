@@ -39,8 +39,6 @@ class _IndividualDetailsPageState
   static const _individualNameKey = 'individualName';
   static const _individualLastNameKey = 'individualLastName';
 
-  // static const _idTypeKey = 'idType';
-  // static const _idNumberKey = 'idNumber';
   static const _dobKey = 'dob';
   static const _genderKey = 'gender';
   static const _mobileNumberKey = 'mobileNumber';
@@ -68,15 +66,6 @@ class _IndividualDetailsPageState
                       );
                 }
                 (router.parent() as StackRouter).pop();
-
-                // if (value.navigateToRoot) {
-                //   (router.parent() as StackRouter).pop();
-                // } else {
-                //   (router.parent() as StackRouter).pop();
-                //   router.push(BeneficiaryWrapperRoute(
-                //     wrapper: bloc.householdMemberWrapper,
-                //   ));
-                // }
               },
             );
           },
@@ -132,56 +121,6 @@ class _IndividualDetailsPageState
                               boundary: context.boundary,
                             ),
                           );
-
-                          // bloc.findWrapper(projectId, householdModel!.clientReferenceId);
-                          // final wrapper =  HouseholdMemberWrapper(
-                          //    household: householdModel!,
-                          //    headOfHousehold: individualModel!,
-                          //    members: [individualModel!],
-                          //    projectBeneficiary: projectBeneficiaryModel,
-                          //  );
-                          //
-
-                          // final submit = await DigitDialog.show<bool>(
-                          //   context,
-                          //   options: DigitDialogOptions(
-                          //     titleText: localizations.translate(
-                          //       i18.deliverIntervention.dialogTitle,
-                          //     ),
-                          //     contentText: localizations.translate(
-                          //       i18.deliverIntervention.dialogContent,
-                          //     ),
-                          //     primaryAction: DigitDialogActions(
-                          //       label: localizations.translate(
-                          //         i18.common.coreCommonSubmit,
-                          //       ),
-                          //       action: (context) {
-                          //         Navigator.of(
-                          //           context,
-                          //           rootNavigator: true,
-                          //         ).pop(true);
-                          //       },
-                          //     ),
-                          //     secondaryAction: DigitDialogActions(
-                          //       label: localizations.translate(
-                          //         i18.common.coreCommonCancel,
-                          //       ),
-                          //       action: (context) => Navigator.of(
-                          //         context,
-                          //         rootNavigator: true,
-                          //       ).pop(false),
-                          //     ),
-                          //   ),
-                          // );
-
-                          // if (submit ?? false) {
-                          //   bloc.add(
-                          //     BeneficiaryRegistrationCreateEvent(
-                          //       projectId: projectId,
-                          //       userUuid: userId,
-                          //     ),
-                          //   );
-                          // }
                         },
                         editIndividual: (
                           householdModel,
@@ -202,7 +141,6 @@ class _IndividualDetailsPageState
                               model: individual,
                             ),
                           );
-                          // context.router.pop();
                         },
                         addMember: (
                           addressModel,
@@ -303,68 +241,6 @@ class _IndividualDetailsPageState
                                 ),
                               ),
                             ),
-                            // BlocBuilder<AppInitializationBloc,
-                            //     AppInitializationState>(
-                            //   builder: (context, state) => state.maybeWhen(
-                            //     orElse: () => const Offstage(),
-                            //     initialized: (appConfiguration, _) {
-                            //       final idTypeOptions =
-                            //           appConfiguration.idTypeOptions ??
-                            //               <IdTypeOptions>[];
-                            //
-                            //       return DigitReactiveDropdown<String>(
-                            //         isRequired: true,
-                            //         label: localizations.translate(
-                            //           i18.individualDetails.idTypeLabelText,
-                            //         ),
-                            //         valueMapper: (e) => e,
-                            //         onChanged: (value) {
-                            //           setState(() {
-                            //             if (value == 'DEFAULT') {
-                            //               form.control(_idNumberKey).value =
-                            //                   IdGen.i.identifier.toString();
-                            //             } else {
-                            //               form.control(_idNumberKey).value = null;
-                            //             }
-                            //           });
-                            //         },
-                            //         initialValue: idTypeOptions.firstOrNull?.name,
-                            //         menuItems: idTypeOptions.map(
-                            //           (e) {
-                            //             return localizations.translate(e.name);
-                            //           },
-                            //         ).toList(),
-                            //         formControlName: _idTypeKey,
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
-                            // Column(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     ReactiveFormConsumer(
-                            //       builder: (context, formGroup, child) {
-                            //         return DigitTextFormField(
-                            //           readOnly: form.control(_idTypeKey).value ==
-                            //               'DEFAULT',
-                            //           isRequired: form
-                            //               .control(_idNumberKey)
-                            //               .validators
-                            //               .isNotEmpty,
-                            //           formControlName: _idNumberKey,
-                            //           label: localizations.translate(
-                            //             i18.individualDetails.idNumberLabelText,
-                            //           ),
-                            //           validationMessages: {
-                            //             'required': (object) =>
-                            //                 'ID Number is required',
-                            //           },
-                            //         );
-                            //       },
-                            //     ),
-                            //     const SizedBox(height: 4),
-                            //   ],
-                            // ),
                             DigitDobPicker(
                               datePickerFormControl: _dobKey,
                               datePickerLabel: '${localizations.translate(
@@ -393,7 +269,6 @@ class _IndividualDetailsPageState
                                         i18.individualDetails.genderLabelText,
                                       ),
                                       isRequired: true,
-                                      // valueMapper: (value) => value,
                                       valueMapper: (value) =>
                                           localizations.translate(
                                         value,
@@ -430,9 +305,6 @@ class _IndividualDetailsPageState
                                       localizations.translate(i18
                                           .individualDetails
                                           .mobileNumberInvalidFormatValidationMessage),
-                                  // 'number': (object) => localizations.translate(i18
-                                  //     .individualDetails
-                                  //     .mobileNumberInvalidFormatValidationMessage),
                                 },
                               ),
                             ),
@@ -512,8 +384,6 @@ class _IndividualDetailsPageState
       dateOfBirth: dobString,
       identifiers: [
         identifier.copyWith(
-          // identifierId: form.control(_idNumberKey).value,
-          // identifierType: form.control(_idTypeKey).value,
           identifierId: 'DEFAULT',
           identifierType: 'DEFAULT',
         ),
@@ -551,14 +421,6 @@ class _IndividualDetailsPageState
         ],
         value: individual?.name?.familyName ?? '',
       ),
-      // _idTypeKey: FormControl<String>(
-      //   validators: [Validators.required],
-      //   value: individual?.identifiers?.firstOrNull?.identifierType,
-      // ),
-      // _idNumberKey: FormControl<String>(
-      //   validators: [Validators.required],
-      //   value: individual?.identifiers?.firstOrNull?.identifierId,
-      // ),
       _dobKey: FormControl<DateTime>(
         validators: [
           CustomValidator.dobRequired,

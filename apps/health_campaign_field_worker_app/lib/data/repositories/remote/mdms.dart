@@ -9,6 +9,7 @@ import '../../../models/app_config/app_config_model.dart' as app_configuration;
 import '../../../models/mdms/service_registry/pgr_service_defenitions.dart';
 import '../../../models/mdms/service_registry/service_registry_model.dart';
 import '../../local_store/no_sql/schema/app_configuration.dart';
+import '../../local_store/no_sql/schema/row_versions.dart';
 import '../../local_store/no_sql/schema/service_registry.dart';
 
 class MdmsRepository {
@@ -24,6 +25,7 @@ class MdmsRepository {
       final response = await _client.post(apiEndPoint, data: body);
 
       return ServiceRegistryPrimaryWrapperModel.fromJson(
+        // ignore: avoid_dynamic_calls
         json.decode(response.toString())['MdmsRes'],
       );
     } catch (_) {
@@ -75,6 +77,7 @@ class MdmsRepository {
       final response = await _client.post(apiEndPoint, data: body);
 
       return app_configuration.AppConfigPrimaryWrapperModel.fromJson(
+        // ignore: avoid_dynamic_calls
         json.decode(response.toString())['MdmsRes'],
       );
     } on DioError catch (e) {
@@ -95,6 +98,7 @@ class MdmsRepository {
       final response = await _client.post(apiEndPoint, data: body);
 
       return PGRServiceDefinitions.fromJson(
+        // ignore: avoid_dynamic_calls
         json.decode(response.toString())['MdmsRes'],
       );
     } on DioError catch (e) {
@@ -113,6 +117,18 @@ class MdmsRepository {
     Isar isar,
   ) async {
     final appConfiguration = AppConfiguration();
+
+    final data = result.rowVersions?.rowVersionslist;
+
+    final List<RowVersionList> rowVersionList = [];
+
+    for (final element in data ?? <app_configuration.RowVersions>[]) {
+      final rowVersion = RowVersionList();
+      rowVersion.module = element.module;
+      rowVersion.version = element.version;
+      rowVersionList.add(rowVersion);
+    }
+
     result.appConfig?.appConfiglist?.forEach((element) {
       final backgroundServiceConfig = BackgroundServiceConfig()
         ..apiConcurrency = element.backgroundServiceConfig?.apiConcurrency
@@ -239,6 +255,7 @@ class MdmsRepository {
 
     await isar.writeTxn(() async {
       await isar.appConfigurations.put(appConfiguration);
+      await isar.rowVersionLists.putAll(rowVersionList);
     });
   }
 }

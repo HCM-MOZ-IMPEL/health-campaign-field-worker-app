@@ -136,8 +136,6 @@ class _SearchBeneficiaryPageState
                         hasShowcase: index == 0,
                         onOpenPressed: () async {
                           final bloc = context.read<SearchHouseholdsBloc>();
-                          final projectId = context.projectId;
-
                           await context.router.push(
                             BeneficiaryWrapperRoute(
                               wrapper: i,
@@ -170,16 +168,12 @@ class _SearchBeneficiaryPageState
                   builder: (context, state) {
                     final router = context.router;
 
-                    // final searchQuery = state.searchQuery;
                     VoidCallback? onPressed;
 
                     onPressed = state.loading
-                        // searchQuery == null ||
-                        // searchQuery.isEmpty
                         ? null
                         : () async {
                             final bloc = context.read<SearchHouseholdsBloc>();
-                            final projectId = context.projectId;
 
                             await router.push(
                               BeneficiaryRegistrationWrapperRoute(

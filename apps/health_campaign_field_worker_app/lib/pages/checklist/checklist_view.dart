@@ -126,6 +126,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           : localizations
                                               .translate("${e.code}_REGEX");
                                     }
+
+                                    return null;
                                   },
                                   label: localizations.translate(
                                     '${value.selectedServiceDefinition?.code}.${e.code}',
@@ -156,6 +158,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           : localizations
                                               .translate("${e.code}_REGEX");
                                     }
+
+                                    return null;
                                   },
                                   controller: controller[index],
                                   label: '${localizations.translate(
@@ -304,6 +308,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                                             .coreCommonReasonRequired,
                                                       );
                                                     }
+
+                                                    return null;
                                                   },
                                                 ),
                                               )
@@ -427,8 +433,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                             ServiceCreateEvent(
                                               serviceModel: ServiceModel(
                                                 createdAt: DateFormat(
-                                                        'dd/MM/yyyy hh:mm')
-                                                    .format(DateTime.now()),
+                                                  'dd/MM/yyyy hh:mm',
+                                                ).format(DateTime.now()),
                                                 tenantId: value
                                                     .selectedServiceDefinition!
                                                     .tenantId,

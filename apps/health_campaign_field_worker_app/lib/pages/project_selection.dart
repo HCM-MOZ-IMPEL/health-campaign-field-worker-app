@@ -43,27 +43,6 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
 
     return Scaffold(
       body: ScrollableContent(
-        // header: Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     const BackNavigationHelpHeaderWidget(
-        //       showBackNavigation: false,
-        //       showLogoutCTA: true,
-        //     ),
-        //     Padding(
-        //       padding: const EdgeInsets.symmetric(
-        //         horizontal: 16,
-        //         vertical: 16,
-        //       ),
-        //       child: Text(
-        //         localizations.translate(
-        //           i18.projectSelection.projectDetailsLabelText,
-        //         ),
-        //         style: theme.textTheme.displayMedium,
-        //       ),
-        //     ),
-        //   ],
-        // ),
         children: [
           BlocConsumer<ProjectBloc, ProjectState>(
             listener: (context, state) {

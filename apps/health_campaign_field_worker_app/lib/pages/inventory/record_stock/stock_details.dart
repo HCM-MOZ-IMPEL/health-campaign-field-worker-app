@@ -33,7 +33,6 @@ class StockDetailsPage extends LocalizedStatefulWidget {
 }
 
 class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
-  // static const _productVariantKey = 'productVariant';
   static const _transactingPartyKey = 'transactingParty';
   static const _transactionQuantityKey = 'quantity';
   static const _transactionReasonKey = 'transactionReason';
@@ -46,9 +45,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
 
   FormGroup _form() {
     return fb.group({
-      // _productVariantKey: FormControl<ProductVariantModel>(
-      //   validators: [Validators.required],
-      // ),
       _transactingPartyKey: FormControl<FacilityModel>(
         validators: [Validators.required],
       ),
@@ -67,8 +63,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
           Validators.required,
           Validators.min(1),
         ],
-
-        // value: '0',
       ),
       _vehicleNumberKey: FormControl<String>(
         validators: [
@@ -230,9 +224,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     final bloc =
                                         context.read<RecordStockBloc>();
 
-                                    // final productVariant = form
-                                    //     .control(_productVariantKey)
-                                    //     .value as ProductVariantModel;
                                     final productVariant = productVariantModel;
 
                                     switch (entryType) {
@@ -431,24 +422,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       productVariantModel = productVariants[0];
 
                                       return Container();
-
-                                      // return DigitReactiveDropdown<ProductVariantModel>(
-                                      //   formControlName: _productVariantKey,
-                                      //   label: localizations.translate(
-                                      //     module.selectProductLabel,
-                                      //   ),
-                                      //   isRequired: true,
-                                      //   valueMapper: (value) {
-                                      //     return localizations.translate(
-                                      //       value.sku ?? value.id,
-                                      //     );
-                                      //   },
-                                      //   menuItems: productVariants,
-                                      //   validationMessages: {
-                                      //     'required': (object) =>
-                                      //         'Field is required',
-                                      //   },
-                                      // );
                                     },
                                   );
                                 },

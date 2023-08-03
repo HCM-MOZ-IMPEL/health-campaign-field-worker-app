@@ -342,7 +342,8 @@ class _ComplaintsDetailsPageState
                                           textStyle: TextStyle(
                                             color: form
                                                     .control(
-                                                        _complaintRaisedFor)
+                                                      _complaintRaisedFor,
+                                                    )
                                                     .disabled
                                                 ? theme.colorScheme.shadow
                                                 : theme

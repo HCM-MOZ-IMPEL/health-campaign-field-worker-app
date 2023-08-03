@@ -6,6 +6,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:digit_firebase_services/digit_firebase_services.dart'
     as firebase_services;
+import '../data/local_store/no_sql/schema/row_versions.dart';
 import '../firebase_options.dart';
 
 import '../blocs/app_initialization/app_initialization.dart';
@@ -124,13 +125,13 @@ class Constants {
 
   Future<void> _initializeIsar() async {
     final dir = await getApplicationDocumentsDirectory();
-    print(dir.path);
     _isar = await Isar.open(
       [
         ServiceRegistrySchema,
         LocalizationWrapperSchema,
         AppConfigurationSchema,
         OpLogSchema,
+        RowVersionListSchema,
       ],
       directory: dir.path,
       name: 'HCM',

@@ -43,7 +43,7 @@ class DigitTableCard extends StatelessWidget {
                             width: MediaQuery.of(context).size.width / fraction,
                             child: Text(
                               e,
-                              style: theme.textTheme.headline5,
+                              style: theme.textTheme.headlineSmall,
                               textAlign: TextAlign.start,
                             ),
                           ),
@@ -86,7 +86,7 @@ class TableValues extends StatelessWidget {
         children: [
           Expanded(
             flex: 6,
-            child: Text(title, style: theme.textTheme.headline5),
+            child: Text(title, style: theme.textTheme.headlineSmall),
           ),
           const SizedBox(width: 6),
           Expanded(flex: 5, child: Text(value)),

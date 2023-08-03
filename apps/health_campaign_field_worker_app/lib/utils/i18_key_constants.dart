@@ -573,19 +573,13 @@ class StockReconciliationDetails {
 
   String get facilitySearchText => 'FACILITY_SEARCH_TEXT';
 
-  String get manualCountRequiredError =>
-      // 'STOCK_RECONCILIATION_COUNT_IS_REQUIRED';
-      'Por favor introduza um número';
+  String get manualCountRequiredError => 'Por favor introduza um número';
 
   String get reconciliationCommentRequiredError =>
       'RECONCILIATION_COMMENT_IS_REQUIRED';
 
-  // 'Por favor introduza o Comentário antes de enviar';
-
   String get manualCountInvalidType =>
       'STOCK_RECONCILIATION_COUNT_EXPECTS_NUMBER';
-
-  // 'Por favor introduza um número';
 
   String get manualCountMinError => 'STOCK_RECONCILIATION_COUNT_BELOW_MIN';
 

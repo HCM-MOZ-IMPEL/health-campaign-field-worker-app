@@ -36,7 +36,6 @@ class _ComplaintsInboxPageState extends LocalizedState<ComplaintsInboxPage> {
           final inboxItems =
               state.isFiltered ? state.filteredComplaints : state.complaints;
 
-          // TODO(ajil): Fix this scrollable component
           return Column(
             children: [
               Expanded(

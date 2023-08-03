@@ -29,7 +29,6 @@ class AnchoredOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     late double postion = 0.0;
 
     if (MediaQuery.of(context).size.width / 2 < childWidth) {
@@ -90,13 +89,14 @@ class AnchoredOverlay extends StatelessWidget {
                                       style: ElevatedButton.styleFrom(
                                         elevation: 3, //elevation of button
                                         shape: RoundedRectangleBorder(
-                                          //to set border radius to button
+                                            //to set border radius to button
                                             borderRadius:
-                                            BorderRadius.circular(10)),
+                                                BorderRadius.circular(10)),
                                         //content padding inside button
                                       ),
                                       onPressed: onTap,
                                       child: const Text(
+                                        // ignore: dead_code
                                         true ? 'Next' : 'End',
                                         style: TextStyle(fontSize: 10),
                                       ),
@@ -108,21 +108,21 @@ class AnchoredOverlay extends StatelessWidget {
       ]),
       child: showOverlay
           ? Scaffold(
-          body: Card(
-            margin: EdgeInsets.zero,
-            elevation: 10,
-            child: Material(
-                elevation: 6,
-                type: MaterialType.transparency,
-                child: IgnorePointer(
-                  ignoring: true,
-                  child: child,
-                )),
-          ))
+              body: Card(
+              margin: EdgeInsets.zero,
+              elevation: 10,
+              child: Material(
+                  elevation: 6,
+                  type: MaterialType.transparency,
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: child,
+                  )),
+            ))
           : SizedBox(
-        height: childHeight,
-        child: child,
-      ),
+              height: childHeight,
+              child: child,
+            ),
     );
   }
 }

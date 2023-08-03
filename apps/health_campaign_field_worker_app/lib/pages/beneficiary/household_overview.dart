@@ -277,7 +277,6 @@ class _HouseholdOverviewPageState
                                                     .parse(e.dateOfBirth!)
                                                     .age) ??
                                             0,
-                                        // gender: e.gender?.name ?? ' - ',
                                         gender: localizations.translate(
                                           e.gender?.name.toUpperCase() ?? ' - ',
                                         ),

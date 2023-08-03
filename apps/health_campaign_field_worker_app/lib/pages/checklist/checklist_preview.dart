@@ -71,7 +71,7 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                               ...value1.mapIndexed((i, e) {
                                 final serviceDefId = e.serviceDefId;
                                 if (serviceDefId == null) {
-                                  return Offstage();
+                                  return const Offstage();
                                 }
 
                                 Widget openButton = DigitOutLineButton(
@@ -103,11 +103,6 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                         alignment: Alignment.centerLeft,
                                         child: Text(
                                           e.createdAt.toString(),
-                                          // DateFormat('dd MMMM yyyy').format(
-                                          //   DateFormat('dd/MM/yyyy').parse(
-                                          //     e.createdAt.toString(),
-                                          //   ),
-                                          // ),
                                           style: theme.textTheme.headlineMedium,
                                         ),
                                       ),
