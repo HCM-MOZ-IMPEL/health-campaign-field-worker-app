@@ -35,13 +35,18 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   @override
   void initState() {
     householdMember = widget.householdMember;
-    member = householdMember.household.memberCount! > 1 ? 'Membros' : 'Membro';
+    member = householdMember.household.memberCount! > 1
+        ? i18.memberCard.members
+        : i18.memberCard.member;
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant ViewBeneficiaryCard oldWidget) {
     householdMember = widget.householdMember;
+    member = householdMember.household.memberCount! > 1
+        ? i18.memberCard.members
+        : i18.memberCard.member;
     super.didUpdateWidget(oldWidget);
   }
 
@@ -70,7 +75,7 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                     householdMember.household.address?.city,
                   ].whereNotNull().take(2).join(' '),
                   subtitle:
-                      '${householdMember.household.memberCount ?? 1} $member',
+                      '${householdMember.household.memberCount ?? 1} ${localizations.translate(member)}',
                   status: householdMember.task?.status != null
                       ? i18
                           .householdOverView.householdOverViewDeliveredIconLabel

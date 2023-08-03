@@ -370,6 +370,10 @@ class MemberCard {
   String get deliverDetailsYearText => 'MEMBER_CARD_DELIVER_DETAILS_YEAR_TEXT';
 
   String get editDetails => 'MEMBER_CARD_EDIT_DETAILS';
+
+  String get member => 'MEMBER_LABEL';
+
+  String get members => 'MEMBERS_LABEL';
 }
 
 class DeliverIntervention {
@@ -573,7 +577,8 @@ class StockReconciliationDetails {
 
   String get facilitySearchText => 'FACILITY_SEARCH_TEXT';
 
-  String get manualCountRequiredError => 'Por favor introduza um número';
+  String get manualCountRequiredError =>
+      'STOCK_RECONCILIATION_COUNT_IS_REQUIRED';
 
   String get reconciliationCommentRequiredError =>
       'RECONCILIATION_COMMENT_IS_REQUIRED';
