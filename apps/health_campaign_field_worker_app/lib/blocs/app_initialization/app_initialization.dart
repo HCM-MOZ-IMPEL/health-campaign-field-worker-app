@@ -31,9 +31,9 @@ class AppInitializationBloc
   }
 
   FutureOr<void> _onAppInitializeSetup(
-      AppInitializationSetupEvent event,
-      AppInitializationEmitter emit,
-      ) async {
+    AppInitializationSetupEvent event,
+    AppInitializationEmitter emit,
+  ) async {
     emit(const AppInitializing());
 
     try {
@@ -79,12 +79,19 @@ class AppInitializationBloc
                   MdmsMasterDetailModel('appConfig'),
                 ],
               ),
+              const MdmsModuleDetailModel(
+                moduleName: 'module-version',
+                masterDetails: [
+                  MdmsMasterDetailModel('ROW_VERSIONS'),
+                ],
+              ),
             ],
           ),
         ).toJson(),
       );
 
-      final pgrServiceDefinitions = await mdmsRepository.searchPGRServiceDefinitions(
+      final pgrServiceDefinitions =
+          await mdmsRepository.searchPGRServiceDefinitions(
         envConfig.variables.mdmsApiPath,
         MdmsRequestModel(
           mdmsCriteria: MdmsCriteriaModel(
@@ -101,7 +108,8 @@ class AppInitializationBloc
         ).toJson(),
       );
 
-      await mdmsRepository.writeToAppConfigDB(configResult, pgrServiceDefinitions, isar);
+      await mdmsRepository.writeToAppConfigDB(
+          configResult, pgrServiceDefinitions, isar);
 
       add(
         AppInitializationSetupEvent(
@@ -157,40 +165,40 @@ class AppInitializationState with _$AppInitializationState {
       initialized: (appConfiguration, serviceRegistryList) =>
           serviceRegistryList
               .map((e) => e.actions.map((e) {
-            ApiOperation? operation;
-            DataModelType? type;
+                    ApiOperation? operation;
+                    DataModelType? type;
 
-            operation = ApiOperation.values.firstWhereOrNull((element) {
-              return e.action.camelCase == element.name;
-            });
+                    operation = ApiOperation.values.firstWhereOrNull((element) {
+                      return e.action.camelCase == element.name;
+                    });
 
-            type = DataModelType.values.firstWhereOrNull((element) {
-              return e.entityName.camelCase == element.name;
-            });
+                    type = DataModelType.values.firstWhereOrNull((element) {
+                      return e.entityName.camelCase == element.name;
+                    });
 
-            if (operation == null || type == null) return null;
+                    if (operation == null || type == null) return null;
 
-            return ActionPathModel(
-              operation: operation,
-              type: type,
-              path: e.path,
-            );
-          }))
+                    return ActionPathModel(
+                      operation: operation,
+                      type: type,
+                      path: e.path,
+                    );
+                  }))
               .expand((element) => element)
               .whereNotNull()
               .fold(<DataModelType, Map<ApiOperation, String>>{}, (o, element) {
-            if (o.containsKey(element.type)) {
-              o[element.type]?.addEntries(
-                [MapEntry(element.operation, element.path)],
-              );
-            } else {
-              o[element.type] = Map.fromEntries([
-                MapEntry(element.operation, element.path),
-              ]);
-            }
+        if (o.containsKey(element.type)) {
+          o[element.type]?.addEntries(
+            [MapEntry(element.operation, element.path)],
+          );
+        } else {
+          o[element.type] = Map.fromEntries([
+            MapEntry(element.operation, element.path),
+          ]);
+        }
 
-            return o;
-          }),
+        return o;
+      }),
     );
   }
 
@@ -200,7 +208,7 @@ class AppInitializationState with _$AppInitializationState {
       uninitialized: () => 'Uninitialized',
       loading: () => 'Loading',
       initialized: (appConfiguration, serviceRegistryList) =>
-      'tenantId: ${appConfiguration.tenantId}\n'
+          'tenantId: ${appConfiguration.tenantId}\n'
           'serviceCount: ${serviceRegistryList.length}',
     );
   }
