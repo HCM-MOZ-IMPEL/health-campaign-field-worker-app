@@ -666,6 +666,7 @@ class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
         .entityTypeEqualTo(type)
         .serverGeneratedIdIsNotNull()
         .syncedUpEqualTo(true)
+        .syncedDownEqualTo(false)
         .createdByEqualTo(createdBy)
         .sortByCreatedAt()
         .findAll();
