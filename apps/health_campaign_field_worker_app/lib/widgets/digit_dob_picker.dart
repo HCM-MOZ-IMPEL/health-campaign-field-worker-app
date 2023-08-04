@@ -150,12 +150,12 @@ class DobValueAccessorYearsString
   @override
   String? modelToViewValue(DateTime? modelValue) {
     final dobAge = accessor.modelToViewValue(modelValue);
-    existingMonth = dobAge != null ? dobAge.months.toString() : '0';
-    existingDays = dobAge != null ? dobAge.days.toString() : '0';
+    if (dobAge == null) return null;
 
-    return dobAge != null && dobAge.years >= 0
-        ? dobAge.years.toString()
-        : existingMonth;
+    existingMonth = dobAge.months.toString();
+    existingDays = dobAge.days.toString();
+
+    return dobAge.years >= 0 ? dobAge.years.toString() : null;
   }
 
   @override
