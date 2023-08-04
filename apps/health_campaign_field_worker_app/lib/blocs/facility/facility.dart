@@ -41,6 +41,14 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
           fields: [const AdditionalField('type', 'DeliveryTeam')],
         ),
       ),
+      FacilityModel(
+        id: 'AP',
+        name: 'Armazém Provincial',
+        additionalFields: FacilityAdditionalFields(
+          version: 1,
+          fields: [const AdditionalField('type', 'ProvisionalWarehouse')],
+        ),
+      ),
     ];
 
     List<FacilityModel> facilities = [];
