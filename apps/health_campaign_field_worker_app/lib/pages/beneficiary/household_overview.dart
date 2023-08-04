@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -273,9 +274,13 @@ class _HouseholdOverviewPageState
                                             '${e.name?.givenName ?? ' - '} ${e.name?.familyName ?? ' - '}',
                                         age: (e.dateOfBirth == null
                                                 ? null
-                                                : DateFormat('dd/MM/yyyy')
-                                                    .parse(e.dateOfBirth!)
-                                                    .age) ??
+                                                : DigitDateUtils.calculateAge(
+                                                    DigitDateUtils
+                                                            .getFormattedDateToDateTime(
+                                                          e.dateOfBirth!,
+                                                        ) ??
+                                                        DateTime.now(),
+                                                  ).years) ??
                                             0,
                                         gender: localizations.translate(
                                           e.gender?.name.toUpperCase() ?? ' - ',

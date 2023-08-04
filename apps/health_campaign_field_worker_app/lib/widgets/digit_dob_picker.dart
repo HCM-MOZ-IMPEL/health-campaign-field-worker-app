@@ -1,3 +1,4 @@
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_date_form_picker.dart';
 import 'package:digit_components/widgets/atoms/digit_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class DigitDobPicker extends StatelessWidget {
             individualDetailsShowcaseData.age.buildWith(
               child: DigitTextFormField(
                 maxLength: 3,
-                valueAccessor: DobValueAccessor(),
+                valueAccessor: DobValueAccessorYearsString(DobValueAccessor()),
                 formControlName: datePickerFormControl,
                 label: ageFieldLabel,
                 keyboardType:
@@ -67,15 +68,13 @@ class DigitDobPicker extends StatelessWidget {
                         formControl.value.toString().trim().isEmpty) {
                       return {'O campo Idade é obrigatório': true};
                     }
-                    String value =
-                        (DateTime.now().difference(formControl.value).inDays /
-                                366)
-                            .floor()
-                            .toStringAsFixed(0);
+                    DigitDOBAge age =
+                        DigitDateUtils.calculateAge(formControl.value);
 
-                    return int.parse(value) <= 150
-                        ? null
-                        : {'A idade não deve ser superior a 150 anos': true};
+                    return age.years > 150 ||
+                            (age.years >= 150 && age.months > 0)
+                        ? {'A idade não deve ser superior a 150 anos': true}
+                        : null;
                   }
 
                   formControl.setValidators([requiredTrue]);
@@ -105,26 +104,103 @@ class DigitDobPicker extends StatelessWidget {
   }
 }
 
-class DobValueAccessor extends ControlValueAccessor<DateTime, String> {
+class DobValueAccessor extends ControlValueAccessor<DateTime, DigitDOBAge> {
   @override
-  String? modelToViewValue(DateTime? modelValue) {
+  DigitDOBAge? modelToViewValue(DateTime? modelValue) {
     if (modelValue == null) return null;
 
-    return (DateTime.now().difference(modelValue).inDays / 366)
-        .floor()
-        .toStringAsFixed(0);
+    return DigitDateUtils.calculateAge(modelValue);
+  }
+
+  @override
+  DateTime? viewToModelValue(DigitDOBAge? viewValue) {
+    if (viewValue == null) return null;
+    final months = viewValue.months;
+    final days = DigitDateUtils.yearsMonthsDaysToDays(
+      viewValue.years,
+      viewValue.months,
+      viewValue.days,
+    );
+
+    final calculatedDate = DateTime.now().subtract(Duration(days: days + 1));
+
+    return viewValue.years < 0 || months < 0 || months > 11
+        ? DateTime(
+            viewValue.years < 0 ? DateTime.now().year + 1 : DateTime.now().year,
+            DateTime.now().month + 1,
+            DateTime.now().day + 1,
+          )
+        : DateTime(
+            calculatedDate.year,
+            calculatedDate.month,
+            calculatedDate.day,
+          );
+  }
+}
+
+// A custom ControlValueAccessor to handle the view value as a string for years.
+class DobValueAccessorYearsString
+    extends ControlValueAccessor<DateTime, String> {
+  final DobValueAccessor accessor;
+
+  DobValueAccessorYearsString(this.accessor);
+  String existingMonth = '0';
+  String existingDays = '0';
+
+  @override
+  String? modelToViewValue(DateTime? modelValue) {
+    final dobAge = accessor.modelToViewValue(modelValue);
+    existingMonth = dobAge != null ? dobAge.months.toString() : '0';
+    existingDays = dobAge != null ? dobAge.days.toString() : '0';
+
+    return dobAge != null && dobAge.years >= 0
+        ? dobAge.years.toString()
+        : existingMonth;
   }
 
   @override
   DateTime? viewToModelValue(String? viewValue) {
-    if (viewValue == null || viewValue.trim().isEmpty) return null;
-    final value = int.tryParse(viewValue);
-    if (value == null) return null;
+    final years = int.tryParse(viewValue ?? '');
 
-    return DateTime(
-      DateTime.now().subtract(Duration(days: value * 366)).year,
-      1,
-      1,
+    final dobAge = DigitDOBAge(
+      years: years ?? 0,
+      months: int.parse(existingMonth),
+      days: int.parse(existingDays),
     );
+
+    return accessor.viewToModelValue(dobAge);
+  }
+}
+
+// A custom ControlValueAccessor to handle the view value as a string for months.
+class DobValueAccessorMonthString
+    extends ControlValueAccessor<DateTime, String> {
+  final DobValueAccessor accessor;
+
+  DobValueAccessorMonthString(this.accessor);
+  String existingYear = '0';
+  String existingDays = '0';
+
+  @override
+  String? modelToViewValue(DateTime? modelValue) {
+    final dobAge = accessor.modelToViewValue(modelValue);
+    existingYear =
+        dobAge != null && dobAge.years >= 0 ? dobAge.years.toString() : '0';
+    existingDays = dobAge != null ? dobAge.days.toString() : '0';
+    int months = dobAge != null ? dobAge.months : 0;
+
+    return dobAge != null ? months.toString() : existingYear;
+  }
+
+  @override
+  DateTime? viewToModelValue(String? viewValue) {
+    final months = int.tryParse(viewValue ?? '0');
+    final dobAge = DigitDOBAge(
+      years: int.parse(existingYear),
+      months: months ?? 0,
+      days: int.parse(existingDays),
+    );
+
+    return accessor.viewToModelValue(dobAge);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -321,10 +322,16 @@ class _DeliverInterventionPageState
                                           return '';
                                         }
 
-                                        final date =
-                                            DateFormat('dd/MM/yyyy').parse(dob);
+                                        final int years =
+                                            DigitDateUtils.calculateAge(
+                                          DigitDateUtils
+                                                  .getFormattedDateToDateTime(
+                                                dob,
+                                              ) ??
+                                              DateTime.now(),
+                                        ).years;
 
-                                        return date.age.toString();
+                                        return years.toString();
                                       }(),
                                       "${localizations.translate(
                                         i18.common.coreCommonGender,
