@@ -334,7 +334,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                     'vehicle_number',
                                                     vehicleNumber,
                                                   ),
-                                                if (comments != null)
+                                                if (comments != null &&
+                                                    comments.isNotEmpty)
                                                   AdditionalField(
                                                     'comments',
                                                     comments,

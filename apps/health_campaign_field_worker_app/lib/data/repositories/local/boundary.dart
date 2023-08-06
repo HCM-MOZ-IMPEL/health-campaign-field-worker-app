@@ -50,6 +50,8 @@ class BoundaryLocalRepository extends BoundaryLocalBaseRepository {
           ..where(buildAnd([
             if (query.code != null)
               sql.boundary.materializedPath.like('%${query.code}%'),
+            if (query.boundaryType != null && query.boundaryType!.isNotEmpty)
+              sql.boundary.label.equals(query.boundaryType),
             sql.boundary.materializedPath.isNotNull(),
             sql.boundary.materializedPath.isNotIn(['']),
             sql.boundary.code.isNotNull(),
@@ -75,5 +77,4 @@ class BoundaryLocalRepository extends BoundaryLocalBaseRepository {
 
     return queriedBoundaries;
   }
-
 }
