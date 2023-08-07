@@ -32,7 +32,7 @@ class _PoweredByDigitState extends State<PoweredByDigit> {
                       ? DigitTheme.instance.colorScheme.onPrimary
                       : null),
             ),
-            Text(widget.version)
+            Text('Version ${widget.version}')
           ]),
         ),
       );
