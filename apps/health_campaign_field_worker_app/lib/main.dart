@@ -2,6 +2,7 @@ import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'utils/checkbandwidth.dart';
 import 'package:isar/isar.dart';
 
@@ -21,6 +22,8 @@ int i = 0;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final info = await PackageInfo.fromPlatform();
+
   Bloc.observer = AppBlocObserver();
   await AppSharedPreferences().init();
 
@@ -38,7 +41,7 @@ void main() async {
 
   await initializeService(_dio);
   if (Isar.getInstance('HCM') == null) {
-    await Constants().initilize();
+    await Constants().initilize(info.version);
   }
 
   runApp(

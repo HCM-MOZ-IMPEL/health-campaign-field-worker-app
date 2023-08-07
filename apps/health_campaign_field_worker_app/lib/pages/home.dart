@@ -49,7 +49,6 @@ class _HomePageState extends LocalizedState<HomePage> {
         stopService: false,
         context: null,
       );
-      print("----Results----");
 
       // Got a new connectivity status!
     });
@@ -130,7 +129,9 @@ class _HomePageState extends LocalizedState<HomePage> {
                     ),
             ],
           ),
-          footer: const PoweredByDigit(),
+          footer: PoweredByDigit(
+            version: Constants().version,
+          ),
           children: [
             const SizedBox(height: kPadding * 2),
             BlocConsumer<SyncBloc, SyncState>(

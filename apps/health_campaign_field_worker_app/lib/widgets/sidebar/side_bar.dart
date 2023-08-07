@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/localization/app_localization.dart';
 import '../../blocs/auth/auth.dart';
 import '../../router/app_router.dart';
+import '../../utils/constants.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 
 class SideBar extends StatelessWidget {
@@ -63,7 +64,9 @@ class SideBar extends StatelessWidget {
               ),
             ],
           ),
-          const PoweredByDigit(),
+          PoweredByDigit(
+            version: Constants().version,
+          ),
         ],
       );
     });

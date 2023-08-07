@@ -56,17 +56,22 @@ import '../models/data_model.dart';
 
 class Constants {
   late Isar _isar;
+  late String _version;
   static final Constants _instance = Constants._();
   Constants._();
   factory Constants() {
     return _instance;
   }
-  Future initilize() async {
-    await _initializeIsar();
+  Future initilize(version) async {
+    await _initializeIsar(version);
   }
 
   Isar get isar {
     return _isar;
+  }
+
+  String get version {
+    return _version;
   }
 
   static const String localizationApiPath = 'localization/messages/v1/_search';
@@ -123,7 +128,7 @@ class Constants {
     ];
   }
 
-  Future<void> _initializeIsar() async {
+  Future<void> _initializeIsar(version) async {
     final dir = await getApplicationDocumentsDirectory();
     _isar = await Isar.open(
       [
@@ -136,6 +141,8 @@ class Constants {
       directory: dir.path,
       name: 'HCM',
     );
+
+    _version = version;
 
     final appConfigs = await _isar.appConfigurations.where().findAll();
     final config = appConfigs.firstOrNull;
