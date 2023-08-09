@@ -84,7 +84,7 @@ class CustomValidator {
       return null;
     }
 
-    const pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+    const pattern = r'^-?\d+$';
 
     if (control.value.toString().length != 10) {
       return {'mobileNumber': true};
@@ -102,7 +102,7 @@ class CustomValidator {
       return null;
     }
 
-    const pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+    const pattern = r'^-?\d+$';
 
     if (control.value.toString().length != 9) {
       return {'mobileNumber': true};
