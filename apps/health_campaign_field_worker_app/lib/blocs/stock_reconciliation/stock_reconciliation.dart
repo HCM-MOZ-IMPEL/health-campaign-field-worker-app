@@ -124,33 +124,38 @@ class StockReconciliationState with _$StockReconciliationState {
   num get stockReceived => _getQuantityCount(
         stockModels.where((e) =>
             e.transactionType == TransactionType.received &&
-            e.transactionReason == TransactionReason.received),
+            e.transactionReason == TransactionReason.received &&
+            e.dateOfEntry! <= dateOfReconciliation.millisecondsSinceEpoch),
       );
 
   num get stockIssued => _getQuantityCount(
         stockModels.where((e) =>
             e.transactionType == TransactionType.dispatched &&
-            e.transactionReason == null),
+            e.transactionReason == null &&
+            e.dateOfEntry! <= dateOfReconciliation.millisecondsSinceEpoch),
       );
 
   num get stockReturned => _getQuantityCount(
         stockModels.where((e) =>
             e.transactionType == TransactionType.received &&
-            e.transactionReason == TransactionReason.returned),
+            e.transactionReason == TransactionReason.returned &&
+            e.dateOfEntry! <= dateOfReconciliation.millisecondsSinceEpoch),
       );
 
   num get stockLost => _getQuantityCount(
         stockModels.where((e) =>
             e.transactionType == TransactionType.dispatched &&
             (e.transactionReason == TransactionReason.lostInTransit ||
-                e.transactionReason == TransactionReason.lostInStorage)),
+                e.transactionReason == TransactionReason.lostInStorage) &&
+            e.dateOfEntry! <= dateOfReconciliation.millisecondsSinceEpoch),
       );
 
   num get stockDamaged => _getQuantityCount(
         stockModels.where((e) =>
             e.transactionType == TransactionType.dispatched &&
             (e.transactionReason == TransactionReason.damagedInTransit ||
-                e.transactionReason == TransactionReason.damagedInStorage)),
+                e.transactionReason == TransactionReason.damagedInStorage) &&
+            e.dateOfEntry! <= dateOfReconciliation.millisecondsSinceEpoch),
       );
 
   num get stockInHand =>
