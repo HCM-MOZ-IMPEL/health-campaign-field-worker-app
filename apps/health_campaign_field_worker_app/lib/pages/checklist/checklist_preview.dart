@@ -29,11 +29,26 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
 
     return Scaffold(
       body: ScrollableContent(
-        header: const Column(children: [
-          BackNavigationHelpHeaderWidget(
-            showcaseButton: ShowcaseButton(),
-          ),
-        ]),
+        header: BlocBuilder<ServiceBloc, ServiceState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () => const Column(children: [
+                BackNavigationHelpHeaderWidget(),
+              ]),
+              serviceSearch: (value1, value2, value3) {
+                return value2 == null
+                    ? const Column(children: [
+                        BackNavigationHelpHeaderWidget(
+                          showcaseButton: ShowcaseButton(),
+                        ),
+                      ])
+                    : const Column(children: [
+                        BackNavigationHelpHeaderWidget(),
+                      ]);
+              },
+            );
+          },
+        ),
         footer: BlocBuilder<ServiceBloc, ServiceState>(
           builder: (context, state) {
             return state.maybeWhen(
