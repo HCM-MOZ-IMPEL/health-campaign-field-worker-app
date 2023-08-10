@@ -1,10 +1,12 @@
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/localization/app_localization.dart';
 import '../../blocs/auth/auth.dart';
 import '../../router/app_router.dart';
+import '../../utils/checkbandwidth.dart';
 import '../../utils/constants.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 
@@ -58,8 +60,24 @@ class SideBar extends StatelessWidget {
                 title: AppLocalizations.of(context)
                     .translate(i18.common.coreCommonLogout),
                 icon: Icons.logout,
-                onPressed: () {
-                  context.read<AuthBloc>().add(const AuthLogoutEvent());
+                onPressed: () async {
+                  final isConnected = await getIsConnected();
+                  if (context.mounted) {
+                    if (isConnected) {
+                      context.read<AuthBloc>().add(const AuthLogoutEvent());
+                    } else {
+                      DigitToast.show(
+                        context,
+                        options: DigitToastOptions(
+                          AppLocalizations.of(context).translate(
+                            i18.login.noInternetError,
+                          ),
+                          true,
+                          theme,
+                        ),
+                      );
+                    }
+                  }
                 },
               ),
             ],

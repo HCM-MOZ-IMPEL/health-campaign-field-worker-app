@@ -111,6 +111,8 @@ class Login {
   String get actionLabel => 'LOGIN_ACTION_LABEL';
 
   String get loginError => 'LOGIN_ERROR';
+
+  String get noInternetError => 'ERR_NOT_CONNECTED_TO_INTERNET';
 }
 
 class Checklist {
