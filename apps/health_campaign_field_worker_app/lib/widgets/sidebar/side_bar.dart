@@ -69,10 +69,14 @@ class SideBar extends StatelessWidget {
                         context,
                         options: DigitDialogOptions(
                           titleText: t.translate(
-                            i18.deliverIntervention.dialogTitle,
+                            i18.common.coreCommonWarning,
+                          ),
+                          titleIcon: Icon(
+                            Icons.warning,
+                            color: DigitTheme.instance.colorScheme.error,
                           ),
                           contentText: t.translate(
-                            i18.deliverIntervention.dialogContent,
+                            i18.login.logOutWarningMsg,
                           ),
                           primaryAction: DigitDialogActions(
                             label: t.translate(i18.common.coreCommonNo),

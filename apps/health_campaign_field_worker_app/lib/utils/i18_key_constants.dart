@@ -97,6 +97,8 @@ class Common {
   String get coreCommonNo => 'CORE_COMMON_NO';
 
   String get coreCommonYes => 'CORE_COMMON_YES';
+
+  String get coreCommonWarning => 'CORE_COMMON_WARNING';
 }
 
 class Login {
@@ -117,6 +119,8 @@ class Login {
   String get loginError => 'LOGIN_ERROR';
 
   String get noInternetError => 'ERR_NOT_CONNECTED_TO_INTERNET';
+
+  String get logOutWarningMsg => 'LOG_OUT_WARNING_MESSAGE';
 }
 
 class Checklist {
