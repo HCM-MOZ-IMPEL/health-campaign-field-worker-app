@@ -93,6 +93,10 @@ class Common {
   String get coreCommonlanguage => 'CORE_COMMON_LANGUAGE';
 
   String get coreCommonProceed => 'CORE_COMMON_NEXT';
+
+  String get coreCommonNo => 'CORE_COMMON_NO';
+
+  String get coreCommonYes => 'CORE_COMMON_YES';
 }
 
 class Login {

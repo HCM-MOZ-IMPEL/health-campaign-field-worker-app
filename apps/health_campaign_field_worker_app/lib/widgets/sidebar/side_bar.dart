@@ -16,6 +16,7 @@ class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    var t = AppLocalizations.of(context);
 
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       return Column(
@@ -64,7 +65,36 @@ class SideBar extends StatelessWidget {
                   final isConnected = await getIsConnected();
                   if (context.mounted) {
                     if (isConnected) {
-                      context.read<AuthBloc>().add(const AuthLogoutEvent());
+                      DigitDialog.show(
+                        context,
+                        options: DigitDialogOptions(
+                          titleText: t.translate(
+                            i18.deliverIntervention.dialogTitle,
+                          ),
+                          contentText: t.translate(
+                            i18.deliverIntervention.dialogContent,
+                          ),
+                          primaryAction: DigitDialogActions(
+                            label: t.translate(i18.common.coreCommonNo),
+                            action: (ctx) => Navigator.of(
+                              context,
+                              rootNavigator: true,
+                            ).pop(true),
+                          ),
+                          secondaryAction: DigitDialogActions(
+                            label: t.translate(i18.common.coreCommonYes),
+                            action: (ctx) {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(const AuthLogoutEvent());
+                              Navigator.of(
+                                context,
+                                rootNavigator: true,
+                              ).pop(true);
+                            },
+                          ),
+                        ),
+                      );
                     } else {
                       DigitToast.show(
                         context,

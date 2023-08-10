@@ -10,6 +10,7 @@ import '../../data/local_store/secure_store/secure_store.dart';
 import '../../data/repositories/remote/auth.dart';
 import '../../models/auth/auth_model.dart';
 import '../../models/data_model.dart';
+import '../../utils/checkbandwidth.dart';
 import '../../utils/constants.dart';
 
 part 'auth.freezed.dart';
@@ -99,17 +100,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onLogout(AuthLogoutEvent event, AuthEmitter emit) async {
     try {
       emit(const AuthLoadingState());
-      final accessToken = await localSecureStore.accessToken;
-      final user = await localSecureStore.userRequestModel;
-      final tenantId = user?.tenantId;
-      await authRepository.logOutUser(
-        logoutPath: Constants.logoutUserPath,
-        queryParameters: {
-          'tenantId': tenantId.toString(),
-        },
-        body: {'access_token': accessToken},
-      );
-      await localSecureStore.deleteAll();
+      final isConnected = await getIsConnected();
+      if (isConnected) {
+        final accessToken = await localSecureStore.accessToken;
+        final user = await localSecureStore.userRequestModel;
+        final tenantId = user?.tenantId;
+        await authRepository.logOutUser(
+          logoutPath: Constants.logoutUserPath,
+          queryParameters: {
+            'tenantId': tenantId.toString(),
+          },
+          body: {'access_token': accessToken},
+        );
+        await localSecureStore.deleteAll();
+      }
     } catch (error) {
       rethrow;
     }
