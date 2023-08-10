@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_firebase_services/digit_firebase_services.dart'
@@ -160,6 +162,14 @@ class Constants {
     }
   }
 
+  final String _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  final Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+        length,
+        (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+      ));
   static List<RemoteRepository> getRemoteRepositories(
     Dio dio,
     Map<DataModelType, Map<ApiOperation, String>> actionMap,

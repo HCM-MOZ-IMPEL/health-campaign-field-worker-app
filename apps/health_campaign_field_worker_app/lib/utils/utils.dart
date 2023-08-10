@@ -152,6 +152,8 @@ performBackgroundService({
     if (!isRunning && isOnline) {
       service.startService();
     }
+  } else {
+    service.invoke('stopService');
   }
 }
 

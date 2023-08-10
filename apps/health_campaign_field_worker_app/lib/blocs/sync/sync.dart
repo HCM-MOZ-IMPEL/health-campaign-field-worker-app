@@ -17,6 +17,7 @@ typedef SyncEmitter = Emitter<SyncState>;
 
 class SyncBloc extends Bloc<SyncEvent, SyncState> {
   final Isar isar;
+
   final NetworkManager networkManager;
 
   SyncBloc({
