@@ -583,6 +583,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   isRequired: true,
                                   formControlName: _vehicleNumberKey,
                                   inputFormatters: [UpperCaseTextFormatter()],
+                                  maxLength: 9,
                                   validationMessages: {
                                     'required': (object) =>
                                         localizations.translate(
