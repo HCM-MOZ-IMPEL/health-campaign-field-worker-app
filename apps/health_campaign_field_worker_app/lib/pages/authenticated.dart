@@ -56,11 +56,18 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                         return TextButton(
                           style: TextButton.styleFrom(
                             foregroundColor: theme.colorScheme.onPrimary,
+                            maximumSize: Size(
+                              MediaQuery.of(context).size.width - 30,
+                              MediaQuery.of(context).size.height,
+                            ),
                           ),
                           onPressed: () {
                             ctx.router.navigate(const BoundarySelectionRoute());
                           },
-                          child: Text(boundaryName),
+                          child: Text(
+                            boundaryName,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         );
                       },
                     ),
