@@ -1,19 +1,18 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_firebase_services/digit_firebase_services.dart'
+    as firebase_services;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:digit_firebase_services/digit_firebase_services.dart'
-    as firebase_services;
-import '../data/local_store/no_sql/schema/row_versions.dart';
-import '../firebase_options.dart';
 
 import '../blocs/app_initialization/app_initialization.dart';
 import '../data/data_repository.dart';
 import '../data/local_store/no_sql/schema/app_configuration.dart';
 import '../data/local_store/no_sql/schema/localization.dart';
 import '../data/local_store/no_sql/schema/oplog.dart';
+import '../data/local_store/no_sql/schema/row_versions.dart';
 import '../data/local_store/no_sql/schema/service_registry.dart';
 import '../data/local_store/sql_store/sql_store.dart';
 import '../data/repositories/local/boundary.dart';
@@ -52,6 +51,7 @@ import '../data/repositories/remote/service_definition.dart';
 import '../data/repositories/remote/stock.dart';
 import '../data/repositories/remote/stock_reconciliation.dart';
 import '../data/repositories/remote/task.dart';
+import '../firebase_options.dart';
 import '../models/data_model.dart';
 
 class Constants {
@@ -76,6 +76,7 @@ class Constants {
 
   static const String localizationApiPath = 'localization/messages/v1/_search';
   static const String projectSearchApiPath = '/project/v1/_search';
+  static const String logoutUserPath = '/user/_logout';
 
   static List<LocalRepository> getLocalRepositories(
     LocalSqlDataStore sql,
