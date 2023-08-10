@@ -16,6 +16,7 @@ class _StockDetailsShowcaseData {
         receiptTypeOfTransport,
         receiptVehicleNumber,
         receiptComments,
+        receiptDriverName,
         issuedIssuedTo,
         issuedNumberOfBednetsIssued,
         issuedPackingSlipId,
@@ -23,12 +24,14 @@ class _StockDetailsShowcaseData {
         issuedTypeOfTransport,
         issuedVehicleNumber,
         issuedComments,
+        issuedDriverName,
         returnedReturnedFrom,
         returnedNumberOfBednetsReturned,
         returnedPackingSlipId,
         returnedNumberOfBednetsIndicatedOnPackingSlip,
         returnedTypeOfTransport,
         returnedVehicleNumber,
+        returnedDriverName,
       ];
 
   final receiptReceivedFrom = ShowcaseItemBuilder(
@@ -55,6 +58,10 @@ class _StockDetailsShowcaseData {
 
   final receiptVehicleNumber = ShowcaseItemBuilder(
     messageLocalizationKey: i18.stockDetailsReceiptShowcase.vehicleNumber,
+  );
+
+  final receiptDriverName = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.stockDetailsReceiptShowcase.driverName,
   );
 
   final receiptComments = ShowcaseItemBuilder(
@@ -87,6 +94,10 @@ class _StockDetailsShowcaseData {
     messageLocalizationKey: i18.stockDetailsIssuedShowcase.vehicleNumber,
   );
 
+  final issuedDriverName = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.stockDetailsIssuedShowcase.driverName,
+  );
+
   final issuedComments = ShowcaseItemBuilder(
     messageLocalizationKey: i18.stockDetailsIssuedShowcase.comments,
   );
@@ -115,6 +126,10 @@ class _StockDetailsShowcaseData {
 
   final returnedVehicleNumber = ShowcaseItemBuilder(
     messageLocalizationKey: i18.stockDetailsReturnedShowcase.vehicleNumber,
+  );
+
+  final returnedDriverName = ShowcaseItemBuilder(
+    messageLocalizationKey: i18.stockDetailsReturnedShowcase.driverName,
   );
 
   final returnedComments = ShowcaseItemBuilder(

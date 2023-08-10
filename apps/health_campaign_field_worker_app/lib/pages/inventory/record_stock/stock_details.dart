@@ -39,6 +39,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   static const _waybillNumberKey = 'waybillNumber';
   static const _waybillQuantityKey = 'waybillQuantity';
   static const _vehicleNumberKey = 'vehicleNumber';
+  static const _driverNameKey = 'driverName';
   static const _typeOfTransportKey = 'typeOfTransport';
   static const _commentsKey = 'comments';
   late ProductVariantModel productVariantModel;
@@ -65,6 +66,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
         ],
       ),
       _vehicleNumberKey: FormControl<String>(
+        validators: [
+          Validators.required,
+        ],
+      ),
+      _driverNameKey: FormControl<String>(
         validators: [
           Validators.required,
         ],
@@ -173,6 +179,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               stockDetailsShowcaseData.receiptPackingSlipId,
                               stockDetailsShowcaseData.receiptTypeOfTransport,
                               stockDetailsShowcaseData.receiptVehicleNumber,
+                              stockDetailsShowcaseData.receiptDriverName,
                               stockDetailsShowcaseData
                                   .receiptNumberOfNetsIndicatedOnPackingSlip,
                               stockDetailsShowcaseData
@@ -184,6 +191,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               stockDetailsShowcaseData.issuedPackingSlipId,
                               stockDetailsShowcaseData.issuedTypeOfTransport,
                               stockDetailsShowcaseData.issuedVehicleNumber,
+                              stockDetailsShowcaseData.issuedDriverName,
                               stockDetailsShowcaseData
                                   .issuedNumberOfBednetsIndicatedOnPackingSlip,
                               stockDetailsShowcaseData
@@ -195,6 +203,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                               stockDetailsShowcaseData.returnedPackingSlipId,
                               stockDetailsShowcaseData.returnedTypeOfTransport,
                               stockDetailsShowcaseData.returnedVehicleNumber,
+                              stockDetailsShowcaseData.returnedDriverName,
                               stockDetailsShowcaseData
                                   .returnedNumberOfBednetsIndicatedOnPackingSlip,
                               stockDetailsShowcaseData
@@ -267,6 +276,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                             .value as String?)
                                         ?.trim();
 
+                                    final driverName = (form
+                                            .control(_driverNameKey)
+                                            .value as String?)
+                                        ?.trim();
+
                                     final lat = locationState.latitude;
                                     final lng = locationState.longitude;
 
@@ -318,6 +332,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                 waybillQuantity,
                                                 vehicleNumber,
                                                 comments,
+                                                driverName,
                                               ].any((element) =>
                                                   element != null) ||
                                               hasLocationData
@@ -333,6 +348,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                   AdditionalField(
                                                     'vehicle_number',
                                                     vehicleNumber,
+                                                  ),
+                                                if (driverName != null)
+                                                  AdditionalField(
+                                                    'driver_name',
+                                                    driverName,
                                                   ),
                                                 if (comments != null &&
                                                     comments.isNotEmpty)
@@ -588,6 +608,28 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     'required': (object) =>
                                         localizations.translate(
                                           module.vehicleNumberValidation,
+                                        ),
+                                  },
+                                ),
+                              ),
+                              _StockDetailsShowcaseBuilder(
+                                entryType: entryType,
+                                issuedBuilder:
+                                    stockDetailsShowcaseData.issuedDriverName,
+                                receiptBuilder:
+                                    stockDetailsShowcaseData.receiptDriverName,
+                                returnedBuilder:
+                                    stockDetailsShowcaseData.returnedDriverName,
+                                child: DigitTextFormField(
+                                  label: localizations.translate(
+                                    i18.stockDetails.driverNameLabel,
+                                  ),
+                                  isRequired: true,
+                                  formControlName: _driverNameKey,
+                                  validationMessages: {
+                                    'required': (object) =>
+                                        localizations.translate(
+                                          i18.common.corecommonRequired,
                                         ),
                                   },
                                 ),

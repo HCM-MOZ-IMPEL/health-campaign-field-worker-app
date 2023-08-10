@@ -529,6 +529,8 @@ class StockDetails {
 
   String get vehicleNumberLabel => 'STOCK_DETAILS_VEHICLE_NUMBER';
 
+  String get driverNameLabel => 'STOCK_DETAILS_DRIVER_NAME';
+
   String get commentsLabel => 'STOCK_DETAILS_COMMENTS_LABEL';
 
   String get dialogTitle => 'STOCK_DETAILS_DIALOG_TITLE';
@@ -1011,6 +1013,10 @@ class StockDetailsReceiptShowcase {
     return 'STOCK_DETAILS_RECEIPT_SHOWCASE_VEHICLE_NUMBER';
   }
 
+  String get driverName {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_DRIVER_NAME';
+  }
+
   String get comments {
     return 'STOCK_DETAILS_RECEIPT_SHOWCASE_COMMENTS';
   }
@@ -1043,6 +1049,10 @@ class StockDetailsIssuedShowcase {
     return 'STOCK_DETAILS_ISSUED_SHOWCASE_VEHICLE_NUMBER';
   }
 
+  String get driverName {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_DRIVER_NAME';
+  }
+
   String get comments {
     return 'STOCK_DETAILS_ISSUED_SHOWCASE_COMMENTS';
   }
@@ -1073,6 +1083,10 @@ class StockDetailsReturnedShowcase {
 
   String get vehicleNumber {
     return 'STOCK_DETAILS_RETURNED_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get driverName {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_DRIVER_NAME';
   }
 
   String get comments {
