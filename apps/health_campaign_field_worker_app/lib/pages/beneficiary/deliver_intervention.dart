@@ -45,6 +45,7 @@ class _DeliverInterventionPageState
   static const _deliveryCommentKey = 'deliveryComment';
   int count = 0;
   late ProductVariantModel productVariantModel;
+  bool readOnly = false;
 
   @override
   initState() {
@@ -169,7 +170,7 @@ class _DeliverInterventionPageState
                                                                 .tenantId,
                                                             quantity: form
                                                                 .control(
-                                                                  'quantityDistributed',
+                                                                  _quantityDistributedKey,
                                                                 )
                                                                 .value
                                                                 .toString(),
@@ -179,7 +180,7 @@ class _DeliverInterventionPageState
                                                             deliveryComment:
                                                                 form
                                                                     .control(
-                                                                      'deliveryComment',
+                                                                      _deliveryCommentKey,
                                                                     )
                                                                     .value,
                                                             auditDetails:
@@ -424,6 +425,47 @@ class _DeliverInterventionPageState
                                               .quantityDistributedLabel,
                                         )}*",
                                         incrementer: !isDelivered,
+                                        onChanged: (formValue) {
+                                          final count = min(
+                                            (householdMemberWrapper.household
+                                                        .memberCount ??
+                                                    householdMemberWrapper
+                                                        .members.length) /
+                                                1.8,
+                                            3,
+                                          ).round();
+                                          if (int.parse(formValue) != count) {
+                                            setState(() {
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .setValidators(
+                                                [Validators.required],
+                                                updateParent: true,
+                                                autoValidate: true,
+                                              );
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .touched;
+                                              readOnly = false;
+                                            });
+                                          } else {
+                                            form.markAsPristine();
+                                            setState(() {
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .setValidators(
+                                                [],
+                                                updateParent: true,
+                                                autoValidate: true,
+                                              );
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .value = null;
+
+                                              readOnly = true;
+                                            });
+                                          }
+                                        },
                                       ),
                                     ),
                                     BlocBuilder<AppInitializationBloc,
@@ -446,7 +488,7 @@ class _DeliverInterventionPageState
                                               i18.deliverIntervention
                                                   .deliveryCommentLabel,
                                             ),
-                                            readOnly: isDelivered,
+                                            readOnly: isDelivered || readOnly,
                                             valueMapper: (value) => value,
                                             initialValue:
                                                 localizations.translate(
