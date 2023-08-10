@@ -391,6 +391,17 @@ class _StockReconciliationPageState
                                                 .stockReconciliationDetails
                                                 .dateOfReconciliation),
                                             isRequired: false,
+                                            onChanged: (control) {
+                                              final stockReconciliationBloc =
+                                                  context.read<
+                                                      StockReconciliationBloc>();
+
+                                              stockReconciliationBloc.add(
+                                                StockReconciliationSelectDateOfReconciliationEvent(
+                                                  control,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
                                         const DigitDivider(),

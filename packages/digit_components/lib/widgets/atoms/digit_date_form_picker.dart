@@ -21,6 +21,7 @@ class DigitDateFormPicker extends StatelessWidget {
   final DateTime? start;
   final DateTime? end;
   final String? hint;
+  final void Function(DateTime?)? onChanged;
 
   const DigitDateFormPicker({
     super.key,
@@ -39,6 +40,7 @@ class DigitDateFormPicker extends StatelessWidget {
     this.end,
     this.start,
     this.hint,
+    this.onChanged,
   });
 
   @override
@@ -58,7 +60,8 @@ class DigitDateFormPicker extends StatelessWidget {
             ),
             formControlName: formControlName,
             readOnly: true,
-            valueAccessor: DateTimeValueAccessor(
+            valueAccessor: CustomDateTimeValueAccessor(
+              onChanged,
               dateTimeFormat: DateFormat('dd MMM yyyy'),
             ),
             decoration: InputDecoration(
@@ -75,5 +78,27 @@ class DigitDateFormPicker extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class CustomDateTimeValueAccessor extends DateTimeValueAccessor {
+  final DateFormat dateTimeFormat;
+  final void Function(DateTime?)? onChanged;
+
+  CustomDateTimeValueAccessor(this.onChanged, {DateFormat? dateTimeFormat})
+      : dateTimeFormat = dateTimeFormat ?? DateFormat('yyyy/MM/dd');
+
+  @override
+  String modelToViewValue(DateTime? modelValue) {
+    onChanged?.call(modelValue);
+
+    return modelValue == null ? '' : dateTimeFormat.format(modelValue);
+  }
+
+  @override
+  DateTime? viewToModelValue(String? viewValue) {
+    return viewValue == null || viewValue.trim().isEmpty
+        ? null
+        : dateTimeFormat.parse(viewValue);
   }
 }
