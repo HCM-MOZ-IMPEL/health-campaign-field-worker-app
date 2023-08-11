@@ -278,9 +278,9 @@ class MainApplicationState extends State<MainApplication>
                                                   'Formação'.toUpperCase(),
                                                   maxLines: 1,
                                                   style: TextStyle(
-                                                    fontSize: 120,
+                                                    fontSize: 50,
                                                     color: Colors.black
-                                                        .withAlpha(50),
+                                                        .withAlpha(25),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),

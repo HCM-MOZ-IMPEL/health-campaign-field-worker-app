@@ -629,7 +629,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   validationMessages: {
                                     'required': (object) =>
                                         localizations.translate(
-                                          i18.common.corecommonRequired,
+                                          i18.stockDetails.driverNameValidation,
                                         ),
                                   },
                                 ),

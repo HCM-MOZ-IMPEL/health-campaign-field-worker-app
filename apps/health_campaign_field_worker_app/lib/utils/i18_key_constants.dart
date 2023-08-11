@@ -539,6 +539,8 @@ class StockDetails {
 
   String get driverNameLabel => 'STOCK_DETAILS_DRIVER_NAME';
 
+  String get driverNameValidation => 'STOCK_DETAILS_DRIVER_NAME_VALIDATION';
+
   String get commentsLabel => 'STOCK_DETAILS_COMMENTS_LABEL';
 
   String get dialogTitle => 'STOCK_DETAILS_DIALOG_TITLE';
