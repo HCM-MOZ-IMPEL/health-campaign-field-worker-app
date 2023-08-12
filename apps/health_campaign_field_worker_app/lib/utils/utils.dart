@@ -84,7 +84,7 @@ class CustomValidator {
       return null;
     }
 
-    const pattern = r'\d';
+    const pattern = r'[0-9]';
 
     if (control.value.toString().length != 10) {
       return {'mobileNumber': true};
@@ -102,7 +102,7 @@ class CustomValidator {
       return null;
     }
 
-    const pattern = r'\d';
+    const pattern = r'[0-9]';
 
     if (control.value.toString().length != 9) {
       return {'mobileNumber': true};

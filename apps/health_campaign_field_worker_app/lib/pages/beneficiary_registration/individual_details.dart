@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_checkbox.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -300,6 +301,11 @@ class _IndividualDetailsPageState
                                   i18.individualDetails.mobileNumberLabelText,
                                 ),
                                 maxLength: 9,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9]"),
+                                  ),
+                                ],
                                 validationMessages: {
                                   'mobileNumber': (object) =>
                                       localizations.translate(i18
