@@ -2,14 +2,20 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:digit_components/widgets/digit_sync_dialog.dart';
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:synchronized/synchronized.dart';
 import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
 import '../data/data_repository.dart';
+import '../data/local_store/sql_store/sql_store.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
@@ -35,7 +41,9 @@ class HomePage extends LocalizedStatefulWidget {
 
 class _HomePageState extends LocalizedState<HomePage> {
   bool skipProgressBar = false;
+  final storage = const FlutterSecureStorage();
   late StreamSubscription<ConnectivityResult> subscription;
+  final syncLock = Lock();
 
   @override
   initState() {
@@ -333,11 +341,42 @@ class _HomePageState extends LocalizedState<HomePage> {
           ),
         ),
         homeShowcaseData.distributorSyncData.buildWith(
-          child: HomeItemCard(
-            icon: Icons.sync_alt,
-            label: i18.home.syncDataLabel,
-            onPressed: () => _attemptSyncUp(context),
+          child: StreamBuilder<Map<String, dynamic>?>(
+            stream: FlutterBackgroundService().on('serviceRunning'),
+            builder: (context, snapshot) {
+              return HomeItemCard(
+                icon: Icons.sync_alt,
+                label: i18.home.syncDataLabel,
+                onPressed: () async {
+                  if (snapshot.data?['enablesManualSync'] == true) {
+                    _attemptSyncUp(context);
+                  } else {
+                    DigitToast.show(
+                      context,
+                      options: DigitToastOptions(
+                        i18.common.coreCommonSyncInProgress,
+                        false,
+                        Theme.of(context),
+                      ),
+                    );
+                  }
+                },
+              );
+            },
           ),
+        ),
+        HomeItemCard(
+          icon: Icons.table_chart,
+          label: 'DB',
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DriftDbViewer(
+                  context.read<LocalSqlDataStore>(),
+                ),
+              ),
+            );
+          },
         ),
       ]);
     }
@@ -386,10 +425,19 @@ class _HomePageState extends LocalizedState<HomePage> {
             ),
           ),
           homeShowcaseData.warehouseManagerSyncData.buildWith(
-            child: HomeItemCard(
-              icon: Icons.sync_alt,
-              label: i18.home.syncDataLabel,
-              onPressed: () => _attemptSyncUp(context),
+            child: StreamBuilder<Map<String, dynamic>?>(
+              stream: FlutterBackgroundService().on('serviceRunning'),
+              builder: (context, snapshot) {
+                return HomeItemCard(
+                  icon: Icons.sync_alt,
+                  label: i18.home.syncDataLabel,
+                  onPressed: () async {
+                    if (!snapshot.hasData) {
+                      _attemptSyncUp(context);
+                    }
+                  },
+                );
+              },
             ),
           ),
           homeShowcaseData.inventoryReport.buildWith(
@@ -429,10 +477,21 @@ class _HomePageState extends LocalizedState<HomePage> {
           ),
         ),
         homeShowcaseData.supervisorSyncData.buildWith(
-          child: HomeItemCard(
-            icon: Icons.sync_alt,
-            label: i18.home.syncDataLabel,
-            onPressed: () => _attemptSyncUp(context),
+          child: StreamBuilder<Map<String, dynamic>?>(
+            stream: FlutterBackgroundService().on('serviceRunning'),
+            builder: (context, snapshot) {
+              return HomeItemCard(
+                icon: Icons.sync_alt,
+                label: i18.home.syncDataLabel,
+                onPressed: () async {
+                  if (!snapshot.hasData) {
+                    if (context.mounted) {
+                      _attemptSyncUp(context);
+                    }
+                  }
+                },
+              );
+            },
           ),
         ),
       ]);

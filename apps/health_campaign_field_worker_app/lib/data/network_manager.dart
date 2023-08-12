@@ -4,10 +4,8 @@ import 'package:digit_components/digit_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
-
 import '../models/bandwidth/bandwidth_model.dart';
 import '../models/data_model.dart';
-import '../utils/debound.dart';
 import 'data_repository.dart';
 import 'repositories/oplog/oplog.dart';
 import 'repositories/remote/pgr_service.dart';
@@ -80,37 +78,31 @@ class NetworkManager {
       syncError ??= SyncUpError(e);
       service?.stopSelf();
     }
-
     if (syncError != null) throw syncError;
+    final list = pendingSyncDownEntries
+        .where(
+          (element) =>
+              element.type != DataModelType.householdMember &&
+              element.type != DataModelType.service,
+        )
+        .toList();
 
-    final debouncer = Debouncer(seconds: 5);
-    debouncer.run(() async {
-      if (pendingSyncUpEntries.isNotEmpty ||
-          pendingSyncDownEntries
-              .where(
-                (element) =>
-                    element.type != DataModelType.householdMember &&
-                    element.type != DataModelType.service,
-              )
-              .toList()
-              .isNotEmpty) {
-        performSync(
-          bandwidthModel: bandwidthModel,
-          localRepositories: localRepositories,
-          remoteRepositories: remoteRepositories,
-        );
-      } else if (pendingSyncUpEntries.isEmpty &&
-          pendingSyncDownEntries
-              .where(
-                (element) =>
-                    element.type != DataModelType.householdMember &&
-                    element.type != DataModelType.service,
-              )
-              .toList()
-              .isEmpty) {
-        service?.stopSelf();
-      }
-    });
+    if (pendingSyncUpEntries.isNotEmpty || list.isNotEmpty) {
+      await performSync(
+        bandwidthModel: bandwidthModel,
+        localRepositories: localRepositories,
+        remoteRepositories: remoteRepositories,
+        service: service,
+      );
+    } else if (pendingSyncUpEntries.isEmpty && list.isEmpty) {
+      service?.invoke(
+        'serviceRunning',
+        {
+          "enablesManualSync": true,
+        },
+      );
+      service?.stopSelf();
+    }
   }
 
   FutureOr<void> syncDown({

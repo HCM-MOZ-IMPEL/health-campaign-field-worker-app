@@ -8,10 +8,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:recase/recase.dart';
-
 import '../data/local_store/no_sql/schema/app_configuration.dart';
 import '../data/local_store/no_sql/schema/service_registry.dart';
 import '../data/local_store/secure_store/secure_store.dart';
@@ -82,7 +82,7 @@ void onStart(ServiceInstance service) async {
   await envConfig.initialize();
 
   _dio = DioClient().dio;
-
+  const storage = FlutterSecureStorage();
   final userRequestModel = await LocalSecureStore.instance.userRequestModel;
 
   final appConfiguration =
@@ -137,7 +137,15 @@ void onStart(ServiceInstance service) async {
                   'userId': userRequestModel!.uuid,
                   'batchSize': configuredBatchSize,
                 });
-                const NetworkManager(
+
+                service.invoke(
+                  'serviceRunning',
+                  {
+                    "enablesManualSync": false,
+                  },
+                );
+
+                await const NetworkManager(
                   configuration: NetworkManagerConfiguration(
                     persistenceConfig: PersistenceConfiguration.offlineFirst,
                   ),
