@@ -286,7 +286,17 @@ class BeneficiaryRegistrationBloc
           ],
         );
         try {
-          await individualRepository.update(individual);
+          // Todo[ Need to implement]
+          final IndividualModel? individualList =
+              (await individualRepository.search(IndividualSearchModel(
+            clientReferenceId: [individual.clientReferenceId],
+          )))
+                  .firstOrNull;
+
+          await individualRepository.update(individual.copyWith(
+            id: individualList?.id,
+            rowVersion: individualList?.rowVersion ?? 1,
+          ));
         } catch (error) {
           rethrow;
         } finally {

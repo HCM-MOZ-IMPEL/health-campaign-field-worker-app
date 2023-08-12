@@ -89,6 +89,8 @@ abstract class OpLogManager<T extends EntityModel> {
     var oplogs = await isar.opLogs
         .filter()
         .syncedUpEqualTo(true)
+        .syncDownRetryCountLessThan(3)
+        // [TODO need to move config]
         .syncedDownEqualTo(false)
         .entityTypeEqualTo(type)
         .findAll();

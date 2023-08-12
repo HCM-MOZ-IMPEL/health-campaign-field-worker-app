@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:digit_components/widgets/digit_sync_dialog.dart';
+import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
 import '../data/data_repository.dart';
+import '../data/local_store/sql_store/sql_store.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
@@ -334,9 +336,8 @@ class _HomePageState extends LocalizedState<HomePage> {
           child: HomeItemCard(
             icon: Icons.announcement,
             label: i18.home.fileComplaint,
-            onPressed: () async {
-              // TODO [complent code to be added];
-            },
+            onPressed: () =>
+                context.router.push(const ComplaintsInboxWrapperRoute()),
           ),
         ),
         homeShowcaseData.distributorSyncData.buildWith(
@@ -363,6 +364,19 @@ class _HomePageState extends LocalizedState<HomePage> {
               );
             },
           ),
+        ),
+        HomeItemCard(
+          icon: Icons.table_chart,
+          label: 'DB',
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DriftDbViewer(
+                  context.read<LocalSqlDataStore>(),
+                ),
+              ),
+            );
+          },
         ),
       ]);
     }
