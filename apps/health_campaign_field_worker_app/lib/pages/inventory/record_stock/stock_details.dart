@@ -281,6 +281,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                             .value as String?)
                                         ?.trim();
 
+                                    final typeOfTransport = (form
+                                            .control(_typeOfTransportKey)
+                                            .value as String?)
+                                        ?.trim();
+
                                     final lat = locationState.latitude;
                                     final lng = locationState.longitude;
 
@@ -353,6 +358,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                   AdditionalField(
                                                     'driver_name',
                                                     driverName,
+                                                  ),
+                                                if (typeOfTransport != null)
+                                                  AdditionalField(
+                                                    'vehicle_type',
+                                                    typeOfTransport,
                                                   ),
                                                 if (comments != null &&
                                                     comments.isNotEmpty)
