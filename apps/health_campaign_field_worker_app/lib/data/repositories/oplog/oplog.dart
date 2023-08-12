@@ -5,6 +5,7 @@ import 'package:isar/isar.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/app_exception.dart';
+import '../../../utils/environment_config.dart';
 import '../../data_repository.dart';
 import '../../local_store/no_sql/schema/oplog.dart' hide AdditionalId;
 
@@ -102,6 +103,7 @@ abstract class OpLogManager<T extends EntityModel> {
     var oplogs = await isar.opLogs
         .filter()
         .syncedUpEqualTo(true)
+        .syncDownRetryCountLessThan(envConfig.variables.syncDownRetryCount)
         .syncedDownEqualTo(false)
         .entityTypeEqualTo(type)
         .findAll();
@@ -259,7 +261,7 @@ abstract class OpLogManager<T extends EntityModel> {
       final entry = OpLogEntry.fromOpLog<T>(oplog);
       final syncDownRetryCount =
           entry.syncDownRetryCount < 0 ? 0 : entry.syncDownRetryCount;
-      if (syncDownRetryCount >= 3) {
+      if (syncDownRetryCount >= envConfig.variables.syncDownRetryCount) {
         OpLogEntry updatedEntry = entry.copyWith(
           nonRecoverableError: true,
         );
@@ -271,10 +273,10 @@ abstract class OpLogManager<T extends EntityModel> {
         if (syncDownRetryCount == 0) {
           // [TODO Need to move this config based approach]
           await Future.delayed(const Duration(seconds: 1));
-        } else if (syncDownRetryCount == 1) {
-          await Future.delayed(const Duration(seconds: 5));
-        } else if (syncDownRetryCount == 2) {
-          await Future.delayed(const Duration(seconds: 10));
+        } else {
+          await Future.delayed(Duration(
+            seconds: envConfig.variables.retryTimeInterval * syncDownRetryCount,
+          ));
         }
         OpLogEntry updatedEntry = entry.copyWith(
           syncDownRetryCount: syncDownRetryCount + 1,

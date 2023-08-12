@@ -127,6 +127,12 @@ class ServiceLocalRepository extends ServiceLocalBaseRepository {
         serviceDefId: data.serviceDefId,
         createdAt: data.createdAt,
         attributes: res.whereNotNull().toList(),
+        auditDetails: AuditDetails(
+          createdBy: data.auditCreatedBy ?? '',
+          createdTime: data.auditCreatedTime ?? 0,
+          lastModifiedTime: data.auditModifiedTime,
+          lastModifiedBy: data.auditModifiedBy,
+        ),
       ));
     }
 

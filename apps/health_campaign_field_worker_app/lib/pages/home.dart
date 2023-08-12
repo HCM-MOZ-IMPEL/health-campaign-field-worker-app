@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
+
 import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
@@ -25,9 +25,9 @@ import '../utils/utils.dart';
 import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/home/home_item_card.dart';
 import '../widgets/localized.dart';
+import '../widgets/progress_bar/beneficiary_progress.dart';
 import '../widgets/showcase/config/showcase_constants.dart';
 import '../widgets/showcase/showcase_button.dart';
-import '../widgets/progress_bar/beneficiary_progress.dart';
 
 class HomePage extends LocalizedStatefulWidget {
   const HomePage({
@@ -354,7 +354,8 @@ class _HomePageState extends LocalizedState<HomePage> {
                     DigitToast.show(
                       context,
                       options: DigitToastOptions(
-                        i18.common.coreCommonSyncInProgress,
+                        localizations
+                            .translate(i18.common.coreCommonSyncInProgress),
                         false,
                         Theme.of(context),
                       ),
