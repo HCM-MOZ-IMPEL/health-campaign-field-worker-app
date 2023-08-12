@@ -85,7 +85,6 @@ class _IndividualDetailsPageState
                     onPressed: () async {
                       final userId = context.loggedInUserUuid;
                       final projectId = context.projectId;
-
                       form.markAllAsTouched();
                       if (!form.valid) return;
                       FocusManager.instance.primaryFocus?.unfocus();
@@ -129,7 +128,7 @@ class _IndividualDetailsPageState
                           addressModel,
                           householdMemberWrapper,
                           loading,
-                        ) {
+                        ) async {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -147,7 +146,7 @@ class _IndividualDetailsPageState
                           addressModel,
                           householdModel,
                           loading,
-                        ) {
+                        ) async {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
