@@ -99,7 +99,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _onLogout(AuthLogoutEvent event, AuthEmitter emit) async {
     try {
-      emit(const AuthLoadingState());
       final isConnected = await getIsConnected();
       if (isConnected) {
         final accessToken = await localSecureStore.accessToken;

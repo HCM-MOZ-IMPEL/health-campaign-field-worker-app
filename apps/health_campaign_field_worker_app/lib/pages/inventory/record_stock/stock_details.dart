@@ -68,6 +68,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
       _vehicleNumberKey: FormControl<String>(
         validators: [
           Validators.required,
+          CustomValidator.vehicleNumberValidation,
         ],
       ),
       _driverNameKey: FormControl<String>(
@@ -612,10 +613,20 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   ),
                                   isRequired: true,
                                   formControlName: _vehicleNumberKey,
-                                  inputFormatters: [UpperCaseTextFormatter()],
+                                  inputFormatters: [
+                                    UpperCaseTextFormatter(),
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[a-zA-Z0-9]"),
+                                    ),
+                                  ],
                                   maxLength: 9,
                                   validationMessages: {
                                     'required': (object) =>
+                                        localizations.translate(
+                                          module
+                                              .vehicleNumberRequiredValidation,
+                                        ),
+                                    'vehicleNumber': (object) =>
                                         localizations.translate(
                                           module.vehicleNumberValidation,
                                         ),

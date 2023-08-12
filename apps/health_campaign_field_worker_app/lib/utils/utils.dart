@@ -113,6 +113,16 @@ class CustomValidator {
     return {'mobileNumber': true};
   }
 
+  static Map<String, dynamic>? vehicleNumberValidation(
+    AbstractControl<dynamic> control,
+  ) {
+    return control.value == null ||
+            control.value.toString().trim().length == 8 ||
+            control.value.toString().trim().length == 9
+        ? null
+        : {'vehicleNumber': true};
+  }
+
   static Map<String, dynamic>? validStockCount(
     AbstractControl<dynamic> control,
   ) {

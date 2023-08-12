@@ -520,6 +520,9 @@ class StockDetails {
 
   String get vehicleNumberValidation => 'VEHICLE_NUMBER_VALIDATION';
 
+  String get vehicleNumberRequiredValidation =>
+      'VEHICLE_NUMBER_REQUIRED_VALIDATION';
+
   /// Waybill number label
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
 
