@@ -45,6 +45,7 @@ class AddressModel extends EntityModel {
   final String? street;
   final String? boundaryType;
   final String? boundary;
+  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final AddressType? type;
@@ -68,6 +69,7 @@ class AddressModel extends EntityModel {
     this.street,
     this.boundaryType,
     this.boundary,
+    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
     this.type,
@@ -101,6 +103,7 @@ class AddressModel extends EntityModel {
       street: Value(street),
       boundaryType: Value(boundaryType),
       boundary: Value(boundary),
+      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       type: Value(type),

@@ -206,6 +206,43 @@ abstract class RemoteRepository<D extends EntityModel,
     );
   }
 
+  FutureOr<Response> dumpError(
+    List<EntityModel> entities,
+  ) async {
+    return executeFuture(
+      future: () async {
+        return await dio.post(
+          envConfig.variables.dumpErrorApiPath,
+          options: Options(headers: {
+            "content-type": 'application/json',
+          }),
+          data: {
+            'errorDetail': {
+              "apiDetails": {
+                "id": null,
+                "url": null,
+                "contentType": null,
+                "methodType": null,
+                "requestBody": _getMap(entities).toString(),
+                "requestHeaders": null,
+                "additionalDetails": null,
+              },
+              "errors": [
+                {
+                  "exception": null,
+                  "type": "NON_RECOVERABLE",
+                  "errorCode": null,
+                  "errorMessage": "UPLOAD_ERROR_FROM_APP",
+                  "additionalDetails": null,
+                },
+              ],
+            },
+          },
+        );
+      },
+    );
+  }
+
   FutureOr<Response> bulkDelete(List<EntityModel> entities) async {
     return executeFuture(
       future: () async {
@@ -354,12 +391,20 @@ abstract class LocalRepository<D extends EntityModel,
     OpLogEntry<D>? entry,
     String? clientReferenceId,
     int? id,
+    bool? nonRecoverableError,
   }) async {
-    return opLogManager.markSyncUp(
-      entry: entry,
-      clientReferenceId: clientReferenceId,
-      id: id,
-    );
+    return id != null
+        ? opLogManager.markSyncUp(
+            entry: entry,
+            id: id,
+            clientReferenceId: clientReferenceId,
+            nonRecoverableError: nonRecoverableError,
+          )
+        : opLogManager.markSyncUp(
+            entry: entry,
+            clientReferenceId: clientReferenceId,
+            nonRecoverableError: nonRecoverableError,
+          );
   }
 }
 

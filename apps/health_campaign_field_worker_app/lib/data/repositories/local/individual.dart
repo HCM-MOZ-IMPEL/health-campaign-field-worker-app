@@ -96,6 +96,7 @@ class IndividualLocalRepository extends IndividualLocalBaseRepository {
             mobileNumber: individual.mobileNumber,
             isDeleted: individual.isDeleted,
             rowVersion: individual.rowVersion,
+            nonRecoverableError: individual.nonRecoverableError,
             auditDetails: AuditDetails(
               createdBy: individual.auditCreatedBy!,
               createdTime: individual.auditCreatedTime!,
