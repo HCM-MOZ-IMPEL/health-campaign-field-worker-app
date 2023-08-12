@@ -551,6 +551,16 @@ class _DeliverInterventionPageState
       _deliveryCommentKey: FormControl<String>(
         value:
             state.householdMemberWrapper.task?.resources?.first.deliveryComment,
+        validators: [
+          if (min(
+                (state.householdMemberWrapper.household.memberCount ??
+                        state.householdMemberWrapper.members.length) /
+                    1.8,
+                3,
+              ).round() >
+              1)
+            Validators.required,
+        ],
       ),
     });
   }
