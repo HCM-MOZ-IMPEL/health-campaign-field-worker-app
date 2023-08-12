@@ -90,6 +90,11 @@ class Variables {
     'mz',
   );
 
+  static const _dumpErrorApi = EnvEntry(
+    'DUMP_ERROR_PATH',
+    'project/data/errordump',
+  );
+
   const Variables({
     this.useFallbackValues = false,
     required DotEnv dotEnv,
@@ -102,6 +107,10 @@ class Variables {
   String get mdmsApiPath => useFallbackValues
       ? _mdmsApi.value
       : _dotEnv.get(_mdmsApi.key, fallback: _mdmsApi.value);
+
+  String get dumpErrorApiPath => useFallbackValues
+      ? _dumpErrorApi.value
+      : _dotEnv.get(_dumpErrorApi.key, fallback: _dumpErrorApi.value);
 
   String get tenantId => useFallbackValues
       ? _tenantId.value

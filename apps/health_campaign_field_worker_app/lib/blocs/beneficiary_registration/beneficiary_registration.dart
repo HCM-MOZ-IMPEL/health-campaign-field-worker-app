@@ -296,6 +296,7 @@ class BeneficiaryRegistrationBloc
           await individualRepository.update(individual.copyWith(
             id: individualList?.id,
             rowVersion: individualList?.rowVersion ?? 1,
+            nonRecoverableError: individualList?.nonRecoverableError ?? false,
           ));
         } catch (error) {
           rethrow;
