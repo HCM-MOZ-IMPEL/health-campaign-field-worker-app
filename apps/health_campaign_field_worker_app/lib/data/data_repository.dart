@@ -90,8 +90,14 @@ abstract class RemoteRepository<D extends EntityModel,
           );
         },
       );
-    } catch (error) {
-      return [];
+    } on DioError catch (error) {
+      if (error.response!.data['Errors'][0]['message']
+          .toString()
+          .contains(Constants.invalidAccessTokenKey)) {
+        rethrow;
+      } else {
+        return [];
+      }
     }
 
     final responseMap = (response.data);

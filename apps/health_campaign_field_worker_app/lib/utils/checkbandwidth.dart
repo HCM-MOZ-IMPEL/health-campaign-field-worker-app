@@ -133,33 +133,39 @@ void onStart(ServiceInstance service) async {
                   sum / speedArray.length,
                   appConfiguration,
                 );
-                final BandwidthModel bandwidthModel = BandwidthModel.fromJson({
-                  'userId': userRequestModel!.uuid,
-                  'batchSize': configuredBatchSize,
-                });
 
-                service.invoke(
-                  'serviceRunning',
-                  {
-                    "enablesManualSync": false,
-                  },
-                );
+                if (configuredBatchSize > 0) {
+                  final BandwidthModel bandwidthModel =
+                      BandwidthModel.fromJson({
+                    'userId': userRequestModel!.uuid,
+                    'batchSize': configuredBatchSize,
+                  });
 
-                await const NetworkManager(
-                  configuration: NetworkManagerConfiguration(
-                    persistenceConfig: PersistenceConfiguration.offlineFirst,
-                  ),
-                ).performSync(
-                  localRepositories:
-                      Constants.getLocalRepositories(_sql, Constants().isar)
-                          .toList(),
-                  remoteRepositories: Constants.getRemoteRepositories(
-                    _dio,
-                    getActionMap(serviceRegistryList),
-                  ),
-                  bandwidthModel: bandwidthModel,
-                  service: service,
-                );
+                  service.invoke(
+                    'serviceRunning',
+                    {
+                      "enablesManualSync": false,
+                    },
+                  );
+
+                  await const NetworkManager(
+                    configuration: NetworkManagerConfiguration(
+                      persistenceConfig: PersistenceConfiguration.offlineFirst,
+                    ),
+                  ).performSync(
+                    localRepositories:
+                        Constants.getLocalRepositories(_sql, Constants().isar)
+                            .toList(),
+                    remoteRepositories: Constants.getRemoteRepositories(
+                      _dio,
+                      getActionMap(serviceRegistryList),
+                    ),
+                    bandwidthModel: bandwidthModel,
+                    service: service,
+                  );
+                } else {
+                  service.stopSelf();
+                }
               }
             }
           }
@@ -216,7 +222,7 @@ int getBatchSizeToBandwidth(
   double speed,
   List<AppConfiguration> appConfiguration,
 ) {
-  int batchSize = 1;
+  int batchSize = 0;
 
   final batchResult = appConfiguration.first.bandwidthBatchSize
       ?.where(
@@ -230,8 +236,8 @@ int getBatchSizeToBandwidth(
         appConfiguration.first.bandwidthBatchSize!.last.maxRange) {
       batchSize = appConfiguration.first.bandwidthBatchSize!.last.batchSize;
     } else if (speed <=
-        appConfiguration.first.bandwidthBatchSize!.first.maxRange) {
-      batchSize = appConfiguration.first.bandwidthBatchSize!.first.batchSize;
+        appConfiguration.first.bandwidthBatchSize!.first.minRange) {
+      batchSize = 0;
     }
   }
 

@@ -120,7 +120,6 @@ class _InventoryReportDetailsPageState
                 padding: const EdgeInsets.all(8),
                 child: Text(
                   title,
-                  maxLines: 1,
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),

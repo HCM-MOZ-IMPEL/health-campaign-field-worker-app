@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_checkbox.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -81,7 +82,7 @@ class _IndividualDetailsPageState
                 child: DigitCard(
                   margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
                   child: DigitElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       final userId = context.loggedInUserUuid;
                       final projectId = context.projectId;
                       form.markAllAsTouched();
@@ -100,7 +101,7 @@ class _IndividualDetailsPageState
                           searchQuery,
                           loading,
                           isHeadOfHousehold,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -127,7 +128,7 @@ class _IndividualDetailsPageState
                           addressModel,
                           householdMemberWrapper,
                           loading,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -145,7 +146,7 @@ class _IndividualDetailsPageState
                           addressModel,
                           householdModel,
                           loading,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -299,6 +300,11 @@ class _IndividualDetailsPageState
                                   i18.individualDetails.mobileNumberLabelText,
                                 ),
                                 maxLength: 9,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9]"),
+                                  ),
+                                ],
                                 validationMessages: {
                                   'mobileNumber': (object) =>
                                       localizations.translate(i18

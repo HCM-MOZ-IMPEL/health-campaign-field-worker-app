@@ -121,6 +121,10 @@ class Login {
   String get noInternetError => 'ERR_NOT_CONNECTED_TO_INTERNET';
 
   String get logOutWarningMsg => 'LOG_OUT_WARNING_MESSAGE';
+
+  String get sessionExpired => 'CORE_SESSION_EXPIRED';
+
+  String get pleaseLogout => 'PLEASE_LOGOUT_USER';
 }
 
 class Checklist {
@@ -520,6 +524,9 @@ class StockDetails {
 
   String get vehicleNumberValidation => 'VEHICLE_NUMBER_VALIDATION';
 
+  String get vehicleNumberRequiredValidation =>
+      'VEHICLE_NUMBER_REQUIRED_VALIDATION';
+
   /// Waybill number label
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
 
@@ -538,6 +545,8 @@ class StockDetails {
   String get vehicleNumberLabel => 'STOCK_DETAILS_VEHICLE_NUMBER';
 
   String get driverNameLabel => 'STOCK_DETAILS_DRIVER_NAME';
+
+  String get driverNameValidation => 'STOCK_DETAILS_DRIVER_NAME_VALIDATION';
 
   String get commentsLabel => 'STOCK_DETAILS_COMMENTS_LABEL';
 
