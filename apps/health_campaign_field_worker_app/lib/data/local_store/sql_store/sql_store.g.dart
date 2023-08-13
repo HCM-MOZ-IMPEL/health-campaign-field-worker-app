@@ -21093,6 +21093,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
   final int? auditModifiedTime;
   final bool isDeleted;
   final int rowVersion;
+  final bool? nonRecoverableError;
   final String? additionalFields;
   PgrServiceData(
       {required this.active,
@@ -21111,6 +21112,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
       this.auditModifiedTime,
       required this.isDeleted,
       required this.rowVersion,
+      this.nonRecoverableError,
       this.additionalFields});
   factory PgrServiceData.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -21148,6 +21150,8 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted'])!,
       rowVersion: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}row_version'])!,
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       additionalFields: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}additional_fields']),
     );
@@ -21191,6 +21195,9 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
     }
     map['is_deleted'] = Variable<bool>(isDeleted);
     map['row_version'] = Variable<int>(rowVersion);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
+    }
     if (!nullToAbsent || additionalFields != null) {
       map['additional_fields'] = Variable<String?>(additionalFields);
     }
@@ -21228,6 +21235,9 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
           : Value(auditModifiedTime),
       isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(nonRecoverableError),
       additionalFields: additionalFields == null && nullToAbsent
           ? const Value.absent()
           : Value(additionalFields),
@@ -21255,6 +21265,8 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       rowVersion: serializer.fromJson<int>(json['rowVersion']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       additionalFields: serializer.fromJson<String?>(json['additionalFields']),
     );
   }
@@ -21279,6 +21291,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'isDeleted': serializer.toJson<bool>(isDeleted),
       'rowVersion': serializer.toJson<int>(rowVersion),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'additionalFields': serializer.toJson<String?>(additionalFields),
     };
   }
@@ -21300,6 +21313,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
           int? auditModifiedTime,
           bool? isDeleted,
           int? rowVersion,
+          bool? nonRecoverableError,
           String? additionalFields}) =>
       PgrServiceData(
         active: active ?? this.active,
@@ -21318,6 +21332,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         isDeleted: isDeleted ?? this.isDeleted,
         rowVersion: rowVersion ?? this.rowVersion,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         additionalFields: additionalFields ?? this.additionalFields,
       );
   @override
@@ -21339,6 +21354,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('additionalFields: $additionalFields')
           ..write(')'))
         .toString();
@@ -21362,6 +21378,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
       auditModifiedTime,
       isDeleted,
       rowVersion,
+      nonRecoverableError,
       additionalFields);
   @override
   bool operator ==(Object other) =>
@@ -21383,6 +21400,7 @@ class PgrServiceData extends DataClass implements Insertable<PgrServiceData> {
           other.auditModifiedTime == this.auditModifiedTime &&
           other.isDeleted == this.isDeleted &&
           other.rowVersion == this.rowVersion &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.additionalFields == this.additionalFields);
 }
 
@@ -21403,6 +21421,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
   final Value<int?> auditModifiedTime;
   final Value<bool> isDeleted;
   final Value<int> rowVersion;
+  final Value<bool?> nonRecoverableError;
   final Value<String?> additionalFields;
   const PgrServiceCompanion({
     this.active = const Value.absent(),
@@ -21421,6 +21440,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
     this.auditModifiedTime = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.rowVersion = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.additionalFields = const Value.absent(),
   });
   PgrServiceCompanion.insert({
@@ -21440,6 +21460,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
     this.auditModifiedTime = const Value.absent(),
     required bool isDeleted,
     required int rowVersion,
+    this.nonRecoverableError = const Value.absent(),
     this.additionalFields = const Value.absent(),
   })  : active = Value(active),
         clientReferenceId = Value(clientReferenceId),
@@ -21466,6 +21487,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
     Expression<int?>? auditModifiedTime,
     Expression<bool>? isDeleted,
     Expression<int>? rowVersion,
+    Expression<bool?>? nonRecoverableError,
     Expression<String?>? additionalFields,
   }) {
     return RawValuesInsertable({
@@ -21485,6 +21507,8 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (rowVersion != null) 'row_version': rowVersion,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (additionalFields != null) 'additional_fields': additionalFields,
     });
   }
@@ -21506,6 +21530,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
       Value<int?>? auditModifiedTime,
       Value<bool>? isDeleted,
       Value<int>? rowVersion,
+      Value<bool?>? nonRecoverableError,
       Value<String?>? additionalFields}) {
     return PgrServiceCompanion(
       active: active ?? this.active,
@@ -21524,6 +21549,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       isDeleted: isDeleted ?? this.isDeleted,
       rowVersion: rowVersion ?? this.rowVersion,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       additionalFields: additionalFields ?? this.additionalFields,
     );
   }
@@ -21581,6 +21607,9 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
     if (rowVersion.present) {
       map['row_version'] = Variable<int>(rowVersion.value);
     }
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
+    }
     if (additionalFields.present) {
       map['additional_fields'] = Variable<String?>(additionalFields.value);
     }
@@ -21606,6 +21635,7 @@ class PgrServiceCompanion extends UpdateCompanion<PgrServiceData> {
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('rowVersion: $rowVersion, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('additionalFields: $additionalFields')
           ..write(')'))
         .toString();
@@ -21714,6 +21744,15 @@ class $PgrServiceTable extends PgrService
   late final GeneratedColumn<int?> rowVersion = GeneratedColumn<int?>(
       'row_version', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
+  @override
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _additionalFieldsMeta =
       const VerificationMeta('additionalFields');
   @override
@@ -21738,6 +21777,7 @@ class $PgrServiceTable extends PgrService
         auditModifiedTime,
         isDeleted,
         rowVersion,
+        nonRecoverableError,
         additionalFields
       ];
   @override
@@ -21840,6 +21880,12 @@ class $PgrServiceTable extends PgrService
               data['row_version']!, _rowVersionMeta));
     } else if (isInserting) {
       context.missing(_rowVersionMeta);
+    }
+    if (data.containsKey('non_recoverable_error')) {
+      context.handle(
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('additional_fields')) {
       context.handle(

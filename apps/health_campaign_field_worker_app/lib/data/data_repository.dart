@@ -393,18 +393,12 @@ abstract class LocalRepository<D extends EntityModel,
     int? id,
     bool? nonRecoverableError,
   }) async {
-    return id != null
-        ? opLogManager.markSyncUp(
-            entry: entry,
-            id: id,
-            clientReferenceId: clientReferenceId,
-            nonRecoverableError: nonRecoverableError,
-          )
-        : opLogManager.markSyncUp(
-            entry: entry,
-            clientReferenceId: clientReferenceId,
-            nonRecoverableError: nonRecoverableError,
-          );
+    return opLogManager.markSyncUp(
+      entry: entry,
+      id: id,
+      clientReferenceId: clientReferenceId,
+      nonRecoverableError: nonRecoverableError,
+    );
   }
 }
 
