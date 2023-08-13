@@ -51,7 +51,8 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
               if (syncDialogRoute?.isActive ?? false) {
                 Navigator.of(context).removeRoute(syncDialogRoute!);
               }
-              if (error != null) {
+              if (error != null &&
+                  error != ProjectSyncErrorType.sessionExpired) {
                 syncDialogRoute = DialogRoute(
                   context: context,
                   barrierDismissible: false,
