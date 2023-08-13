@@ -231,13 +231,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       return;
                                     }
 
-                                    if (entryType ==
-                                        StockRecordEntryType.dispatch) {
-                                      print(
-                                          "-----------------Stock in hand--------------------");
-                                      print(stockState.stockInHand);
-                                    }
-
                                     final bloc =
                                         context.read<RecordStockBloc>();
 
@@ -323,6 +316,58 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     }
 
                                     transactingPartyType ??= 'WAREHOUSE';
+
+                                    if (entryType ==
+                                        StockRecordEntryType.dispatch) {
+                                      print(
+                                          "-----------------Stock in hand--------------------");
+                                      print(stockState.stockInHand);
+
+                                      int issueQuantity = quantity ?? 0;
+
+                                      if (issueQuantity >
+                                          stockState.stockInHand) {
+                                        final alert =
+                                            await DigitDialog.show<bool>(
+                                          context,
+                                          options: DigitDialogOptions(
+                                            titleText: localizations.translate(
+                                              i18.stockDetails.countDialogTitle,
+                                            ),
+                                            contentText:
+                                                localizations.translate(
+                                              i18.stockDetails.countContent,
+                                            ),
+                                            primaryAction: DigitDialogActions(
+                                              label: localizations.translate(
+                                                i18.stockDetails
+                                                    .countDialogSuccess,
+                                              ),
+                                              action: (context) {
+                                                Navigator.of(
+                                                  context,
+                                                  rootNavigator: true,
+                                                ).pop(true);
+                                              },
+                                            ),
+                                            secondaryAction: DigitDialogActions(
+                                              label: localizations.translate(
+                                                i18.stockDetails
+                                                    .countDialogCancel,
+                                              ),
+                                              action: (context) => Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop(false),
+                                            ),
+                                          ),
+                                        );
+
+                                        if (!(alert ?? false)) {
+                                          return;
+                                        }
+                                      }
+                                    }
 
                                     final stockModel = StockModel(
                                       clientReferenceId: IdGen.i.identifier,
@@ -622,9 +667,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   formControlName: _vehicleNumberKey,
                                   inputFormatters: [
                                     UpperCaseTextFormatter(),
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp("[a-zA-Z0-9]"),
-                                    ),
                                   ],
                                   maxLength: 9,
                                   validationMessages: {

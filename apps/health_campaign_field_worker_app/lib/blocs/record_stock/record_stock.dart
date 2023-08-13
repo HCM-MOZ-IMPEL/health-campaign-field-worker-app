@@ -28,7 +28,7 @@ class RecordStockBloc extends Bloc<RecordStockEvent, RecordStockState> {
     RecordStockSaveWarehouseDetailsEvent event,
     RecordStockEmitter emit,
   ) async {
-    state.maybeMap(
+    await state.maybeMap(
       orElse: () {
         throw const InvalidRecordStockStateException();
       },
