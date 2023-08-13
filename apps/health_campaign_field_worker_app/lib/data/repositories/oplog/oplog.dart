@@ -268,14 +268,6 @@ abstract class OpLogManager<T extends EntityModel> {
           await isar.opLogs.put(updatedEntry.oplog);
         });
       } else {
-        if (syncDownRetryCount == 0) {
-          // [TODO Need to move this config based approach]
-          await Future.delayed(const Duration(seconds: 1));
-        } else {
-          await Future.delayed(Duration(
-            seconds: envConfig.variables.retryTimeInterval * syncDownRetryCount,
-          ));
-        }
         OpLogEntry updatedEntry = entry.copyWith(
           syncDownRetryCount: syncDownRetryCount + 1,
         );
@@ -283,6 +275,17 @@ abstract class OpLogManager<T extends EntityModel> {
           await isar.opLogs.put(updatedEntry.oplog);
         });
       }
+    }
+
+    // [TODO] need to cross check only first records is failing
+
+    if (oplogs.first.syncDownRetryCount == 1) {
+      await Future.delayed(const Duration(seconds: 1));
+    } else {
+      await Future.delayed(Duration(
+        seconds: envConfig.variables.retryTimeInterval *
+            oplogs.first.syncDownRetryCount,
+      ));
     }
   }
 

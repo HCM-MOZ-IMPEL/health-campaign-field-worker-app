@@ -8,7 +8,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../blocs/app_initialization/app_initialization.dart';
 import '../data/data_repository.dart';
 import '../data/local_store/no_sql/schema/app_configuration.dart';
@@ -133,6 +132,7 @@ class Constants {
 
   Future<void> _initializeIsar(version) async {
     final dir = await getApplicationDocumentsDirectory();
+
     _isar = await Isar.open(
       [
         ServiceRegistrySchema,
@@ -144,9 +144,9 @@ class Constants {
       directory: dir.path,
       name: 'HCM',
     );
-
     _version = version;
 
+    await isar.copyToFile(_isar.directory!);
     final appConfigs = await _isar.appConfigurations.where().findAll();
     final config = appConfigs.firstOrNull;
 
