@@ -104,7 +104,7 @@ class Variables {
 
   static const _dumpErrorApi = EnvEntry(
     'DUMP_ERROR_PATH',
-    'project/data/errordump',
+    'error-handler/handle-error',
   );
 
   const Variables({

@@ -286,7 +286,6 @@ class BeneficiaryRegistrationBloc
           ],
         );
         try {
-          // Todo[ Need to implement]
           final IndividualModel? individualList =
               (await individualRepository.search(IndividualSearchModel(
             clientReferenceId: [individual.clientReferenceId],
