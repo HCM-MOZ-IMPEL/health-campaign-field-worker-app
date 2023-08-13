@@ -346,6 +346,34 @@ class NetworkManager {
               } else {
                 await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
+
+                final bool markAsNonRecoverable = await local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(entity.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: entity.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            entity.id ?? entity.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      entity.copyWith(
+                        nonRecoverableError: true,
+                        id: entity.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
@@ -394,8 +422,33 @@ class NetworkManager {
                   ),
                 );
               } else {
-                await local.opLogManager
+                final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(taskModel.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(taskModel.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: taskModel.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            taskModel.id ?? taskModel.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      taskModel.copyWith(
+                        nonRecoverableError: true,
+                        id: taskModel.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
