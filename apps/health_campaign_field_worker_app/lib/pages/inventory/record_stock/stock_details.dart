@@ -231,6 +231,13 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       return;
                                     }
 
+                                    if (entryType ==
+                                        StockRecordEntryType.dispatch) {
+                                      print(
+                                          "-----------------Stock in hand--------------------");
+                                      print(stockState.stockInHand);
+                                    }
+
                                     final bloc =
                                         context.read<RecordStockBloc>();
 
