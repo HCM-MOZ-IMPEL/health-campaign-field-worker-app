@@ -82,7 +82,7 @@ class _IndividualDetailsPageState
                 child: DigitCard(
                   margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
                   child: DigitElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       final userId = context.loggedInUserUuid;
                       final projectId = context.projectId;
                       form.markAllAsTouched();
@@ -101,7 +101,7 @@ class _IndividualDetailsPageState
                           searchQuery,
                           loading,
                           isHeadOfHousehold,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -128,7 +128,7 @@ class _IndividualDetailsPageState
                           addressModel,
                           householdMemberWrapper,
                           loading,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -146,7 +146,7 @@ class _IndividualDetailsPageState
                           addressModel,
                           householdModel,
                           loading,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,

@@ -90,8 +90,8 @@ abstract class RemoteRepository<D extends EntityModel,
           );
         },
       );
-    } catch (error) {
-      return [];
+    } on DioError catch (error) {
+      rethrow;
     }
 
     final responseMap = (response.data);

@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on(_onLogin);
     on(_onLogout);
     on(_onAutoLogin);
+    on(_onAuthLogoutWithoutToken);
   }
 
   FutureOr<void> _onAutoLogin(
@@ -118,6 +119,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     emit(const AuthUnauthenticatedState());
   }
+
+  FutureOr<void> _onAuthLogoutWithoutToken(
+    AuthLogoutWithoutTokenEvent event,
+    AuthEmitter emit,
+  ) async {
+    await localSecureStore.deleteAll();
+    emit(const AuthUnauthenticatedState());
+  }
 }
 
 @freezed
@@ -133,6 +142,9 @@ class AuthEvent with _$AuthEvent {
   }) = AuthAutoLoginEvent;
 
   const factory AuthEvent.logout() = AuthLogoutEvent;
+
+  const factory AuthEvent.logoutWithoutAuthToken() =
+      AuthLogoutWithoutTokenEvent;
 }
 
 @freezed
