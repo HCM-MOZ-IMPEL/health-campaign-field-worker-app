@@ -204,6 +204,7 @@ class NetworkManager {
                     ],
                     dataOperation: element.operation,
                     rowVersion: rowVersion,
+                    nonRecoverableError: element.nonRecoverableError,
                   ),
                 );
               } else {
@@ -270,6 +271,7 @@ class NetworkManager {
                   model: UpdateServerGeneratedIdModel(
                     clientReferenceId: entity.clientReferenceId,
                     serverGeneratedId: serverGeneratedId,
+                    nonRecoverableError: entity.nonRecoverableError,
                     additionalIds: [
                       if (identifierAdditionalIds != null)
                         ...identifierAdditionalIds,
@@ -300,10 +302,12 @@ class NetworkManager {
                     );
 
                     await local.update(
-                      entity.copyWith(nonRecoverableError: true),
+                      entity.copyWith(
+                        nonRecoverableError: true,
+                        id: entity.clientReferenceId,
+                      ),
                       createOpLog: false,
                     );
-                    Future.delayed(const Duration(seconds: 2));
                   }
                 }
               }
@@ -825,6 +829,7 @@ class NetworkManager {
                       clientReferenceId: entity.clientReferenceId,
                       serverGeneratedId: serviceRequestId,
                       dataOperation: operationGroupedEntity.key,
+                      rowVersion: entity.rowVersion,
                     ),
                   );
 
@@ -888,6 +893,8 @@ class NetworkManager {
 
         for (final syncedEntity in errorItemsList) {
           if (syncedEntity.type == DataModelType.complaints) continue;
+          await local.markSyncedUp(entry: syncedEntity);
+
           await local.markSyncedUp(entry: syncedEntity);
         }
 
