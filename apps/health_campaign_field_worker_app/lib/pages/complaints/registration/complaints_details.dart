@@ -573,7 +573,6 @@ class _ComplaintsDetailsPageState
         validators: [
           Validators.required,
           CustomValidator.validMobileNumber,
-          Validators.minLength(9),
         ],
       ),
       _supervisorName: FormControl<String>(
@@ -584,7 +583,6 @@ class _ComplaintsDetailsPageState
         value: complaintDetails?.supervisorContactNumber,
         disabled: shouldDisableForm,
         validators: [
-          Validators.minLength(9),
           CustomValidator.validMobileNumber,
         ],
       ),
