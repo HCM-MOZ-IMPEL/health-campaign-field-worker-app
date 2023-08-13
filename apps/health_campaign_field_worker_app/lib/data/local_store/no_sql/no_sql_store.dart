@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'schema/oplog.dart';
 
@@ -27,7 +28,12 @@ class NoSqlStore {
   }
 
   FutureOr<void> initialize() async {
-    final isar = await Isar.open([OpLogSchema]);
+    final directory = await getApplicationDocumentsDirectory();
+    final isar = await Isar.open(
+      [OpLogSchema],
+      directory: directory.path,
+      name: 'HCM',
+    );
     _isar = isar;
   }
 }

@@ -44,18 +44,6 @@ class NetworkManager {
       throw Exception('Sync up is not valid for online only configuration');
     }
 
-    final futuresSyncDown = await Future.wait(
-      localRepositories
-          .map((e) => e.getItemsToBeSyncedDown(bandwidthModel.userId)),
-    );
-    final pendingSyncDownEntries = futuresSyncDown.expand((e) => e).toList();
-
-    final futuresSyncUp = await Future.wait(
-      localRepositories
-          .map((e) => e.getItemsToBeSyncedUp(bandwidthModel.userId)),
-    );
-    final pendingSyncUpEntries = futuresSyncUp.expand((e) => e).toList();
-
     SyncError? syncError;
 
     try {
@@ -79,6 +67,17 @@ class NetworkManager {
       syncError ??= SyncUpError(e);
       service?.stopSelf();
     }
+    final futuresSyncDown = await Future.wait(
+      localRepositories
+          .map((e) => e.getItemsToBeSyncedDown(bandwidthModel.userId)),
+    );
+    final pendingSyncDownEntries = futuresSyncDown.expand((e) => e).toList();
+
+    final futuresSyncUp = await Future.wait(
+      localRepositories
+          .map((e) => e.getItemsToBeSyncedUp(bandwidthModel.userId)),
+    );
+    final pendingSyncUpEntries = futuresSyncUp.expand((e) => e).toList();
     if (syncError != null) throw syncError;
     final list = pendingSyncDownEntries
         .where(
