@@ -126,8 +126,10 @@ class PgrServiceModel extends EntityModel {
   final PgrServiceApplicationStatus applicationStatus;
   final String? source;
   final bool isDeleted;
+  final bool? nonRecoverableError;
   final int rowVersion;
   final PgrAddressModel address;
+
   final String? additionalDetail;
 
   const PgrServiceModel({
@@ -146,6 +148,7 @@ class PgrServiceModel extends EntityModel {
     this.rowVersion = 1,
     required this.address,
     this.additionalDetail,
+    this.nonRecoverableError = false,
     super.auditDetails,
   }) : super();
 
@@ -167,6 +170,7 @@ class PgrServiceModel extends EntityModel {
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
+      nonRecoverableError: Value(nonRecoverableError),
       additionalFields: Value(additionalDetail),
     );
   }

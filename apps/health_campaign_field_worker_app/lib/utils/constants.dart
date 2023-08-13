@@ -146,7 +146,6 @@ class Constants {
     );
     _version = version;
 
-    await isar.copyToFile(_isar.directory!);
     final appConfigs = await _isar.appConfigurations.where().findAll();
     final config = appConfigs.firstOrNull;
 

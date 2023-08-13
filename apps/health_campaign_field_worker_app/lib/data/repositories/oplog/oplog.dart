@@ -130,7 +130,21 @@ abstract class OpLogManager<T extends EntityModel> {
     String? clientReferenceId,
     bool? nonRecoverableError,
   }) async {
-    if (entry != null) {
+    if (nonRecoverableError == true && id != null && entry != null) {
+      final oplog = await isar.opLogs.filter().idEqualTo(id).findFirst();
+      if (oplog == null) return;
+      final fetchedEntry = OpLogEntry.fromOpLog<T>(oplog);
+      await isar.writeTxn(() async {
+        await isar.opLogs.put(fetchedEntry
+            .copyWith(
+              syncedUp: true,
+              syncedDown: true,
+              syncedDownOn: DateTime.now(),
+              syncedUpOn: DateTime.now(),
+            )
+            .oplog);
+      });
+    } else if (entry != null) {
       await put(entry.copyWith(syncedUp: true, syncedUpOn: DateTime.now()));
     } else if (id != null) {
       OpLog? oplog;
@@ -158,22 +172,6 @@ abstract class OpLogManager<T extends EntityModel> {
       await put(
         fetchedEntry.copyWith(
           syncedUp: true,
-          syncedUpOn: DateTime.now(),
-        ),
-      );
-    } else if (nonRecoverableError != null && clientReferenceId != null) {
-      final oplog = await isar.opLogs
-          .filter()
-          .clientReferenceIdEqualTo(clientReferenceId)
-          .findFirst();
-      if (oplog == null) return;
-      final fetchedEntry = OpLogEntry.fromOpLog<T>(oplog);
-      await put(
-        fetchedEntry.copyWith(
-          syncedUp: true,
-          syncedDown: true,
-          nonRecoverableError: nonRecoverableError,
-          syncedDownOn: DateTime.now(),
           syncedUpOn: DateTime.now(),
         ),
       );
@@ -243,7 +241,7 @@ abstract class OpLogManager<T extends EntityModel> {
     return oplogs;
   }
 
-  Future<void> updateSyncDownRetry(
+  Future<bool> updateSyncDownRetry(
     String clientReferenceId,
   ) async {
     final oplogs = await isar.opLogs
@@ -254,27 +252,22 @@ abstract class OpLogManager<T extends EntityModel> {
     if (oplogs.isEmpty) {
       throw AppException('OpLog not found for id: $clientReferenceId');
     }
-
+    bool markAsNonRecoverable = false;
     for (final oplog in oplogs) {
       final entry = OpLogEntry.fromOpLog<T>(oplog);
       final syncDownRetryCount =
           entry.syncDownRetryCount < 0 ? 0 : entry.syncDownRetryCount;
-      if (syncDownRetryCount >= envConfig.variables.syncDownRetryCount) {
-        OpLogEntry updatedEntry = entry.copyWith(
-          nonRecoverableError: true,
-        );
-
-        await isar.writeTxn(() async {
-          await isar.opLogs.put(updatedEntry.oplog);
-        });
-      } else {
-        OpLogEntry updatedEntry = entry.copyWith(
-          syncDownRetryCount: syncDownRetryCount + 1,
-        );
-        await isar.writeTxn(() async {
-          await isar.opLogs.put(updatedEntry.oplog);
-        });
+      OpLogEntry updatedEntry = entry.copyWith(
+        syncDownRetryCount: syncDownRetryCount + 1,
+      );
+      if (updatedEntry.syncDownRetryCount >=
+          envConfig.variables.syncDownRetryCount) {
+        markAsNonRecoverable = true;
       }
+
+      await isar.writeTxn(() async {
+        await isar.opLogs.put(updatedEntry.oplog);
+      });
     }
 
     // [TODO] need to cross check only first records is failing
@@ -287,6 +280,8 @@ abstract class OpLogManager<T extends EntityModel> {
             oplogs.first.syncDownRetryCount,
       ));
     }
+
+    return markAsNonRecoverable;
   }
 
   String? getServerGeneratedId(T entity);
@@ -745,7 +740,7 @@ class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
 
   @override
   bool? getNonRecoverableError(PgrServiceModel entity) =>
-      throw UnimplementedError();
+      entity.nonRecoverableError;
 
   @override
   Future<List<OpLogEntry<PgrServiceModel>>> getPendingUpSync(
