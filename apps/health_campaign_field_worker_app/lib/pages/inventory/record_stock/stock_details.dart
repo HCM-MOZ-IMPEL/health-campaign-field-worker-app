@@ -494,7 +494,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       valueAccessor: FacilityValueAccessor(
                                         facilities,
                                       ),
-                                      inputFormatters: [],
                                       label: localizations.translate(
                                         transactionPartyLabel,
                                       ),
