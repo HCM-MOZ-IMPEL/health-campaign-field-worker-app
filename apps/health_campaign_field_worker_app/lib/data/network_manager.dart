@@ -900,7 +900,7 @@ class NetworkManager {
           errorEntities,
         );
         if (errorItems.isNotEmpty) {
-          await remote.dumpError(errorItems);
+          await remote.dumpError(errorItems, operationGroupedEntity.key);
         }
 
         if (operationGroupedEntity.key == DataOperation.create) {

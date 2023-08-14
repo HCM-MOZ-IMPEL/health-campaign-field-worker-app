@@ -214,9 +214,24 @@ abstract class RemoteRepository<D extends EntityModel,
 
   FutureOr<Response> dumpError(
     List<EntityModel> entities,
+    DataOperation operation,
   ) async {
     return executeFuture(
       future: () async {
+        String url = "";
+
+        if (operation == DataOperation.create) {
+          url = bulkCreatePath;
+        } else if (operation == DataOperation.update) {
+          url = bulkUpdatePath;
+        } else if (operation == DataOperation.delete) {
+          url = bulkDeletePath;
+        } else if (operation == DataOperation.singleCreate) {
+          url = createPath;
+        } else if (operation == DataOperation.singleCreate) {
+          url = searchPath;
+        }
+
         return await dio.post(
           envConfig.variables.dumpErrorApiPath,
           options: Options(headers: {
@@ -226,7 +241,7 @@ abstract class RemoteRepository<D extends EntityModel,
             'errorDetail': {
               "apiDetails": {
                 "id": null,
-                "url": null,
+                "url": url,
                 "contentType": null,
                 "methodType": null,
                 "requestBody": _getMap(entities).toString(),
