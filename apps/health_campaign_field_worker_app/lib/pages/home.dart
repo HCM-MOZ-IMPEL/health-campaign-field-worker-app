@@ -207,7 +207,6 @@ class _HomePageState extends LocalizedState<HomePage> {
 
                     debouncer.run(() async {
                       if (count == 0) {
-                        Future.delayed(const Duration(minutes: 5));
                         performBackgroundService(
                           isBackground: false,
                           stopService: true,
