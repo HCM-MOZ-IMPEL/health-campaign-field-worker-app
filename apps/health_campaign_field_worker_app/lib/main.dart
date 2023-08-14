@@ -18,6 +18,7 @@ import 'utils/utils.dart';
 
 final LocalSqlDataStore _sql = LocalSqlDataStore();
 late Dio _dio;
+late Isar _isar;
 int i = 0;
 
 void main() async {
@@ -39,16 +40,14 @@ void main() async {
   _dio = DioClient().dio;
 
   DigitUi.instance.initThemeComponents();
-
-  await initializeService(_dio);
-  if (Isar.getInstance('HCM') == null) {
-    await Constants().initilize(info.version);
-  }
+  await Constants().initilize(info.version);
+  _isar = await Constants().isar;
+  await initializeService(_dio, _isar);
 
   runApp(
     MainApplication(
       appRouter: AppRouter(),
-      isar: await Constants().isar,
+      isar: _isar,
       client: _dio,
       sql: _sql,
     ),
@@ -59,14 +58,5 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
-
-    if (state == AppLifecycleState.paused) {
-      setBgrunning(true);
-      // FlutterBackgroundService().invoke('stopService');
-      // Stop the background service when the app is terminated
-    } else if (state == AppLifecycleState.resumed) {
-      // Stop the background service when the app is terminated
-      setBgrunning(false);
-    }
   }
 }

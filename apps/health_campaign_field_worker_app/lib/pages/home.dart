@@ -14,9 +14,11 @@ import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
 import '../data/data_repository.dart';
 import '../data/local_store/sql_store/sql_store.dart';
+import '../data/remote_client.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
 import '../router/app_router.dart';
+import '../utils/checkbandwidth.dart';
 import '../utils/debound.dart';
 import '../utils/i18_key_constants.dart' as i18;
 import '../utils/utils.dart';
@@ -146,6 +148,26 @@ class _HomePageState extends LocalizedState<HomePage> {
               listener: (context, state) {
                 state.maybeWhen(
                   orElse: () => null,
+                  pendingSync: (count) async {
+                    final debouncer = Debouncer(seconds: 5);
+                    debouncer.run(() async {
+                      if (count == 0) {
+                        await performBackgroundService(
+                          isBackground: false,
+                          stopService: true,
+                          context: context,
+                        );
+                      } else {
+                        if (context.mounted) {
+                          await performBackgroundService(
+                            isBackground: false,
+                            stopService: false,
+                            context: context,
+                          );
+                        }
+                      }
+                    });
+                  },
                   syncInProgress: () => DigitSyncDialog.show(
                     context,
                     type: DigitSyncDialogType.inProgress,
@@ -203,24 +225,6 @@ class _HomePageState extends LocalizedState<HomePage> {
                 return state.maybeWhen(
                   orElse: () => const Offstage(),
                   pendingSync: (count) {
-                    final debouncer = Debouncer(seconds: 5);
-
-                    debouncer.run(() async {
-                      if (count == 0) {
-                        performBackgroundService(
-                          isBackground: false,
-                          stopService: true,
-                          context: context,
-                        );
-                      } else {
-                        performBackgroundService(
-                          isBackground: false,
-                          stopService: false,
-                          context: context,
-                        );
-                      }
-                    });
-
                     return count == 0
                         ? const Offstage()
                         : DigitInfoCard(
@@ -231,8 +235,9 @@ class _HomePageState extends LocalizedState<HomePage> {
                             description: localizations
                                 .translate(i18.home.dataSyncInfoContent)
                                 .replaceAll('{}', count.toString()),
-                            title: localizations
-                                .translate(i18.home.dataSyncInfoLabel),
+                            title: localizations.translate(
+                              i18.home.dataSyncInfoLabel,
+                            ),
                           );
                   },
                 );
@@ -351,15 +356,23 @@ class _HomePageState extends LocalizedState<HomePage> {
                   if (snapshot.data?['enablesManualSync'] == true) {
                     _attemptSyncUp(context);
                   } else {
-                    DigitToast.show(
-                      context,
-                      options: DigitToastOptions(
-                        localizations
-                            .translate(i18.common.coreCommonSyncInProgress),
-                        false,
-                        Theme.of(context),
-                      ),
+                    await performBackgroundService(
+                      isBackground: false,
+                      stopService: false,
+                      context: context,
                     );
+
+                    if (context.mounted) {
+                      DigitToast.show(
+                        context,
+                        options: DigitToastOptions(
+                          localizations
+                              .translate(i18.common.coreCommonSyncInProgress),
+                          false,
+                          Theme.of(context),
+                        ),
+                      );
+                    }
                   }
                 },
               );

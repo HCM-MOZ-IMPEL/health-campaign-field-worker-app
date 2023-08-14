@@ -17,6 +17,7 @@ import '../data/local_store/no_sql/schema/service_registry.dart';
 import '../data/local_store/secure_store/secure_store.dart';
 import '../data/local_store/sql_store/sql_store.dart';
 import '../data/network_manager.dart';
+
 import '../data/remote_client.dart';
 import '../data/repositories/remote/bandwidth_check.dart';
 import '../models/bandwidth/bandwidth_model.dart';
@@ -26,17 +27,14 @@ import 'environment_config.dart';
 import 'utils.dart';
 
 final LocalSqlDataStore _sql = LocalSqlDataStore();
-late Dio _dio;
+Dio _dio = DioClient().dio;
 
-Future<void> initializeService(
-  dio,
-) async {
-  if (Isar.getInstance('HCM') == null) {
-    final info = await PackageInfo.fromPlatform();
-    await Constants().initilize(info.version);
-  }
-
+Future<Isar> isarARE = Constants().isar;
+Future<void> initializeService(dio, isar) async {
+  await envConfig.initialize();
   final service = FlutterBackgroundService();
+
+  dio = dio;
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(
@@ -71,19 +69,12 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 void onStart(ServiceInstance service) async {
   // Only available for flutter 3.0.0 and later
   DartPluginRegistrant.ensureInitialized();
-
+  await envConfig.initialize();
   service.on('stopService').listen((event) {
     service.stopSelf();
   });
-  if (Isar.getInstance('HCM') == null) {
-    final info = await PackageInfo.fromPlatform();
-    await Constants().initilize(info.version);
-  }
-  await envConfig.initialize();
 
-  _dio = DioClient().dio;
-  final userRequestModel = await LocalSecureStore.instance.userRequestModel;
-  final isar = await Constants().isar;
+  final isar = await isarARE;
   final appConfiguration = await isar.appConfigurations.where().findAll();
   final interval =
       appConfiguration.first.backgroundServiceConfig?.serviceInterval;
@@ -131,7 +122,8 @@ void onStart(ServiceInstance service) async {
                   sum / speedArray.length,
                   appConfiguration,
                 );
-
+                final userRequestModel =
+                    await LocalSecureStore.instance.userRequestModel;
                 if (configuredBatchSize > 0) {
                   final BandwidthModel bandwidthModel =
                       BandwidthModel.fromJson({

@@ -101,7 +101,8 @@ class NetworkManager {
           "enablesManualSync": true,
         },
       );
-      service?.stopSelf();
+
+      service?.invoke('stopService');
     }
   }
 

@@ -159,11 +159,19 @@ performBackgroundService({
   var isRunning = await service.isRunning();
 
   if (!stopService) {
-    if (!isRunning && isOnline) {
-      service.startService();
+    if (isOnline) {
+      service.invoke('stopService');
+      Future.delayed(const Duration(seconds: 5));
+
+      final isStarted = await service.startService();
+      if (!isStarted) {
+        await service.startService();
+      }
     }
   } else {
-    service.invoke('stopService');
+    if (isRunning) {
+      service.invoke('stopService');
+    }
   }
 }
 
