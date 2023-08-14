@@ -152,12 +152,16 @@ class _HomePageState extends LocalizedState<HomePage> {
                     final debouncer = Debouncer(seconds: 5);
                     debouncer.run(() async {
                       if (count == 0) {
-                        await performBackgroundService(
-                          isBackground: false,
-                          stopService: true,
-                          context: context,
-                        );
+                        await Constants().openIsar();
+                        if (context.mounted) {
+                          await performBackgroundService(
+                            isBackground: false,
+                            stopService: true,
+                            context: context,
+                          );
+                        }
                       } else {
+                        await Constants().openIsar();
                         if (context.mounted) {
                           await performBackgroundService(
                             isBackground: false,
@@ -356,12 +360,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                   if (snapshot.data?['enablesManualSync'] == true) {
                     _attemptSyncUp(context);
                   } else {
-                    await performBackgroundService(
-                      isBackground: false,
-                      stopService: false,
-                      context: context,
-                    );
-
+                    Constants().openIsar();
                     if (context.mounted) {
                       DigitToast.show(
                         context,
