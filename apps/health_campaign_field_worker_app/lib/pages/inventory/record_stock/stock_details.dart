@@ -632,9 +632,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   formControlName: _vehicleNumberKey,
                                   inputFormatters: [
                                     UpperCaseTextFormatter(),
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp("[a-zA-Z0-9]"),
-                                    ),
                                   ],
                                   maxLength: 9,
                                   validationMessages: {
