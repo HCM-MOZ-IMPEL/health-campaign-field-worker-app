@@ -365,19 +365,6 @@ class _HomePageState extends LocalizedState<HomePage> {
             },
           ),
         ),
-        HomeItemCard(
-          icon: Icons.table_chart,
-          label: 'DB',
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DriftDbViewer(
-                  context.read<LocalSqlDataStore>(),
-                ),
-              ),
-            );
-          },
-        ),
       ]);
     }
     if (isWarehouseManager) {
@@ -434,6 +421,15 @@ class _HomePageState extends LocalizedState<HomePage> {
                   onPressed: () async {
                     if (!snapshot.hasData) {
                       _attemptSyncUp(context);
+                    } else {
+                      DigitToast.show(
+                        context,
+                        options: DigitToastOptions(
+                          i18.common.coreCommonSyncInProgress,
+                          false,
+                          Theme.of(context),
+                        ),
+                      );
                     }
                   },
                 );
@@ -487,6 +483,15 @@ class _HomePageState extends LocalizedState<HomePage> {
                   if (!snapshot.hasData) {
                     if (context.mounted) {
                       _attemptSyncUp(context);
+                    } else {
+                      DigitToast.show(
+                        context,
+                        options: DigitToastOptions(
+                          i18.common.coreCommonSyncInProgress,
+                          false,
+                          Theme.of(context),
+                        ),
+                      );
                     }
                   }
                 },
@@ -497,44 +502,23 @@ class _HomePageState extends LocalizedState<HomePage> {
       ]);
     }
 
-    // homeItems.addAll(
-    //   [
-    //     HomeItemCard(
-    //       icon: Icons.call,
-    //       label: i18.home.callbackLabel,
-    //     ),
-    //     HomeItemCard(
-    //       icon: Icons.table_chart,
-    //       label: 'DB',
-    //       onPressed: () {
-    //         Navigator.of(context).push(
-    //           MaterialPageRoute(
-    //             builder: (context) => DriftDbViewer(
-    //               context.read<LocalSqlDataStore>(),
-    //             ),
-    //           ),
-    //         );
-    //       },
-    //     ),
-    //     HomeItemCard(
-    //       icon: Icons.delete_forever,
-    //       label: 'Delete all',
-    //       onPressed: () async {
-    //         final sql = context.read<LocalSqlDataStore>();
-    //         final isar = context.read<Isar>();
-    //         int count = 0;
-    //         for (var element in sql.allTables) {
-    //           final selector = sql.delete(element)
-    //             ..where((_) => const Constant(true));
-    //           count += await selector.go();
-    //         }
-    //         debugPrint('deleted: $count');
-
-    //         await isar.writeTxn(() async => await isar.opLogs.clear());
-    //       },
-    //     ),
-    //   ],
-    // );
+    homeItems.addAll(
+      [
+        HomeItemCard(
+          icon: Icons.table_chart,
+          label: 'DB',
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => DriftDbViewer(
+                  context.read<LocalSqlDataStore>(),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
 
     return _HomeItemDataModel(homeItems, showcaseKeys);
   }
