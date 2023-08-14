@@ -434,8 +434,18 @@ class _HomePageState extends LocalizedState<HomePage> {
                   icon: Icons.sync_alt,
                   label: i18.home.syncDataLabel,
                   onPressed: () async {
-                    if (!snapshot.hasData) {
+                    if (snapshot.data?['enablesManualSync'] == true) {
                       _attemptSyncUp(context);
+                    } else {
+                      DigitToast.show(
+                        context,
+                        options: DigitToastOptions(
+                          localizations
+                              .translate(i18.common.coreCommonSyncInProgress),
+                          false,
+                          Theme.of(context),
+                        ),
+                      );
                     }
                   },
                 );
@@ -488,7 +498,19 @@ class _HomePageState extends LocalizedState<HomePage> {
                 onPressed: () async {
                   if (!snapshot.hasData) {
                     if (context.mounted) {
-                      _attemptSyncUp(context);
+                      if (snapshot.data?['enablesManualSync'] == true) {
+                        _attemptSyncUp(context);
+                      } else {
+                        DigitToast.show(
+                          context,
+                          options: DigitToastOptions(
+                            localizations
+                                .translate(i18.common.coreCommonSyncInProgress),
+                            false,
+                            Theme.of(context),
+                          ),
+                        );
+                      }
                     }
                   }
                 },
