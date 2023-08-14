@@ -82,11 +82,9 @@ void onStart(ServiceInstance service) async {
   await envConfig.initialize();
 
   _dio = DioClient().dio;
-  const storage = FlutterSecureStorage();
   final userRequestModel = await LocalSecureStore.instance.userRequestModel;
-
-  final appConfiguration =
-      await Constants().isar.appConfigurations.where().findAll();
+  final isar = await Constants().isar;
+  final appConfiguration = await isar.appConfigurations.where().findAll();
   final interval =
       appConfiguration.first.backgroundServiceConfig?.serviceInterval;
   final frequencyCount =
@@ -105,7 +103,7 @@ void onStart(ServiceInstance service) async {
         } else {
           if (frequencyCount != null) {
             final serviceRegistryList =
-                await Constants().isar.serviceRegistrys.where().findAll();
+                await isar.serviceRegistrys.where().findAll();
 
             if (serviceRegistryList.isNotEmpty) {
               final bandwidthService = serviceRegistryList.firstWhereOrNull(
@@ -151,8 +149,7 @@ void onStart(ServiceInstance service) async {
                   ),
                 ).performSync(
                   localRepositories:
-                      Constants.getLocalRepositories(_sql, Constants().isar)
-                          .toList(),
+                      Constants.getLocalRepositories(_sql, isar).toList(),
                   remoteRepositories: Constants.getRemoteRepositories(
                     _dio,
                     getActionMap(serviceRegistryList),
