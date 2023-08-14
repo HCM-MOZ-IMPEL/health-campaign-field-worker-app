@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../utils/validations.dart' as validation;
 import '../../blocs/app_initialization/app_initialization.dart';
 import '../../blocs/beneficiary_registration/beneficiary_registration.dart';
 import '../../blocs/search_households/search_households.dart';
@@ -207,6 +208,16 @@ class _IndividualDetailsPageState
                                         i18.individualDetails
                                             .firstNameIsRequiredError,
                                       ),
+                                  'minLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .firstNameLengthError,
+                                      ),
+                                  'maxLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .firstNameLengthError,
+                                      ),
                                 },
                               ),
                             ),
@@ -224,6 +235,16 @@ class _IndividualDetailsPageState
                                       localizations.translate(
                                         i18.individualDetails
                                             .lastNameIsRequiredError,
+                                      ),
+                                  'minLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .lastNameLengthError,
+                                      ),
+                                  'maxLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .lastNameLengthError,
                                       ),
                                 },
                               ),
@@ -415,14 +436,16 @@ class _IndividualDetailsPageState
       _individualNameKey: FormControl<String>(
         validators: [
           Validators.required,
-          CustomValidator.requiredMinIndividualName,
+          Validators.minLength(validation.individual.nameMinLength),
+          Validators.maxLength(validation.individual.nameMaxLength),
         ],
         value: individual?.name?.givenName ?? searchQuery?.trim(),
       ),
       _individualLastNameKey: FormControl<String>(
         validators: [
           Validators.required,
-          CustomValidator.requiredMinIndividualName,
+          Validators.minLength(validation.individual.nameMinLength),
+          Validators.maxLength(validation.individual.nameMaxLength),
         ],
         value: individual?.name?.familyName ?? '',
       ),

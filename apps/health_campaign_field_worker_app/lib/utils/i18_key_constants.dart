@@ -269,6 +269,10 @@ class IndividualDetails {
 
   String get firstNameIsRequiredError => 'FIRST_NAME_REQUIRED_ERROR_MESSAGE';
 
+  String get firstNameLengthError => 'FIRST_NAME_LENGTH_ERROR_MESSAGE';
+
+  String get lastNameLengthError => 'LAST_NAME_LENGTH_ERROR_MESSAGE';
+
   String get lastNameIsRequiredError => 'LAST_NAME_REQUIRED_ERROR_MESSAGE';
 
   String get ageInvalidError => 'INDIVIDUAL_DETAILS_INVALID_AGE';
@@ -512,6 +516,9 @@ class StockDetails {
   String get quantityReceivedValidation =>
       'STOCK_DETAILS_QUANTITY_RECEIVED_VALIDATION';
 
+  String get quantityMinAndMaxValidation =>
+      'STOCK_DETAILS_QUANTITY_MIN_MAX_VALIDATION';
+
   String get quantitySentValidation => 'STOCK_DETAILS_QUANTITY_SENT_VALIDATION';
 
   String get quantityReturnedValidation =>
@@ -519,6 +526,9 @@ class StockDetails {
 
   String get quantityIndicatedOnWaybillValidation =>
       'STOCK_DETAILS_QUANTITY_ON_WAYBILL_VALIDATION';
+
+  String get quantityMinAndMaxWaybillValidation =>
+      'STOCK_DETAILS_QUANTITY_MIN_MAX_ON_WAYBILL_VALIDATION';
 
   String get transportTypeValidation => 'TRANSPORT_TYPE_VALIDATION';
 
@@ -531,6 +541,12 @@ class StockDetails {
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
 
   String get waybillNumberValidation => 'WAYBILL_NUMBER_VALIDATION';
+
+  String get waybillNumberMinMaxLengthValidation =>
+      'WAYBILL_NUMBER_MIN_MAX_LENGTH_VALIDATION';
+
+  String get driverNameMinMaxLengthValidation =>
+      'DRIVER_NAME_MIN_MAX_VALIDATION';
 
   /// Number of product indicated on waybill title
   String get quantityOfProductIndicatedOnWaybillLabel {
