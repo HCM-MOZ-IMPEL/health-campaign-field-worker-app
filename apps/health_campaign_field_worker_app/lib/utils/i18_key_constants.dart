@@ -524,7 +524,7 @@ class StockDetails {
       'STOCK_DETAILS_QUANTITY_ON_WAYBILL_VALIDATION';
 
   String get quantityMinAndMaxWaybillValidation =>
-      'STOCK_DETAILS_QUANTITY_MIN_MAX__ON_WAYBILL_VALIDATION';
+      'STOCK_DETAILS_QUANTITY_MIN_MAX_ON_WAYBILL_VALIDATION';
 
   String get transportTypeValidation => 'TRANSPORT_TYPE_VALIDATION';
 
