@@ -15,6 +15,7 @@ import '../../../models/data_model.dart';
 import '../../../router/app_router.dart';
 import '../../../utils/i18_key_constants.dart' as i18;
 import '../../../utils/utils.dart';
+import '../../../utils/validations.dart' as validation;
 import '../../../widgets/header/back_navigation_help_header.dart';
 import '../../../widgets/localized.dart';
 import '../../../widgets/showcase/config/showcase_constants.dart';
@@ -52,7 +53,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
       _transactionQuantityKey: FormControl<int>(validators: [
         Validators.number,
         Validators.required,
-        Validators.min(1),
+        Validators.min(validation.stocks.minQuantity),
+        Validators.max(validation.stocks.maxQuantity),
       ]),
       _transactionReasonKey: FormControl<TransactionReason>(),
       _waybillNumberKey: FormControl<String>(validators: [
@@ -62,7 +64,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
         validators: [
           Validators.number,
           Validators.required,
-          Validators.min(1),
+          Validators.min(validation.stocks.minQuantity),
+          Validators.max(validation.stocks.maxQuantity),
         ],
       ),
       _vehicleNumberKey: FormControl<String>(
@@ -491,6 +494,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                       valueAccessor: FacilityValueAccessor(
                                         facilities,
                                       ),
+                                      inputFormatters: [],
                                       label: localizations.translate(
                                         transactionPartyLabel,
                                       ),
@@ -685,10 +689,13 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                           module
                                               .quantityIndicatedOnWaybillValidation,
                                         ),
-                                    'minValueOne': (object) =>
-                                        localizations.translate(
+                                    'min': (object) => localizations.translate(
                                           module
-                                              .quantityIndicatedOnWaybillValidation,
+                                              .quantityMinAndMaxWaybillValidation,
+                                        ),
+                                    'max': (object) => localizations.translate(
+                                          module
+                                              .quantityMinAndMaxWaybillValidation,
                                         ),
                                   },
                                   onChanged: (control) {
@@ -760,9 +767,13 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         localizations.translate(
                                           quantityValidationMessage,
                                         ),
-                                    'minValueOne': (object) =>
-                                        localizations.translate(
-                                          quantityValidationMessage,
+                                    'min': (object) => localizations.translate(
+                                          i18.stockDetails
+                                              .quantityMinAndMaxValidation,
+                                        ),
+                                    'max': (object) => localizations.translate(
+                                          i18.stockDetails
+                                              .quantityMinAndMaxValidation,
                                         ),
                                   },
                                   onChanged: (control) {

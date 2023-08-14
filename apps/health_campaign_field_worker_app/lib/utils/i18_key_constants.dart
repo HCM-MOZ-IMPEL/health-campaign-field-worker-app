@@ -512,6 +512,9 @@ class StockDetails {
   String get quantityReceivedValidation =>
       'STOCK_DETAILS_QUANTITY_RECEIVED_VALIDATION';
 
+  String get quantityMinAndMaxValidation =>
+      'STOCK_DETAILS_QUANTITY_MIN_MAX_VALIDATION';
+
   String get quantitySentValidation => 'STOCK_DETAILS_QUANTITY_SENT_VALIDATION';
 
   String get quantityReturnedValidation =>
@@ -519,6 +522,9 @@ class StockDetails {
 
   String get quantityIndicatedOnWaybillValidation =>
       'STOCK_DETAILS_QUANTITY_ON_WAYBILL_VALIDATION';
+
+  String get quantityMinAndMaxWaybillValidation =>
+      'STOCK_DETAILS_QUANTITY_MIN_MAX__ON_WAYBILL_VALIDATION_';
 
   String get transportTypeValidation => 'TRANSPORT_TYPE_VALIDATION';
 
