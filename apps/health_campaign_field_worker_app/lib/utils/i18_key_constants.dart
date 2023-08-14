@@ -269,6 +269,10 @@ class IndividualDetails {
 
   String get firstNameIsRequiredError => 'FIRST_NAME_REQUIRED_ERROR_MESSAGE';
 
+  String get firstNameLengthError => 'FIRST_NAME_LENGTH_ERROR_MESSAGE';
+
+  String get lastNameLengthError => 'LAST_NAME_LENGTH_ERROR_MESSAGE';
+
   String get lastNameIsRequiredError => 'LAST_NAME_REQUIRED_ERROR_MESSAGE';
 
   String get ageInvalidError => 'INDIVIDUAL_DETAILS_INVALID_AGE';

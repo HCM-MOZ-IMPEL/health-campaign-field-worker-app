@@ -16,6 +16,9 @@ class Common {
 
 class Individual {
   const Individual();
+
+  int get nameMinLength => 2;
+  int get nameMaxLength => 200;
 }
 
 class Stocks {
