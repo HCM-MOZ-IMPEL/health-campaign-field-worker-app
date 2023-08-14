@@ -55,7 +55,7 @@ class _HomePageState extends LocalizedState<HomePage> {
       performBackgroundService(
         isBackground: false,
         stopService: false,
-        context: null,
+        context: context,
       );
 
       // Got a new connectivity status!
