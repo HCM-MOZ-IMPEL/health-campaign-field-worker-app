@@ -113,11 +113,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           body: {'access_token': accessToken},
         );
         await localSecureStore.deleteAll();
+
+        emit(const AuthUnauthenticatedState());
       }
     } catch (error) {
-      rethrow;
+      await localSecureStore.deleteAll();
+      emit(const AuthErrorState());
+      emit(const AuthUnauthenticatedState());
     }
-    emit(const AuthUnauthenticatedState());
   }
 
   FutureOr<void> _onAuthLogoutWithoutToken(

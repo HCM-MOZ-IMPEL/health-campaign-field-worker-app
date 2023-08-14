@@ -19,6 +19,8 @@ class PgrService extends Table {
   IntColumn get auditModifiedTime => integer().nullable()();
   BoolColumn get isDeleted => boolean()();
   IntColumn get rowVersion => integer()();
+  BoolColumn get nonRecoverableError =>
+      boolean().nullable().withDefault(const Constant(false))();
 
   TextColumn get additionalFields => text().nullable()();
 

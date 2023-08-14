@@ -47,6 +47,7 @@ class FacilityModel extends EntityModel {
   final bool? isPermanent;
   final String? usage;
   final int? storageCapacity;
+  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final AddressModel? address;
@@ -59,6 +60,7 @@ class FacilityModel extends EntityModel {
     this.isPermanent,
     this.usage,
     this.storageCapacity,
+    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
     this.address,
@@ -79,6 +81,7 @@ class FacilityModel extends EntityModel {
       isPermanent: Value(isPermanent),
       usage: Value(usage),
       storageCapacity: Value(storageCapacity),
+      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       );

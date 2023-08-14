@@ -10,6 +10,7 @@ class Name extends Table {
   TextColumn get familyName => text().nullable()();
   TextColumn get otherNames => text().nullable()();
   TextColumn get auditCreatedBy => text().nullable()();
+  BoolColumn get nonRecoverableError => boolean().nullable().withDefault(const Constant(false))();
   IntColumn get auditCreatedTime => integer().nullable()();
   TextColumn get auditModifiedBy => text().nullable()();
   IntColumn get auditModifiedTime => integer().nullable()();

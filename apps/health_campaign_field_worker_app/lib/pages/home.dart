@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_toaster.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:synchronized/synchronized.dart';
 import '../blocs/auth/auth.dart';
 import '../blocs/search_households/search_households.dart';
@@ -25,9 +23,9 @@ import '../utils/utils.dart';
 import '../widgets/header/back_navigation_help_header.dart';
 import '../widgets/home/home_item_card.dart';
 import '../widgets/localized.dart';
+import '../widgets/progress_bar/beneficiary_progress.dart';
 import '../widgets/showcase/config/showcase_constants.dart';
 import '../widgets/showcase/showcase_button.dart';
-import '../widgets/progress_bar/beneficiary_progress.dart';
 
 class HomePage extends LocalizedStatefulWidget {
   const HomePage({
@@ -51,14 +49,17 @@ class _HomePageState extends LocalizedState<HomePage> {
 
     subscription = Connectivity()
         .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      performBackgroundService(
-        isBackground: false,
-        stopService: false,
-        context: context,
-      );
+        .listen((ConnectivityResult resSyncBlocult) async {
+      var connectivityResult = await (Connectivity().checkConnectivity());
 
-      // Got a new connectivity status!
+
+      if (connectivityResult != ConnectivityResult.none) {
+        if (context.mounted) {
+          context
+              .read<SyncBloc>()
+              .add(SyncRefreshEvent(context.loggedInUserUuid));
+        }
+      }
     });
   }
 
@@ -420,7 +421,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                   icon: Icons.sync_alt,
                   label: i18.home.syncDataLabel,
                   onPressed: () async {
-                    if (!snapshot.hasData) {
+                    if (snapshot.data?['enablesManualSync'] == true) {
                       _attemptSyncUp(context);
                     } else {
                       DigitToast.show(
@@ -484,17 +485,19 @@ class _HomePageState extends LocalizedState<HomePage> {
                 onPressed: () async {
                   if (!snapshot.hasData) {
                     if (context.mounted) {
-                      _attemptSyncUp(context);
-                    } else {
-                      DigitToast.show(
-                        context,
-                        options: DigitToastOptions(
-                          localizations
-                              .translate(i18.common.coreCommonSyncInProgress),
-                          false,
-                          Theme.of(context),
-                        ),
-                      );
+                      if (snapshot.data?['enablesManualSync'] == true) {
+                        _attemptSyncUp(context);
+                      } else {
+                        DigitToast.show(
+                          context,
+                          options: DigitToastOptions(
+                            localizations
+                                .translate(i18.common.coreCommonSyncInProgress),
+                            false,
+                            Theme.of(context),
+                          ),
+                        );
+                      }
                     }
                   }
                 },

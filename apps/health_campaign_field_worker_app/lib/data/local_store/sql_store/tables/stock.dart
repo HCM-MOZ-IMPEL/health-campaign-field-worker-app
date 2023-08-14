@@ -17,6 +17,7 @@ class Stock extends Table {
   TextColumn get quantity => text().nullable()();
   TextColumn get waybillNumber => text().nullable()();
   TextColumn get auditCreatedBy => text().nullable()();
+  BoolColumn get nonRecoverableError => boolean().nullable().withDefault(const Constant(false))();
   IntColumn get auditCreatedTime => integer().nullable()();
   TextColumn get auditModifiedBy => text().nullable()();
   IntColumn get auditModifiedTime => integer().nullable()();

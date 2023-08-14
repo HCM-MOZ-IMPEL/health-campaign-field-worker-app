@@ -19,6 +19,7 @@ import 'utils/utils.dart';
 final LocalSqlDataStore _sql = LocalSqlDataStore();
 late Dio _dio;
 int i = 0;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -47,7 +48,7 @@ void main() async {
   runApp(
     MainApplication(
       appRouter: AppRouter(),
-      isar: Constants().isar,
+      isar: await Constants().isar,
       client: _dio,
       sql: _sql,
     ),
