@@ -542,7 +542,7 @@ class StockDetails {
       'WAYBILL_NUMBER_MIN_MAX_LENGTH_VALIDATION';
 
   String get driverNameMinMaxLengthValidation =>
-      'WAYBILL_NUMBER_MIN_MAX_VALIDATION';
+      'DRIVER_NAME_MIN_MAX_VALIDATION';
 
   /// Number of product indicated on waybill title
   String get quantityOfProductIndicatedOnWaybillLabel {
