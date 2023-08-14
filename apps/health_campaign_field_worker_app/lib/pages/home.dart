@@ -354,7 +354,8 @@ class _HomePageState extends LocalizedState<HomePage> {
                     DigitToast.show(
                       context,
                       options: DigitToastOptions(
-                        i18.common.coreCommonSyncInProgress,
+                        localizations
+                            .translate(i18.common.coreCommonSyncInProgress),
                         false,
                         Theme.of(context),
                       ),
@@ -425,7 +426,8 @@ class _HomePageState extends LocalizedState<HomePage> {
                       DigitToast.show(
                         context,
                         options: DigitToastOptions(
-                          i18.common.coreCommonSyncInProgress,
+                          localizations
+                              .translate(i18.common.coreCommonSyncInProgress),
                           false,
                           Theme.of(context),
                         ),
@@ -487,7 +489,8 @@ class _HomePageState extends LocalizedState<HomePage> {
                       DigitToast.show(
                         context,
                         options: DigitToastOptions(
-                          i18.common.coreCommonSyncInProgress,
+                          localizations
+                              .translate(i18.common.coreCommonSyncInProgress),
                           false,
                           Theme.of(context),
                         ),
