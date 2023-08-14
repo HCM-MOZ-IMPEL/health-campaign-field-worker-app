@@ -973,45 +973,47 @@ class NetworkManager {
               }
               break;
             default:
-              final List<EntityModel> items = await filterEntitybyBandwidth(
-                bandwidthModel.batchSize,
-                entities,
-              );
-              if (entities.isNotEmpty) {
-                if (items.isNotEmpty) {
-                  await remote.bulkCreate(items);
+              // Processing all records for current DataModelType
+              final List<List<EntityModel>> listOfBatchedEntities =
+                  entities.slices(bandwidthModel.batchSize).toList();
+              if (listOfBatchedEntities.isNotEmpty) {
+                for (final sublist in listOfBatchedEntities) {
+                  if (sublist.isNotEmpty) {
+                    await remote.bulkCreate(sublist);
+                  }
                 }
               }
           }
         } else if (operationGroupedEntity.key == DataOperation.update) {
           await Future.delayed(const Duration(seconds: 1));
-          final List<EntityModel> items = await filterEntitybyBandwidth(
-            bandwidthModel.batchSize,
-            entities,
-          );
-          if (entities.isNotEmpty) {
-            if (items.isNotEmpty) {
-              await remote.bulkUpdate(items);
+          // Processing all records for current DataModelType
+          final List<List<EntityModel>> listOfBatchedEntities =
+              entities.slices(bandwidthModel.batchSize).toList();
+          if (listOfBatchedEntities.isNotEmpty) {
+            for (final sublist in listOfBatchedEntities) {
+              if (sublist.isNotEmpty) {
+                await remote.bulkUpdate(sublist);
+              }
             }
           }
         } else if (operationGroupedEntity.key == DataOperation.delete) {
           await Future.delayed(const Duration(seconds: 1));
-          final List<EntityModel> items = await filterEntitybyBandwidth(
-            bandwidthModel.batchSize,
-            entities,
-          );
-          await remote.bulkDelete(items);
+          // Processing all records for current DataModelType
+          final List<List<EntityModel>> listOfBatchedEntities =
+              entities.slices(bandwidthModel.batchSize).toList();
+          if (listOfBatchedEntities.isNotEmpty) {
+            for (final sublist in listOfBatchedEntities) {
+              if (sublist.isNotEmpty) {
+                await remote.bulkDelete(sublist);
+              }
+            }
+          }
         }
         if (operationGroupedEntity.key == DataOperation.singleCreate) {
           for (var element in entities) {
             await remote.singleCreate(element);
           }
         }
-
-        final items = await filterOpLogbyBandwidth(
-          bandwidthModel.batchSize,
-          opLogList,
-        );
 
         final errorItemsList = await filterOpLogbyBandwidth(
           bandwidthModel.batchSize,
@@ -1028,7 +1030,7 @@ class NetworkManager {
           );
         }
 
-        for (final syncedEntity in items) {
+        for (final syncedEntity in opLogList) {
           if (syncedEntity.type == DataModelType.complaints) continue;
           await local.markSyncedUp(
             entry: syncedEntity,
