@@ -70,26 +70,36 @@ abstract class RemoteRepository<D extends EntityModel,
   ) async {
     Response response;
 
-    response = await executeFuture(
-      future: () async {
-        return await dio.post(
-          searchPath,
-          queryParameters: {
-            'offset': 0,
-            'limit': 100,
-            'tenantId': envConfig.variables.tenantId,
-            if (query.isDeleted ?? false) 'includeDeleted': query.isDeleted,
-          },
-          data: {
-            isPlural
-                ? entityNamePlural
-                : entityName == 'ServiceDefinition'
-                    ? 'ServiceDefinitionCriteria'
-                    : entityName: isPlural ? [query.toMap()] : query.toMap(),
-          },
-        );
-      },
-    );
+    try {
+      response = await executeFuture(
+        future: () async {
+          return await dio.post(
+            searchPath,
+            queryParameters: {
+              'offset': 0,
+              'limit': 100,
+              'tenantId': envConfig.variables.tenantId,
+              if (query.isDeleted ?? false) 'includeDeleted': query.isDeleted,
+            },
+            data: {
+              isPlural
+                  ? entityNamePlural
+                  : entityName == 'ServiceDefinition'
+                      ? 'ServiceDefinitionCriteria'
+                      : entityName: isPlural ? [query.toMap()] : query.toMap(),
+            },
+          );
+        },
+      );
+    } on DioError catch (error) {
+      if (error.response!.data['Errors'][0]['message']
+          .toString()
+          .contains(Constants.invalidAccessTokenKey)) {
+        rethrow;
+      } else {
+        return [];
+      }
+    }
 
     final responseMap = (response.data);
 
@@ -205,9 +215,24 @@ abstract class RemoteRepository<D extends EntityModel,
 
   FutureOr<Response> dumpError(
     List<EntityModel> entities,
+    DataOperation operation,
   ) async {
     return executeFuture(
       future: () async {
+        String url = "";
+
+        if (operation == DataOperation.create) {
+          url = bulkCreatePath;
+        } else if (operation == DataOperation.update) {
+          url = bulkUpdatePath;
+        } else if (operation == DataOperation.delete) {
+          url = bulkDeletePath;
+        } else if (operation == DataOperation.singleCreate) {
+          url = createPath;
+        } else if (operation == DataOperation.singleCreate) {
+          url = searchPath;
+        }
+
         return await dio.post(
           envConfig.variables.dumpErrorApiPath,
           options: Options(headers: {
@@ -217,7 +242,7 @@ abstract class RemoteRepository<D extends EntityModel,
             'errorDetail': {
               "apiDetails": {
                 "id": null,
-                "url": null,
+                "url": url,
                 "contentType": null,
                 "methodType": null,
                 "requestBody": _getMap(entities).toString(),

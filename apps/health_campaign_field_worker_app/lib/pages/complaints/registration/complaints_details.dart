@@ -1,5 +1,6 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -433,6 +434,11 @@ class _ComplaintsDetailsPageState
                                           ),
                                           readOnly: isRaisedForSelf,
                                           maxLength: 9,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                              RegExp("[0-9]"),
+                                            ),
+                                          ],
                                           isRequired: true,
                                           keyboardType: TextInputType.number,
                                           validationMessages: {
@@ -475,6 +481,11 @@ class _ComplaintsDetailsPageState
                                     i18.complaints.supervisorContactNumber,
                                   ),
                                   maxLength: 9,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9]"),
+                                    ),
+                                  ],
                                   keyboardType: TextInputType.number,
                                   validationMessages: {
                                     'mobileNumber': (object) =>
@@ -562,7 +573,6 @@ class _ComplaintsDetailsPageState
         validators: [
           Validators.required,
           CustomValidator.validMobileNumber,
-          Validators.minLength(9),
         ],
       ),
       _supervisorName: FormControl<String>(
@@ -573,7 +583,6 @@ class _ComplaintsDetailsPageState
         value: complaintDetails?.supervisorContactNumber,
         disabled: shouldDisableForm,
         validators: [
-          Validators.minLength(9),
           CustomValidator.validMobileNumber,
         ],
       ),

@@ -60,6 +60,12 @@ class _DeliverInterventionPageState
       child: BlocBuilder<HouseholdOverviewBloc, HouseholdOverviewState>(
         builder: (context, state) {
           final householdMemberWrapper = state.householdMemberWrapper;
+          final initialCount = min(
+            (householdMemberWrapper.household.memberCount ??
+                    householdMemberWrapper.members.length) /
+                1.8,
+            3,
+          ).round();
           final isDelivered =
               householdMemberWrapper.task?.status == 'delivered';
 
@@ -488,7 +494,9 @@ class _DeliverInterventionPageState
                                               i18.deliverIntervention
                                                   .deliveryCommentLabel,
                                             ),
-                                            readOnly: isDelivered || readOnly,
+                                            readOnly: isDelivered ||
+                                                readOnly ||
+                                                (initialCount == 1),
                                             valueMapper: (value) => value,
                                             initialValue:
                                                 localizations.translate(
@@ -543,6 +551,16 @@ class _DeliverInterventionPageState
       _deliveryCommentKey: FormControl<String>(
         value:
             state.householdMemberWrapper.task?.resources?.first.deliveryComment,
+        validators: [
+          if (min(
+                (state.householdMemberWrapper.household.memberCount ??
+                        state.householdMemberWrapper.members.length) /
+                    1.8,
+                3,
+              ).round() >
+              1)
+            Validators.required,
+        ],
       ),
     });
   }

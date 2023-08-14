@@ -505,6 +505,10 @@ class _StockReconciliationPageState
                                               final manualStockCount =
                                                   control.value;
 
+                                              stockCount = stockState
+                                                  .stockInHand
+                                                  .toInt();
+
                                               if (manualStockCount !=
                                                   stockCount.toString()) {
                                                 setState(() {

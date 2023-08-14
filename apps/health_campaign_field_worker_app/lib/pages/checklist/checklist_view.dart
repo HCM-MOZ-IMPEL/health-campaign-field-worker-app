@@ -346,15 +346,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               ],
                             ]);
                           }).toList(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
+                          const SizedBox(
+                            height: 15,
+                          ),
                           DigitElevatedButton(
                             onPressed: () async {
                               final router = context.router;
@@ -418,14 +412,25 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           rowVersion: 1,
                                           tenantId: attribute[i].tenantId,
                                           additionalDetails:
-                                              additionalController[i]
-                                                      .text
-                                                      .toString()
-                                                      .isEmpty
-                                                  ? null
-                                                  : additionalController[i]
-                                                      .text
-                                                      .toString(),
+                                              ((attribute[i].values?.length ==
+                                                              2 ||
+                                                          attribute[i]
+                                                                  .values
+                                                                  ?.length ==
+                                                              3) &&
+                                                      controller[i].text ==
+                                                          attribute[i]
+                                                              .values?[1]
+                                                              .trim())
+                                                  ? additionalController[i]
+                                                          .text
+                                                          .toString()
+                                                          .isEmpty
+                                                      ? null
+                                                      : additionalController[i]
+                                                          .text
+                                                          .toString()
+                                                  : null,
                                         ));
                                       }
 

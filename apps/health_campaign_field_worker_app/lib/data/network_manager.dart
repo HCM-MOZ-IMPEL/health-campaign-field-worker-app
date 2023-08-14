@@ -207,9 +207,33 @@ class NetworkManager {
                   ),
                 );
               } else {
-                await local.opLogManager.updateSyncDownRetry(
-                  entity.clientReferenceId,
-                );
+                final bool markAsNonRecoverable = await local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(entity.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: entity.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            entity.id ?? entity.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      entity.copyWith(
+                        nonRecoverableError: true,
+                        id: entity.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
@@ -346,6 +370,34 @@ class NetworkManager {
               } else {
                 await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
+
+                final bool markAsNonRecoverable = await local.opLogManager
+                    .updateSyncDownRetry(entity.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(entity.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: entity.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            entity.id ?? entity.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      entity.copyWith(
+                        nonRecoverableError: true,
+                        id: entity.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
@@ -394,8 +446,33 @@ class NetworkManager {
                   ),
                 );
               } else {
-                await local.opLogManager
+                final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(taskModel.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(taskModel.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: taskModel.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            taskModel.id ?? taskModel.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      taskModel.copyWith(
+                        nonRecoverableError: true,
+                        id: taskModel.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
@@ -433,8 +510,33 @@ class NetworkManager {
                   ),
                 );
               } else {
-                await local.opLogManager
+                final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(entity.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: entity.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            entity.id ?? entity.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      entity.copyWith(
+                        nonRecoverableError: true,
+                        id: entity.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
@@ -472,8 +574,33 @@ class NetworkManager {
                   ),
                 );
               } else {
-                await local.opLogManager
+                final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
+
+                final List<OpLog> opLogEntry = await local.opLogManager
+                    .getSyncDownRetryList(entity.clientReferenceId);
+                if (markAsNonRecoverable) {
+                  for (var element in opLogEntry) {
+                    // OPLOG
+                    await local.opLogManager.updateServerGeneratedIds(
+                      model: UpdateServerGeneratedIdModel(
+                        clientReferenceId: entity.clientReferenceId,
+                        dataOperation: element.operation,
+                        rowVersion: rowVersion,
+                        nonRecoverableError: true,
+                        serverGeneratedId:
+                            entity.id ?? entity.clientReferenceId,
+                      ),
+                    );
+                    await local.update(
+                      entity.copyWith(
+                        nonRecoverableError: true,
+                        id: entity.clientReferenceId,
+                      ),
+                      createOpLog: false,
+                    );
+                  }
+                }
               }
             }
 
@@ -773,7 +900,7 @@ class NetworkManager {
           errorEntities,
         );
         if (errorItems.isNotEmpty) {
-          await remote.dumpError(errorItems);
+          await remote.dumpError(errorItems, operationGroupedEntity.key);
         }
 
         if (operationGroupedEntity.key == DataOperation.create) {
@@ -846,45 +973,47 @@ class NetworkManager {
               }
               break;
             default:
-              final List<EntityModel> items = await filterEntitybyBandwidth(
-                bandwidthModel.batchSize,
-                entities,
-              );
-              if (entities.isNotEmpty) {
-                if (items.isNotEmpty) {
-                  await remote.bulkCreate(items);
+              // Processing all records for current DataModelType
+              final List<List<EntityModel>> listOfBatchedEntities =
+                  entities.slices(bandwidthModel.batchSize).toList();
+              if (listOfBatchedEntities.isNotEmpty) {
+                for (final sublist in listOfBatchedEntities) {
+                  if (sublist.isNotEmpty) {
+                    await remote.bulkCreate(sublist);
+                  }
                 }
               }
           }
         } else if (operationGroupedEntity.key == DataOperation.update) {
           await Future.delayed(const Duration(seconds: 1));
-          final List<EntityModel> items = await filterEntitybyBandwidth(
-            bandwidthModel.batchSize,
-            entities,
-          );
-          if (entities.isNotEmpty) {
-            if (items.isNotEmpty) {
-              await remote.bulkUpdate(items);
+          // Processing all records for current DataModelType
+          final List<List<EntityModel>> listOfBatchedEntities =
+              entities.slices(bandwidthModel.batchSize).toList();
+          if (listOfBatchedEntities.isNotEmpty) {
+            for (final sublist in listOfBatchedEntities) {
+              if (sublist.isNotEmpty) {
+                await remote.bulkUpdate(sublist);
+              }
             }
           }
         } else if (operationGroupedEntity.key == DataOperation.delete) {
           await Future.delayed(const Duration(seconds: 1));
-          final List<EntityModel> items = await filterEntitybyBandwidth(
-            bandwidthModel.batchSize,
-            entities,
-          );
-          await remote.bulkDelete(items);
+          // Processing all records for current DataModelType
+          final List<List<EntityModel>> listOfBatchedEntities =
+              entities.slices(bandwidthModel.batchSize).toList();
+          if (listOfBatchedEntities.isNotEmpty) {
+            for (final sublist in listOfBatchedEntities) {
+              if (sublist.isNotEmpty) {
+                await remote.bulkDelete(sublist);
+              }
+            }
+          }
         }
         if (operationGroupedEntity.key == DataOperation.singleCreate) {
           for (var element in entities) {
             await remote.singleCreate(element);
           }
         }
-
-        final items = await filterOpLogbyBandwidth(
-          bandwidthModel.batchSize,
-          opLogList,
-        );
 
         final errorItemsList = await filterOpLogbyBandwidth(
           bandwidthModel.batchSize,
@@ -901,7 +1030,7 @@ class NetworkManager {
           );
         }
 
-        for (final syncedEntity in items) {
+        for (final syncedEntity in opLogList) {
           if (syncedEntity.type == DataModelType.complaints) continue;
           await local.markSyncedUp(
             entry: syncedEntity,

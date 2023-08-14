@@ -68,6 +68,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
       _vehicleNumberKey: FormControl<String>(
         validators: [
           Validators.required,
+          CustomValidator.vehicleNumberValidation,
         ],
       ),
       _driverNameKey: FormControl<String>(
@@ -281,6 +282,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                             .value as String?)
                                         ?.trim();
 
+                                    final typeOfTransport = (form
+                                            .control(_typeOfTransportKey)
+                                            .value as String?)
+                                        ?.trim();
+
                                     final lat = locationState.latitude;
                                     final lng = locationState.longitude;
 
@@ -353,6 +359,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                   AdditionalField(
                                                     'driver_name',
                                                     driverName,
+                                                  ),
+                                                if (typeOfTransport != null)
+                                                  AdditionalField(
+                                                    'vehicle_type',
+                                                    typeOfTransport,
                                                   ),
                                                 if (comments != null &&
                                                     comments.isNotEmpty)
@@ -602,10 +613,20 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   ),
                                   isRequired: true,
                                   formControlName: _vehicleNumberKey,
-                                  inputFormatters: [UpperCaseTextFormatter()],
+                                  inputFormatters: [
+                                    UpperCaseTextFormatter(),
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp("[a-zA-Z0-9]"),
+                                    ),
+                                  ],
                                   maxLength: 9,
                                   validationMessages: {
                                     'required': (object) =>
+                                        localizations.translate(
+                                          module
+                                              .vehicleNumberRequiredValidation,
+                                        ),
+                                    'vehicleNumber': (object) =>
                                         localizations.translate(
                                           module.vehicleNumberValidation,
                                         ),
@@ -629,7 +650,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                   validationMessages: {
                                     'required': (object) =>
                                         localizations.translate(
-                                          i18.common.corecommonRequired,
+                                          i18.stockDetails.driverNameValidation,
                                         ),
                                   },
                                 ),
