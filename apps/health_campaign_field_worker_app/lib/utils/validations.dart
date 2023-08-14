@@ -25,6 +25,8 @@ class Stocks {
   int get maxQuantity => 10000000;
   int get minLength => 2;
   int get maxLength => 128;
+  int get maxNameLength => 200;
+  int get maxWayBillNoLength => 200;
 }
 
 class Checklist {

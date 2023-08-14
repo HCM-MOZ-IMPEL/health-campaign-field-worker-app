@@ -59,6 +59,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
       _transactionReasonKey: FormControl<TransactionReason>(),
       _waybillNumberKey: FormControl<String>(validators: [
         Validators.required,
+        Validators.minLength(validation.stocks.minLength),
+        Validators.maxLength(validation.stocks.maxWayBillNoLength),
       ]),
       _waybillQuantityKey: FormControl<int>(
         validators: [
@@ -77,6 +79,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
       _driverNameKey: FormControl<String>(
         validators: [
           Validators.required,
+          Validators.minLength(validation.stocks.minLength),
+          Validators.maxLength(validation.stocks.maxWayBillNoLength),
         ],
       ),
       _typeOfTransportKey: FormControl<String>(
@@ -548,6 +552,16 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         localizations.translate(
                                           module.waybillNumberValidation,
                                         ),
+                                    'minLength': (object) =>
+                                        localizations.translate(
+                                          i18.stockDetails
+                                              .waybillNumberMinMaxLengthValidation,
+                                        ),
+                                    'maxLength': (object) =>
+                                        localizations.translate(
+                                          i18.stockDetails
+                                              .waybillNumberMinMaxLengthValidation,
+                                        ),
                                   },
                                 ),
                               ),
@@ -654,6 +668,16 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     'required': (object) =>
                                         localizations.translate(
                                           i18.stockDetails.driverNameValidation,
+                                        ),
+                                    'minLength': (object) =>
+                                        localizations.translate(
+                                          i18.stockDetails
+                                              .driverNameMinMaxLengthValidation,
+                                        ),
+                                    'maxLength': (object) =>
+                                        localizations.translate(
+                                          i18.stockDetails
+                                              .driverNameMinMaxLengthValidation,
                                         ),
                                   },
                                 ),

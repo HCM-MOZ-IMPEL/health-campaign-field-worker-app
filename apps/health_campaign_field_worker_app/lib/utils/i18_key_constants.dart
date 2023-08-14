@@ -524,7 +524,7 @@ class StockDetails {
       'STOCK_DETAILS_QUANTITY_ON_WAYBILL_VALIDATION';
 
   String get quantityMinAndMaxWaybillValidation =>
-      'STOCK_DETAILS_QUANTITY_MIN_MAX__ON_WAYBILL_VALIDATION_';
+      'STOCK_DETAILS_QUANTITY_MIN_MAX__ON_WAYBILL_VALIDATION';
 
   String get transportTypeValidation => 'TRANSPORT_TYPE_VALIDATION';
 
@@ -537,6 +537,12 @@ class StockDetails {
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
 
   String get waybillNumberValidation => 'WAYBILL_NUMBER_VALIDATION';
+
+  String get waybillNumberMinMaxLengthValidation =>
+      'WAYBILL_NUMBER_MIN_MAX_LENGTH_VALIDATION';
+
+  String get driverNameMinMaxLengthValidation =>
+      'WAYBILL_NUMBER_MIN_MAX_VALIDATION';
 
   /// Number of product indicated on waybill title
   String get quantityOfProductIndicatedOnWaybillLabel {
