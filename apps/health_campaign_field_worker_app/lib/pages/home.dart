@@ -49,14 +49,16 @@ class _HomePageState extends LocalizedState<HomePage> {
 
     subscription = Connectivity()
         .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      performBackgroundService(
-        isBackground: false,
-        stopService: false,
-        context: null,
-      );
+        .listen((ConnectivityResult resSyncBlocult) async {
+      var connectivityResult = await (Connectivity().checkConnectivity());
 
-      // Got a new connectivity status!
+      if (connectivityResult != ConnectivityResult.none) {
+        if (context.mounted) {
+          context
+              .read<SyncBloc>()
+              .add(SyncRefreshEvent(context.loggedInUserUuid));
+        }
+      }
     });
   }
 
@@ -205,6 +207,7 @@ class _HomePageState extends LocalizedState<HomePage> {
 
                     debouncer.run(() async {
                       if (count == 0) {
+                        Future.delayed(const Duration(minutes: 5));
                         performBackgroundService(
                           isBackground: false,
                           stopService: true,

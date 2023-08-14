@@ -3,9 +3,11 @@ import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import '../models/bandwidth/bandwidth_model.dart';
 import '../models/data_model.dart';
+import '../utils/utils.dart';
 import 'data_repository.dart';
 import 'repositories/oplog/oplog.dart';
 import 'repositories/remote/pgr_service.dart';
@@ -54,7 +56,6 @@ class NetworkManager {
       );
     } catch (e) {
       syncError = SyncDownError(e);
-      service?.stopSelf();
     }
 
     try {
@@ -65,7 +66,6 @@ class NetworkManager {
       );
     } catch (e) {
       syncError ??= SyncUpError(e);
-      service?.stopSelf();
     }
     final futuresSyncDown = await Future.wait(
       localRepositories

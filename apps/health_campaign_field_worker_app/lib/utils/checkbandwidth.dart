@@ -142,21 +142,24 @@ void onStart(ServiceInstance service) async {
                     "enablesManualSync": false,
                   },
                 );
-
-                await const NetworkManager(
-                  configuration: NetworkManagerConfiguration(
-                    persistenceConfig: PersistenceConfiguration.offlineFirst,
-                  ),
-                ).performSync(
-                  localRepositories:
-                      Constants.getLocalRepositories(_sql, isar).toList(),
-                  remoteRepositories: Constants.getRemoteRepositories(
-                    _dio,
-                    getActionMap(serviceRegistryList),
-                  ),
-                  bandwidthModel: bandwidthModel,
-                  service: service,
-                );
+                try {
+                  await const NetworkManager(
+                    configuration: NetworkManagerConfiguration(
+                      persistenceConfig: PersistenceConfiguration.offlineFirst,
+                    ),
+                  ).performSync(
+                    localRepositories:
+                        Constants.getLocalRepositories(_sql, isar).toList(),
+                    remoteRepositories: Constants.getRemoteRepositories(
+                      _dio,
+                      getActionMap(serviceRegistryList),
+                    ),
+                    bandwidthModel: bandwidthModel,
+                    service: service,
+                  );
+                } catch (e) {
+                  service.stopSelf();
+                }
               }
             }
           }

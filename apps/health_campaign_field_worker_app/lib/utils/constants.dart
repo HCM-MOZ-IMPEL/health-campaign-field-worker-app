@@ -54,7 +54,6 @@ import '../data/repositories/remote/stock_reconciliation.dart';
 import '../data/repositories/remote/task.dart';
 import '../firebase_options.dart';
 import '../models/data_model.dart';
-import 'isar.dart';
 
 class Constants {
   late Future<Isar> _isar;
@@ -62,7 +61,6 @@ class Constants {
   static final Constants _instance = Constants._();
   Constants._() {
     _isar = openIsar();
-    ;
   }
   factory Constants() {
     return _instance;
@@ -155,10 +153,8 @@ class Constants {
   }
 
   Future<void> _initializeIsar(version) async {
-    final dir = await getApplicationDocumentsDirectory();
+    _isar = Constants().isar;
 
-    _isar = IsarInit().isar;
-    _version = version;
     final isar = await _isar;
     final appConfigs = await isar.appConfigurations.where().findAll();
     final config = appConfigs.firstOrNull;
@@ -173,6 +169,7 @@ class Constants {
         },
       );
     }
+    _version = version;
   }
 
   final String _chars =

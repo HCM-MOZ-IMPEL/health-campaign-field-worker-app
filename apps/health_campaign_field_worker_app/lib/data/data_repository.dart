@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import '../models/data_model.dart';
 import '../utils/constants.dart';
 import '../utils/environment_config.dart';
+import '../utils/utils.dart';
 import 'local_store/sql_store/sql_store.dart';
 import 'repositories/oplog/oplog.dart';
 
@@ -69,30 +70,26 @@ abstract class RemoteRepository<D extends EntityModel,
   ) async {
     Response response;
 
-    try {
-      response = await executeFuture(
-        future: () async {
-          return await dio.post(
-            searchPath,
-            queryParameters: {
-              'offset': 0,
-              'limit': 100,
-              'tenantId': envConfig.variables.tenantId,
-              if (query.isDeleted ?? false) 'includeDeleted': query.isDeleted,
-            },
-            data: {
-              isPlural
-                  ? entityNamePlural
-                  : entityName == 'ServiceDefinition'
-                      ? 'ServiceDefinitionCriteria'
-                      : entityName: isPlural ? [query.toMap()] : query.toMap(),
-            },
-          );
-        },
-      );
-    } catch (error) {
-      return [];
-    }
+    response = await executeFuture(
+      future: () async {
+        return await dio.post(
+          searchPath,
+          queryParameters: {
+            'offset': 0,
+            'limit': 100,
+            'tenantId': envConfig.variables.tenantId,
+            if (query.isDeleted ?? false) 'includeDeleted': query.isDeleted,
+          },
+          data: {
+            isPlural
+                ? entityNamePlural
+                : entityName == 'ServiceDefinition'
+                    ? 'ServiceDefinitionCriteria'
+                    : entityName: isPlural ? [query.toMap()] : query.toMap(),
+          },
+        );
+      },
+    );
 
     final responseMap = (response.data);
 
