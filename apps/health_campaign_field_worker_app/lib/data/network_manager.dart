@@ -3,11 +3,10 @@ import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import '../models/bandwidth/bandwidth_model.dart';
 import '../models/data_model.dart';
-import '../utils/utils.dart';
+import '../utils/checkbandwidth.dart';
 import 'data_repository.dart';
 import 'repositories/oplog/oplog.dart';
 import 'repositories/remote/pgr_service.dart';
@@ -35,7 +34,7 @@ class NetworkManager {
     }
   }
 
-  Future<void> performSync({
+  FutureOr<bool> performSync({
     required List<LocalRepository> localRepositories,
     required List<RemoteRepository> remoteRepositories,
     required BandwidthModel bandwidthModel,
@@ -45,7 +44,7 @@ class NetworkManager {
         PersistenceConfiguration.onlineOnly) {
       throw Exception('Sync up is not valid for online only configuration');
     }
-
+    bool isSyncCompleted = false;
     SyncError? syncError;
 
     try {
@@ -88,7 +87,7 @@ class NetworkManager {
         .toList();
 
     if (pendingSyncUpEntries.isNotEmpty || list.isNotEmpty) {
-      await performSync(
+      isSyncCompleted = await performSync(
         bandwidthModel: bandwidthModel,
         localRepositories: localRepositories,
         remoteRepositories: remoteRepositories,
@@ -102,8 +101,10 @@ class NetworkManager {
         },
       );
 
-      service?.invoke('stopService');
+      isSyncCompleted = true;
     }
+
+    return isSyncCompleted;
   }
 
   FutureOr<void> syncDown({
@@ -731,177 +732,40 @@ class NetworkManager {
             .where((element) => element.nonRecoverableError)
             .toList();
 
-        final entities = opLogList
-            .map((e) {
-              final oplogEntryEntity = e.entity;
-
-              final serverGeneratedId = e.serverGeneratedId;
-              final rowVersion = e.rowVersion;
-              if (serverGeneratedId != null) {
-                var updatedEntity =
-                    local.opLogManager.applyServerGeneratedIdToEntity(
-                  oplogEntryEntity,
-                  serverGeneratedId,
-                  rowVersion,
-                );
-
-                if (updatedEntity is HouseholdModel) {
-                  final addressId = e.additionalIds.firstWhereOrNull(
-                    (element) {
-                      return element.idType == _householdAddressIdKey;
-                    },
-                  )?.id;
-
-                  updatedEntity = updatedEntity.copyWith(
-                    address: updatedEntity.address?.copyWith(
-                      id: updatedEntity.address?.id ?? addressId,
-                    ),
-                  );
-                }
-
-                if (updatedEntity is IndividualModel) {
-                  final identifierId = e.additionalIds.firstWhereOrNull(
-                    (element) {
-                      return element.idType == _individualIdentifierIdKey;
-                    },
-                  )?.id;
-
-                  final addressId = e.additionalIds.firstWhereOrNull(
-                    (element) {
-                      return element.idType == _individualAddressIdKey;
-                    },
-                  )?.id;
-
-                  updatedEntity = updatedEntity.copyWith(
-                    identifiers: updatedEntity.identifiers?.map((e) {
-                      return e.copyWith(
-                        id: e.id ?? identifierId,
-                      );
-                    }).toList(),
-                    address: updatedEntity.address?.map((e) {
-                      return e.copyWith(
-                        id: e.id ?? addressId,
-                      );
-                    }).toList(),
-                  );
-                }
-
-                if (updatedEntity is TaskModel) {
-                  final resourceId = e.additionalIds
-                      .firstWhereOrNull(
-                        (element) => element.idType == _taskResourceIdKey,
-                      )
-                      ?.id;
-
-                  updatedEntity = updatedEntity.copyWith(
-                    resources: updatedEntity.resources?.map((e) {
-                      if (resourceId != null) {
-                        return e.copyWith(
-                          taskId: serverGeneratedId,
-                          id: e.id ?? resourceId,
-                        );
-                      }
-
-                      return e.copyWith(taskId: serverGeneratedId);
-                    }).toList(),
-                  );
-                }
-
-                return updatedEntity;
-              }
-
-              return oplogEntryEntity;
-            })
-            .whereNotNull()
+        final nonRecoverableErrorList = operationGroupedEntity.value
+            .where((element) =>
+                !element.nonRecoverableError && element.syncDownRetryCount == 3)
             .toList();
 
-        final errorEntities = opLogErrorList
-            .map((e) {
-              final oplogEntryEntity = e.entity;
+        final entities = getEntityModel(opLogList, local);
 
-              final serverGeneratedId = e.serverGeneratedId;
-              final rowVersion = e.rowVersion;
+        final errorEntities = getEntityModel(opLogErrorList, local);
 
-              var updatedEntity =
-                  local.opLogManager.applyServerGeneratedIdToEntity(
-                oplogEntryEntity,
-                e.clientReferenceId!,
-                rowVersion,
-              );
-
-              if (updatedEntity is HouseholdModel) {
-                final addressId = e.additionalIds.firstWhereOrNull(
-                  (element) {
-                    return element.idType == _householdAddressIdKey;
-                  },
-                )?.id;
-
-                updatedEntity = updatedEntity.copyWith(
-                  address: updatedEntity.address?.copyWith(
-                    id: updatedEntity.address?.id ?? addressId,
-                  ),
-                );
-              }
-
-              if (updatedEntity is IndividualModel) {
-                final identifierId = e.additionalIds.firstWhereOrNull(
-                  (element) {
-                    return element.idType == _individualIdentifierIdKey;
-                  },
-                )?.id;
-
-                final addressId = e.additionalIds.firstWhereOrNull(
-                  (element) {
-                    return element.idType == _individualAddressIdKey;
-                  },
-                )?.id;
-
-                updatedEntity = updatedEntity.copyWith(
-                  identifiers: updatedEntity.identifiers?.map((e) {
-                    return e.copyWith(
-                      id: e.id ?? identifierId,
-                    );
-                  }).toList(),
-                  address: updatedEntity.address?.map((e) {
-                    return e.copyWith(
-                      id: e.id ?? addressId,
-                    );
-                  }).toList(),
-                );
-              }
-
-              if (updatedEntity is TaskModel) {
-                final resourceId = e.additionalIds
-                    .firstWhereOrNull(
-                      (element) => element.idType == _taskResourceIdKey,
-                    )
-                    ?.id;
-
-                updatedEntity = updatedEntity.copyWith(
-                  resources: updatedEntity.resources?.map((e) {
-                    if (resourceId != null) {
-                      return e.copyWith(
-                        taskId: serverGeneratedId,
-                        id: e.id ?? resourceId,
-                      );
-                    }
-
-                    return e.copyWith(taskId: serverGeneratedId);
-                  }).toList(),
-                );
-              }
-
-              return updatedEntity;
-            })
-            .whereNotNull()
-            .toList();
+        final nonRecoverableErrorEntities =
+            getEntityModel(nonRecoverableErrorList, local);
 
         final List<EntityModel> errorItems = await filterEntitybyBandwidth(
           bandwidthModel.batchSize,
           errorEntities,
         );
+
+        final List<EntityModel> nonRecoverableErrorItems =
+            await filterEntitybyBandwidth(
+          bandwidthModel.batchSize,
+          nonRecoverableErrorEntities,
+        );
+
+        if (nonRecoverableErrorList.isNotEmpty) {
+          await remote.dumpError(
+            nonRecoverableErrorItems,
+            operationGroupedEntity.key,
+          );
+        }
         if (errorItems.isNotEmpty) {
-          await remote.dumpError(errorItems, operationGroupedEntity.key);
+          await remote.dumpError(
+            errorItems,
+            operationGroupedEntity.key,
+          );
         }
 
         if (operationGroupedEntity.key == DataOperation.create) {
@@ -1021,6 +885,11 @@ class NetworkManager {
           opLogErrorList,
         );
 
+        final nonRecoverableErrorItemsList = await filterOpLogbyBandwidth(
+          bandwidthModel.batchSize,
+          nonRecoverableErrorList,
+        );
+
         for (final syncedEntity in errorItemsList) {
           if (syncedEntity.type == DataModelType.complaints) continue;
           await local.markSyncedUp(
@@ -1030,11 +899,19 @@ class NetworkManager {
             id: syncedEntity.id,
           );
         }
-
+        for (final syncedEntity in nonRecoverableErrorItemsList) {
+          await local.markSyncedUp(
+            entry: syncedEntity,
+            nonRecoverableError: true,
+            clientReferenceId: syncedEntity.clientReferenceId,
+            id: syncedEntity.id,
+          );
+        }
         for (final syncedEntity in opLogList) {
           if (syncedEntity.type == DataModelType.complaints) continue;
           await local.markSyncedUp(
             entry: syncedEntity,
+            id: syncedEntity.id,
             nonRecoverableError: syncedEntity.nonRecoverableError,
             clientReferenceId: syncedEntity.clientReferenceId,
           );
@@ -1114,6 +991,93 @@ Future<List<OpLogEntry<EntityModel>>> filterOpLogbyBandwidth(
   }
 
   return items;
+}
+
+List<EntityModel> getEntityModel(
+  List<OpLogEntry<EntityModel>> opLogErrorList,
+  LocalRepository<EntityModel, EntitySearchModel> local,
+) {
+  return opLogErrorList
+      .map((e) {
+        final oplogEntryEntity = e.entity;
+
+        final serverGeneratedId = e.serverGeneratedId;
+        final rowVersion = e.rowVersion;
+
+        var updatedEntity = local.opLogManager.applyServerGeneratedIdToEntity(
+          oplogEntryEntity,
+          e.clientReferenceId!,
+          rowVersion,
+        );
+
+        if (updatedEntity is HouseholdModel) {
+          final addressId = e.additionalIds.firstWhereOrNull(
+            (element) {
+              return element.idType == NetworkManager._householdAddressIdKey;
+            },
+          )?.id;
+
+          updatedEntity = updatedEntity.copyWith(
+            address: updatedEntity.address?.copyWith(
+              id: updatedEntity.address?.id ?? addressId,
+            ),
+          );
+        }
+
+        if (updatedEntity is IndividualModel) {
+          final identifierId = e.additionalIds.firstWhereOrNull(
+            (element) {
+              return element.idType ==
+                  NetworkManager._individualIdentifierIdKey;
+            },
+          )?.id;
+
+          final addressId = e.additionalIds.firstWhereOrNull(
+            (element) {
+              return element.idType == NetworkManager._individualAddressIdKey;
+            },
+          )?.id;
+
+          updatedEntity = updatedEntity.copyWith(
+            identifiers: updatedEntity.identifiers?.map((e) {
+              return e.copyWith(
+                id: e.id ?? identifierId,
+              );
+            }).toList(),
+            address: updatedEntity.address?.map((e) {
+              return e.copyWith(
+                id: e.id ?? addressId,
+              );
+            }).toList(),
+          );
+        }
+
+        if (updatedEntity is TaskModel) {
+          final resourceId = e.additionalIds
+              .firstWhereOrNull(
+                (element) =>
+                    element.idType == NetworkManager._taskResourceIdKey,
+              )
+              ?.id;
+
+          updatedEntity = updatedEntity.copyWith(
+            resources: updatedEntity.resources?.map((e) {
+              if (resourceId != null) {
+                return e.copyWith(
+                  taskId: serverGeneratedId,
+                  id: e.id ?? resourceId,
+                );
+              }
+
+              return e.copyWith(taskId: serverGeneratedId);
+            }).toList(),
+          );
+        }
+
+        return updatedEntity;
+      })
+      .whereNotNull()
+      .toList();
 }
 
 class NetworkManagerConfiguration {

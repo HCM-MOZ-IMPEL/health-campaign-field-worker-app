@@ -1,6 +1,7 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'utils/checkbandwidth.dart';
@@ -44,19 +45,28 @@ void main() async {
   _isar = await Constants().isar;
   await initializeService(_dio, _isar);
 
-  runApp(
-    MainApplication(
-      appRouter: AppRouter(),
-      isar: _isar,
-      client: _dio,
-      sql: _sql,
-    ),
-  );
+  runApp(MainApplication(
+    appRouter: AppRouter(),
+    isar: _isar,
+    client: _dio,
+    sql: _sql,
+  ));
 }
 
 class AppLifecycleObserver extends WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.paused) {
+      final localSecureStore = LocalSecureStore.instance;
+      await localSecureStore.setBackgroundService(true);
+      // Stop the background service when the app is terminated
+    } else if (state == AppLifecycleState.resumed) {
+      // Stop the background service when the app is terminated
+
+      final localSecureStore = LocalSecureStore.instance;
+      await localSecureStore.setBackgroundService(false);
+    }
   }
 }

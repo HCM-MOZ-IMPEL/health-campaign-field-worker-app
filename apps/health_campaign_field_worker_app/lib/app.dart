@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:isar/isar.dart';
@@ -51,288 +52,302 @@ class MainApplicationState extends State<MainApplication>
     with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<LocalSqlDataStore>.value(value: widget.sql),
-        RepositoryProvider<Isar>.value(value: widget.isar),
-      ],
-      child: BlocProvider(
-        create: (context) => AppInitializationBloc(
-          isar: widget.isar,
-          mdmsRepository: MdmsRepository(widget.client),
-        )..add(const AppInitializationSetupEvent()),
-        child: NetworkManagerProviderWrapper(
-          isar: widget.isar,
-          configuration: const NetworkManagerConfiguration(
-            persistenceConfig: PersistenceConfiguration.offlineFirst,
-          ),
-          dio: widget.client,
-          sql: widget.sql,
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) {
-                  return LocationBloc(location: Location())
-                    ..add(const LoadLocationEvent());
-                },
-                lazy: false,
+    return StreamBuilder<Map<String, dynamic>?>(
+      stream: FlutterBackgroundService().on('serviceRunning'),
+      builder: (context, snapshot) {
+        return MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider<LocalSqlDataStore>.value(value: widget.sql),
+            RepositoryProvider<Isar>.value(value: widget.isar),
+          ],
+          child: BlocProvider(
+            create: (context) => AppInitializationBloc(
+              isar: widget.isar,
+              mdmsRepository: MdmsRepository(widget.client),
+            )..add(const AppInitializationSetupEvent()),
+            child: NetworkManagerProviderWrapper(
+              isar: widget.isar,
+              configuration: const NetworkManagerConfiguration(
+                persistenceConfig: PersistenceConfiguration.offlineFirst,
               ),
-              BlocProvider(
-                create: (ctx) => AuthBloc(
-                  authRepository: ctx.read(),
-                  boundaryLocalRepository: ctx.read<
-                      LocalRepository<BoundaryModel, BoundarySearchModel>>(),
-                )..add(
-                    AuthAutoLoginEvent(
-                      tenantId: envConfig.variables.tenantId,
+              dio: widget.client,
+              sql: widget.sql,
+              child: MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (_) {
+                      return LocationBloc(location: Location())
+                        ..add(const LoadLocationEvent());
+                    },
+                    lazy: false,
+                  ),
+                  BlocProvider(
+                    create: (ctx) => AuthBloc(
+                      authRepository: ctx.read(),
+                      boundaryLocalRepository: ctx.read<
+                          LocalRepository<BoundaryModel,
+                              BoundarySearchModel>>(),
+                    )..add(
+                        AuthAutoLoginEvent(
+                          tenantId: envConfig.variables.tenantId,
+                        ),
+                      ),
+                  ),
+                  BlocProvider(
+                    create: (ctx) => BoundaryBloc(
+                      const BoundaryState(),
+                      boundaryRepository: ctx
+                          .read<NetworkManager>()
+                          .repository<BoundaryModel, BoundarySearchModel>(ctx),
                     ),
                   ),
-              ),
-              BlocProvider(
-                create: (ctx) => BoundaryBloc(
-                  const BoundaryState(),
-                  boundaryRepository: ctx
-                      .read<NetworkManager>()
-                      .repository<BoundaryModel, BoundarySearchModel>(ctx),
-                ),
-              ),
-              BlocProvider(
-                create: (ctx) => BoundaryBloc(
-                  const BoundaryState(),
-                  boundaryRepository: ctx
-                      .read<NetworkManager>()
-                      .repository<BoundaryModel, BoundarySearchModel>(ctx),
-                ),
-              ),
-            ],
-            child: BlocBuilder<AppInitializationBloc, AppInitializationState>(
-              builder: (context, appConfigState) {
-                // const defaultLocale = Locale('en', 'IN');
-                const defaultLocale = Locale('pt', 'MZ');
+                  BlocProvider(
+                    create: (ctx) => BoundaryBloc(
+                      const BoundaryState(),
+                      boundaryRepository: ctx
+                          .read<NetworkManager>()
+                          .repository<BoundaryModel, BoundarySearchModel>(ctx),
+                    ),
+                  ),
+                ],
+                child:
+                    BlocBuilder<AppInitializationBloc, AppInitializationState>(
+                  builder: (context, appConfigState) {
+                    // const defaultLocale = Locale('en', 'IN');
+                    const defaultLocale = Locale('pt', 'MZ');
 
-                return BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, authState) {
-                    if (appConfigState is! AppInitialized) {
-                      return const MaterialApp(
-                        home: Scaffold(
-                          body: Center(
-                            child: Text('Loading'),
-                          ),
-                        ),
-                      );
-                    }
+                    return BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, authState) {
+                        if (appConfigState is! AppInitialized) {
+                          return const MaterialApp(
+                            home: Scaffold(
+                              body: Center(
+                                child: Text('Loading'),
+                              ),
+                            ),
+                          );
+                        }
 
-                    final appConfig = appConfigState.appConfiguration;
+                        final appConfig = appConfigState.appConfiguration;
 
-                    final localizationModulesList = appConfig.backendInterface;
-                    final firstLanguage = appConfig.languages?.first.value;
-                    final languages = appConfig.languages;
+                        final localizationModulesList =
+                            appConfig.backendInterface;
+                        final firstLanguage = appConfig.languages?.first.value;
+                        final languages = appConfig.languages;
 
-                    return MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (localizationModulesList != null &&
-                                  firstLanguage != null)
-                              ? (context) => LocalizationBloc(
-                                    const LocalizationState(),
-                                    LocalizationRepository(
-                                      widget.client,
-                                      widget.isar,
-                                    ),
-                                    widget.isar,
-                                  )..add(
-                                      LocalizationEvent.onLoadLocalization(
-                                        module: localizationModulesList
-                                            .interfaces
-                                            .where((element) =>
-                                                element.type ==
-                                                Modules.localizationModule)
-                                            .map((e) => e.name.toString())
-                                            .join(',')
-                                            .toString(),
-                                        tenantId: appConfig.tenantId.toString(),
-                                        locale: firstLanguage,
-                                        path: Constants.localizationApiPath,
+                        return MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (localizationModulesList != null &&
+                                      firstLanguage != null)
+                                  ? (context) => LocalizationBloc(
+                                        const LocalizationState(),
+                                        LocalizationRepository(
+                                          widget.client,
+                                          widget.isar,
+                                        ),
+                                        widget.isar,
+                                      )..add(
+                                          LocalizationEvent.onLoadLocalization(
+                                            module: localizationModulesList
+                                                .interfaces
+                                                .where((element) =>
+                                                    element.type ==
+                                                    Modules.localizationModule)
+                                                .map((e) => e.name.toString())
+                                                .join(',')
+                                                .toString(),
+                                            tenantId:
+                                                appConfig.tenantId.toString(),
+                                            locale: firstLanguage,
+                                            path: Constants.localizationApiPath,
+                                          ),
+                                        )
+                                  : (context) => LocalizationBloc(
+                                        const LocalizationState(),
+                                        LocalizationRepository(
+                                          widget.client,
+                                          widget.isar,
+                                        ),
+                                        widget.isar,
                                       ),
-                                    )
-                              : (context) => LocalizationBloc(
-                                    const LocalizationState(),
-                                    LocalizationRepository(
-                                      widget.client,
-                                      widget.isar,
-                                    ),
+                            ),
+                            BlocProvider(
+                              create: (ctx) => ProjectBloc(
+                                mdmsRepository: MdmsRepository(widget.client),
+                                facilityLocalRepository: ctx.read<
+                                    LocalRepository<FacilityModel,
+                                        FacilitySearchModel>>(),
+                                facilityRemoteRepository: ctx.read<
+                                    RemoteRepository<FacilityModel,
+                                        FacilitySearchModel>>(),
+                                projectFacilityLocalRepository: ctx.read<
+                                    LocalRepository<ProjectFacilityModel,
+                                        ProjectFacilitySearchModel>>(),
+                                projectFacilityRemoteRepository: ctx.read<
+                                    RemoteRepository<ProjectFacilityModel,
+                                        ProjectFacilitySearchModel>>(),
+                                projectLocalRepository: ctx.read<
+                                    LocalRepository<ProjectModel,
+                                        ProjectSearchModel>>(),
+                                projectStaffLocalRepository: ctx.read<
+                                    LocalRepository<ProjectStaffModel,
+                                        ProjectStaffSearchModel>>(),
+                                projectStaffRemoteRepository: ctx.read<
+                                    RemoteRepository<ProjectStaffModel,
+                                        ProjectStaffSearchModel>>(),
+                                projectRemoteRepository: ctx.read<
+                                    RemoteRepository<ProjectModel,
+                                        ProjectSearchModel>>(),
+                                serviceDefinitionRemoteRepository: ctx.read<
+                                    RemoteRepository<ServiceDefinitionModel,
+                                        ServiceDefinitionSearchModel>>(),
+                                isar: widget.isar,
+                                serviceDefinitionLocalRepository: ctx.read<
+                                    LocalRepository<ServiceDefinitionModel,
+                                        ServiceDefinitionSearchModel>>(),
+                                boundaryRemoteRepository: ctx.read<
+                                    RemoteRepository<BoundaryModel,
+                                        BoundarySearchModel>>(),
+                                boundaryLocalRepository: ctx.read<
+                                    LocalRepository<BoundaryModel,
+                                        BoundarySearchModel>>(),
+                                productVariantLocalRepository: ctx.read<
+                                    LocalRepository<ProductVariantModel,
+                                        ProductVariantSearchModel>>(),
+                                productVariantRemoteRepository: ctx.read<
+                                    RemoteRepository<ProductVariantModel,
+                                        ProductVariantSearchModel>>(),
+                                projectResourceLocalRepository: ctx.read<
+                                    LocalRepository<ProjectResourceModel,
+                                        ProjectResourceSearchModel>>(),
+                                projectResourceRemoteRepository: ctx.read<
+                                    RemoteRepository<ProjectResourceModel,
+                                        ProjectResourceSearchModel>>(),
+                              ),
+                            ),
+                          ],
+                          child:
+                              BlocBuilder<LocalizationBloc, LocalizationState>(
+                            builder: (context, langState) {
+                              return MaterialApp.router(
+                                debugShowCheckedModeBanner: false,
+                                supportedLocales: languages != null
+                                    ? languages.map((e) {
+                                        return defaultLocale;
+                                      })
+                                    : [defaultLocale],
+                                localizationsDelegates: [
+                                  AppLocalizations.getDelegate(
+                                    appConfig,
                                     widget.isar,
                                   ),
-                        ),
-                        BlocProvider(
-                          create: (ctx) => ProjectBloc(
-                            mdmsRepository: MdmsRepository(widget.client),
-                            facilityLocalRepository: ctx.read<
-                                LocalRepository<FacilityModel,
-                                    FacilitySearchModel>>(),
-                            facilityRemoteRepository: ctx.read<
-                                RemoteRepository<FacilityModel,
-                                    FacilitySearchModel>>(),
-                            projectFacilityLocalRepository: ctx.read<
-                                LocalRepository<ProjectFacilityModel,
-                                    ProjectFacilitySearchModel>>(),
-                            projectFacilityRemoteRepository: ctx.read<
-                                RemoteRepository<ProjectFacilityModel,
-                                    ProjectFacilitySearchModel>>(),
-                            projectLocalRepository: ctx.read<
-                                LocalRepository<ProjectModel,
-                                    ProjectSearchModel>>(),
-                            projectStaffLocalRepository: ctx.read<
-                                LocalRepository<ProjectStaffModel,
-                                    ProjectStaffSearchModel>>(),
-                            projectStaffRemoteRepository: ctx.read<
-                                RemoteRepository<ProjectStaffModel,
-                                    ProjectStaffSearchModel>>(),
-                            projectRemoteRepository: ctx.read<
-                                RemoteRepository<ProjectModel,
-                                    ProjectSearchModel>>(),
-                            serviceDefinitionRemoteRepository: ctx.read<
-                                RemoteRepository<ServiceDefinitionModel,
-                                    ServiceDefinitionSearchModel>>(),
-                            isar: widget.isar,
-                            serviceDefinitionLocalRepository: ctx.read<
-                                LocalRepository<ServiceDefinitionModel,
-                                    ServiceDefinitionSearchModel>>(),
-                            boundaryRemoteRepository: ctx.read<
-                                RemoteRepository<BoundaryModel,
-                                    BoundarySearchModel>>(),
-                            boundaryLocalRepository: ctx.read<
-                                LocalRepository<BoundaryModel,
-                                    BoundarySearchModel>>(),
-                            productVariantLocalRepository: ctx.read<
-                                LocalRepository<ProductVariantModel,
-                                    ProductVariantSearchModel>>(),
-                            productVariantRemoteRepository: ctx.read<
-                                RemoteRepository<ProductVariantModel,
-                                    ProductVariantSearchModel>>(),
-                            projectResourceLocalRepository: ctx.read<
-                                LocalRepository<ProjectResourceModel,
-                                    ProjectResourceSearchModel>>(),
-                            projectResourceRemoteRepository: ctx.read<
-                                RemoteRepository<ProjectResourceModel,
-                                    ProjectResourceSearchModel>>(),
-                          ),
-                        ),
-                      ],
-                      child: BlocBuilder<LocalizationBloc, LocalizationState>(
-                        builder: (context, langState) {
-                          return MaterialApp.router(
-                            debugShowCheckedModeBanner: false,
-                            supportedLocales: languages != null
-                                ? languages.map((e) {
-                                    return defaultLocale;
-                                  })
-                                : [defaultLocale],
-                            localizationsDelegates: [
-                              AppLocalizations.getDelegate(
-                                appConfig,
-                                widget.isar,
-                              ),
-                              GlobalWidgetsLocalizations.delegate,
-                              GlobalCupertinoLocalizations.delegate,
-                              GlobalMaterialLocalizations.delegate,
-                            ],
-                            locale: languages != null
-                                ? Locale(
-                                    languages[langState.index]
-                                        .value
-                                        .split('_')
-                                        .first,
-                                    languages[langState.index]
-                                        .value
-                                        .split('_')
-                                        .last,
-                                  )
-                                : defaultLocale,
-                            theme: DigitTheme.instance.mobileTheme,
-                            routeInformationParser:
-                                widget.appRouter.defaultRouteParser(),
-                            scaffoldMessengerKey: scaffoldMessengerKey,
-                            builder: (context, child) {
-                              if (child == null) return const SizedBox.shrink();
+                                  GlobalWidgetsLocalizations.delegate,
+                                  GlobalCupertinoLocalizations.delegate,
+                                  GlobalMaterialLocalizations.delegate,
+                                ],
+                                locale: languages != null
+                                    ? Locale(
+                                        languages[langState.index]
+                                            .value
+                                            .split('_')
+                                            .first,
+                                        languages[langState.index]
+                                            .value
+                                            .split('_')
+                                            .last,
+                                      )
+                                    : defaultLocale,
+                                theme: DigitTheme.instance.mobileTheme,
+                                routeInformationParser:
+                                    widget.appRouter.defaultRouteParser(),
+                                scaffoldMessengerKey: scaffoldMessengerKey,
+                                builder: (context, child) {
+                                  if (child == null) {
+                                    return const SizedBox.shrink();
+                                  }
 
-                              final env = envConfig.variables.envType;
-                              if (env == EnvType.prod) {
-                                return child;
-                              }
+                                  final env = envConfig.variables.envType;
+                                  if (env == EnvType.prod) {
+                                    return child;
+                                  }
 
-                              if (env == EnvType.training) {
-                                return Scaffold(
-                                  body: Stack(
-                                    children: [
-                                      Positioned.fill(child: child),
-                                      Positioned.fill(
-                                        child: IgnorePointer(
-                                          child: Transform.rotate(
-                                            angle: -pi / 4,
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Center(
-                                                child: AutoSizeText(
-                                                  'Formação'.toUpperCase(),
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                    fontSize: 50,
-                                                    color: Colors.black
-                                                        .withAlpha(25),
-                                                    fontWeight: FontWeight.bold,
+                                  if (env == EnvType.training) {
+                                    return Scaffold(
+                                      body: Stack(
+                                        children: [
+                                          Positioned.fill(child: child),
+                                          Positioned.fill(
+                                            child: IgnorePointer(
+                                              child: Transform.rotate(
+                                                angle: -pi / 4,
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Center(
+                                                    child: AutoSizeText(
+                                                      'Formação'.toUpperCase(),
+                                                      maxLines: 1,
+                                                      style: TextStyle(
+                                                        fontSize: 50,
+                                                        color: Colors.black
+                                                            .withAlpha(25),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
+                                    );
+                                  }
+
+                                  return Banner(
+                                    message: envConfig.variables.envType.name,
+                                    location: BannerLocation.topStart,
+                                    color: () {
+                                      switch (envConfig.variables.envType) {
+                                        case EnvType.training:
+                                          return Colors.green;
+                                        case EnvType.uat:
+                                          return Colors.pink;
+                                        default:
+                                          return Colors.red;
+                                      }
+                                    }(),
+                                    child: child,
+                                  );
+                                },
+                                routerDelegate: AutoRouterDelegate.declarative(
+                                  widget.appRouter,
+                                  navigatorObservers: () =>
+                                      [AppRouterObserver()],
+                                  routes: (handler) => authState.maybeWhen(
+                                    orElse: () => [
+                                      const UnauthenticatedRouteWrapper(),
+                                    ],
+                                    authenticated: (_, __, ___) => [
+                                      AuthenticatedRouteWrapper(),
                                     ],
                                   ),
-                                );
-                              }
-
-                              return Banner(
-                                message: envConfig.variables.envType.name,
-                                location: BannerLocation.topStart,
-                                color: () {
-                                  switch (envConfig.variables.envType) {
-                                    case EnvType.training:
-                                      return Colors.green;
-                                    case EnvType.uat:
-                                      return Colors.pink;
-                                    default:
-                                      return Colors.red;
-                                  }
-                                }(),
-                                child: child,
+                                ),
                               );
                             },
-                            routerDelegate: AutoRouterDelegate.declarative(
-                              widget.appRouter,
-                              navigatorObservers: () => [AppRouterObserver()],
-                              routes: (handler) => authState.maybeWhen(
-                                orElse: () => [
-                                  const UnauthenticatedRouteWrapper(),
-                                ],
-                                authenticated: (_, __, ___) => [
-                                  AuthenticatedRouteWrapper(),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

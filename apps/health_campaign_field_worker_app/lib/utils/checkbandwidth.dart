@@ -66,6 +66,21 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
+  Timer makePeriodicTimer(
+    Duration duration,
+    void Function(Timer timer) callback, {
+    bool fireNow = false,
+  }) {
+    var timer = Timer.periodic(duration, callback);
+    if (fireNow) {
+      callback(timer);
+    }
+
+    return timer;
+  }
+
+  // Only available for flutter 3.0.0 and later
+  DartPluginRegistrant.ensureInitialized();
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
       service.setAsForegroundService();
@@ -75,8 +90,6 @@ void onStart(ServiceInstance service) async {
       service.setAsBackgroundService();
     });
 
-    // Only available for flutter 3.0.0 and later
-    DartPluginRegistrant.ensureInitialized();
     await envConfig.initialize();
     service.on('stopService').listen((event) {
       service.stopSelf();
@@ -90,9 +103,11 @@ void onStart(ServiceInstance service) async {
         appConfiguration.first.backgroundServiceConfig?.apiConcurrency;
 
     if (interval != null) {
+      int i = 0;
       makePeriodicTimer(
         Duration(seconds: interval),
         (timer) async {
+          print("---Backgroun Service runnung---");
           var battery = Battery();
           final int batteryPercent = await battery.batteryLevel;
           if (batteryPercent <=
@@ -146,7 +161,7 @@ void onStart(ServiceInstance service) async {
                       },
                     );
 
-                    await const NetworkManager(
+                    final isSyncCompleted = await const NetworkManager(
                       configuration: NetworkManagerConfiguration(
                         persistenceConfig:
                             PersistenceConfiguration.offlineFirst,
@@ -161,6 +176,13 @@ void onStart(ServiceInstance service) async {
                       bandwidthModel: bandwidthModel,
                       service: service,
                     );
+                    i++;
+                    final isBgRunning = await LocalSecureStore
+                        .instance.isBackgroundSerivceRunning;
+
+                    if (isSyncCompleted && i >= 2 && isBgRunning) {
+                      service.stopSelf();
+                    }
                   }
                 }
               }
@@ -169,6 +191,8 @@ void onStart(ServiceInstance service) async {
         },
         fireNow: true,
       );
+    } else {
+      service.stopSelf();
     }
   }
 }
