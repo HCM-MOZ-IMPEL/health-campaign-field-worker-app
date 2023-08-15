@@ -513,17 +513,19 @@ class _HomePageState extends LocalizedState<HomePage> {
                 label: i18.home.syncDataLabel,
                 onPressed: () async {
                   if (snapshot.data?['enablesManualSync'] == true) {
-                    _attemptSyncUp(context);
+                    if (context.mounted) _attemptSyncUp(context);
                   } else {
-                    DigitToast.show(
-                      context,
-                      options: DigitToastOptions(
-                        localizations
-                            .translate(i18.common.coreCommonSyncInProgress),
-                        false,
-                        Theme.of(context),
-                      ),
-                    );
+                    if (context.mounted) {
+                      DigitToast.show(
+                        context,
+                        options: DigitToastOptions(
+                          localizations
+                              .translate(i18.common.coreCommonSyncInProgress),
+                          false,
+                          Theme.of(context),
+                        ),
+                      );
+                    }
                   }
                 },
               );
