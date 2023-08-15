@@ -7,10 +7,9 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:isar/isar.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:recase/recase.dart';
 import '../data/local_store/no_sql/schema/app_configuration.dart';
 import '../data/local_store/no_sql/schema/service_registry.dart';
@@ -67,99 +66,110 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
-  // Only available for flutter 3.0.0 and later
-  DartPluginRegistrant.ensureInitialized();
-  await envConfig.initialize();
-  service.on('stopService').listen((event) {
-    service.stopSelf();
-  });
+  if (service is AndroidServiceInstance) {
+    service.on('setAsForeground').listen((event) {
+      service.setAsForegroundService();
+    });
 
-  final isar = await isarARE;
-  final appConfiguration = await isar.appConfigurations.where().findAll();
-  final interval =
-      appConfiguration.first.backgroundServiceConfig?.serviceInterval;
-  final frequencyCount =
-      appConfiguration.first.backgroundServiceConfig?.apiConcurrency;
+    service.on('setAsBackground').listen((event) {
+      service.setAsBackgroundService();
+    });
 
-  if (interval != null) {
-    makePeriodicTimer(
-      Duration(seconds: interval),
-      (timer) async {
-        var battery = Battery();
-        final int batteryPercent = await battery.batteryLevel;
-        if (batteryPercent <=
-            appConfiguration
-                .first.backgroundServiceConfig!.batteryPercentCutOff!) {
-          service.stopSelf();
-        } else {
-          if (frequencyCount != null) {
-            final serviceRegistryList =
-                await isar.serviceRegistrys.where().findAll();
+    // Only available for flutter 3.0.0 and later
+    DartPluginRegistrant.ensureInitialized();
+    await envConfig.initialize();
+    service.on('stopService').listen((event) {
+      service.stopSelf();
+    });
 
-            if (serviceRegistryList.isNotEmpty) {
-              final bandwidthService = serviceRegistryList.firstWhereOrNull(
-                (element) => element.service == 'BANDWIDTH-CHECK',
-              );
-              if (bandwidthService != null) {
-                final bandwidthPath = bandwidthService.actions.first.path;
+    final isar = await isarARE;
+    final appConfiguration = await isar.appConfigurations.where().findAll();
+    final interval =
+        appConfiguration.first.backgroundServiceConfig?.serviceInterval;
+    final frequencyCount =
+        appConfiguration.first.backgroundServiceConfig?.apiConcurrency;
 
-                List speedArray = [];
-                for (var i = 0; i < frequencyCount; i++) {
-                  try {
-                    final double speed = await BandwidthCheckRepository(
-                      _dio,
-                      bandwidthPath: bandwidthPath,
-                    ).pingBandwidthCheck(bandWidthCheckModel: null);
-                    speedArray.add(speed);
-                  } catch (e) {
-                    service.stopSelf();
-                    break;
-                  }
-                }
-                double sum = speedArray.fold(0, (p, c) => p + c);
+    if (interval != null) {
+      makePeriodicTimer(
+        Duration(seconds: interval),
+        (timer) async {
+          var battery = Battery();
+          final int batteryPercent = await battery.batteryLevel;
+          if (batteryPercent <=
+              appConfiguration
+                  .first.backgroundServiceConfig!.batteryPercentCutOff!) {
+            service.stopSelf();
+          } else {
+            if (frequencyCount != null) {
+              final serviceRegistryList =
+                  await isar.serviceRegistrys.where().findAll();
 
-                int configuredBatchSize = getBatchSizeToBandwidth(
-                  sum / speedArray.length,
-                  appConfiguration,
+              if (serviceRegistryList.isNotEmpty) {
+                final bandwidthService = serviceRegistryList.firstWhereOrNull(
+                  (element) => element.service == 'BANDWIDTH-CHECK',
                 );
-                final userRequestModel =
-                    await LocalSecureStore.instance.userRequestModel;
-                if (configuredBatchSize > 0) {
-                  final BandwidthModel bandwidthModel =
-                      BandwidthModel.fromJson({
-                    'userId': userRequestModel!.uuid,
-                    'batchSize': configuredBatchSize,
-                  });
+                if (bandwidthService != null) {
+                  final bandwidthPath = bandwidthService.actions.first.path;
 
-                  service.invoke(
-                    'serviceRunning',
-                    {
-                      "enablesManualSync": false,
-                    },
-                  );
+                  List speedArray = [];
+                  for (var i = 0; i < frequencyCount; i++) {
+                    try {
+                      final double speed = await BandwidthCheckRepository(
+                        _dio,
+                        bandwidthPath: bandwidthPath,
+                      ).pingBandwidthCheck(bandWidthCheckModel: null);
+                      speedArray.add(speed);
+                    } catch (e) {
+                      service.stopSelf();
+                      break;
+                    }
+                  }
+                  double sum = speedArray.fold(0, (p, c) => p + c);
 
-                  await const NetworkManager(
-                    configuration: NetworkManagerConfiguration(
-                      persistenceConfig: PersistenceConfiguration.offlineFirst,
-                    ),
-                  ).performSync(
-                    localRepositories:
-                        Constants.getLocalRepositories(_sql, isar).toList(),
-                    remoteRepositories: Constants.getRemoteRepositories(
-                      _dio,
-                      getActionMap(serviceRegistryList),
-                    ),
-                    bandwidthModel: bandwidthModel,
-                    service: service,
+                  int configuredBatchSize = getBatchSizeToBandwidth(
+                    sum / speedArray.length,
+                    appConfiguration,
                   );
+                  final userRequestModel =
+                      await LocalSecureStore.instance.userRequestModel;
+                  if (configuredBatchSize > 0) {
+                    final BandwidthModel bandwidthModel =
+                        BandwidthModel.fromJson({
+                      'userId': userRequestModel!.uuid,
+                      'batchSize': configuredBatchSize,
+                    });
+
+                    service.invoke(
+                      'serviceRunning',
+                      {
+                        "enablesManualSync": false,
+                      },
+                    );
+
+                    await const NetworkManager(
+                      configuration: NetworkManagerConfiguration(
+                        persistenceConfig:
+                            PersistenceConfiguration.offlineFirst,
+                      ),
+                    ).performSync(
+                      localRepositories:
+                          Constants.getLocalRepositories(_sql, isar).toList(),
+                      remoteRepositories: Constants.getRemoteRepositories(
+                        _dio,
+                        getActionMap(serviceRegistryList),
+                      ),
+                      bandwidthModel: bandwidthModel,
+                      service: service,
+                    );
+                  }
                 }
               }
             }
           }
-        }
-      },
-      fireNow: true,
-    );
+        },
+        fireNow: true,
+      );
+    }
   }
 }
 
