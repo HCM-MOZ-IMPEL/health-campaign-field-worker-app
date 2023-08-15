@@ -60,13 +60,13 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
 
     if (state == AppLifecycleState.paused) {
       final localSecureStore = LocalSecureStore.instance;
-      await localSecureStore.setBackgroundService(true);
+      await localSecureStore.setAppInActive(true);
       // Stop the background service when the app is terminated
     } else if (state == AppLifecycleState.resumed) {
       // Stop the background service when the app is terminated
 
       final localSecureStore = LocalSecureStore.instance;
-      await localSecureStore.setBackgroundService(false);
+      await localSecureStore.setAppInActive(false);
     }
   }
 }

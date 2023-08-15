@@ -48,7 +48,7 @@ class _HomePageState extends LocalizedState<HomePage> {
   @override
   initState() {
     super.initState();
-    print("---INIT----");
+
     subscription = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult resSyncBlocult) async {
@@ -285,6 +285,7 @@ class _HomePageState extends LocalizedState<HomePage> {
         ),
         action: (ctx) {
           Navigator.pop(ctx);
+          // Sync Failed Manual Sync is Enabled
           _attemptSyncUp(context);
         },
       ),
@@ -556,7 +557,8 @@ class _HomePageState extends LocalizedState<HomePage> {
   }
 
   void _attemptSyncUp(BuildContext context) async {
-    await LocalSecureStore.instance.setManualSyncTrigger(false);
+    await LocalSecureStore.instance.setManualSyncTrigger(true);
+
     if (context.mounted) {
       context.read<SyncBloc>().add(
             SyncSyncUpEvent(

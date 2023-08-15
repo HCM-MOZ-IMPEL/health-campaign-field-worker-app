@@ -107,7 +107,9 @@ void onStart(ServiceInstance service) async {
       makePeriodicTimer(
         Duration(seconds: interval),
         (timer) async {
-          print("---Backgroun Service runnung---");
+          service.invoke('serviceRunning', {
+            "enablesManualSync": false,
+          });
           var battery = Battery();
           final int batteryPercent = await battery.batteryLevel;
           if (batteryPercent <=
@@ -115,9 +117,9 @@ void onStart(ServiceInstance service) async {
                   .first.backgroundServiceConfig!.batteryPercentCutOff!) {
             service.stopSelf();
           } else {
-               final isBgRunning = await LocalSecureStore
-                        .instance.isBackgroundSerivceRunning;
-            if (frequencyCount != null && ) {
+            final isManualSyncRunning =
+                await LocalSecureStore.instance.isManualSyncRunning;
+            if (frequencyCount != null && !isManualSyncRunning) {
               final serviceRegistryList =
                   await isar.serviceRegistrys.where().findAll();
 
@@ -172,10 +174,10 @@ void onStart(ServiceInstance service) async {
                       service: service,
                     );
                     i++;
-                    final isBgRunning = await LocalSecureStore
-                        .instance.isBackgroundSerivceRunning;
+                    final isAppInActive =
+                        await LocalSecureStore.instance.isAppInActive;
 
-                    if (isSyncCompleted && i >= 2 && isBgRunning) {
+                    if (isSyncCompleted && i >= 2 && isAppInActive) {
                       service.stopSelf();
                     }
                   }
@@ -183,6 +185,9 @@ void onStart(ServiceInstance service) async {
               }
             }
           }
+          service.invoke('serviceRunning', {
+            "enablesManualSync": true,
+          });
         },
         fireNow: true,
       );

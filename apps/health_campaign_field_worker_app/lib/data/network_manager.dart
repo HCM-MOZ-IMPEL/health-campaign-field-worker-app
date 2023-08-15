@@ -8,6 +8,7 @@ import '../models/bandwidth/bandwidth_model.dart';
 import '../models/data_model.dart';
 import '../utils/checkbandwidth.dart';
 import 'data_repository.dart';
+import 'local_store/secure_store/secure_store.dart';
 import 'repositories/oplog/oplog.dart';
 import 'repositories/remote/pgr_service.dart';
 import 'local_store/no_sql/schema/oplog.dart' hide AdditionalId;
@@ -94,6 +95,7 @@ class NetworkManager {
         service: service,
       );
     } else if (pendingSyncUpEntries.isEmpty && list.isEmpty) {
+      await LocalSecureStore.instance.setManualSyncTrigger(true);
       isSyncCompleted = true;
     }
 
@@ -223,7 +225,6 @@ class NetworkManager {
                     await local.update(
                       entity.copyWith(
                         nonRecoverableError: true,
-                        id: entity.clientReferenceId,
                       ),
                       createOpLog: false,
                     );
@@ -321,7 +322,6 @@ class NetworkManager {
                     await local.update(
                       entity.copyWith(
                         nonRecoverableError: true,
-                        id: entity.clientReferenceId,
                       ),
                       createOpLog: false,
                     );
@@ -387,7 +387,6 @@ class NetworkManager {
                     await local.update(
                       entity.copyWith(
                         nonRecoverableError: true,
-                        id: entity.clientReferenceId,
                       ),
                       createOpLog: false,
                     );
@@ -462,7 +461,6 @@ class NetworkManager {
                     await local.update(
                       taskModel.copyWith(
                         nonRecoverableError: true,
-                        id: taskModel.clientReferenceId,
                       ),
                       createOpLog: false,
                     );
@@ -526,7 +524,6 @@ class NetworkManager {
                     await local.update(
                       entity.copyWith(
                         nonRecoverableError: true,
-                        id: entity.clientReferenceId,
                       ),
                       createOpLog: false,
                     );
@@ -590,7 +587,6 @@ class NetworkManager {
                     await local.update(
                       entity.copyWith(
                         nonRecoverableError: true,
-                        id: entity.clientReferenceId,
                       ),
                       createOpLog: false,
                     );
@@ -806,8 +802,9 @@ class NetworkManager {
                   }
 
                   await local.markSyncedUp(
-                      clientReferenceId: entity.clientReferenceId,
-                      nonRecoverableError: entity.nonRecoverableError);
+                    clientReferenceId: entity.clientReferenceId,
+                    nonRecoverableError: entity.nonRecoverableError,
+                  );
 
                   await local.opLogManager.updateServerGeneratedIds(
                     model: UpdateServerGeneratedIdModel(
