@@ -115,7 +115,9 @@ void onStart(ServiceInstance service) async {
                   .first.backgroundServiceConfig!.batteryPercentCutOff!) {
             service.stopSelf();
           } else {
-            if (frequencyCount != null) {
+               final isBgRunning = await LocalSecureStore
+                        .instance.isBackgroundSerivceRunning;
+            if (frequencyCount != null && ) {
               final serviceRegistryList =
                   await isar.serviceRegistrys.where().findAll();
 
@@ -153,13 +155,6 @@ void onStart(ServiceInstance service) async {
                       'userId': userRequestModel!.uuid,
                       'batchSize': configuredBatchSize,
                     });
-
-                    service.invoke(
-                      'serviceRunning',
-                      {
-                        "enablesManualSync": false,
-                      },
-                    );
 
                     final isSyncCompleted = await const NetworkManager(
                       configuration: NetworkManagerConfiguration(

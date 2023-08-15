@@ -14,6 +14,7 @@ import '../blocs/search_households/search_households.dart';
 import '../blocs/sync/sync.dart';
 import '../data/background_service.dart';
 import '../data/data_repository.dart';
+import '../data/local_store/secure_store/secure_store.dart';
 import '../data/local_store/sql_store/sql_store.dart';
 import '../models/auth/auth_model.dart';
 import '../models/data_model.dart';
@@ -74,7 +75,7 @@ class _HomePageState extends LocalizedState<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final state = context.read<AuthBloc>().state;
-
+    final localSecureStore = LocalSecureStore.instance;
     if (state is! AuthAuthenticatedState) {
       return Container();
     }
@@ -107,6 +108,7 @@ class _HomePageState extends LocalizedState<HomePage> {
               final debouncer = Debouncer(seconds: 5);
               debouncer.run(() async {
                 if (count != 0) {
+                  await localSecureStore.setManualSyncTrigger(false);
                   if (context.mounted) {
                     await performBackgroundService(
                       isBackground: false,
@@ -114,6 +116,8 @@ class _HomePageState extends LocalizedState<HomePage> {
                       context: context,
                     );
                   }
+                } else {
+                  await localSecureStore.setManualSyncTrigger(true);
                 }
               });
             },
@@ -167,56 +171,72 @@ class _HomePageState extends LocalizedState<HomePage> {
                 listener: (context, state) {
                   state.maybeWhen(
                     orElse: () => null,
-                    syncInProgress: () => DigitSyncDialog.show(
-                      context,
-                      type: DigitSyncDialogType.inProgress,
-                      label: localizations.translate(
-                        i18.syncDialog.syncInProgressTitle,
-                      ),
-                      barrierDismissible: false,
-                    ),
-                    completedSync: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-
-                      DigitSyncDialog.show(
-                        context,
-                        type: DigitSyncDialogType.complete,
-                        label: localizations.translate(
-                          i18.syncDialog.dataSyncedTitle,
-                        ),
-                        primaryAction: DigitDialogActions(
+                    syncInProgress: () async {
+                      await localSecureStore.setManualSyncTrigger(false);
+                      if (context.mounted) {
+                        DigitSyncDialog.show(
+                          context,
+                          type: DigitSyncDialogType.inProgress,
                           label: localizations.translate(
-                            i18.syncDialog.closeButtonLabel,
+                            i18.syncDialog.syncInProgressTitle,
                           ),
-                          action: (ctx) {
-                            Navigator.pop(ctx);
-                          },
-                        ),
-                      );
+                          barrierDismissible: false,
+                        );
+                      }
                     },
-                    failedSync: () {
-                      _showSyncFailedDialog(
-                        context,
-                        message: localizations.translate(
-                          i18.syncDialog.syncFailedTitle,
-                        ),
-                      );
+                    completedSync: () async {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      await localSecureStore.setManualSyncTrigger(true);
+                      if (context.mounted) {
+                        DigitSyncDialog.show(
+                          context,
+                          type: DigitSyncDialogType.complete,
+                          label: localizations.translate(
+                            i18.syncDialog.dataSyncedTitle,
+                          ),
+                          primaryAction: DigitDialogActions(
+                            label: localizations.translate(
+                              i18.syncDialog.closeButtonLabel,
+                            ),
+                            action: (ctx) {
+                              Navigator.pop(ctx);
+                            },
+                          ),
+                        );
+                      }
                     },
-                    failedDownSync: () {
-                      _showSyncFailedDialog(
-                        context,
-                        message: localizations.translate(
-                          i18.syncDialog.downSyncFailedTitle,
-                        ),
-                      );
+                    failedSync: () async {
+                      await localSecureStore.setManualSyncTrigger(true);
+                      if (context.mounted) {
+                        _showSyncFailedDialog(
+                          context,
+                          message: localizations.translate(
+                            i18.syncDialog.syncFailedTitle,
+                          ),
+                        );
+                      }
                     },
-                    failedUpSync: () {
-                      _showSyncFailedDialog(
-                        context,
-                        message: localizations.translate(
-                          i18.syncDialog.upSyncFailedTitle,
-                        ),
-                      );
+                    failedDownSync: () async {
+                      await localSecureStore.setManualSyncTrigger(true);
+                      if (context.mounted) {
+                        _showSyncFailedDialog(
+                          context,
+                          message: localizations.translate(
+                            i18.syncDialog.downSyncFailedTitle,
+                          ),
+                        );
+                      }
+                    },
+                    failedUpSync: () async {
+                      await localSecureStore.setManualSyncTrigger(true);
+                      if (context.mounted) {
+                        _showSyncFailedDialog(
+                          context,
+                          message: localizations.translate(
+                            i18.syncDialog.upSyncFailedTitle,
+                          ),
+                        );
+                      }
                     },
                   );
                 },
@@ -535,53 +555,57 @@ class _HomePageState extends LocalizedState<HomePage> {
     return _HomeItemDataModel(homeItems, showcaseKeys);
   }
 
-  void _attemptSyncUp(BuildContext context) {
-    context.read<SyncBloc>().add(
-          SyncSyncUpEvent(
-            userId: context.loggedInUserUuid,
-            localRepositories: [
-              context.read<
-                  LocalRepository<HouseholdModel, HouseholdSearchModel>>(),
-              context.read<
-                  LocalRepository<IndividualModel, IndividualSearchModel>>(),
-              context.read<
-                  LocalRepository<ProjectBeneficiaryModel,
-                      ProjectBeneficiarySearchModel>>(),
-              context.read<
-                  LocalRepository<HouseholdMemberModel,
-                      HouseholdMemberSearchModel>>(),
-              context.read<LocalRepository<TaskModel, TaskSearchModel>>(),
-              context.read<LocalRepository<StockModel, StockSearchModel>>(),
-              context.read<LocalRepository<ServiceModel, ServiceSearchModel>>(),
-              context.read<
-                  LocalRepository<StockReconciliationModel,
-                      StockReconciliationSearchModel>>(),
-              context.read<
-                  LocalRepository<PgrServiceModel, PgrServiceSearchModel>>(),
-            ],
-            remoteRepositories: [
-              context.read<
-                  RemoteRepository<HouseholdModel, HouseholdSearchModel>>(),
-              context.read<
-                  RemoteRepository<IndividualModel, IndividualSearchModel>>(),
-              context.read<
-                  RemoteRepository<ProjectBeneficiaryModel,
-                      ProjectBeneficiarySearchModel>>(),
-              context.read<
-                  RemoteRepository<HouseholdMemberModel,
-                      HouseholdMemberSearchModel>>(),
-              context.read<RemoteRepository<TaskModel, TaskSearchModel>>(),
-              context.read<RemoteRepository<StockModel, StockSearchModel>>(),
-              context
-                  .read<RemoteRepository<ServiceModel, ServiceSearchModel>>(),
-              context.read<
-                  RemoteRepository<StockReconciliationModel,
-                      StockReconciliationSearchModel>>(),
-              context.read<
-                  RemoteRepository<PgrServiceModel, PgrServiceSearchModel>>(),
-            ],
-          ),
-        );
+  void _attemptSyncUp(BuildContext context) async {
+    await LocalSecureStore.instance.setManualSyncTrigger(false);
+    if (context.mounted) {
+      context.read<SyncBloc>().add(
+            SyncSyncUpEvent(
+              userId: context.loggedInUserUuid,
+              localRepositories: [
+                context.read<
+                    LocalRepository<HouseholdModel, HouseholdSearchModel>>(),
+                context.read<
+                    LocalRepository<IndividualModel, IndividualSearchModel>>(),
+                context.read<
+                    LocalRepository<ProjectBeneficiaryModel,
+                        ProjectBeneficiarySearchModel>>(),
+                context.read<
+                    LocalRepository<HouseholdMemberModel,
+                        HouseholdMemberSearchModel>>(),
+                context.read<LocalRepository<TaskModel, TaskSearchModel>>(),
+                context.read<LocalRepository<StockModel, StockSearchModel>>(),
+                context
+                    .read<LocalRepository<ServiceModel, ServiceSearchModel>>(),
+                context.read<
+                    LocalRepository<StockReconciliationModel,
+                        StockReconciliationSearchModel>>(),
+                context.read<
+                    LocalRepository<PgrServiceModel, PgrServiceSearchModel>>(),
+              ],
+              remoteRepositories: [
+                context.read<
+                    RemoteRepository<HouseholdModel, HouseholdSearchModel>>(),
+                context.read<
+                    RemoteRepository<IndividualModel, IndividualSearchModel>>(),
+                context.read<
+                    RemoteRepository<ProjectBeneficiaryModel,
+                        ProjectBeneficiarySearchModel>>(),
+                context.read<
+                    RemoteRepository<HouseholdMemberModel,
+                        HouseholdMemberSearchModel>>(),
+                context.read<RemoteRepository<TaskModel, TaskSearchModel>>(),
+                context.read<RemoteRepository<StockModel, StockSearchModel>>(),
+                context
+                    .read<RemoteRepository<ServiceModel, ServiceSearchModel>>(),
+                context.read<
+                    RemoteRepository<StockReconciliationModel,
+                        StockReconciliationSearchModel>>(),
+                context.read<
+                    RemoteRepository<PgrServiceModel, PgrServiceSearchModel>>(),
+              ],
+            ),
+          );
+    }
   }
 }
 

@@ -94,13 +94,6 @@ class NetworkManager {
         service: service,
       );
     } else if (pendingSyncUpEntries.isEmpty && list.isEmpty) {
-      service?.invoke(
-        'serviceRunning',
-        {
-          "enablesManualSync": true,
-        },
-      );
-
       isSyncCompleted = true;
     }
 

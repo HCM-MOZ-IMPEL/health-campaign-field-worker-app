@@ -13,6 +13,7 @@ class LocalSecureStore {
   static const hasAppRunBeforeKey = 'hasAppRunBefore';
   static const backgroundServiceKey = 'backgroundServiceKey';
   static const boundaryRefetchInKey = 'boundaryRefetchInKey';
+  static const manualSyncKey = 'manualSyncKey';
 
   final storage = const FlutterSecureStorage();
 
@@ -30,6 +31,17 @@ class LocalSecureStore {
   }
 
   Future<bool> get isBackgroundSerivceRunning async {
+    final hasRun = await storage.read(key: backgroundServiceKey);
+
+    switch (hasRun) {
+      case 'true':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  Future<bool> get isManualSyncRunning async {
     final hasRun = await storage.read(key: backgroundServiceKey);
 
     switch (hasRun) {
@@ -76,6 +88,13 @@ class LocalSecureStore {
       default:
         return true;
     }
+  }
+
+  Future<void> setManualSyncTrigger(bool isManualSync) async {
+    await storage.write(
+      key: manualSyncKey,
+      value: isManualSync.toString(),
+    );
   }
 
   Future<void> setSelectedProject(ProjectModel projectModel) async {
