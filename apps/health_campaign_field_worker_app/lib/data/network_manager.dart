@@ -984,87 +984,90 @@ Future<List<OpLogEntry<EntityModel>>> filterOpLogbyBandwidth(
 }
 
 List<EntityModel> getEntityModel(
-  List<OpLogEntry<EntityModel>> opLogErrorList,
+  List<OpLogEntry<EntityModel>> opLogList,
   LocalRepository<EntityModel, EntitySearchModel> local,
 ) {
-  return opLogErrorList
+  return opLogList
       .map((e) {
         final oplogEntryEntity = e.entity;
 
         final serverGeneratedId = e.serverGeneratedId;
         final rowVersion = e.rowVersion;
-
-        var updatedEntity = local.opLogManager.applyServerGeneratedIdToEntity(
-          oplogEntryEntity,
-          e.clientReferenceId!,
-          rowVersion,
-        );
-
-        if (updatedEntity is HouseholdModel) {
-          final addressId = e.additionalIds.firstWhereOrNull(
-            (element) {
-              return element.idType == NetworkManager._householdAddressIdKey;
-            },
-          )?.id;
-
-          updatedEntity = updatedEntity.copyWith(
-            address: updatedEntity.address?.copyWith(
-              id: updatedEntity.address?.id ?? addressId,
-            ),
+        if (serverGeneratedId != null) {
+          var updatedEntity = local.opLogManager.applyServerGeneratedIdToEntity(
+            oplogEntryEntity,
+            serverGeneratedId,
+            rowVersion,
           );
-        }
 
-        if (updatedEntity is IndividualModel) {
-          final identifierId = e.additionalIds.firstWhereOrNull(
-            (element) {
-              return element.idType ==
-                  NetworkManager._individualIdentifierIdKey;
-            },
-          )?.id;
+          if (updatedEntity is HouseholdModel) {
+            final addressId = e.additionalIds.firstWhereOrNull(
+              (element) {
+                return element.idType == NetworkManager._householdAddressIdKey;
+              },
+            )?.id;
 
-          final addressId = e.additionalIds.firstWhereOrNull(
-            (element) {
-              return element.idType == NetworkManager._individualAddressIdKey;
-            },
-          )?.id;
+            updatedEntity = updatedEntity.copyWith(
+              address: updatedEntity.address?.copyWith(
+                id: updatedEntity.address?.id ?? addressId,
+              ),
+            );
+          }
 
-          updatedEntity = updatedEntity.copyWith(
-            identifiers: updatedEntity.identifiers?.map((e) {
-              return e.copyWith(
-                id: e.id ?? identifierId,
-              );
-            }).toList(),
-            address: updatedEntity.address?.map((e) {
-              return e.copyWith(
-                id: e.id ?? addressId,
-              );
-            }).toList(),
-          );
-        }
+          if (updatedEntity is IndividualModel) {
+            final identifierId = e.additionalIds.firstWhereOrNull(
+              (element) {
+                return element.idType ==
+                    NetworkManager._individualIdentifierIdKey;
+              },
+            )?.id;
 
-        if (updatedEntity is TaskModel) {
-          final resourceId = e.additionalIds
-              .firstWhereOrNull(
-                (element) =>
-                    element.idType == NetworkManager._taskResourceIdKey,
-              )
-              ?.id;
+            final addressId = e.additionalIds.firstWhereOrNull(
+              (element) {
+                return element.idType == NetworkManager._individualAddressIdKey;
+              },
+            )?.id;
 
-          updatedEntity = updatedEntity.copyWith(
-            resources: updatedEntity.resources?.map((e) {
-              if (resourceId != null) {
+            updatedEntity = updatedEntity.copyWith(
+              identifiers: updatedEntity.identifiers?.map((e) {
                 return e.copyWith(
-                  taskId: serverGeneratedId,
-                  id: e.id ?? resourceId,
+                  id: e.id ?? identifierId,
                 );
-              }
+              }).toList(),
+              address: updatedEntity.address?.map((e) {
+                return e.copyWith(
+                  id: e.id ?? addressId,
+                );
+              }).toList(),
+            );
+          }
 
-              return e.copyWith(taskId: serverGeneratedId);
-            }).toList(),
-          );
+          if (updatedEntity is TaskModel) {
+            final resourceId = e.additionalIds
+                .firstWhereOrNull(
+                  (element) =>
+                      element.idType == NetworkManager._taskResourceIdKey,
+                )
+                ?.id;
+
+            updatedEntity = updatedEntity.copyWith(
+              resources: updatedEntity.resources?.map((e) {
+                if (resourceId != null) {
+                  return e.copyWith(
+                    taskId: serverGeneratedId,
+                    id: e.id ?? resourceId,
+                  );
+                }
+
+                return e.copyWith(taskId: serverGeneratedId);
+              }).toList(),
+            );
+          }
+
+          return updatedEntity;
         }
 
-        return updatedEntity;
+        return oplogEntryEntity;
       })
       .whereNotNull()
       .toList();

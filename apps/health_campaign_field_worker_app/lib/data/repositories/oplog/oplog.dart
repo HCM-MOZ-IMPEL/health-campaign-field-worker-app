@@ -53,7 +53,9 @@ abstract class OpLogManager<T extends EntityModel> {
         .filter()
         .entityTypeEqualTo(type)
         .syncedUpEqualTo(false)
-        .syncDownRetryCountLessThan(4)
+        .syncDownRetryCountGreaterThan(
+          envConfig.variables.syncDownRetryCount - 1,
+        )
         .nonRecoverableErrorEqualTo(true)
         .createdByEqualTo(createdBy)
         .findAll();
@@ -68,10 +70,16 @@ abstract class OpLogManager<T extends EntityModel> {
         .createdByEqualTo(createdBy)
         .findAll();
 
-    final nonRecoverableOplogs = await isar.opLogs
+    final nonRecoverableOpLogs = await isar.opLogs
         .filter()
+        .entityTypeEqualTo(type)
+        .syncedUpEqualTo(true)
+        .syncedDownEqualTo(false)
         .nonRecoverableErrorEqualTo(false)
-        .syncDownRetryCountEqualTo(3)
+        .syncDownRetryCountGreaterThan(
+          envConfig.variables.syncDownRetryCount - 1,
+        )
+        .createdByEqualTo(createdBy)
         .findAll();
 
     var entries = [
@@ -80,7 +88,7 @@ abstract class OpLogManager<T extends EntityModel> {
       deleteOpLogs,
       singleCreateOpLogs,
       errorOpLogs,
-      nonRecoverableOplogs,
+      nonRecoverableOpLogs,
     ].expand((element) => element);
 
     entries = entries.sortedBy((element) => element.createdAt);
