@@ -53,9 +53,6 @@ abstract class OpLogManager<T extends EntityModel> {
         .filter()
         .entityTypeEqualTo(type)
         .syncedUpEqualTo(false)
-        .syncDownRetryCountGreaterThan(
-          envConfig.variables.syncDownRetryCount - 1,
-        )
         .nonRecoverableErrorEqualTo(true)
         .createdByEqualTo(createdBy)
         .findAll();
