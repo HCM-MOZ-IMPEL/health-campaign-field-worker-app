@@ -41,6 +41,10 @@ class ProjectBeneficiaryLocalRepository
           rowVersion: e.rowVersion,
           isDeleted: e.isDeleted,
           beneficiaryId: e.beneficiaryId,
+          auditDetails: AuditDetails(
+            createdBy: e.auditCreatedBy!,
+            createdTime: e.auditCreatedTime!,
+          ),
         );
       }).toList();
 

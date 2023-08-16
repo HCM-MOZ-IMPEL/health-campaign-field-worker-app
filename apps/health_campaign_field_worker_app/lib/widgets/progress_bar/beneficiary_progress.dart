@@ -59,7 +59,8 @@ class _BeneficiaryProgressBarState extends State<BeneficiaryProgressBar> {
             .where((element) =>
                 element.dateOfRegistrationTime.isAfter(gte) &&
                 (element.isDeleted == false || element.isDeleted == null) &&
-                element.dateOfRegistrationTime.isBefore(lte))
+                element.dateOfRegistrationTime.isBefore(lte) &&
+                element.auditDetails?.createdBy == context.loggedInUserUuid)
             .length;
       }),
     );
