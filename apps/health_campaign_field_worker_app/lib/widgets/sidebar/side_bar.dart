@@ -8,6 +8,7 @@ import '../../blocs/auth/auth.dart';
 import '../../router/app_router.dart';
 import '../../utils/checkbandwidth.dart';
 import '../../utils/constants.dart';
+import '../../utils/debound.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 
 class SideBar extends StatelessWidget {
@@ -17,6 +18,7 @@ class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     var t = AppLocalizations.of(context);
+    var i = 0;
 
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       return Column(
@@ -88,13 +90,19 @@ class SideBar extends StatelessWidget {
                           secondaryAction: DigitDialogActions(
                             label: t.translate(i18.common.coreCommonYes),
                             action: (ctx) {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(const AuthLogoutEvent());
-                              Navigator.of(
-                                context,
-                                rootNavigator: true,
-                              ).pop(true);
+                              i = i + 1;
+                              final deBouncer = Debouncer(seconds: 1);
+                              if (i == 1) {
+                                deBouncer.run(() async {
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(const AuthLogoutEvent());
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop(true);
+                                });
+                              }
                             },
                           ),
                         ),
