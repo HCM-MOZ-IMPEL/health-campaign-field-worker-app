@@ -105,14 +105,15 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                           isarState: Constants().isar,
                           networkManager: context.read(),
                         );
-                        if (!bloc.isClosed) {
-                          isar.opLogs
-                              .filter()
-                              .createdByEqualTo(userId)
-                              .syncedUpEqualTo(false)
-                              .watch()
-                              .listen(
-                            (event) {
+
+                        isar.opLogs
+                            .filter()
+                            .createdByEqualTo(userId)
+                            .syncedUpEqualTo(false)
+                            .watch()
+                            .listen(
+                          (event) {
+                            if (!bloc.isClosed) {
                               bloc.add(
                                 SyncRefreshEvent(
                                   userId,
@@ -134,9 +135,10 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                                   }).length,
                                 ),
                               );
-                            },
-                          );
-                        }
+                            }
+                          },
+                        );
+
                         isar.opLogs
                             .filter()
                             .createdByEqualTo(userId)
