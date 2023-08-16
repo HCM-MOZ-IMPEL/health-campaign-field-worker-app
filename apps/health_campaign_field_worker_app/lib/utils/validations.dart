@@ -17,7 +17,7 @@ class Common {
 class Individual {
   const Individual();
 
-  int get nameMinLength => 2;
+  int get nameMinLength => 3;
   int get nameMaxLength => 200;
 }
 
