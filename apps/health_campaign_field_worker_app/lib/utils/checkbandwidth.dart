@@ -107,6 +107,8 @@ void onStart(ServiceInstance service) async {
       makePeriodicTimer(
         Duration(seconds: interval),
         (timer) async {
+          final userRequestModel =
+              await LocalSecureStore.instance.userRequestModel;
           service.invoke('serviceRunning', {
             "enablesManualSync": false,
           });
@@ -151,43 +153,52 @@ void onStart(ServiceInstance service) async {
                   );
                   final userRequestModel =
                       await LocalSecureStore.instance.userRequestModel;
-                  if (configuredBatchSize > 0) {
-                    final BandwidthModel bandwidthModel =
-                        BandwidthModel.fromJson({
-                      'userId': userRequestModel!.uuid,
-                      'batchSize': configuredBatchSize,
+                  if (userRequestModel == null) {
+                    service.invoke('serviceRunning', {
+                      "enablesManualSync": true,
                     });
+                    service.stopSelf();
+                  } else {
+                    if (configuredBatchSize > 0) {
+                      final BandwidthModel bandwidthModel =
+                          BandwidthModel.fromJson({
+                        'userId': userRequestModel!.uuid,
+                        'batchSize': configuredBatchSize,
+                      });
 
-                    final isSyncCompleted = await const NetworkManager(
-                      configuration: NetworkManagerConfiguration(
-                        persistenceConfig:
-                            PersistenceConfiguration.offlineFirst,
-                      ),
-                    ).performSync(
-                      localRepositories:
-                          Constants.getLocalRepositories(_sql, isar).toList(),
-                      remoteRepositories: Constants.getRemoteRepositories(
-                        _dio,
-                        getActionMap(serviceRegistryList),
-                      ),
-                      bandwidthModel: bandwidthModel,
-                      service: service,
-                    );
-                    i++;
-                    final isAppInActive =
-                        await LocalSecureStore.instance.isAppInActive;
+                      final isSyncCompleted = await const NetworkManager(
+                        configuration: NetworkManagerConfiguration(
+                          persistenceConfig:
+                              PersistenceConfiguration.offlineFirst,
+                        ),
+                      ).performSync(
+                        localRepositories:
+                            Constants.getLocalRepositories(_sql, isar).toList(),
+                        remoteRepositories: Constants.getRemoteRepositories(
+                          _dio,
+                          getActionMap(serviceRegistryList),
+                        ),
+                        bandwidthModel: bandwidthModel,
+                        service: service,
+                      );
+                      i++;
+                      final isAppInActive =
+                          await LocalSecureStore.instance.isAppInActive;
 
-                    if (isSyncCompleted && i >= 2 && isAppInActive) {
-                      service.stopSelf();
+                      if (isSyncCompleted && i >= 2 && isAppInActive) {
+                        service.stopSelf();
+                      }
                     }
                   }
                 }
               }
             }
           }
-          service.invoke('serviceRunning', {
-            "enablesManualSync": true,
-          });
+          if (userRequestModel == null) {
+            service.invoke('serviceRunning', {
+              "enablesManualSync": true,
+            });
+          }
         },
         fireNow: true,
       );
