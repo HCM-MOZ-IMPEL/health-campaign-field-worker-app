@@ -90,7 +90,7 @@ class SideBar extends StatelessWidget {
                           secondaryAction: DigitDialogActions(
                             label: t.translate(i18.common.coreCommonYes),
                             action: (ctx) {
-                              i = i + 1;
+                              i = i++;
                               final deBouncer = Debouncer(seconds: 1);
                               if (i == 1) {
                                 deBouncer.run(() async {
