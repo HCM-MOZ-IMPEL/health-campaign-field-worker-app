@@ -12,7 +12,6 @@ class IdentifierSearchModel extends EntitySearchModel {
   final String? identifierId;
   final List<String>? clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   
   IdentifierSearchModel({
     this.id,
@@ -20,9 +19,19 @@ class IdentifierSearchModel extends EntitySearchModel {
     this.identifierId,
     this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  IdentifierSearchModel.ignoreDeleted({
+    this.id,
+    this.identifierType,
+    this.identifierId,
+    this.clientReferenceId,
+    this.tenantId,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -33,9 +42,9 @@ class IdentifierModel extends EntityModel {
   final String? id;
   final String? identifierType;
   final String? identifierId;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final IdentifierAdditionalFields? additionalFields;
 
@@ -44,11 +53,12 @@ class IdentifierModel extends EntityModel {
     this.id,
     this.identifierType,
     this.identifierId,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   IdentifierCompanion get companion {
@@ -58,12 +68,13 @@ class IdentifierModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       identifierType: Value(identifierType),
       identifierId: Value(identifierId),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       );
   }

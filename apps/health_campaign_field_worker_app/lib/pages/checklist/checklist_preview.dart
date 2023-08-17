@@ -1,14 +1,17 @@
+import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import '../../blocs/service/service.dart';
 import '../../blocs/service_definition/service_definition.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class ChecklistPreviewPage extends LocalizedStatefulWidget {
   const ChecklistPreviewPage({
@@ -27,9 +30,26 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
 
     return Scaffold(
       body: ScrollableContent(
-        header: Column(children: const [
-          BackNavigationHelpHeaderWidget(),
-        ]),
+        header: BlocBuilder<ServiceBloc, ServiceState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              orElse: () => const Column(children: [
+                BackNavigationHelpHeaderWidget(),
+              ]),
+              serviceSearch: (value1, value2, value3) {
+                return value2 == null
+                    ? const Column(children: [
+                        BackNavigationHelpHeaderWidget(
+                          showcaseButton: ShowcaseButton(),
+                        ),
+                      ])
+                    : const Column(children: [
+                        BackNavigationHelpHeaderWidget(),
+                      ]);
+              },
+            );
+          },
+        ),
         footer: BlocBuilder<ServiceBloc, ServiceState>(
           builder: (context, state) {
             return state.maybeWhen(
@@ -53,184 +73,207 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
             );
           },
         ),
-        children: [
-          BlocBuilder<ServiceBloc, ServiceState>(builder: (context, state) {
-            return state.maybeWhen(
-              orElse: () => const Offstage(),
-              serviceSearch: (value1, value2, value3) {
-                return value2 == null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ...value1
-                              .map((e) => e.serviceDefId != null
-                                  ? DigitCard(
-                                      child: Column(
+        slivers: [
+          SliverToBoxAdapter(
+            child: BlocBuilder<ServiceBloc, ServiceState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => const Offstage(),
+                  serviceSearch: (value1, value2, value3) {
+                    return value2 == null
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ...value1.mapIndexed((i, e) {
+                                final serviceDefId = e.serviceDefId;
+                                if (serviceDefId == null) {
+                                  return const Offstage();
+                                }
+
+                                Widget openButton = DigitOutLineButton(
+                                  label: localizations.translate(
+                                    i18.searchBeneficiary.iconLabel,
+                                  ),
+                                  onPressed: () {
+                                    context.read<ServiceBloc>().add(
+                                          ServiceSelectionEvent(
+                                            service: e,
+                                          ),
+                                        );
+                                  },
+                                );
+
+                                if (i == 0) {
+                                  openButton =
+                                      checklistListShowcaseData.open.buildWith(
+                                    child: openButton,
+                                  );
+                                }
+
+                                return DigitCard(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          DigitDateUtils.getDateFromTimestamp(
+                                            e.auditDetails?.createdTime ?? 0,
+                                            dateFormat: "dd/MM/yyyy hh:mm a",
+                                          ),
+                                          style: theme.textTheme.headlineMedium,
+                                        ),
+                                      ),
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Align(
-                                            alignment: Alignment.centerLeft,
+                                          SizedBox(
                                             child: Text(
-                                              DateFormat('dd MMMM yyyy').format(
-                                                DateFormat('dd/MM/yyyy').parse(
-                                                  e.createdAt.toString(),
-                                                ),
+                                              localizations.translate(
+                                                '${e.tenantId}',
                                               ),
-                                              style: theme
-                                                  .textTheme.headlineMedium,
                                             ),
                                           ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  localizations.translate(
-                                                    '${e.tenantId}',
-                                                  ),
-                                                ),
-                                              ),
-                                              DigitOutLineButton(
-                                                label: localizations.translate(
-                                                  i18.searchBeneficiary
-                                                      .iconLabel,
-                                                ),
-                                                onPressed: () {
-                                                  context
-                                                      .read<ServiceBloc>()
-                                                      .add(
-                                                        ServiceSelectionEvent(
-                                                          service: e,
-                                                        ),
-                                                      );
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                          openButton,
                                         ],
                                       ),
-                                    )
-                                  : const Offstage())
-                              .toList(),
-                        ],
-                      )
-                    : BlocBuilder<ServiceDefinitionBloc,
-                        ServiceDefinitionState>(builder: (context, state) {
-                        return state.maybeWhen(
-                          serviceDefinitionFetch: (
-                            item1,
-                            item2,
-                          ) {
-                            return DigitCard(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: const EdgeInsets.all(8),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(localizations
-                                            .translate(item2!.code.toString())),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            localizations.translate(
-                                              i18.checklist.checklist,
-                                            ),
-                                            style:
-                                                theme.textTheme.displayMedium,
-                                          ),
-                                        ),
-                                        ...value2.attributes!.map(
-                                          (e) => Padding(
-                                            padding: const EdgeInsets.all(8),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    localizations.translate(
-                                                      "${item2.code}.${e.attributeCode!}",
-                                                    ),
-                                                    style: theme.textTheme
-                                                        .headlineSmall,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      const EdgeInsets.only()
-                                                          .copyWith(
-                                                    top: kPadding,
-                                                    bottom: kPadding,
-                                                  ),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      localizations
-                                                          .translate(e.value),
-                                                    ),
-                                                  ),
-                                                ),
-                                                e.additionalDetails != ''
-                                                    ? Container(
-                                                        margin: const EdgeInsets
-                                                                .only()
-                                                            .copyWith(
-                                                          top: kPadding,
-                                                          bottom: kPadding,
-                                                        ),
-                                                        child: Column(
-                                                          children: [
-                                                            Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Text(
-                                                                localizations
-                                                                    .translate(
-                                                                  "${item2.code}.${e.attributeCode!}.ADDITIONAL_FIELD",
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Text(
-                                                                localizations
-                                                                    .translate(
-                                                                  e.additionalDetails,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    : const Offstage(),
-                                                const DigitDivider(),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ].toList(),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                );
+                              }).toList(),
+                            ],
+                          )
+                        : BlocBuilder<ServiceDefinitionBloc,
+                            ServiceDefinitionState>(builder: (context, state) {
+                            return state.maybeWhen(
+                              serviceDefinitionFetch: (
+                                item1,
+                                item2,
+                              ) {
+                                return DigitCard(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        margin: const EdgeInsets.all(8),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              localizations.translate(
+                                                item2!.code.toString(),
+                                              ),
+                                              style:
+                                                  theme.textTheme.displayMedium,
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                localizations.translate(
+                                                  i18.checklist.checklist,
+                                                ),
+                                              ),
+                                            ),
+                                            ...value2.attributes!.map(
+                                              (e) => Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        localizations.translate(
+                                                          "${item2.code}.${e.attributeCode!}",
+                                                        ),
+                                                        style: theme.textTheme
+                                                            .headlineSmall,
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: const EdgeInsets
+                                                              .only()
+                                                          .copyWith(
+                                                        top: kPadding,
+                                                        bottom: kPadding,
+                                                      ),
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: Text(
+                                                          localizations
+                                                              .translate(
+                                                            e.value ?? "",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    e.additionalDetails != '' &&
+                                                            e.additionalDetails !=
+                                                                null
+                                                        ? Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                        .only()
+                                                                    .copyWith(
+                                                              top: kPadding,
+                                                              bottom: kPadding,
+                                                            ),
+                                                            child: Column(
+                                                              children: [
+                                                                Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .centerLeft,
+                                                                  child: Text(
+                                                                    localizations
+                                                                        .translate(
+                                                                      "${item2.code}.${e.attributeCode!}.ADDITIONAL_FIELD",
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .centerLeft,
+                                                                  child: Text(
+                                                                    localizations
+                                                                        .translate(
+                                                                      e.additionalDetails,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        : const Offstage(),
+                                                    const DigitDivider(),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ].toList(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              orElse: () => const Offstage(),
                             );
-                          },
-                          orElse: () => const Offstage(),
-                        );
-                      });
+                          });
+                  },
+                );
               },
-            );
-          }),
+            ),
+          ),
         ],
       ),
     );

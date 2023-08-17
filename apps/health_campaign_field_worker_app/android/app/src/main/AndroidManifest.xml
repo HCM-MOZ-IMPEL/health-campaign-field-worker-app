@@ -3,9 +3,15 @@
    <uses-permission android:name="android.permission.INTERNET"/>
    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
    <application
-        android:label="health_campaign_field_worker_app"
+        android:label="Salama"
         android:name="${applicationName}"
+        android:allowBackup="false"
+        android:fullBackupOnly="false"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

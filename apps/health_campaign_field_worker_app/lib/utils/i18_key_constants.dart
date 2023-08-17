@@ -18,25 +18,65 @@ const stockDetails = StockDetails();
 const checklist = Checklist();
 const stockReconciliationDetails = StockReconciliationDetails();
 const manageStock = ManageStock();
+const complaints = Complaints();
+const homeShowcase = HomeShowcase();
+const searchBeneficiariesShowcase = SearchBeneficiariesShowcase();
+const householdLocationShowcase = HouseholdLocationShowcase();
+const householdDetailsShowcase = HouseholdDetailsShowcase();
+const individualDetailsShowcase = IndividualDetailsShowcase();
+const householdOverviewShowcase = HouseholdOverviewShowcase();
+const deliverInterventionShowcase = DeliverInterventionShowcase();
+const selectStockShowcase = SelectStockShowcase();
+const warehouseDetailsShowcase = WarehouseDetailsShowcase();
+const stockDetailsReceiptShowcase = StockDetailsReceiptShowcase();
+const stockDetailsIssuedShowcase = StockDetailsIssuedShowcase();
+const stockDetailsReturnedShowcase = StockDetailsReturnedShowcase();
+const stockReconciliationShowcase = StockReconciliationShowcase();
+const selectChecklistShowcase = SelectChecklistShowcase();
+const checklistDataShowcase = ChecklistDataShowcase();
+const checklistListShowcase = ChecklistListShowcase();
+const complaintTypeShowcase = ComplaintTypeShowcase();
+const complaintsDetailsShowcase = ComplaintsDetailsShowcase();
+const complaintsDetailsViewShowcase = ComplaintsDetailsViewShowcase();
+const complaintsInboxShowcase = ComplaintsInboxShowcase();
+const syncDialog = SyncDialog();
+const inventoryReportSelection = InventoryReportSelection();
+const inventoryReportDetails = InventoryReportDetails();
 
 class Common {
   const Common();
 
-  String get coreCommonContinue => 'CORE_COMMON_CONTINUE';
+  String get coreCommonSyncComplete => 'CORE_COMMON_SYNC_COMPLETE';
+
+  String get coreCommonSyncInProgress => 'CORE_COMMON_SYNC_IN_PROGRESS';
+
+  String get coreCommonSyncFailed => 'CORE_COMMON_SYNC_FAILED';
+
+  String get coreCommonSyncRetry => 'CORE_COMMON_SYNC_RETRY';
+
+  String get coreCommonClose => 'CORE_COMMON_CLOSE';
+
+  String get coreCommonSave => 'CORE_COMMON_SAVE';
+
+  String get coreCommonBeneficiary => 'CORE_COMMON_BENEFICIARY';
 
   String get coreCommonAge => 'CORE_COMMON_AGE';
 
   String get coreCommonGender => 'CORE_COMMON_GENDER';
 
+  String get coreCommonIsRequired => 'CORE_COMMON_IS_REQUIRED';
+
+  String get coreCommonContinue => 'CORE_COMMON_CONTINUE';
+
   String get coreCommonMobileNumber => 'CORE_COMMON_MOBILE_NUMBER';
 
   String get coreCommonSubmit => 'CORE_COMMON_SUBMIT';
 
-  String get coreCommonSave => 'CORE_COMMON_SAVE';
-
   String get coreCommonCancel => 'CORE_COMMON_CANCEL';
 
   String get corecommonRequired => 'CORE_COMMON_REQUIRED';
+
+  String get coreCommonReasonRequired => 'CORE_COMMON_REASON_REQUIRED';
 
   String get corecommonclose => 'CORE_COMMON_CLOSE';
 
@@ -51,6 +91,14 @@ class Common {
   String get coreCommonHome => 'CORE_COMMON_HOME';
 
   String get coreCommonlanguage => 'CORE_COMMON_LANGUAGE';
+
+  String get coreCommonProceed => 'CORE_COMMON_NEXT';
+
+  String get coreCommonNo => 'CORE_COMMON_NO';
+
+  String get coreCommonYes => 'CORE_COMMON_YES';
+
+  String get coreCommonWarning => 'CORE_COMMON_WARNING';
 }
 
 class Login {
@@ -60,9 +108,23 @@ class Login {
 
   String get userIdPlaceholder => 'USER_ID_PLACEHOLDER';
 
+  String get userIdRequiredError => 'USER_ID_REQUIRED_ERROR';
+
   String get passwordPlaceholder => 'PASSWORD_PLACEHOLDER';
 
+  String get passwordRequiredError => 'PASSWORD_REQUIRED_ERROR';
+
   String get actionLabel => 'LOGIN_ACTION_LABEL';
+
+  String get loginError => 'LOGIN_ERROR';
+
+  String get noInternetError => 'ERR_NOT_CONNECTED_TO_INTERNET';
+
+  String get logOutWarningMsg => 'LOG_OUT_WARNING_MESSAGE';
+
+  String get sessionExpired => 'CORE_SESSION_EXPIRED';
+
+  String get pleaseLogout => 'PLEASE_LOGOUT_USER';
 }
 
 class Checklist {
@@ -82,10 +144,21 @@ class Checklist {
 
   String get checklistDialogDescription => 'CHECKLIST_DIALOG_DESCRITPTION';
 
+  String get checklistBackDialogLabel => 'CHECKLIST_BACK_DIALOG_LABEL';
+
+  String get checklistBackDialogDescription =>
+      'CHECKLIST_BACK_DIALOG_DESCRITPTION';
+
   String get checklistDialogPrimaryAction => 'CHECKLIST_DIALOG_PRIMARY_ACTION';
 
   String get checklistDialogSecondaryAction =>
       'CHECKLIST_DIALOG_SECONDARY_ACTION';
+
+  String get checklistBackDialogPrimaryAction =>
+      'CHECKLIST_BACK_DIALOG_PRIMARY_ACTION';
+
+  String get checklistBackDialogSecondaryAction =>
+      'CHECKLIST_BACK_DIALOG_SECONDARY_ACTION';
 
   String get checklistdate => 'CHECKLIST_DATE';
 }
@@ -123,11 +196,15 @@ class Home {
 
   String get progressIndicatorPrefixLabel => 'PROGRESS_INDICATOR_PREFIX_LABEL';
 
+  String get progressIndicatorHelp => 'PROGRESS_INDICATOR_HELP';
+
   String get dataSyncInfoLabel => 'DATA_SYNC_INFO_LABEL';
 
   String get dataSyncInfoContent => 'DATA_SYNC_INFO_CONTENT';
 
   String get myCheckList => 'MY_CHECK_LIST_LABEL';
+
+  String get warehouseManagerCheckList => 'WAREHOUSE_MANAGER_CHECK_LIST_LABEL';
 }
 
 class SearchBeneficiary {
@@ -148,6 +225,10 @@ class SearchBeneficiary {
   String get beneficiaryAddActionLabel => 'BENEFICIARY_ADD_ACTION_LABEL';
 
   String get iconLabel => 'ICON_LABEL';
+
+  String get interventionDelivered => 'INTERVENTION_DELIVERED';
+
+  String get interventionNotDelivered => 'INTERVENTION_NOT_DELIVERED';
 }
 
 class IndividualDetails {
@@ -156,6 +237,10 @@ class IndividualDetails {
   String get individualsDetailsLabelText => 'INDIVIDUAL_LABEL_TEXT';
 
   String get nameLabelText => 'INDIVIDUAL_NAME_LABEL_TEXT';
+
+  String get firstNameLabelText => 'INDIVIDUAL_FIRST_NAME_LABEL_TEXT';
+
+  String get lastNameLabelText => 'INDIVIDUAL_LAST_NAME_LABEL_TEXT';
 
   String get checkboxLabelText => 'HEAD_OF_HOUSEHOLD_LABEL_TEXT';
 
@@ -179,6 +264,18 @@ class IndividualDetails {
 
   String get mobileNumberInvalidFormatValidationMessage =>
       'INDIVIDUAL_DETAILS_INVALID_MOBILE_NUMBER';
+
+  String get nameIsRequiredError => 'NAME_REQUIRED_ERROR_MESSAGE';
+
+  String get firstNameIsRequiredError => 'FIRST_NAME_REQUIRED_ERROR_MESSAGE';
+
+  String get firstNameLengthError => 'FIRST_NAME_LENGTH_ERROR_MESSAGE';
+
+  String get lastNameLengthError => 'LAST_NAME_LENGTH_ERROR_MESSAGE';
+
+  String get lastNameIsRequiredError => 'LAST_NAME_REQUIRED_ERROR_MESSAGE';
+
+  String get ageInvalidError => 'INDIVIDUAL_DETAILS_INVALID_AGE';
 }
 
 class HouseholdLocation {
@@ -285,9 +382,16 @@ class MemberCard {
   String get deliverDetailsUpdateLabel =>
       'MEMBER_CARD_DELIVER_DETAILS_UPDATE_LABEL';
 
+  String get deliverDetailsViewLabel =>
+      'MEMBER_CARD_DELIVER_DETAILS_VIEW_LABEL';
+
   String get deliverDetailsYearText => 'MEMBER_CARD_DELIVER_DETAILS_YEAR_TEXT';
 
   String get editDetails => 'MEMBER_CARD_EDIT_DETAILS';
+
+  String get member => 'MEMBER_LABEL';
+
+  String get members => 'MEMBERS_LABEL';
 }
 
 class DeliverIntervention {
@@ -319,6 +423,8 @@ class DeliverIntervention {
   String get dialogTitle => 'DELIVER_INTERVENTION_DIALOG_TITLE';
 
   String get dialogContent => 'DELIVER_INTERVENTION_DIALOG_CONTENT';
+
+  String get deliveryCommentRequired => 'DELIVERY_COMMENT_REQUIRED';
 }
 
 class ProjectSelection {
@@ -398,8 +504,49 @@ class StockDetails {
 
   String get quantityDamagedLabel => 'STOCK_DETAILS_QUANTITY_DAMAGED';
 
+  String get stockReceivedSuccess =>
+      'STOCK_RECONCILIATION_STOCK_RECEIVED_SUCCESS';
+
+  String get stockIssuedSuccess => 'STOCK_RECONCILIATION_STOCK_ISSUED_SUCCESS';
+
+  String get stockReturnedSuccess =>
+      'STOCK_RECONCILIATION_STOCK_RETURNED_SUCCESS';
+
+  /// Validation Messages
+  String get quantityReceivedValidation =>
+      'STOCK_DETAILS_QUANTITY_RECEIVED_VALIDATION';
+
+  String get quantityMinAndMaxValidation =>
+      'STOCK_DETAILS_QUANTITY_MIN_MAX_VALIDATION';
+
+  String get quantitySentValidation => 'STOCK_DETAILS_QUANTITY_SENT_VALIDATION';
+
+  String get quantityReturnedValidation =>
+      'STOCK_DETAILS_QUANTITY_RETURNED_VALIDATION';
+
+  String get quantityIndicatedOnWaybillValidation =>
+      'STOCK_DETAILS_QUANTITY_ON_WAYBILL_VALIDATION';
+
+  String get quantityMinAndMaxWaybillValidation =>
+      'STOCK_DETAILS_QUANTITY_MIN_MAX_ON_WAYBILL_VALIDATION';
+
+  String get transportTypeValidation => 'TRANSPORT_TYPE_VALIDATION';
+
+  String get vehicleNumberValidation => 'VEHICLE_NUMBER_VALIDATION';
+
+  String get vehicleNumberRequiredValidation =>
+      'VEHICLE_NUMBER_REQUIRED_VALIDATION';
+
   /// Waybill number label
   String get waybillNumberLabel => 'STOCK_DETAILS_WAYBILL_NUMBER';
+
+  String get waybillNumberValidation => 'WAYBILL_NUMBER_VALIDATION';
+
+  String get waybillNumberMinMaxLengthValidation =>
+      'WAYBILL_NUMBER_MIN_MAX_LENGTH_VALIDATION';
+
+  String get driverNameMinMaxLengthValidation =>
+      'DRIVER_NAME_MIN_MAX_VALIDATION';
 
   /// Number of product indicated on waybill title
   String get quantityOfProductIndicatedOnWaybillLabel {
@@ -413,6 +560,10 @@ class StockDetails {
 
   String get vehicleNumberLabel => 'STOCK_DETAILS_VEHICLE_NUMBER';
 
+  String get driverNameLabel => 'STOCK_DETAILS_DRIVER_NAME';
+
+  String get driverNameValidation => 'STOCK_DETAILS_DRIVER_NAME_VALIDATION';
+
   String get commentsLabel => 'STOCK_DETAILS_COMMENTS_LABEL';
 
   String get dialogTitle => 'STOCK_DETAILS_DIALOG_TITLE';
@@ -425,6 +576,7 @@ class StockDetails {
 class StockReconciliationDetails {
   const StockReconciliationDetails();
 
+  // 'FACILITY_SEARCH_TEXT';
   String get reconciliationPageTitle => 'STOCK_RECONCILIATION_PAGE_TITLE';
 
   String get facilityLabel => 'STOCK_RECONCILIATION_FACILITY_LABEL';
@@ -458,8 +610,15 @@ class StockReconciliationDetails {
 
   String get dialogContent => 'STOCK_RECONCILIATION_DIALOG_CONTENT';
 
+  String get stockReconciliationSuccess => 'STOCK_RECONCILIATION_SUCCESS';
+
+  String get facilitySearchText => 'FACILITY_SEARCH_TEXT';
+
   String get manualCountRequiredError =>
       'STOCK_RECONCILIATION_COUNT_IS_REQUIRED';
+
+  String get reconciliationCommentRequiredError =>
+      'RECONCILIATION_COMMENT_IS_REQUIRED';
 
   String get manualCountInvalidType =>
       'STOCK_RECONCILIATION_COUNT_EXPECTS_NUMBER';
@@ -483,22 +642,877 @@ class ManageStock {
 
   String get recordstockReceiptDescription =>
       'MANAGE_STOCK_RECEIPT_DESCRIPTION';
+
   String get recordstockIssuedLabel => 'MANAGE_STOCK_RECORDSTOCK_ISSUED_LABEL';
 
   String get recordstockIssuedtDescription =>
       'MANAGE_STOCK_RECORDSTOCK_ISSUED_DESCRIPTION';
+
   String get recordstockReturnedLabel =>
       'MANAGE_STOCK_RECORDSTOCK_RETURNED_LABEL';
 
   String get recordstockReturnedtDescription =>
       'MANAGE_STOCK_RECORDSTOCK_RETURNED_DESCRIPTION';
+
   String get recordstockDamagedLabel =>
       'MANAGE_STOCK_RECORDSTOCK_DAMAGED_LABEL';
 
   String get recordstockDamagedDescription =>
       'MANAGE_STOCK_RECORDSTOCK_DAMAGED_DESCRIPTION';
+
   String get recordstockLossLabel => 'MANAGE_STOCK_RECORDSTOCK_LOSS_LABEL';
 
   String get recordstockLossDescription =>
       'MANAGE_STOCK_RECORDSTOCK_LOSS_DESCRIPTION';
+}
+
+class Complaints {
+  const Complaints();
+
+  String get complaintsTypeHeading => 'COMPLAINTS_TYPE_HEADING';
+
+  String get complaintsTypeLabel => 'COMPLAINTS_TYPE_LABEL';
+
+  String get actionLabel => 'HOUSEHOLD_LOCATION_ACTION_LABEL';
+
+  String get complaintsLocationLabel => 'COMPLAINTS_LOCATION_LABEL';
+
+  String get complaintsDetailsLabel => 'COMPLAINTS_DETAILS_LABEL';
+
+  String get dateOfComplaint => 'COMPLAINTS_DATE';
+
+  String get complainantTypeQuestion => 'COMPLAINTS_COMPLAINANT_TYPE_QUESTION';
+
+  String get complainantName => 'COMPLAINTS_COMPLAINANT_NAME';
+
+  String get complainantContactNumber =>
+      'COMPLAINTS_COMPLAINANT_CONTACT_NUMBER';
+
+  String get supervisorName => 'COMPLAINTS_SUPERVISOR_NAME';
+
+  String get supervisorContactNumber => 'COMPLAINTS_SUPERVISOR_CONTACT_NUMBER';
+
+  String get complaintDescription => 'COMPLAINTS_DESCRIPTION';
+
+  String get dialogTitle => 'COMPLAINTS_DIALOG_TITLE';
+
+  String get dialogContent => 'COMPLAINTS_DIALOG_MESSAGE';
+
+  String get fileComplaintAction => 'COMPLAINTS_FILE_COMPLAINT_ACTION';
+
+  String get inboxHeading => 'COMPLAINTS_INBOX_HEADING';
+
+  String get searchCTA => 'COMPLAINTS_INBOX_SEARCH_CTA';
+
+  String get filterCTA => 'COMPLAINTS_INBOX_FILTER_CTA';
+
+  String get sortCTA => 'COMPLAINTS_INBOX_SORT_CTA';
+
+  String get complaintInboxFilterHeading => 'COMPLAINTS_INBOX_FILTER_HEADING';
+
+  String get complaintsFilterClearAll => 'COMPLAINTS_FILTER_CLEAR_ALL';
+
+  String get complaintInboxSearchHeading => 'COMPLAINTS_INBOX_SEARCH_HEADING';
+
+  String get complaintInboxSortHeading => 'COMPLAINTS_INBOX_SORT_HEADING';
+
+  String get complaintsSortDateAsc => 'COMPLAINT_SORT_DATE_ASC';
+
+  String get complaintsSortDateDesc => 'COMPLAINT_SORT_DATE_DESC';
+
+  String get assignedToAll => 'COMPLAINTS_ASSIGNED_TO_ALL';
+
+  String get assignedToSelf => 'COMPLAINTS_ASSIGNED_TO_SELF';
+
+  String get noComplaintsExist => 'COMPLAINTS_NO_COMPLAINTS_EXIST';
+
+  String get inboxDateLabel => 'COMPLAINTS_INBOX_DATE_LABEL';
+
+  String get inboxNumberLabel => 'COMPLAINTS_INBOX_NUMBER_LABEL';
+
+  String get inboxTypeLabel => 'COMPLAINTS_INBOX_TYPE_LABEL';
+
+  String get inboxAreaLabel => 'COMPLAINTS_INBOX_AREA_LABEL';
+
+  String get inboxStatusLabel => 'COMPLAINTS_INBOX_STATUS_LABEL';
+
+  String get inboxNotGeneratedLabel => 'COMPLAINTS_INBOX_NOT_GENERATED_LABEL';
+
+  String get inboxSyncRequiredLabel => 'COMPLAINTS_INBOX_SYNC_REQUIRED_LABEL';
+
+  String get locality => 'COMPLAINTS_LOCALITY';
+
+  String get backToInbox => 'COMPLAINTS_BACK_TO_INBOX';
+
+  String get acknowledgementAction => 'COMPLAINTS_ACKNOWLEDGEMENT_ACTION';
+
+  String get acknowledgementDescription =>
+      'COMPLAINTS_ACKNOWLEDGEMENT_DESCRIPTION';
+
+  String get acknowledgementLabel => 'COMPLAINTS_ACKNOWLEDGEMENT_LABEL';
+
+  String get acknowledgementSubLabelMain =>
+      'COMPLAINTS_ACKNOWLEDGEMENT_SUB_LABEL_MAIN';
+
+  String get acknowledgementSubLabelSub =>
+      'COMPLAINTS_ACKNOWLEDGEMENT_SUB_LABEL_SUB';
+
+  String get validationRequiredError => 'COMPLAINTS_VALIDATION_REQUIRED_ERROR';
+
+  String get validationMinLengthError =>
+      'COMPLAINTS_VALIDATION_MINLENGTH_ERROR';
+
+  String get raisedForMyself => 'COMPLAINTS_RAISED_FOR_MYSELF';
+
+  String get raisedForAnotherUser => 'COMPLAINTS_RAISED_FOR_ANOTHER_USER';
+}
+
+class HomeShowcase {
+  const HomeShowcase();
+
+  String get distributorProgressBar {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_PROGRESS_BAR';
+  }
+
+  String get distributorBeneficiaries {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_BENEFICIARIES';
+  }
+
+  String get distributorFileComplaint {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_FILE_COMPLAINT';
+  }
+
+  String get distributorSyncData {
+    return 'DISTRIBUTOR_HOME_SHOWCASE_SYNC_DATA';
+  }
+
+  String get warehouseManagerManageStock {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_MANAGE_STOCK';
+  }
+
+  String get wareHouseManagerStockReconciliation {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_STOCK_RECONCILIATION';
+  }
+
+  String get wareHouseManagerChecklist {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_CHECKLIST';
+  }
+
+  String get warehouseManagerFileComplaint {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_FILE_COMPLAINT';
+  }
+
+  String get warehouseManagerSyncData {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_SYNC_DATA';
+  }
+
+  String get supervisorProgressBar {
+    return 'SUPERVISOR_HOME_SHOWCASE_PROGRESS_BAR';
+  }
+
+  String get supervisorMyChecklist {
+    return 'SUPERVISOR_HOME_SHOWCASE_MY_CHECKLIST';
+  }
+
+  String get supervisorComplaints {
+    return 'SUPERVISOR_HOME_SHOWCASE_COMPLAINTS';
+  }
+
+  String get supervisorSyncData {
+    return 'SUPERVISOR_HOME_SHOWCASE_SYNC_DATA';
+  }
+
+  String get inventoryReport {
+    return 'WAREHOUSE_MANAGER_HOME_SHOWCASE_INVENTORY_REPORT';
+  }
+}
+
+class SearchBeneficiariesShowcase {
+  const SearchBeneficiariesShowcase();
+
+  String get numberOfHouseholdsRegistered {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_NUMBER_OF_HOUSEHOLDS_REGISTERED';
+  }
+
+  String get numberOfBednetsDelivered {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_NUMBER_OF_BEDNETS_DELIVERED';
+  }
+
+  String get enterNameOfHouseholdHead {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_ENTER_NAME_OF_HOUSEHOLD_HEAD';
+  }
+
+  String get registerNewHousehold {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_REGISTER_NEW_HOUSEHOLD';
+  }
+
+  String get nameOfBeneficiary {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_NAME_OF_BENEFICIARY';
+  }
+
+  String get deliveryStatus {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_DELIVERY_STATUS';
+  }
+
+  String get open {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_OPEN';
+  }
+
+  String get beneficiary {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_BENEFICIARY';
+  }
+
+  String get age {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_AGE';
+  }
+
+  String get gender {
+    return 'SEARCH_BENEFICIARIES_SHOWCASE_GENDER';
+  }
+}
+
+class HouseholdLocationShowcase {
+  const HouseholdLocationShowcase();
+
+  String get administrativeArea {
+    return 'HOUSEHOLD_LOCATION_SHOWCASE_ADMINISTRATIVE_AREA';
+  }
+
+  String get landmark {
+    return 'HOUSEHOLD_LOCATION_SHOWCASE_LANDMARK';
+  }
+}
+
+class HouseholdDetailsShowcase {
+  const HouseholdDetailsShowcase();
+
+  String get dateOfRegistration {
+    return 'HOUSEHOLD_DETAILS_SHOWCASE_DATE_OF_REGISTRATION';
+  }
+
+  String get numberOfMembersLivingInHousehold {
+    return 'HOUSEHOLD_DETAILS_SHOWCASE_NUMBER_OF_MEMBERS_LIVING_IN_HOUSEHOLD';
+  }
+}
+
+class IndividualDetailsShowcase {
+  const IndividualDetailsShowcase();
+
+  String get firstNameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_FIRST_NAME_OF_INDIVIDUAL';
+  }
+
+  String get lastNameOfIndividual {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_LAST_NAME_OF_INDIVIDUAL';
+  }
+
+  String get headOfHousehold {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_HEAD_OF_HOUSEHOLD';
+  }
+
+  String get age {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_AGE';
+  }
+
+  String get dateOfBirth {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_DATE_OF_BIRTH';
+  }
+
+  String get gender {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_GENDER';
+  }
+
+  String get mobile {
+    return 'INDIVIDUAL_DETAILS_SHOWCASE_MOBILE';
+  }
+}
+
+class HouseholdOverviewShowcase {
+  const HouseholdOverviewShowcase();
+
+  String get editHousehold {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_EDIT_HOUSEHOLD';
+  }
+
+  String get deliveryStatus {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_DELIVERY_STATUS';
+  }
+
+  String get householdHead {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_HOUSEHOLD_HEAD';
+  }
+
+  String get administrativeArea {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_ADMINISTRATIVE_AREA';
+  }
+
+  String get memberCount {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_MEMBER_COUNT';
+  }
+
+  String get householdIndividualCardTitle {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_HOUSEHOLD_INDIVIDUAL_CARD_TITLE';
+  }
+
+  String get editMember {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_EDIT_MEMBER';
+  }
+
+  String get addMember {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_ADD_MEMBER';
+  }
+
+  String get deliverIntervention {
+    return 'HOUSEHOLD_OVERVIEW_SHOWCASE_DELIVER_INTERVENTION';
+  }
+}
+
+class DeliverInterventionShowcase {
+  const DeliverInterventionShowcase();
+
+  String get memberCount {
+    return 'DELIVER_INTERVENTION_SHOWCASE_MEMBER_COUNT';
+  }
+
+  String get numberOfBednetsToDeliver {
+    return 'DELIVER_INTERVENTION_SHOWCASE_NUMBER_OF_BEDNETS_TO_DELIVER';
+  }
+
+  String get numberOfBednetsDistributed {
+    return 'DELIVER_INTERVENTION_SHOWCASE_NUMBER_OF_BEDNETS_DISTRIBUTED';
+  }
+
+  String get deliveryComment {
+    return 'DELIVER_INTERVENTION_SHOWCASE_DELIVERY_COMMENT';
+  }
+}
+
+class SelectStockShowcase {
+  const SelectStockShowcase();
+
+  String get recordStockReceipt {
+    return 'SELECT_STOCK_SHOWCASE_RECORD_STOCK_RECEIPT';
+  }
+
+  String get recordStockIssued {
+    return 'SELECT_STOCK_SHOWCASE_RECORD_STOCK_ISSUED';
+  }
+
+  String get recordStockReturned {
+    return 'SELECT_STOCK_SHOWCASE_RECORD_STOCK_RETURNED';
+  }
+}
+
+class WarehouseDetailsShowcase {
+  const WarehouseDetailsShowcase();
+
+  String get dateOfReceipt {
+    return 'WAREHOUSE_DETAILS_SHOWCASE_DATE_OF_RECEIPT';
+  }
+
+  String get administrativeUnit {
+    return 'WAREHOUSE_DETAILS_SHOWCASE_ADMINISTRATIVE_UNIT';
+  }
+
+  String get warehouseName {
+    return 'WAREHOUSE_DETAILS_SHOWCASE_WAREHOUSE_NAME';
+  }
+}
+
+class StockDetailsReceiptShowcase {
+  const StockDetailsReceiptShowcase();
+
+  String get receivedFrom {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_RECEIVED_FROM';
+  }
+
+  String get numberOfBednetsReceived {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_NUMBER_OF_BEDNETS_RECEIVED';
+  }
+
+  String get packingSlipId {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_PACKING_SLIP_ID';
+  }
+
+  String get numberOfNetsIndicatedOnPackingSlip {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_NUMBER_OF_NETS_INDICATED_ON_PACKING_SLIP';
+  }
+
+  String get typeOfTransport {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_TYPE_OF_TRANSPORT';
+  }
+
+  String get vehicleNumber {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get driverName {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_DRIVER_NAME';
+  }
+
+  String get comments {
+    return 'STOCK_DETAILS_RECEIPT_SHOWCASE_COMMENTS';
+  }
+}
+
+class StockDetailsIssuedShowcase {
+  const StockDetailsIssuedShowcase();
+
+  String get issuedTo {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_ISSUED_TO';
+  }
+
+  String get numberOfBednetsIssued {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_NUMBER_OF_BEDNETS_ISSUED';
+  }
+
+  String get packingSlipId {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_PACKING_SLIP_ID';
+  }
+
+  String get numberOfNetsIndicatedOnPackingSlip {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_NUMBER_OF_NETS_INDICATED_ON_PACKING_SLIP';
+  }
+
+  String get typeOfTransport {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_TYPE_OF_TRANSPORT';
+  }
+
+  String get vehicleNumber {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get driverName {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_DRIVER_NAME';
+  }
+
+  String get comments {
+    return 'STOCK_DETAILS_ISSUED_SHOWCASE_COMMENTS';
+  }
+}
+
+class StockDetailsReturnedShowcase {
+  const StockDetailsReturnedShowcase();
+
+  String get returnedFrom {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_RETURNED_FROM';
+  }
+
+  String get numberOfBednetsReturned {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_NUMBER_OF_BEDNETS_RETURNED';
+  }
+
+  String get packingSlipId {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_PACKING_SLIP_ID';
+  }
+
+  String get numberOfNetsIndicatedOnPackingSlip {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_NUMBER_OF_NETS_INDICATED_ON_PACKING_SLIP';
+  }
+
+  String get typeOfTransport {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_TYPE_OF_TRANSPORT';
+  }
+
+  String get vehicleNumber {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_VEHICLE_NUMBER';
+  }
+
+  String get driverName {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_DRIVER_NAME';
+  }
+
+  String get comments {
+    return 'STOCK_DETAILS_RETURNED_SHOWCASE_COMMENT';
+  }
+}
+
+class StockReconciliationShowcase {
+  const StockReconciliationShowcase();
+
+  String get warehouseName {
+    return 'STOCK_RECONCILIATION_SHOWCASE_WAREHOUSE_NAME';
+  }
+
+  String get dateOfReconciliation {
+    return 'STOCK_RECONCILIATION_SHOWCASE_DATE_OF_RECONCILIATION';
+  }
+
+  String get stockReceived {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_RECEIVED';
+  }
+
+  String get stockIssued {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_ISSUED';
+  }
+
+  String get stockReturned {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_RETURNED';
+  }
+
+  String get stockOnHand {
+    return 'STOCK_RECONCILIATION_SHOWCASE_STOCK_ON_HAND';
+  }
+
+  String get manualStockCount {
+    return 'STOCK_RECONCILIATION_SHOWCASE_MANUAL_STOCK_COUNT';
+  }
+
+  String get comments {
+    return 'STOCK_RECONCILIATION_SHOWCASE_COMMENTS';
+  }
+}
+
+class SelectChecklistShowcase {
+  const SelectChecklistShowcase();
+
+  String get selectChecklist {
+    return 'SELECT_CHECKLIST_SHOWCASE_SELECT_CHECKLIST';
+  }
+}
+
+class ChecklistDataShowcase {
+  const ChecklistDataShowcase();
+
+  String get date {
+    return 'CHECKLIST_DATA_SHOWCASE_DATE';
+  }
+
+  String get administrativeUnit {
+    return 'CHECKLIST_DATA_SHOWCASE_ADMINISTRATIVE_UNIT';
+  }
+}
+
+class ChecklistListShowcase {
+  const ChecklistListShowcase();
+
+  String get open {
+    return 'CHECKLIST_LIST_SHOWCASE_OPEN';
+  }
+}
+
+class ComplaintTypeShowcase {
+  const ComplaintTypeShowcase();
+
+  String get complaintType {
+    return 'COMPLAINT_TYPE_SHOWCASE_COMPLAINT_TYPE';
+  }
+
+  String get complaintTypeNext {
+    return 'COMPLAINT_TYPE_SHOWCASE_COMPLAINT_TYPE_NEXT';
+  }
+}
+
+class ComplaintsDetailsShowcase {
+  const ComplaintsDetailsShowcase();
+
+  String get complaintDate {
+    return 'COMPLAINT_DETAILS_SHOWCASE_DATE';
+  }
+
+  String get complaintOrganizationUnit {
+    return 'COMPLAINT_DETAILS_SHOWCASE_ORGANIZATION_UNIT';
+  }
+
+  String get complaintSelfOrOther {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SELF_OR_OTHER';
+  }
+
+  String get complaintName {
+    return 'COMPLAINT_DETAILS_SHOWCASE_NAME';
+  }
+
+  String get complaintContact {
+    return 'COMPLAINT_DETAILS_SHOWCASE_CONTACT';
+  }
+
+  String get complaintSupervisorName {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SUPERVISOR_NAME';
+  }
+
+  String get complaintSupervisorContact {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SUPERVISOR_CONTACT';
+  }
+
+  String get complaintDescription {
+    return 'COMPLAINT_DETAILS_SHOWCASE_DESCRIPTION';
+  }
+
+  String get complaintSubmit {
+    return 'COMPLAINT_DETAILS_SHOWCASE_SUBMIT';
+  }
+}
+
+class ComplaintsDetailsViewShowcase {
+  const ComplaintsDetailsViewShowcase();
+
+  String get complaintNumber {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_NUMBER';
+  }
+
+  String get complaintType {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_TYPE';
+  }
+
+  String get complaintDate {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_DATE';
+  }
+
+  String get complaintName {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_NAME';
+  }
+
+  String get complaintArea {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_AREA';
+  }
+
+  String get complaintContact {
+    return 'COMPLAINT_DETAILS_VIEW_CONTACT';
+  }
+
+  String get complaintStatus {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_STATUS';
+  }
+
+  String get complaintDescription {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_DESCRIPTION';
+  }
+
+  String get complaintClose {
+    return 'COMPLAINT_DETAILS_VIEW_SHOWCASE_CLOSE';
+  }
+}
+
+class ComplaintsInboxShowcase {
+  const ComplaintsInboxShowcase();
+
+  String get complaintSearch {
+    return 'COMPLAINT_INBOX_SHOWCASE_SEARCH';
+  }
+
+  String get complaintFilter {
+    return 'COMPLAINT_INBOX_SHOWCASE_FILTER';
+  }
+
+  String get complaintSort {
+    return 'COMPLAINT_INBOX_SHOWCASE_SORT';
+  }
+
+  String get complaintNumber {
+    return 'COMPLAINT_INBOX_SHOWCASE_NUMBER';
+  }
+
+  String get complaintType {
+    return 'COMPLAINT_INBOX_SHOWCASE_TYPE';
+  }
+
+  String get complaintDate {
+    return 'COMPLAINT_INBOX_SHOWCASE_DATE';
+  }
+
+  String get complaintArea {
+    return 'COMPLAINT_INBOX_SHOWCASE_AREA';
+  }
+
+  String get complaintStatus {
+    return 'COMPLAINT_INBOX_SHOWCASE_STATUS';
+  }
+
+  String get complaintOpen {
+    return 'COMPLAINT_INBOX_SHOWCASE_OPEN';
+  }
+
+  String get complaintCreate {
+    return 'COMPLAINT_INBOX_SHOWCASE_CREATE';
+  }
+}
+
+class SyncDialog {
+  const SyncDialog();
+
+  String get syncFailedTitle => 'SYNC_DIALOG_SYNC_FAILED_TITLE';
+
+  String get downSyncFailedTitle => 'SYNC_DIALOG_DOWN_SYNC_FAILED_TITLE';
+
+  String get upSyncFailedTitle => 'SYNC_DIALOG_UP_SYNC_FAILED_TITLE';
+
+  String get syncInProgressTitle => 'SYNC_DIALOG_SYNC_IN_PROGRESS_TITLE';
+
+  String get dataSyncedTitle => 'SYNC_DIALOG_DATA_SYNCED_TITLE';
+
+  String get closeButtonLabel => 'SYNC_DIALOG_CLOSE_BUTTON_LABEL';
+
+  String get retryButtonLabel => 'SYNC_DIALOG_RETRY_BUTTON_LABEL';
+}
+
+class InventoryReportSelection {
+  const InventoryReportSelection();
+
+  String get label {
+    return 'INVENTORY_REPORT_SELECTION_LABEL';
+  }
+
+  String get inventoryReportReceiptLabel {
+    return 'INVENTORY_REPORT_SELECTION_RECEIPT_LABEL';
+  }
+
+  String get inventoryReportReceiptDescription {
+    return 'INVENTORY_REPORT_SELECTION_RECEIPT_DESCRIPTION';
+  }
+
+  String get inventoryReportIssuedLabel {
+    return 'INVENTORY_REPORT_SELECTION_ISSUED_LABEL';
+  }
+
+  String get inventoryReportIssuedDescription {
+    return 'INVENTORY_REPORT_SELECTION_ISSUED_DESCRIPTION';
+  }
+
+  String get inventoryReportReturnedLabel {
+    return 'INVENTORY_REPORT_SELECTION_RETURNED_LABEL';
+  }
+
+  String get inventoryReportReturnedDescription {
+    return 'INVENTORY_REPORT_SELECTION_RETURNED_DESCRIPTION';
+  }
+
+  String get inventoryReportDamagedLabel {
+    return 'INVENTORY_REPORT_SELECTION_DAMAGE_LABEL';
+  }
+
+  String get inventoryReportDamagedDescription {
+    return 'INVENTORY_REPORT_SELECTION_DAMAGE_DESCRIPTION';
+  }
+
+  String get inventoryReportLossLabel {
+    return 'INVENTORY_REPORT_SELECTION_LOSS_LABEL';
+  }
+
+  String get inventoryReportLossDescription {
+    return 'INVENTORY_REPORT_SELECTION_LOSS_DESCRIPTION';
+  }
+
+  String get inventoryReportReconciliationLabel {
+    return 'INVENTORY_REPORT_SELECTION_RECONCILIATION_LABEL';
+  }
+
+  String get inventoryReportReconciliationDescription {
+    return 'INVENTORY_REPORT_SELECTION_RECONCILIATION_DESCRIPTION';
+  }
+}
+
+class InventoryReportDetails {
+  const InventoryReportDetails();
+
+  String get backToHomeButtonLabel {
+    return 'INVENTORY_REPORT_DETAILS_BACK_TO_HOME_BUTTON_LABEL';
+  }
+
+  String get receiptReportTitle {
+    return 'INVENTORY_REPORT_DETAILS_RECEIPT_REPORT_TITLE';
+  }
+
+  String get dispatchReportTitle {
+    return 'INVENTORY_REPORT_DETAILS_DISPATCH_REPORT_TITLE';
+  }
+
+  String get returnedReportTitle {
+    return 'INVENTORY_REPORT_DETAILS_RETURNED_REPORT_TITLE';
+  }
+
+  String get damageReportTitle {
+    return 'INVENTORY_REPORT_DETAILS_DAMAGE_REPORT_TITLE';
+  }
+
+  String get lossReportTitle {
+    return 'INVENTORY_REPORT_DETAILS_LOSS_REPORT_TITLE';
+  }
+
+  String get reconciliationReportTitle {
+    return 'INVENTORY_REPORT_DETAILS_RECONCILIATION_REPORT_TITLE';
+  }
+
+  String get dateLabel {
+    return 'INVENTORY_REPORT_DETAILS_DATE_LABEL';
+  }
+
+  String get waybillLabel {
+    return 'INVENTORY_REPORT_DETAILS_WAYBILL_LABEL';
+  }
+
+  String get receiptQuantityLabel {
+    return 'INVENTORY_REPORT_DETAILS_RECEIPT_QUANTITY_LABEL';
+  }
+
+  String get dispatchQuantityLabel {
+    return 'INVENTORY_REPORT_DETAILS_DISPATCH_QUANTITY_LABEL';
+  }
+
+  String get returnedQuantityLabel {
+    return 'INVENTORY_REPORT_DETAILS_RETURNED_QUANTITY_LABEL';
+  }
+
+  String get damagedQuantityLabel {
+    return 'INVENTORY_REPORT_DETAILS_DAMAGED_QUANTITY_LABEL';
+  }
+
+  String get lossQuantityLabel {
+    return 'INVENTORY_REPORT_DETAILS_LOSS_QUANTITY_LABEL';
+  }
+
+  String get receiptTransactingPartyLabel {
+    return 'INVENTORY_REPORT_DETAILS_RECEIPT_TRANSACTING_PARTY_LABEL';
+  }
+
+  String get dispatchTransactingPartyLabel {
+    return 'INVENTORY_REPORT_DETAILS_DISPATCH_TRANSACTING_PARTY_LABEL';
+  }
+
+  String get returnedTransactingPartyLabel {
+    return 'INVENTORY_REPORT_DETAILS_RETURNED_TRANSACTING_PARTY_LABEL';
+  }
+
+  String get damagedTransactingPartyLabel {
+    return 'INVENTORY_REPORT_DETAILS_DAMAGED_TRANSACTING_PARTY_LABEL';
+  }
+
+  String get lossTransactingPartyLabel {
+    return 'INVENTORY_REPORT_DETAILS_LOSS_TRANSACTING_PARTY_LABEL';
+  }
+
+  String get stockInHandLabel {
+    return 'INVENTORY_REPORT_DETAILS_STOCK_IN_HAND_LABEL';
+  }
+
+  String get manualCountLabel {
+    return 'INVENTORY_REPORT_DETAILS_MANUAL_COUNT_LABEL';
+  }
+
+  String get receivedCountLabel {
+    return 'INVENTORY_REPORT_DETAILS_RECEIVED_COUNT_LABEL';
+  }
+
+  String get dispatchedCountLabel {
+    return 'INVENTORY_REPORT_DETAILS_DISPATCHED_COUNT_LABEL';
+  }
+
+  String get returnedCountLabel {
+    return 'INVENTORY_REPORT_DETAILS_RETURNED_COUNT_LABEL';
+  }
+
+  String get damagedCountLabel {
+    return 'INVENTORY_REPORT_DETAILS_DAMAGED_COUNT_LABEL';
+  }
+
+  String get lostCountLabel {
+    return 'INVENTORY_REPORT_DETAILS_LOST_COUNT_LABEL';
+  }
+
+  String get noRecordsMessage {
+    return 'INVENTORY_REPORT_DETAILS_NO_RECORDS_MESSAGE';
+  }
+
+  String get noFilterMessage {
+    return 'INVENTORY_REPORT_DETAILS_NO_FILTER_MESSAGE';
+  }
 }

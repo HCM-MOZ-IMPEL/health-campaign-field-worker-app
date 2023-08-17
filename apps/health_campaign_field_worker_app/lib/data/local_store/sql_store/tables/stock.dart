@@ -17,12 +17,14 @@ class Stock extends Table {
   TextColumn get quantity => text().nullable()();
   TextColumn get waybillNumber => text().nullable()();
   TextColumn get auditCreatedBy => text().nullable()();
+  BoolColumn get nonRecoverableError => boolean().nullable().withDefault(const Constant(false))();
   IntColumn get auditCreatedTime => integer().nullable()();
   TextColumn get auditModifiedBy => text().nullable()();
   IntColumn get auditModifiedTime => integer().nullable()();
   TextColumn get clientReferenceId => text()();
-  BoolColumn get isDeleted => boolean().nullable()();
+  BoolColumn get isDeleted => boolean().nullable().withDefault(const Constant(false))();
   IntColumn get rowVersion => integer().nullable()();
+  IntColumn get dateOfEntry => integer().nullable()();
   IntColumn get transactionType => intEnum<TransactionType>().nullable()();
   IntColumn get transactionReason => intEnum<TransactionReason>().nullable()();
   

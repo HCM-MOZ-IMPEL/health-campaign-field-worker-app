@@ -9,14 +9,20 @@ import '../../data/local_store/sql_store/sql_store.dart';
 class DocumentSearchModel extends EntitySearchModel {
   final List<String>? clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   
   DocumentSearchModel({
     this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  DocumentSearchModel.ignoreDeleted({
+    this.clientReferenceId,
+    this.tenantId,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -28,9 +34,9 @@ class DocumentModel extends EntityModel {
   final String? documentType;
   final String? fileStoreId;
   final String? documentUid;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final DocumentAdditionalFields? additionalFields;
 
@@ -40,11 +46,12 @@ class DocumentModel extends EntityModel {
     this.documentType,
     this.fileStoreId,
     this.documentUid,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   DocumentCompanion get companion {
@@ -54,13 +61,14 @@ class DocumentModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       documentType: Value(documentType),
       fileStoreId: Value(fileStoreId),
       documentUid: Value(documentUid),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       );
   }

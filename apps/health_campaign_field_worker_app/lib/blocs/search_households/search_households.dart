@@ -40,13 +40,11 @@ class SearchHouseholdsBloc
   }) : super(const SearchHouseholdsState()) {
     on(
       _handleSearchByHouseholdHead,
-      transformer: debounce<SearchHouseholdsSearchByHouseholdHeadEvent>(
-        const Duration(milliseconds: 500),
-      ),
     );
     on(_handleClear);
     on(_handleSearchByHousehold);
     on(_handleInitialize);
+    on(_handleSetBeneficiaryWrapper);
 
     if (projectBeneficiary is ProjectBeneficiaryLocalRepository) {
       (projectBeneficiary as ProjectBeneficiaryLocalRepository).listenToChanges(
@@ -54,7 +52,9 @@ class SearchHouseholdsBloc
           projectId: projectId,
         ),
         listener: (data) {
-          add(const SearchHouseholdsInitializedEvent());
+          if (!isClosed) {
+            add(const SearchHouseholdsInitializedEvent());
+          }
         },
       );
     }
@@ -65,7 +65,9 @@ class SearchHouseholdsBloc
           projectId: projectId,
         ),
         listener: (data) {
-          add(const SearchHouseholdsInitializedEvent());
+          if (!isClosed) {
+            add(const SearchHouseholdsInitializedEvent());
+          }
         },
       );
     }
@@ -203,11 +205,36 @@ class SearchHouseholdsBloc
       searchQuery: event.searchText,
     ));
 
-    final results = await individual.search(
+    final firstNameResults = await individual.search(
       IndividualSearchModel(
-        name: NameSearchModel(givenName: event.searchText.trim()),
+        name: NameSearchModel(
+          givenName: event.searchText.trim(),
+        ),
       ),
     );
+
+    final lastNameResults = await individual.search(
+      IndividualSearchModel(
+        name: NameSearchModel(
+          familyName: event.searchText.trim(),
+        ),
+      ),
+    );
+
+    Set<String> uniqueIds = {};
+
+    for (final obj in firstNameResults) {
+      uniqueIds.add(obj.clientReferenceId);
+    }
+
+    for (final obj in lastNameResults) {
+      uniqueIds.add(obj.clientReferenceId);
+    }
+
+    List<IndividualModel> results = [
+      ...firstNameResults,
+      ...lastNameResults,
+    ].where((obj) => uniqueIds.contains(obj.clientReferenceId)).toList();
 
     final householdMembers = <HouseholdMemberModel>[];
     for (final element in results) {
@@ -303,6 +330,16 @@ class SearchHouseholdsBloc
     emit(state.copyWith(
       searchQuery: null,
       householdMembers: [],
+      householdMemberWrapper: null,
+    ));
+  }
+
+  FutureOr<void> _handleSetBeneficiaryWrapper(
+    SearchHouseholdsSetBeneficiaryWrapperEvent event,
+    SearchHouseholdsEmitter emit,
+  ) async {
+    emit(state.copyWith(
+      householdMemberWrapper: event.householdMemberWrapper,
     ));
   }
 }
@@ -322,6 +359,10 @@ class SearchHouseholdsEvent with _$SearchHouseholdsEvent {
     required String projectId,
   }) = SearchHouseholdsSearchByHouseholdHeadEvent;
 
+  const factory SearchHouseholdsEvent.setBeneficiaryWrapper({
+    required HouseholdMemberWrapper householdMemberWrapper,
+  }) = SearchHouseholdsSetBeneficiaryWrapperEvent;
+
   const factory SearchHouseholdsEvent.clear() = SearchHouseholdsClearEvent;
 }
 
@@ -335,6 +376,7 @@ class SearchHouseholdsState with _$SearchHouseholdsState {
     @Default([]) List<HouseholdMemberWrapper> householdMembers,
     @Default(0) int registeredHouseholds,
     @Default(0) int deliveredInterventions,
+    HouseholdMemberWrapper? householdMemberWrapper,
   }) = _SearchHouseholdsState;
 
   bool get resultsNotFound {

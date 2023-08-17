@@ -20,6 +20,15 @@ void run(HookContext context) {
         nullable: true,
       ),
       AttributeModel(
+        name: 'nonRecoverableError',
+        type: 'bool',
+        includeForQuery: false,
+        includeForEntity: true,
+        includeForTable: true,
+        nullable: true,
+        defaultValue: 'false',
+      ),
+      AttributeModel(
         name: 'auditCreatedTime',
         type: 'int',
         includeForQuery: false,
@@ -43,6 +52,24 @@ void run(HookContext context) {
         includeForTable: true,
         nullable: true,
       ),
+      if (model.persistBoundaryParameters) ...[
+        AttributeModel(
+          name: 'localityBoundaryCode',
+          type: 'String',
+          includeForQuery: false,
+          includeForEntity: false,
+          includeForTable: true,
+          nullable: true,
+        ),
+        AttributeModel(
+          name: 'localityBoundaryName',
+          type: 'String',
+          includeForQuery: false,
+          includeForEntity: false,
+          includeForTable: true,
+          nullable: true,
+        ),
+      ],
     ],
   );
 
@@ -94,8 +121,9 @@ void run(HookContext context) {
       AttributeModel(
         name: 'isDeleted',
         type: 'bool',
-        includeForQuery: true,
-        includeForEntity: true,
+        defaultValue: "false",
+        includeForQuery: false,
+        includeForEntity: false,
         nullable: true,
       ),
     );
@@ -131,7 +159,9 @@ void run(HookContext context) {
       final columnType = _getSqlColumnType(e.type);
       return e.copyWith(type: type, columnType: columnType);
     }),
-    ...model.customAttributes.where((element) => element.isEnum),
+    ...model.customAttributes.where(
+      (element) => element.isEnum && element.includeForTable,
+    ),
   ];
 
   final references = [

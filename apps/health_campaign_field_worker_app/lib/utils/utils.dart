@@ -1,9 +1,15 @@
 library app_utils;
 
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:drift/drift.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:uuid/uuid.dart';
 
+import '../data/local_store/secure_store/secure_store.dart';
 export 'app_exception.dart';
 export 'constants.dart';
 export 'extensions/extensions.dart';
@@ -40,9 +46,54 @@ class IdGen {
 class CustomValidator {
   /// Validates that control's value must be `true`
   static Map<String, dynamic>? requiredMin(AbstractControl<dynamic> control) {
-    return control.value == null || control.value.toString().length >= 2
+    return control.value == null || control.value.toString().trim().length >= 2
         ? null
-        : {'Min 2 characters Required': true};
+        : {'Mínimo 2 caracteres necessários': true};
+  }
+
+  static Map<String, dynamic>? nonRequiredMin(
+    AbstractControl<dynamic> control,
+  ) {
+    return control.value == null ||
+            control.value.toString().trim().isEmpty ||
+            control.value.toString().trim().length >= 2
+        ? null
+        : {'Mínimo 2 caracteres necessários': true};
+  }
+
+  static Map<String, dynamic>? requiredMinIndividualName(
+    AbstractControl<dynamic> control,
+  ) {
+    return control.value == null || control.value.toString().trim().length >= 3
+        ? null
+        : {'Mínimo 3 caracteres necessários': true};
+  }
+
+  static Map<String, dynamic>? dobRequired(
+    AbstractControl<dynamic> control,
+  ) {
+    return control.value == null || control.value.toString().trim().isEmpty
+        ? {'O campo Idade é obrigatório': true}
+        : null;
+  }
+
+  /// validation for pgr mobile numbers. Need to change later to 9 digits
+  static Map<String, dynamic>? pgrValidMobileNumber(
+    AbstractControl<dynamic> control,
+  ) {
+    if (control.value == null || control.value.toString().isEmpty) {
+      return null;
+    }
+
+    const pattern = r'[0-9]';
+
+    if (control.value.toString().length != 10) {
+      return {'mobileNumber': true};
+    }
+
+    if (RegExp(pattern).hasMatch(control.value.toString())) return null;
+
+    return {'mobileNumber': true};
   }
 
   static Map<String, dynamic>? validMobileNumber(
@@ -52,11 +103,25 @@ class CustomValidator {
       return null;
     }
 
-    const pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+    const pattern = r'[0-9]';
+
+    if (control.value.toString().length != 9) {
+      return {'mobileNumber': true};
+    }
 
     if (RegExp(pattern).hasMatch(control.value.toString())) return null;
 
     return {'mobileNumber': true};
+  }
+
+  static Map<String, dynamic>? vehicleNumberValidation(
+    AbstractControl<dynamic> control,
+  ) {
+    return control.value == null ||
+            control.value.toString().trim().length == 8 ||
+            control.value.toString().trim().length == 9
+        ? null
+        : {'vehicleNumber': true};
   }
 
   static Map<String, dynamic>? validStockCount(
@@ -69,10 +134,36 @@ class CustomValidator {
     var parsed = int.tryParse(control.value) ?? 0;
     if (parsed < 0) {
       return {'min': true};
-    } else if (parsed > 100000) {
+    } else if (parsed > 20000000) {
       return {'max': true};
     }
 
     return null;
+  }
+}
+
+performBackgroundService({
+  BuildContext? context,
+  required bool stopService,
+  required bool isBackground,
+}) async {
+  final connectivityResult = await (Connectivity().checkConnectivity());
+
+  final isOnline = connectivityResult == ConnectivityResult.wifi ||
+      connectivityResult == ConnectivityResult.mobile;
+  final service = FlutterBackgroundService();
+  var isRunning = await service.isRunning();
+
+  if (!stopService) {
+    if (isOnline & !isRunning) {
+      final isStarted = await service.startService();
+      if (!isStarted) {
+        await service.startService();
+      }
+    }
+  } else {
+    if (isRunning) {
+      service.invoke('stopService');
+    }
   }
 }

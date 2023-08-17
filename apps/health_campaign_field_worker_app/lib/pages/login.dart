@@ -51,11 +51,15 @@ class _LoginPageState extends LocalizedState<LoginPage> {
               Loaders.showLoadingDialog(context);
             },
             error: (message) {
+              FocusManager.instance.primaryFocus?.unfocus();
               Navigator.of(context, rootNavigator: true).pop();
               DigitToast.show(
                 context,
                 options: DigitToastOptions(
-                  message ?? 'Unable to login',
+                  message ??
+                      localizations.translate(
+                        i18.login.loginError,
+                      ),
                   true,
                   theme,
                 ),
@@ -85,7 +89,8 @@ class _LoginPageState extends LocalizedState<LoginPage> {
                         ),
                         validationMessages: {
                           "required": (control) {
-                            return '${localizations.translate(i18.login.userIdPlaceholder)} is Required';
+                            return localizations
+                                .translate(i18.login.userIdRequiredError);
                           },
                         },
                         textCapitalization: TextCapitalization.none,
@@ -99,7 +104,8 @@ class _LoginPageState extends LocalizedState<LoginPage> {
                         ),
                         validationMessages: {
                           "required": (control) {
-                            return '${localizations.translate(i18.login.passwordPlaceholder)} is Required';
+                            return localizations
+                                .translate(i18.login.passwordRequiredError);
                           },
                         },
                         formControlName: _password,
@@ -181,11 +187,11 @@ class _LoginPageState extends LocalizedState<LoginPage> {
 
   FormGroup buildForm() => fb.group(<String, Object>{
         _userId: FormControl<String>(
-               value: 'distributorUlongue',
+          // value: 'UAT-DISTRIBUTOR',
           validators: [Validators.required],
         ),
         _password: FormControl<String>(
-               value: 'eGov@1234',
+          // value: 'eGov@4321',
           validators: [Validators.required],
         ),
       });

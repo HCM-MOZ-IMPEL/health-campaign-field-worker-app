@@ -5,14 +5,10 @@ import 'package:drift/drift.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
-import '../../data_repository.dart';
+import 'base/individual_base.dart';
 
-class IndividualLocalRepository
-    extends LocalRepository<IndividualModel, IndividualSearchModel> {
+class IndividualLocalRepository extends IndividualLocalBaseRepository {
   const IndividualLocalRepository(super.sql, super.opLogManager);
-
-  @override
-  DataModelType get type => DataModelType.individual;
 
   @override
   FutureOr<List<IndividualModel>> search(
@@ -70,8 +66,8 @@ class IndividualLocalRepository
                   query.name!.givenName!,
                 ),
               if (query.name?.familyName != null)
-                sql.name.familyName.equals(
-                  query.name!.familyName,
+                sql.name.familyName.contains(
+                  query.name!.familyName!,
                 ),
               if (query.name?.otherNames != null)
                 sql.name.otherNames.equals(
@@ -100,6 +96,7 @@ class IndividualLocalRepository
             mobileNumber: individual.mobileNumber,
             isDeleted: individual.isDeleted,
             rowVersion: individual.rowVersion,
+            nonRecoverableError: individual.nonRecoverableError,
             auditDetails: AuditDetails(
               createdBy: individual.auditCreatedBy!,
               createdTime: individual.auditCreatedTime!,

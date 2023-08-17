@@ -5,10 +5,9 @@ import 'package:drift/drift.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
-import '../../data_repository.dart';
+import 'base/service_base.dart';
 
-class ServiceLocalRepository
-    extends LocalRepository<ServiceModel, ServiceSearchModel> {
+class ServiceLocalRepository extends ServiceLocalBaseRepository {
   ServiceLocalRepository(super.sql, super.opLogManager);
 
   @override
@@ -51,7 +50,7 @@ class ServiceLocalRepository
       auditDetails: entity.auditDetails,
       attributes: entity.attributes?.map((e) {
         return e.dataType == 'Number'
-            ? e.copyWith(value: int.tryParse(e.value))
+            ? e.copyWith(value: e.value != null ? int.tryParse(e.value) : null)
             : e.dataType == 'MultiValueList'
                 ? e.copyWith(
                     value: e.value.toString().split('.'),
@@ -128,12 +127,15 @@ class ServiceLocalRepository
         serviceDefId: data.serviceDefId,
         createdAt: data.createdAt,
         attributes: res.whereNotNull().toList(),
+        auditDetails: AuditDetails(
+          createdBy: data.auditCreatedBy ?? '',
+          createdTime: data.auditCreatedTime ?? 0,
+          lastModifiedTime: data.auditModifiedTime,
+          lastModifiedBy: data.auditModifiedBy,
+        ),
       ));
     }
 
     return serviceList;
   }
-
-  @override
-  DataModelType get type => DataModelType.service;
 }

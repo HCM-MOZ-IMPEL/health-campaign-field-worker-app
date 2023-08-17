@@ -23,6 +23,8 @@ mixin _$SearchHouseholdsEvent {
         searchByHousehold,
     required TResult Function(String searchText, String projectId)
         searchByHouseholdHead,
+    required TResult Function(HouseholdMemberWrapper householdMemberWrapper)
+        setBeneficiaryWrapper,
     required TResult Function() clear,
   }) =>
       throw _privateConstructorUsedError;
@@ -33,6 +35,8 @@ mixin _$SearchHouseholdsEvent {
         searchByHousehold,
     TResult? Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult? Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult? Function()? clear,
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +47,8 @@ mixin _$SearchHouseholdsEvent {
         searchByHousehold,
     TResult Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult Function()? clear,
     required TResult orElse(),
   }) =>
@@ -55,6 +61,8 @@ mixin _$SearchHouseholdsEvent {
         searchByHousehold,
     required TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)
         searchByHouseholdHead,
+    required TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)
+        setBeneficiaryWrapper,
     required TResult Function(SearchHouseholdsClearEvent value) clear,
   }) =>
       throw _privateConstructorUsedError;
@@ -65,6 +73,8 @@ mixin _$SearchHouseholdsEvent {
         searchByHousehold,
     TResult? Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult? Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult? Function(SearchHouseholdsClearEvent value)? clear,
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +85,8 @@ mixin _$SearchHouseholdsEvent {
         searchByHousehold,
     TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult Function(SearchHouseholdsClearEvent value)? clear,
     required TResult orElse(),
   }) =>
@@ -148,6 +160,8 @@ class _$SearchHouseholdsInitializedEvent
         searchByHousehold,
     required TResult Function(String searchText, String projectId)
         searchByHouseholdHead,
+    required TResult Function(HouseholdMemberWrapper householdMemberWrapper)
+        setBeneficiaryWrapper,
     required TResult Function() clear,
   }) {
     return initialize();
@@ -161,6 +175,8 @@ class _$SearchHouseholdsInitializedEvent
         searchByHousehold,
     TResult? Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult? Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult? Function()? clear,
   }) {
     return initialize?.call();
@@ -174,6 +190,8 @@ class _$SearchHouseholdsInitializedEvent
         searchByHousehold,
     TResult Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -192,6 +210,8 @@ class _$SearchHouseholdsInitializedEvent
         searchByHousehold,
     required TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)
         searchByHouseholdHead,
+    required TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)
+        setBeneficiaryWrapper,
     required TResult Function(SearchHouseholdsClearEvent value) clear,
   }) {
     return initialize(this);
@@ -205,6 +225,8 @@ class _$SearchHouseholdsInitializedEvent
         searchByHousehold,
     TResult? Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult? Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult? Function(SearchHouseholdsClearEvent value)? clear,
   }) {
     return initialize?.call(this);
@@ -218,6 +240,8 @@ class _$SearchHouseholdsInitializedEvent
         searchByHousehold,
     TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult Function(SearchHouseholdsClearEvent value)? clear,
     required TResult orElse(),
   }) {
@@ -320,6 +344,8 @@ class _$SearchHouseholdsByHouseholdsEvent
         searchByHousehold,
     required TResult Function(String searchText, String projectId)
         searchByHouseholdHead,
+    required TResult Function(HouseholdMemberWrapper householdMemberWrapper)
+        setBeneficiaryWrapper,
     required TResult Function() clear,
   }) {
     return searchByHousehold(projectId, householdModel);
@@ -333,6 +359,8 @@ class _$SearchHouseholdsByHouseholdsEvent
         searchByHousehold,
     TResult? Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult? Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult? Function()? clear,
   }) {
     return searchByHousehold?.call(projectId, householdModel);
@@ -346,6 +374,8 @@ class _$SearchHouseholdsByHouseholdsEvent
         searchByHousehold,
     TResult Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -364,6 +394,8 @@ class _$SearchHouseholdsByHouseholdsEvent
         searchByHousehold,
     required TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)
         searchByHouseholdHead,
+    required TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)
+        setBeneficiaryWrapper,
     required TResult Function(SearchHouseholdsClearEvent value) clear,
   }) {
     return searchByHousehold(this);
@@ -377,6 +409,8 @@ class _$SearchHouseholdsByHouseholdsEvent
         searchByHousehold,
     TResult? Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult? Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult? Function(SearchHouseholdsClearEvent value)? clear,
   }) {
     return searchByHousehold?.call(this);
@@ -390,6 +424,8 @@ class _$SearchHouseholdsByHouseholdsEvent
         searchByHousehold,
     TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult Function(SearchHouseholdsClearEvent value)? clear,
     required TResult orElse(),
   }) {
@@ -502,6 +538,8 @@ class _$SearchHouseholdsSearchByHouseholdHeadEvent
         searchByHousehold,
     required TResult Function(String searchText, String projectId)
         searchByHouseholdHead,
+    required TResult Function(HouseholdMemberWrapper householdMemberWrapper)
+        setBeneficiaryWrapper,
     required TResult Function() clear,
   }) {
     return searchByHouseholdHead(searchText, projectId);
@@ -515,6 +553,8 @@ class _$SearchHouseholdsSearchByHouseholdHeadEvent
         searchByHousehold,
     TResult? Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult? Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult? Function()? clear,
   }) {
     return searchByHouseholdHead?.call(searchText, projectId);
@@ -528,6 +568,8 @@ class _$SearchHouseholdsSearchByHouseholdHeadEvent
         searchByHousehold,
     TResult Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -546,6 +588,8 @@ class _$SearchHouseholdsSearchByHouseholdHeadEvent
         searchByHousehold,
     required TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)
         searchByHouseholdHead,
+    required TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)
+        setBeneficiaryWrapper,
     required TResult Function(SearchHouseholdsClearEvent value) clear,
   }) {
     return searchByHouseholdHead(this);
@@ -559,6 +603,8 @@ class _$SearchHouseholdsSearchByHouseholdHeadEvent
         searchByHousehold,
     TResult? Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult? Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult? Function(SearchHouseholdsClearEvent value)? clear,
   }) {
     return searchByHouseholdHead?.call(this);
@@ -572,6 +618,8 @@ class _$SearchHouseholdsSearchByHouseholdHeadEvent
         searchByHousehold,
     TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult Function(SearchHouseholdsClearEvent value)? clear,
     required TResult orElse(),
   }) {
@@ -593,6 +641,200 @@ abstract class SearchHouseholdsSearchByHouseholdHeadEvent
   @JsonKey(ignore: true)
   _$$SearchHouseholdsSearchByHouseholdHeadEventCopyWith<
           _$SearchHouseholdsSearchByHouseholdHeadEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWith<$Res> {
+  factory _$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWith(
+          _$SearchHouseholdsSetBeneficiaryWrapperEvent value,
+          $Res Function(_$SearchHouseholdsSetBeneficiaryWrapperEvent) then) =
+      __$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({HouseholdMemberWrapper householdMemberWrapper});
+
+  $HouseholdMemberWrapperCopyWith<$Res> get householdMemberWrapper;
+}
+
+/// @nodoc
+class __$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWithImpl<$Res>
+    extends _$SearchHouseholdsEventCopyWithImpl<$Res,
+        _$SearchHouseholdsSetBeneficiaryWrapperEvent>
+    implements _$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWith<$Res> {
+  __$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWithImpl(
+      _$SearchHouseholdsSetBeneficiaryWrapperEvent _value,
+      $Res Function(_$SearchHouseholdsSetBeneficiaryWrapperEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? householdMemberWrapper = null,
+  }) {
+    return _then(_$SearchHouseholdsSetBeneficiaryWrapperEvent(
+      householdMemberWrapper: null == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HouseholdMemberWrapperCopyWith<$Res> get householdMemberWrapper {
+    return $HouseholdMemberWrapperCopyWith<$Res>(_value.householdMemberWrapper,
+        (value) {
+      return _then(_value.copyWith(householdMemberWrapper: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$SearchHouseholdsSetBeneficiaryWrapperEvent
+    implements SearchHouseholdsSetBeneficiaryWrapperEvent {
+  const _$SearchHouseholdsSetBeneficiaryWrapperEvent(
+      {required this.householdMemberWrapper});
+
+  @override
+  final HouseholdMemberWrapper householdMemberWrapper;
+
+  @override
+  String toString() {
+    return 'SearchHouseholdsEvent.setBeneficiaryWrapper(householdMemberWrapper: $householdMemberWrapper)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchHouseholdsSetBeneficiaryWrapperEvent &&
+            (identical(other.householdMemberWrapper, householdMemberWrapper) ||
+                other.householdMemberWrapper == householdMemberWrapper));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, householdMemberWrapper);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWith<
+          _$SearchHouseholdsSetBeneficiaryWrapperEvent>
+      get copyWith =>
+          __$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWithImpl<
+              _$SearchHouseholdsSetBeneficiaryWrapperEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initialize,
+    required TResult Function(String projectId, HouseholdModel householdModel)
+        searchByHousehold,
+    required TResult Function(String searchText, String projectId)
+        searchByHouseholdHead,
+    required TResult Function(HouseholdMemberWrapper householdMemberWrapper)
+        setBeneficiaryWrapper,
+    required TResult Function() clear,
+  }) {
+    return setBeneficiaryWrapper(householdMemberWrapper);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initialize,
+    TResult? Function(String projectId, HouseholdModel householdModel)?
+        searchByHousehold,
+    TResult? Function(String searchText, String projectId)?
+        searchByHouseholdHead,
+    TResult? Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
+    TResult? Function()? clear,
+  }) {
+    return setBeneficiaryWrapper?.call(householdMemberWrapper);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initialize,
+    TResult Function(String projectId, HouseholdModel householdModel)?
+        searchByHousehold,
+    TResult Function(String searchText, String projectId)?
+        searchByHouseholdHead,
+    TResult Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
+    TResult Function()? clear,
+    required TResult orElse(),
+  }) {
+    if (setBeneficiaryWrapper != null) {
+      return setBeneficiaryWrapper(householdMemberWrapper);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SearchHouseholdsInitializedEvent value)
+        initialize,
+    required TResult Function(SearchHouseholdsByHouseholdsEvent value)
+        searchByHousehold,
+    required TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)
+        searchByHouseholdHead,
+    required TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)
+        setBeneficiaryWrapper,
+    required TResult Function(SearchHouseholdsClearEvent value) clear,
+  }) {
+    return setBeneficiaryWrapper(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(SearchHouseholdsInitializedEvent value)? initialize,
+    TResult? Function(SearchHouseholdsByHouseholdsEvent value)?
+        searchByHousehold,
+    TResult? Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
+        searchByHouseholdHead,
+    TResult? Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
+    TResult? Function(SearchHouseholdsClearEvent value)? clear,
+  }) {
+    return setBeneficiaryWrapper?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SearchHouseholdsInitializedEvent value)? initialize,
+    TResult Function(SearchHouseholdsByHouseholdsEvent value)?
+        searchByHousehold,
+    TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
+        searchByHouseholdHead,
+    TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
+    TResult Function(SearchHouseholdsClearEvent value)? clear,
+    required TResult orElse(),
+  }) {
+    if (setBeneficiaryWrapper != null) {
+      return setBeneficiaryWrapper(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchHouseholdsSetBeneficiaryWrapperEvent
+    implements SearchHouseholdsEvent {
+  const factory SearchHouseholdsSetBeneficiaryWrapperEvent(
+          {required final HouseholdMemberWrapper householdMemberWrapper}) =
+      _$SearchHouseholdsSetBeneficiaryWrapperEvent;
+
+  HouseholdMemberWrapper get householdMemberWrapper;
+  @JsonKey(ignore: true)
+  _$$SearchHouseholdsSetBeneficiaryWrapperEventCopyWith<
+          _$SearchHouseholdsSetBeneficiaryWrapperEvent>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -643,6 +885,8 @@ class _$SearchHouseholdsClearEvent implements SearchHouseholdsClearEvent {
         searchByHousehold,
     required TResult Function(String searchText, String projectId)
         searchByHouseholdHead,
+    required TResult Function(HouseholdMemberWrapper householdMemberWrapper)
+        setBeneficiaryWrapper,
     required TResult Function() clear,
   }) {
     return clear();
@@ -656,6 +900,8 @@ class _$SearchHouseholdsClearEvent implements SearchHouseholdsClearEvent {
         searchByHousehold,
     TResult? Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult? Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult? Function()? clear,
   }) {
     return clear?.call();
@@ -669,6 +915,8 @@ class _$SearchHouseholdsClearEvent implements SearchHouseholdsClearEvent {
         searchByHousehold,
     TResult Function(String searchText, String projectId)?
         searchByHouseholdHead,
+    TResult Function(HouseholdMemberWrapper householdMemberWrapper)?
+        setBeneficiaryWrapper,
     TResult Function()? clear,
     required TResult orElse(),
   }) {
@@ -687,6 +935,8 @@ class _$SearchHouseholdsClearEvent implements SearchHouseholdsClearEvent {
         searchByHousehold,
     required TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)
         searchByHouseholdHead,
+    required TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)
+        setBeneficiaryWrapper,
     required TResult Function(SearchHouseholdsClearEvent value) clear,
   }) {
     return clear(this);
@@ -700,6 +950,8 @@ class _$SearchHouseholdsClearEvent implements SearchHouseholdsClearEvent {
         searchByHousehold,
     TResult? Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult? Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult? Function(SearchHouseholdsClearEvent value)? clear,
   }) {
     return clear?.call(this);
@@ -713,6 +965,8 @@ class _$SearchHouseholdsClearEvent implements SearchHouseholdsClearEvent {
         searchByHousehold,
     TResult Function(SearchHouseholdsSearchByHouseholdHeadEvent value)?
         searchByHouseholdHead,
+    TResult Function(SearchHouseholdsSetBeneficiaryWrapperEvent value)?
+        setBeneficiaryWrapper,
     TResult Function(SearchHouseholdsClearEvent value)? clear,
     required TResult orElse(),
   }) {
@@ -735,6 +989,8 @@ mixin _$SearchHouseholdsState {
       throw _privateConstructorUsedError;
   int get registeredHouseholds => throw _privateConstructorUsedError;
   int get deliveredInterventions => throw _privateConstructorUsedError;
+  HouseholdMemberWrapper? get householdMemberWrapper =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SearchHouseholdsStateCopyWith<SearchHouseholdsState> get copyWith =>
@@ -752,7 +1008,10 @@ abstract class $SearchHouseholdsStateCopyWith<$Res> {
       String? searchQuery,
       List<HouseholdMemberWrapper> householdMembers,
       int registeredHouseholds,
-      int deliveredInterventions});
+      int deliveredInterventions,
+      HouseholdMemberWrapper? householdMemberWrapper});
+
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper;
 }
 
 /// @nodoc
@@ -774,6 +1033,7 @@ class _$SearchHouseholdsStateCopyWithImpl<$Res,
     Object? householdMembers = null,
     Object? registeredHouseholds = null,
     Object? deliveredInterventions = null,
+    Object? householdMemberWrapper = freezed,
   }) {
     return _then(_value.copyWith(
       loading: null == loading
@@ -796,7 +1056,24 @@ class _$SearchHouseholdsStateCopyWithImpl<$Res,
           ? _value.deliveredInterventions
           : deliveredInterventions // ignore: cast_nullable_to_non_nullable
               as int,
+      householdMemberWrapper: freezed == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper {
+    if (_value.householdMemberWrapper == null) {
+      return null;
+    }
+
+    return $HouseholdMemberWrapperCopyWith<$Res>(_value.householdMemberWrapper!,
+        (value) {
+      return _then(_value.copyWith(householdMemberWrapper: value) as $Val);
+    });
   }
 }
 
@@ -813,7 +1090,11 @@ abstract class _$$_SearchHouseholdsStateCopyWith<$Res>
       String? searchQuery,
       List<HouseholdMemberWrapper> householdMembers,
       int registeredHouseholds,
-      int deliveredInterventions});
+      int deliveredInterventions,
+      HouseholdMemberWrapper? householdMemberWrapper});
+
+  @override
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper;
 }
 
 /// @nodoc
@@ -832,6 +1113,7 @@ class __$$_SearchHouseholdsStateCopyWithImpl<$Res>
     Object? householdMembers = null,
     Object? registeredHouseholds = null,
     Object? deliveredInterventions = null,
+    Object? householdMemberWrapper = freezed,
   }) {
     return _then(_$_SearchHouseholdsState(
       loading: null == loading
@@ -854,6 +1136,10 @@ class __$$_SearchHouseholdsStateCopyWithImpl<$Res>
           ? _value.deliveredInterventions
           : deliveredInterventions // ignore: cast_nullable_to_non_nullable
               as int,
+      householdMemberWrapper: freezed == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper?,
     ));
   }
 }
@@ -866,7 +1152,8 @@ class _$_SearchHouseholdsState extends _SearchHouseholdsState {
       this.searchQuery,
       final List<HouseholdMemberWrapper> householdMembers = const [],
       this.registeredHouseholds = 0,
-      this.deliveredInterventions = 0})
+      this.deliveredInterventions = 0,
+      this.householdMemberWrapper})
       : _householdMembers = householdMembers,
         super._();
 
@@ -889,10 +1176,12 @@ class _$_SearchHouseholdsState extends _SearchHouseholdsState {
   @override
   @JsonKey()
   final int deliveredInterventions;
+  @override
+  final HouseholdMemberWrapper? householdMemberWrapper;
 
   @override
   String toString() {
-    return 'SearchHouseholdsState(loading: $loading, searchQuery: $searchQuery, householdMembers: $householdMembers, registeredHouseholds: $registeredHouseholds, deliveredInterventions: $deliveredInterventions)';
+    return 'SearchHouseholdsState(loading: $loading, searchQuery: $searchQuery, householdMembers: $householdMembers, registeredHouseholds: $registeredHouseholds, deliveredInterventions: $deliveredInterventions, householdMemberWrapper: $householdMemberWrapper)';
   }
 
   @override
@@ -908,7 +1197,9 @@ class _$_SearchHouseholdsState extends _SearchHouseholdsState {
             (identical(other.registeredHouseholds, registeredHouseholds) ||
                 other.registeredHouseholds == registeredHouseholds) &&
             (identical(other.deliveredInterventions, deliveredInterventions) ||
-                other.deliveredInterventions == deliveredInterventions));
+                other.deliveredInterventions == deliveredInterventions) &&
+            (identical(other.householdMemberWrapper, householdMemberWrapper) ||
+                other.householdMemberWrapper == householdMemberWrapper));
   }
 
   @override
@@ -918,7 +1209,8 @@ class _$_SearchHouseholdsState extends _SearchHouseholdsState {
       searchQuery,
       const DeepCollectionEquality().hash(_householdMembers),
       registeredHouseholds,
-      deliveredInterventions);
+      deliveredInterventions,
+      householdMemberWrapper);
 
   @JsonKey(ignore: true)
   @override
@@ -930,11 +1222,13 @@ class _$_SearchHouseholdsState extends _SearchHouseholdsState {
 
 abstract class _SearchHouseholdsState extends SearchHouseholdsState {
   const factory _SearchHouseholdsState(
-      {final bool loading,
-      final String? searchQuery,
-      final List<HouseholdMemberWrapper> householdMembers,
-      final int registeredHouseholds,
-      final int deliveredInterventions}) = _$_SearchHouseholdsState;
+          {final bool loading,
+          final String? searchQuery,
+          final List<HouseholdMemberWrapper> householdMembers,
+          final int registeredHouseholds,
+          final int deliveredInterventions,
+          final HouseholdMemberWrapper? householdMemberWrapper}) =
+      _$_SearchHouseholdsState;
   const _SearchHouseholdsState._() : super._();
 
   @override
@@ -947,6 +1241,8 @@ abstract class _SearchHouseholdsState extends SearchHouseholdsState {
   int get registeredHouseholds;
   @override
   int get deliveredInterventions;
+  @override
+  HouseholdMemberWrapper? get householdMemberWrapper;
   @override
   @JsonKey(ignore: true)
   _$$_SearchHouseholdsStateCopyWith<_$_SearchHouseholdsState> get copyWith =>

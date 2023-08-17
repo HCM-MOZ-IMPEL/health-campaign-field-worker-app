@@ -3,11 +3,13 @@ import 'dart:convert';
 
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
+import 'package:drift/drift.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/data_model.dart';
 import '../utils/constants.dart';
 import '../utils/environment_config.dart';
+import '../utils/utils.dart';
 import 'local_store/sql_store/sql_store.dart';
 import 'repositories/oplog/oplog.dart';
 
@@ -69,7 +71,7 @@ abstract class RemoteRepository<D extends EntityModel,
     Response response;
 
     try {
-      response = await _executeFuture(
+      response = await executeFuture(
         future: () async {
           return await dio.post(
             searchPath,
@@ -77,6 +79,7 @@ abstract class RemoteRepository<D extends EntityModel,
               'offset': 0,
               'limit': 100,
               'tenantId': envConfig.variables.tenantId,
+              if (query.isDeleted ?? false) 'includeDeleted': query.isDeleted,
             },
             data: {
               isPlural
@@ -88,8 +91,14 @@ abstract class RemoteRepository<D extends EntityModel,
           );
         },
       );
-    } catch (error) {
-      return [];
+    } on DioError catch (error) {
+      if (error.response!.data['Errors'][0]['message']
+          .toString()
+          .contains(Constants.invalidAccessTokenKey)) {
+        rethrow;
+      } else {
+        return [];
+      }
     }
 
     final responseMap = (response.data);
@@ -143,7 +152,7 @@ abstract class RemoteRepository<D extends EntityModel,
 
   @override
   FutureOr<Response> create(D entity) async {
-    return _executeFuture(
+    return executeFuture(
       future: () async {
         return await dio.post(
           createPath,
@@ -158,7 +167,7 @@ abstract class RemoteRepository<D extends EntityModel,
 
   @override
   FutureOr<Response> delete(D entity) async {
-    return _executeFuture(
+    return executeFuture(
       future: () async {
         return await dio.post(
           createPath,
@@ -172,7 +181,7 @@ abstract class RemoteRepository<D extends EntityModel,
   }
 
   FutureOr<Response> bulkCreate(List<EntityModel> entities) async {
-    return _executeFuture(
+    return executeFuture(
       future: () async {
         return await dio.post(
           bulkCreatePath,
@@ -188,7 +197,7 @@ abstract class RemoteRepository<D extends EntityModel,
   }
 
   FutureOr<Response> bulkUpdate(List<EntityModel> entities) async {
-    return _executeFuture(
+    return executeFuture(
       future: () async {
         return await dio.post(
           bulkUpdatePath,
@@ -204,8 +213,60 @@ abstract class RemoteRepository<D extends EntityModel,
     );
   }
 
+  FutureOr<Response> dumpError(
+    List<EntityModel> entities,
+    DataOperation operation,
+  ) async {
+    return executeFuture(
+      future: () async {
+        String url = "";
+
+        if (operation == DataOperation.create) {
+          url = bulkCreatePath;
+        } else if (operation == DataOperation.update) {
+          url = bulkUpdatePath;
+        } else if (operation == DataOperation.delete) {
+          url = bulkDeletePath;
+        } else if (operation == DataOperation.singleCreate) {
+          url = createPath;
+        } else if (operation == DataOperation.singleCreate) {
+          url = searchPath;
+        }
+
+        return await dio.post(
+          envConfig.variables.dumpErrorApiPath,
+          options: Options(headers: {
+            "content-type": 'application/json',
+          }),
+          data: {
+            'errorDetail': {
+              "apiDetails": {
+                "id": null,
+                "url": url,
+                "contentType": null,
+                "methodType": null,
+                "requestBody": _getMap(entities).toString(),
+                "requestHeaders": null,
+                "additionalDetails": null,
+              },
+              "errors": [
+                {
+                  "exception": null,
+                  "type": "NON_RECOVERABLE",
+                  "errorCode": null,
+                  "errorMessage": "UPLOAD_ERROR_FROM_APP",
+                  "additionalDetails": null,
+                },
+              ],
+            },
+          },
+        );
+      },
+    );
+  }
+
   FutureOr<Response> bulkDelete(List<EntityModel> entities) async {
-    return _executeFuture(
+    return executeFuture(
       future: () async {
         return await dio.post(
           bulkDeletePath,
@@ -223,7 +284,7 @@ abstract class RemoteRepository<D extends EntityModel,
 
   @override
   FutureOr<Response> update(EntityModel entity) async {
-    return _executeFuture(
+    return executeFuture(
       future: () async {
         return await dio.post(
           updatePath,
@@ -240,7 +301,7 @@ abstract class RemoteRepository<D extends EntityModel,
     return entities.map((e) => Mapper.toMap(e)).toList();
   }
 
-  FutureOr<T> _executeFuture<T>({
+  FutureOr<T> executeFuture<T>({
     required Future<T> Function() future,
   }) async {
     try {
@@ -250,8 +311,6 @@ abstract class RemoteRepository<D extends EntityModel,
 
       String? errorResponse;
       String? requestBody;
-
-      debugPrint('${'-' * 40} ${runtimeType.toString()} ${'-' * 40}');
 
       try {
         errorResponse = encoder.convert(
@@ -277,10 +336,6 @@ abstract class RemoteRepository<D extends EntityModel,
         title: '${runtimeType.toString()} | DIO_ERROR',
       );
 
-      debugPrint(
-        '${'-' * 40}${'-' * (runtimeType.toString().length + 2)}${'-' * 40}',
-      );
-
       rethrow;
     } catch (error) {
       AppLogger.instance.error(
@@ -300,6 +355,8 @@ abstract class LocalRepository<D extends EntityModel,
 
   const LocalRepository(this.sql, this.opLogManager);
 
+  TableInfo get table;
+
   @override
   @mustCallSuper
   FutureOr<void> create(
@@ -309,6 +366,8 @@ abstract class LocalRepository<D extends EntityModel,
   }) async {
     if (createOpLog) await createOplogEntry(entity, dataOperation);
   }
+
+  FutureOr<void> bulkCreate(List<D> entities) => throw UnimplementedError();
 
   @override
   @mustCallSuper
@@ -320,6 +379,10 @@ abstract class LocalRepository<D extends EntityModel,
   @mustCallSuper
   FutureOr<void> delete(D entity, {bool createOpLog = true}) async {
     if (createOpLog) await createOplogEntry(entity, DataOperation.delete);
+  }
+
+  FutureOr<void> deleteAll() async {
+    await sql.deleteFromTable(table);
   }
 
   FutureOr<void> createOplogEntry(D entity, DataOperation operation) async {
@@ -346,12 +409,18 @@ abstract class LocalRepository<D extends EntityModel,
     return opLogManager.getPendingDownSync(type, createdBy: createdBy);
   }
 
-  FutureOr<void> markSyncedUp(OpLogEntry<D> entry) async {
-    return opLogManager.markSyncUp(entry);
-  }
-
-  FutureOr<void> markSyncedDown(OpLogEntry<D> entry) async {
-    return opLogManager.markSyncDown(entry);
+  FutureOr<void> markSyncedUp({
+    OpLogEntry<D>? entry,
+    String? clientReferenceId,
+    int? id,
+    bool? nonRecoverableError,
+  }) async {
+    return opLogManager.markSyncUp(
+      entry: entry,
+      id: id,
+      clientReferenceId: clientReferenceId,
+      nonRecoverableError: nonRecoverableError,
+    );
   }
 }
 

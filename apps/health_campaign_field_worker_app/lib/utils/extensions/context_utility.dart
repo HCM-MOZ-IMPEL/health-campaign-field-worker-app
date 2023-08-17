@@ -5,41 +5,58 @@ extension ContextUtilityExtensions on BuildContext {
     return (dateTime ?? DateTime.now()).millisecondsSinceEpoch;
   }
 
-  String get projectId {
+  ProjectModel get selectedProject {
+    final projectBloc = _get<ProjectBloc>();
+
+    final projectState = projectBloc.state;
+    final selectedProject = projectState.selectedProject;
+
+    if (selectedProject == null) {
+      throw AppException('No project is selected');
+    }
+
+    return selectedProject;
+  }
+
+  String get projectId => selectedProject.id;
+
+  BoundaryModel get boundary {
+    final boundaryBloc = _get<BoundaryBloc>();
+    final boundaryState = boundaryBloc.state;
+
+    final selectedBoundary = boundaryState.selectedBoundaryMap.entries
+        .where((element) => element.value != null)
+        .lastOrNull
+        ?.value;
+
+    if (selectedBoundary == null) {
+      throw AppException('No boundary is selected');
+    }
+
+    return selectedBoundary;
+  }
+
+  BeneficiaryType get beneficiaryType {
     final projectBloc = _get<ProjectBloc>();
 
     final projectState = projectBloc.state;
 
-    return projectState.maybeWhen(
-      orElse: () {
-        throw AppException('Invalid project state');
-      },
-      fetched: (projects, selectedProject) {
-        if (selectedProject == null) {
-          throw AppException('No project is selected');
-        }
+    final BeneficiaryType? selectedBeneficiary =
+        projectState.selectedProject?.targets?.firstOrNull?.beneficiaryType;
 
-        return selectedProject.id;
-      },
-    );
+    if (selectedBeneficiary == null) {
+      throw AppException('No beneficiary type is selected');
+    }
+
+    return selectedBeneficiary;
   }
 
-  String get boundaryCode {
-    final boundaryBloc = _get<BoundaryBloc>();
-    final boundaryState = boundaryBloc.state;
-
-    return boundaryState.maybeWhen(
-      orElse: () {
-        throw AppException('Invalid project state');
-      },
-      fetched: (bondaries, boundaryMapper, selectedBoundary) {
-        if (selectedBoundary == null) {
-          throw AppException('No project is selected');
-        }
-
-        return selectedBoundary;
-      },
-    );
+  BoundaryModel? get boundaryOrNull {
+    try {
+      return boundary;
+    } catch (_) {
+      return null;
+    }
   }
 
   String get loggedInUserUuid {
@@ -55,6 +72,21 @@ extension ContextUtilityExtensions on BuildContext {
     }
 
     return userRequestObject.uuid;
+  }
+
+  UserRequestModel get loggedInUser {
+    final authBloc = _get<AuthBloc>();
+    final userRequestObject = authBloc.state.whenOrNull(
+      authenticated: (accessToken, refreshToken, userModel) {
+        return userModel;
+      },
+    );
+
+    if (userRequestObject == null) {
+      throw AppException('User not authenticated');
+    }
+
+    return userRequestObject;
   }
 
   NetworkManager get networkManager => read<NetworkManager>();

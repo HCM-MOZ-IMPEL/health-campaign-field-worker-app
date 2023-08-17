@@ -39,16 +39,22 @@ class DigitListView extends StatelessWidget {
                         const SizedBox(
                           width: 14,
                         ),
-                        Text(
-                          title,
-                          style: theme.textTheme.headlineMedium,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: theme.textTheme.headlineMedium,
+                            ),
+                            Offstage(
+                              offstage: description == null,
+                              child: Text(description!),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Offstage(
-                      offstage: description == null,
-                      child: Text(description!),
-                    ),
+
                   ],
                 )),
             Icon(

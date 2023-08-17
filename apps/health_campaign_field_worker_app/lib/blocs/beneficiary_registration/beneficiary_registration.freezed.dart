@@ -35,7 +35,9 @@ mixin _$BeneficiaryRegistrationEvent {
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,7 +57,9 @@ mixin _$BeneficiaryRegistrationEvent {
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,7 +79,8 @@ mixin _$BeneficiaryRegistrationEvent {
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -244,7 +249,9 @@ class _$BeneficiaryRegistrationSaveAddressEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
     return saveAddress(model);
   }
@@ -267,7 +274,9 @@ class _$BeneficiaryRegistrationSaveAddressEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
     return saveAddress?.call(model);
   }
@@ -290,7 +299,8 @@ class _$BeneficiaryRegistrationSaveAddressEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (saveAddress != null) {
@@ -482,7 +492,9 @@ class _$BeneficiaryRegistrationSaveHouseholdDetailsEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
     return saveHouseholdDetails(household, registrationDate);
   }
@@ -505,7 +517,9 @@ class _$BeneficiaryRegistrationSaveHouseholdDetailsEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
     return saveHouseholdDetails?.call(household, registrationDate);
   }
@@ -528,7 +542,8 @@ class _$BeneficiaryRegistrationSaveHouseholdDetailsEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (saveHouseholdDetails != null) {
@@ -723,7 +738,9 @@ class _$BeneficiaryRegistrationSaveIndividualDetailsEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
     return saveIndividualDetails(model, isHeadOfHousehold);
   }
@@ -746,7 +763,9 @@ class _$BeneficiaryRegistrationSaveIndividualDetailsEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
     return saveIndividualDetails?.call(model, isHeadOfHousehold);
   }
@@ -769,7 +788,8 @@ class _$BeneficiaryRegistrationSaveIndividualDetailsEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (saveIndividualDetails != null) {
@@ -985,7 +1005,9 @@ class _$BeneficiaryRegistrationAddMemberEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
     return addMember(householdModel, individualModel, addressModel, userUuid);
   }
@@ -1008,7 +1030,9 @@ class _$BeneficiaryRegistrationAddMemberEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
     return addMember?.call(
         householdModel, individualModel, addressModel, userUuid);
@@ -1032,7 +1056,8 @@ class _$BeneficiaryRegistrationAddMemberEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (addMember != null) {
@@ -1231,7 +1256,9 @@ class _$BeneficiaryRegistrationUpdateHouseholdDetailsEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
     return updateHouseholdDetails(household, addressModel);
   }
@@ -1254,7 +1281,9 @@ class _$BeneficiaryRegistrationUpdateHouseholdDetailsEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
     return updateHouseholdDetails?.call(household, addressModel);
   }
@@ -1277,7 +1306,8 @@ class _$BeneficiaryRegistrationUpdateHouseholdDetailsEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (updateHouseholdDetails != null) {
@@ -1472,7 +1502,9 @@ class _$BeneficiaryRegistrationUpdateIndividualDetailsEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
     return updateIndividualDetails(model, addressModel);
   }
@@ -1495,7 +1527,9 @@ class _$BeneficiaryRegistrationUpdateIndividualDetailsEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
     return updateIndividualDetails?.call(model, addressModel);
   }
@@ -1518,7 +1552,8 @@ class _$BeneficiaryRegistrationUpdateIndividualDetailsEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (updateIndividualDetails != null) {
@@ -1617,7 +1652,7 @@ abstract class _$$BeneficiaryRegistrationCreateEventCopyWith<$Res> {
           $Res Function(_$BeneficiaryRegistrationCreateEvent) then) =
       __$$BeneficiaryRegistrationCreateEventCopyWithImpl<$Res>;
   @useResult
-  $Res call({String userUuid, String projectId});
+  $Res call({String userUuid, String projectId, BoundaryModel boundary});
 }
 
 /// @nodoc
@@ -1635,6 +1670,7 @@ class __$$BeneficiaryRegistrationCreateEventCopyWithImpl<$Res>
   $Res call({
     Object? userUuid = null,
     Object? projectId = null,
+    Object? boundary = null,
   }) {
     return _then(_$BeneficiaryRegistrationCreateEvent(
       userUuid: null == userUuid
@@ -1645,6 +1681,10 @@ class __$$BeneficiaryRegistrationCreateEventCopyWithImpl<$Res>
           ? _value.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
               as String,
+      boundary: null == boundary
+          ? _value.boundary
+          : boundary // ignore: cast_nullable_to_non_nullable
+              as BoundaryModel,
     ));
   }
 }
@@ -1654,16 +1694,20 @@ class __$$BeneficiaryRegistrationCreateEventCopyWithImpl<$Res>
 class _$BeneficiaryRegistrationCreateEvent
     implements BeneficiaryRegistrationCreateEvent {
   const _$BeneficiaryRegistrationCreateEvent(
-      {required this.userUuid, required this.projectId});
+      {required this.userUuid,
+      required this.projectId,
+      required this.boundary});
 
   @override
   final String userUuid;
   @override
   final String projectId;
+  @override
+  final BoundaryModel boundary;
 
   @override
   String toString() {
-    return 'BeneficiaryRegistrationEvent.create(userUuid: $userUuid, projectId: $projectId)';
+    return 'BeneficiaryRegistrationEvent.create(userUuid: $userUuid, projectId: $projectId, boundary: $boundary)';
   }
 
   @override
@@ -1674,11 +1718,13 @@ class _$BeneficiaryRegistrationCreateEvent
             (identical(other.userUuid, userUuid) ||
                 other.userUuid == userUuid) &&
             (identical(other.projectId, projectId) ||
-                other.projectId == projectId));
+                other.projectId == projectId) &&
+            (identical(other.boundary, boundary) ||
+                other.boundary == boundary));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, userUuid, projectId);
+  int get hashCode => Object.hash(runtimeType, userUuid, projectId, boundary);
 
   @JsonKey(ignore: true)
   @override
@@ -1708,9 +1754,11 @@ class _$BeneficiaryRegistrationCreateEvent
         updateHouseholdDetails,
     required TResult Function(IndividualModel model, AddressModel addressModel)
         updateIndividualDetails,
-    required TResult Function(String userUuid, String projectId) create,
+    required TResult Function(
+            String userUuid, String projectId, BoundaryModel boundary)
+        create,
   }) {
-    return create(userUuid, projectId);
+    return create(userUuid, projectId, boundary);
   }
 
   @override
@@ -1731,9 +1779,11 @@ class _$BeneficiaryRegistrationCreateEvent
         updateHouseholdDetails,
     TResult? Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult? Function(String userUuid, String projectId)? create,
+    TResult? Function(
+            String userUuid, String projectId, BoundaryModel boundary)?
+        create,
   }) {
-    return create?.call(userUuid, projectId);
+    return create?.call(userUuid, projectId, boundary);
   }
 
   @override
@@ -1754,11 +1804,12 @@ class _$BeneficiaryRegistrationCreateEvent
         updateHouseholdDetails,
     TResult Function(IndividualModel model, AddressModel addressModel)?
         updateIndividualDetails,
-    TResult Function(String userUuid, String projectId)? create,
+    TResult Function(String userUuid, String projectId, BoundaryModel boundary)?
+        create,
     required TResult orElse(),
   }) {
     if (create != null) {
-      return create(userUuid, projectId);
+      return create(userUuid, projectId, boundary);
     }
     return orElse();
   }
@@ -1834,11 +1885,14 @@ class _$BeneficiaryRegistrationCreateEvent
 abstract class BeneficiaryRegistrationCreateEvent
     implements BeneficiaryRegistrationEvent {
   const factory BeneficiaryRegistrationCreateEvent(
-      {required final String userUuid,
-      required final String projectId}) = _$BeneficiaryRegistrationCreateEvent;
+          {required final String userUuid,
+          required final String projectId,
+          required final BoundaryModel boundary}) =
+      _$BeneficiaryRegistrationCreateEvent;
 
   String get userUuid;
   String get projectId;
+  BoundaryModel get boundary;
   @JsonKey(ignore: true)
   _$$BeneficiaryRegistrationCreateEventCopyWith<
           _$BeneficiaryRegistrationCreateEvent>
@@ -1869,13 +1923,16 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) =>
       throw _privateConstructorUsedError;
@@ -1901,12 +1958,14 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) =>
       throw _privateConstructorUsedError;
@@ -1932,12 +1991,14 @@ mixin _$BeneficiaryRegistrationState {
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) =>
@@ -2169,13 +2230,16 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return create(addressModel, householdModel, individualModel,
@@ -2205,12 +2269,14 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return create?.call(addressModel, householdModel, individualModel,
@@ -2240,12 +2306,14 @@ class _$BeneficiaryRegistrationCreateState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -2478,13 +2546,16 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return editHousehold(addressModel, householdModel, individualModel,
@@ -2514,12 +2585,14 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return editHousehold?.call(addressModel, householdModel, individualModel,
@@ -2549,12 +2622,14 @@ class _$BeneficiaryRegistrationEditHouseholdState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -2645,7 +2720,10 @@ abstract class _$$BeneficiaryRegistrationEditIndividualStateCopyWith<$Res> {
       {HouseholdModel householdModel,
       IndividualModel individualModel,
       AddressModel addressModel,
+      HouseholdMemberWrapper? householdMemberWrapper,
       bool loading});
+
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper;
 }
 
 /// @nodoc
@@ -2664,6 +2742,7 @@ class __$$BeneficiaryRegistrationEditIndividualStateCopyWithImpl<$Res>
     Object? householdModel = null,
     Object? individualModel = null,
     Object? addressModel = null,
+    Object? householdMemberWrapper = freezed,
     Object? loading = null,
   }) {
     return _then(_$BeneficiaryRegistrationEditIndividualState(
@@ -2679,11 +2758,28 @@ class __$$BeneficiaryRegistrationEditIndividualStateCopyWithImpl<$Res>
           ? _value.addressModel
           : addressModel // ignore: cast_nullable_to_non_nullable
               as AddressModel,
+      householdMemberWrapper: freezed == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper?,
       loading: null == loading
           ? _value.loading
           : loading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper {
+    if (_value.householdMemberWrapper == null) {
+      return null;
+    }
+
+    return $HouseholdMemberWrapperCopyWith<$Res>(_value.householdMemberWrapper!,
+        (value) {
+      return _then(_value.copyWith(householdMemberWrapper: value));
+    });
   }
 }
 
@@ -2695,6 +2791,7 @@ class _$BeneficiaryRegistrationEditIndividualState
       {required this.householdModel,
       required this.individualModel,
       required this.addressModel,
+      this.householdMemberWrapper,
       this.loading = false});
 
   @override
@@ -2704,12 +2801,14 @@ class _$BeneficiaryRegistrationEditIndividualState
   @override
   final AddressModel addressModel;
   @override
+  final HouseholdMemberWrapper? householdMemberWrapper;
+  @override
   @JsonKey()
   final bool loading;
 
   @override
   String toString() {
-    return 'BeneficiaryRegistrationState.editIndividual(householdModel: $householdModel, individualModel: $individualModel, addressModel: $addressModel, loading: $loading)';
+    return 'BeneficiaryRegistrationState.editIndividual(householdModel: $householdModel, individualModel: $individualModel, addressModel: $addressModel, householdMemberWrapper: $householdMemberWrapper, loading: $loading)';
   }
 
   @override
@@ -2723,12 +2822,14 @@ class _$BeneficiaryRegistrationEditIndividualState
                 other.individualModel == individualModel) &&
             (identical(other.addressModel, addressModel) ||
                 other.addressModel == addressModel) &&
+            (identical(other.householdMemberWrapper, householdMemberWrapper) ||
+                other.householdMemberWrapper == householdMemberWrapper) &&
             (identical(other.loading, loading) || other.loading == loading));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, householdModel, individualModel, addressModel, loading);
+  int get hashCode => Object.hash(runtimeType, householdModel, individualModel,
+      addressModel, householdMemberWrapper, loading);
 
   @JsonKey(ignore: true)
   @override
@@ -2762,17 +2863,20 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
-    return editIndividual(
-        householdModel, individualModel, addressModel, loading);
+    return editIndividual(householdModel, individualModel, addressModel,
+        householdMemberWrapper, loading);
   }
 
   @override
@@ -2798,16 +2902,18 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
-    return editIndividual?.call(
-        householdModel, individualModel, addressModel, loading);
+    return editIndividual?.call(householdModel, individualModel, addressModel,
+        householdMemberWrapper, loading);
   }
 
   @override
@@ -2833,18 +2939,20 @@ class _$BeneficiaryRegistrationEditIndividualState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
     if (editIndividual != null) {
-      return editIndividual(
-          householdModel, individualModel, addressModel, loading);
+      return editIndividual(householdModel, individualModel, addressModel,
+          householdMemberWrapper, loading);
     }
     return orElse();
   }
@@ -2904,11 +3012,13 @@ abstract class BeneficiaryRegistrationEditIndividualState
       {required final HouseholdModel householdModel,
       required final IndividualModel individualModel,
       required final AddressModel addressModel,
+      final HouseholdMemberWrapper? householdMemberWrapper,
       final bool loading}) = _$BeneficiaryRegistrationEditIndividualState;
 
   HouseholdModel get householdModel;
   IndividualModel get individualModel;
   AddressModel get addressModel;
+  HouseholdMemberWrapper? get householdMemberWrapper;
   bool get loading;
   @JsonKey(ignore: true)
   _$$BeneficiaryRegistrationEditIndividualStateCopyWith<
@@ -3030,13 +3140,16 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
     return addMember(addressModel, householdModel, loading);
@@ -3065,12 +3178,14 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
     return addMember?.call(addressModel, householdModel, loading);
@@ -3099,12 +3214,14 @@ class _$BeneficiaryRegistrationAddMemberState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
@@ -3186,7 +3303,12 @@ abstract class _$$BeneficiaryRegistrationPersistedStateCopyWith<$Res> {
           $Res Function(_$BeneficiaryRegistrationPersistedState) then) =
       __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({bool navigateToRoot, HouseholdModel householdModel});
+  $Res call(
+      {bool navigateToRoot,
+      HouseholdModel householdModel,
+      HouseholdMemberWrapper? householdMemberWrapper});
+
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper;
 }
 
 /// @nodoc
@@ -3204,6 +3326,7 @@ class __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>
   $Res call({
     Object? navigateToRoot = null,
     Object? householdModel = null,
+    Object? householdMemberWrapper = freezed,
   }) {
     return _then(_$BeneficiaryRegistrationPersistedState(
       navigateToRoot: null == navigateToRoot
@@ -3214,7 +3337,24 @@ class __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>
           ? _value.householdModel
           : householdModel // ignore: cast_nullable_to_non_nullable
               as HouseholdModel,
+      householdMemberWrapper: freezed == householdMemberWrapper
+          ? _value.householdMemberWrapper
+          : householdMemberWrapper // ignore: cast_nullable_to_non_nullable
+              as HouseholdMemberWrapper?,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HouseholdMemberWrapperCopyWith<$Res>? get householdMemberWrapper {
+    if (_value.householdMemberWrapper == null) {
+      return null;
+    }
+
+    return $HouseholdMemberWrapperCopyWith<$Res>(_value.householdMemberWrapper!,
+        (value) {
+      return _then(_value.copyWith(householdMemberWrapper: value));
+    });
   }
 }
 
@@ -3223,17 +3363,21 @@ class __$$BeneficiaryRegistrationPersistedStateCopyWithImpl<$Res>
 class _$BeneficiaryRegistrationPersistedState
     implements BeneficiaryRegistrationPersistedState {
   const _$BeneficiaryRegistrationPersistedState(
-      {this.navigateToRoot = true, required this.householdModel});
+      {this.navigateToRoot = true,
+      required this.householdModel,
+      this.householdMemberWrapper});
 
   @override
   @JsonKey()
   final bool navigateToRoot;
   @override
   final HouseholdModel householdModel;
+  @override
+  final HouseholdMemberWrapper? householdMemberWrapper;
 
   @override
   String toString() {
-    return 'BeneficiaryRegistrationState.persisted(navigateToRoot: $navigateToRoot, householdModel: $householdModel)';
+    return 'BeneficiaryRegistrationState.persisted(navigateToRoot: $navigateToRoot, householdModel: $householdModel, householdMemberWrapper: $householdMemberWrapper)';
   }
 
   @override
@@ -3244,11 +3388,14 @@ class _$BeneficiaryRegistrationPersistedState
             (identical(other.navigateToRoot, navigateToRoot) ||
                 other.navigateToRoot == navigateToRoot) &&
             (identical(other.householdModel, householdModel) ||
-                other.householdModel == householdModel));
+                other.householdModel == householdModel) &&
+            (identical(other.householdMemberWrapper, householdMemberWrapper) ||
+                other.householdMemberWrapper == householdMemberWrapper));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, navigateToRoot, householdModel);
+  int get hashCode => Object.hash(
+      runtimeType, navigateToRoot, householdModel, householdMemberWrapper);
 
   @JsonKey(ignore: true)
   @override
@@ -3281,16 +3428,19 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)
         editIndividual,
     required TResult Function(AddressModel addressModel,
             HouseholdModel householdModel, bool loading)
         addMember,
     required TResult Function(
-            bool navigateToRoot, HouseholdModel householdModel)
+            bool navigateToRoot,
+            HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)
         persisted,
   }) {
-    return persisted(navigateToRoot, householdModel);
+    return persisted(navigateToRoot, householdModel, householdMemberWrapper);
   }
 
   @override
@@ -3316,15 +3466,18 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult? Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult? Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult? Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
   }) {
-    return persisted?.call(navigateToRoot, householdModel);
+    return persisted?.call(
+        navigateToRoot, householdModel, householdMemberWrapper);
   }
 
   @override
@@ -3350,17 +3503,19 @@ class _$BeneficiaryRegistrationPersistedState
             HouseholdModel householdModel,
             IndividualModel individualModel,
             AddressModel addressModel,
+            HouseholdMemberWrapper? householdMemberWrapper,
             bool loading)?
         editIndividual,
     TResult Function(AddressModel addressModel, HouseholdModel householdModel,
             bool loading)?
         addMember,
-    TResult Function(bool navigateToRoot, HouseholdModel householdModel)?
+    TResult Function(bool navigateToRoot, HouseholdModel householdModel,
+            HouseholdMemberWrapper? householdMemberWrapper)?
         persisted,
     required TResult orElse(),
   }) {
     if (persisted != null) {
-      return persisted(navigateToRoot, householdModel);
+      return persisted(navigateToRoot, householdModel, householdMemberWrapper);
     }
     return orElse();
   }
@@ -3418,11 +3573,13 @@ abstract class BeneficiaryRegistrationPersistedState
     implements BeneficiaryRegistrationState {
   const factory BeneficiaryRegistrationPersistedState(
           {final bool navigateToRoot,
-          required final HouseholdModel householdModel}) =
+          required final HouseholdModel householdModel,
+          final HouseholdMemberWrapper? householdMemberWrapper}) =
       _$BeneficiaryRegistrationPersistedState;
 
   bool get navigateToRoot;
   HouseholdModel get householdModel;
+  HouseholdMemberWrapper? get householdMemberWrapper;
   @JsonKey(ignore: true)
   _$$BeneficiaryRegistrationPersistedStateCopyWith<
           _$BeneficiaryRegistrationPersistedState>

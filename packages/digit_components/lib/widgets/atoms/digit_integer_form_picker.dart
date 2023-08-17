@@ -10,16 +10,17 @@ class DigitIntegerFormPicker extends StatelessWidget {
   final String label;
   final FormGroup form;
   final String formControlName;
-  const DigitIntegerFormPicker({
-    super.key,
-    this.minimum,
-    this.maximum,
-    required this.incrementer,
-    required this.formControlName,
-    this.hint,
-    required this.form,
-    required this.label,
-  });
+  final void Function(String)? onChanged;
+  const DigitIntegerFormPicker(
+      {super.key,
+      this.minimum,
+      this.maximum,
+      required this.incrementer,
+      required this.formControlName,
+      this.hint,
+      required this.form,
+      required this.label,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class DigitIntegerFormPicker extends StatelessWidget {
             formControlName: formControlName,
             decoration: InputDecoration(labelText: hint),
             keyboardType: TextInputType.number,
+            readOnly: true,
           ));
     }
 
@@ -46,12 +48,17 @@ class DigitIntegerFormPicker extends StatelessWidget {
                   top: _borderSide,
                 ),
                 icon: Icons.remove,
-                onPressed: () => minimum != null
-                    ? form.control(formControlName).value > minimum ||
-                            form.control(formControlName).value == null
-                        ? form.control(formControlName).value -= 1
-                        : 1
-                    : form.control(formControlName).value -= 1,
+                onPressed: () {
+                  minimum != null
+                      ? form.control(formControlName).value > minimum ||
+                              form.control(formControlName).value == null
+                          ? form.control(formControlName).value -= 1
+                          : 1
+                      : form.control(formControlName).value -= 1;
+
+                  onChanged
+                      ?.call(form.control(formControlName).value.toString());
+                },
               ),
               Expanded(
                 child: ReactiveTextField(
@@ -62,14 +69,25 @@ class DigitIntegerFormPicker extends StatelessWidget {
                   keyboardType: TextInputType.number,
                 ),
               ),
-              _buildButton(context,
-                  border: Border(
-                    right: _borderSide,
-                    bottom: _borderSide,
-                    top: _borderSide,
-                  ),
-                  icon: Icons.add,
-                  onPressed: () => form.control(formControlName).value += 1),
+              _buildButton(
+                context,
+                border: Border(
+                  right: _borderSide,
+                  bottom: _borderSide,
+                  top: _borderSide,
+                ),
+                icon: Icons.add,
+                onPressed: () {
+                  maximum != null
+                      ? form.control(formControlName).value < maximum ||
+                              form.control(formControlName).value == null
+                          ? form.control(formControlName).value += 1
+                          : maximum
+                      : form.control(formControlName).value += 1;
+                  onChanged
+                      ?.call(form.control(formControlName).value.toString());
+                },
+              ),
             ],
           ),
         ));

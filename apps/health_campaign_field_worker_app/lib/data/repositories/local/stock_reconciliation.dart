@@ -2,10 +2,10 @@ import 'dart:async';
 
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
-import '../../data_repository.dart';
+import 'base/stock_reconciliation_base.dart';
 
-class StockReconciliationLocalRepository extends LocalRepository<
-    StockReconciliationModel, StockReconciliationSearchModel> {
+class StockReconciliationLocalRepository
+    extends StockReconciliationLocalBaseRepository {
   StockReconciliationLocalRepository(super.sql, super.opLogManager);
 
   @override
@@ -26,28 +26,30 @@ class StockReconciliationLocalRepository extends LocalRepository<
     StockReconciliationSearchModel query, [
     String? userId,
   ]) async {
-    print("search event not triggered");
-
     final selectQuery = sql.select(sql.stockReconciliation).join([]);
     final results = await (selectQuery
-          ..where(buildAnd([
-            if (query.clientReferenceId != null)
-              sql.stockReconciliation.id.equals(
-                query.id,
-              ),
-            if (query.productVariantId != null)
-              sql.stockReconciliation.productVariantId.equals(
-                query.productVariantId!,
-              ),
-            if (query.facilityId != null)
-              sql.stockReconciliation.facilityId.equals(
-                query.facilityId!,
-              ),
-            if (userId != null)
-              sql.stockReconciliation.auditCreatedBy.equals(
-                userId,
-              ),
-          ])))
+          ..where(
+            buildAnd(
+              [
+                if (query.clientReferenceId != null)
+                  sql.stockReconciliation.id.equals(
+                    query.id,
+                  ),
+                if (query.productVariantId != null)
+                  sql.stockReconciliation.productVariantId.equals(
+                    query.productVariantId!,
+                  ),
+                if (query.facilityId != null)
+                  sql.stockReconciliation.facilityId.equals(
+                    query.facilityId!,
+                  ),
+                if (userId != null)
+                  sql.stockReconciliation.auditCreatedBy.equals(
+                    userId,
+                  ),
+              ],
+            ),
+          ))
         .get();
 
     return results.map((e) {
@@ -65,6 +67,11 @@ class StockReconciliationLocalRepository extends LocalRepository<
         commentsOnReconciliation: data.commentsOnReconciliation,
         dateOfReconciliation: data.dateOfReconciliation,
         clientReferenceId: data.clientReferenceId,
+        additionalFields: data.additionalFields == null
+            ? null
+            : Mapper.fromJson<StockReconciliationAdditionalFields>(
+                data.additionalFields!,
+              ),
         isDeleted: data.isDeleted,
         rowVersion: data.rowVersion,
       );
@@ -90,7 +97,4 @@ class StockReconciliationLocalRepository extends LocalRepository<
 
     return super.update(entity, createOpLog: createOpLog);
   }
-
-  @override
-  DataModelType get type => DataModelType.stockReconciliation;
 }

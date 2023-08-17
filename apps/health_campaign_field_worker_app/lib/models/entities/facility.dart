@@ -8,21 +8,33 @@ import '../../data/local_store/sql_store/sql_store.dart';
 @MappableClass(ignoreNull: true)
 class FacilitySearchModel extends EntitySearchModel {
   final List<String>? id;
+  final String? name;
   final bool? isPermanent;
   final String? usage;
   final int? storageCapacity;
   final String? tenantId;
-  final bool? isDeleted;
   
   FacilitySearchModel({
     this.id,
+    this.name,
     this.isPermanent,
     this.usage,
     this.storageCapacity,
     this.tenantId,
-    this.isDeleted,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  FacilitySearchModel.ignoreDeleted({
+    this.id,
+    this.name,
+    this.isPermanent,
+    this.usage,
+    this.storageCapacity,
+    this.tenantId,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -31,11 +43,12 @@ class FacilityModel extends EntityModel {
   static const schemaName = 'Facility';
 
   final String id;
+  final String? name;
   final bool? isPermanent;
   final String? usage;
   final int? storageCapacity;
+  final bool? nonRecoverableError;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final AddressModel? address;
   final FacilityAdditionalFields? additionalFields;
@@ -43,14 +56,16 @@ class FacilityModel extends EntityModel {
   FacilityModel({
     this.additionalFields,
     required this.id,
+    this.name,
     this.isPermanent,
     this.usage,
     this.storageCapacity,
+    this.nonRecoverableError = false,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     this.address,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   FacilityCompanion get companion {
@@ -60,12 +75,14 @@ class FacilityModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
+      name: Value(name),
       isPermanent: Value(isPermanent),
       usage: Value(usage),
       storageCapacity: Value(storageCapacity),
+      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       );
   }

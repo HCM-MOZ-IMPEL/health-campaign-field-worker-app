@@ -1,20 +1,24 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/models/digit_table_model.dart';
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../blocs/search_households/search_households.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../localized.dart';
+import '../showcase/config/showcase_constants.dart';
 import 'beneficiary_card.dart';
 
 class ViewBeneficiaryCard extends LocalizedStatefulWidget {
+  final bool hasShowcase;
   final HouseholdMemberWrapper householdMember;
   final VoidCallback? onOpenPressed;
 
   const ViewBeneficiaryCard({
     Key? key,
+    this.hasShowcase = false,
     super.appLocalizations,
     required this.householdMember,
     this.onOpenPressed,
@@ -27,15 +31,23 @@ class ViewBeneficiaryCard extends LocalizedStatefulWidget {
 class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
   late HouseholdMemberWrapper householdMember;
 
+  late String member;
+
   @override
   void initState() {
     householdMember = widget.householdMember;
+    member = householdMember.household.memberCount! > 1
+        ? i18.memberCard.members
+        : i18.memberCard.member;
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant ViewBeneficiaryCard oldWidget) {
     householdMember = widget.householdMember;
+    member = householdMember.household.memberCount! > 1
+        ? i18.memberCard.members
+        : i18.memberCard.member;
     super.didUpdateWidget(oldWidget);
   }
 
@@ -47,8 +59,6 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return DigitCard(
       child: Column(
         children: [
@@ -59,31 +69,38 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.7,
                 child: BeneficiaryCard(
+                  hasShowcase: widget.hasShowcase,
                   description: [
                     householdMember.household.address?.doorNo,
-                    householdMember.household.address?.addressLine1,
-                    householdMember.household.address?.addressLine2,
                     householdMember.household.address?.landmark,
                     householdMember.household.address?.city,
-                    householdMember.household.address?.pincode,
                   ].whereNotNull().take(2).join(' '),
                   subtitle:
-                      '${householdMember.household.memberCount ?? 1} ${'Members'}',
+                      '${householdMember.household.memberCount ?? 1} ${localizations.translate(member)}',
                   status: householdMember.task?.status != null
-                      ? 'delivered'
-                      : 'Not Delivered',
+                      ? i18
+                          .householdOverView.householdOverViewDeliveredIconLabel
+                      : i18.householdOverView
+                          .householdOverViewNotDeliveredIconLabel,
                   title: [
                     householdMember.headOfHousehold.name?.givenName,
                     householdMember.headOfHousehold.name?.familyName,
-                  ].whereNotNull().join(''),
+                  ].whereNotNull().join(' '),
                 ),
               ),
               Flexible(
-                child: DigitOutLineButton(
-                  label:
-                      localizations.translate(i18.searchBeneficiary.iconLabel),
-                  onPressed: widget.onOpenPressed,
-                ),
+                child: () {
+                  final child = DigitOutLineButton(
+                    label: localizations
+                        .translate(i18.searchBeneficiary.iconLabel),
+                    onPressed: widget.onOpenPressed,
+                  );
+
+                  return !widget.hasShowcase
+                      ? child
+                      : searchBeneficiariesShowcaseData.open
+                          .buildWith(child: child);
+                }(),
               ),
             ],
           ),
@@ -92,19 +109,15 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
             child: DigitTable(
               headerList: [
                 TableHeader(
-                  'Beneficiary',
+                  'Beneficiário',
                   cellKey: 'beneficiary',
                 ),
-                // TableHeader(
-                //   'Delivery',
-                //   cellKey: 'delivery',
-                // ),
                 TableHeader(
-                  'Age',
+                  'Idade',
                   cellKey: 'age',
                 ),
                 TableHeader(
-                  'Gender',
+                  'Género',
                   cellKey: 'gender',
                 ),
               ],
@@ -116,31 +129,23 @@ class _ViewBeneficiaryCardState extends LocalizedState<ViewBeneficiaryCard> {
                           [
                             e.name?.givenName,
                             e.name?.familyName,
-                          ].whereNotNull().join('-'),
+                          ].whereNotNull().join(' '),
                           cellKey: 'beneficiary',
                         ),
-                        // TableData(
-                        //   'Not Delivered',
-                        //   cellKey: 'delivery',
-                        //   style: TextStyle(
-                        //     color: theme.colorScheme.error,
-                        //   ),
-                        // ),
                         TableData(
                           e.dateOfBirth == null
                               ? ''
-                              : (DateTime.now()
-                                          .difference(DateTime.parse(DateFormat(
-                                            'dd/MM/yyyy',
-                                          ).parse(e.dateOfBirth!).toString()))
-                                          .inDays /
-                                      365)
-                                  .round()
-                                  .toStringAsFixed(0),
+                              : '${DigitDateUtils.calculateAge(
+                                  DigitDateUtils.getFormattedDateToDateTime(
+                                        e.dateOfBirth!,
+                                      ) ??
+                                      DateTime.now(),
+                                ).years}',
                           cellKey: 'age',
                         ),
                         TableData(
-                          e.gender?.name ?? '',
+                          localizations
+                              .translate(e.gender?.name.toUpperCase() ?? ''),
                           cellKey: 'gender',
                         ),
                       ],

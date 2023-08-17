@@ -1,11 +1,17 @@
 import 'dart:async';
 
+import 'package:digit_components/digit_components.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../data/data_repository.dart';
 import '../../data/local_store/secure_store/secure_store.dart';
 import '../../data/repositories/remote/auth.dart';
 import '../../models/auth/auth_model.dart';
+import '../../models/data_model.dart';
+import '../../utils/checkbandwidth.dart';
+import '../../utils/constants.dart';
 
 part 'auth.freezed.dart';
 
@@ -14,15 +20,19 @@ typedef AuthEmitter = Emitter<AuthState>;
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LocalSecureStore localSecureStore;
   final AuthRepository authRepository;
+  final LocalRepository<BoundaryModel, BoundarySearchModel>
+      boundaryLocalRepository;
 
   AuthBloc({
     required this.authRepository,
+    required this.boundaryLocalRepository,
     LocalSecureStore? localSecureStore,
   })  : localSecureStore = LocalSecureStore.instance,
         super(const AuthUnauthenticatedState()) {
     on(_onLogin);
     on(_onLogout);
     on(_onAutoLogin);
+    on(_onAuthLogoutWithoutToken);
   }
 
   FutureOr<void> _onAutoLogin(
@@ -64,6 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       await localSecureStore.setAuthCredentials(result);
+      await localSecureStore.setBoundaryRefetch(true);
 
       emit(
         AuthAuthenticatedState(
@@ -72,7 +83,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           userModel: result.userRequestModel,
         ),
       );
-    } catch (error) {
+    } on DioError catch (error) {
+      emit(const AuthErrorState());
+      emit(const AuthUnauthenticatedState());
+
+      AppLogger.instance.error(
+        title: 'Erro de início de sessão',
+        message: error.response?.data.toString(),
+      );
+    } catch (_) {
       emit(const AuthErrorState());
       emit(const AuthUnauthenticatedState());
       rethrow;
@@ -81,11 +100,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   FutureOr<void> _onLogout(AuthLogoutEvent event, AuthEmitter emit) async {
     try {
-      emit(const AuthLoadingState());
-      await localSecureStore.deleteAll();
+      final isConnected = await getIsConnected();
+      if (isConnected) {
+        final accessToken = await localSecureStore.accessToken;
+        final user = await localSecureStore.userRequestModel;
+        final tenantId = user?.tenantId;
+        await authRepository.logOutUser(
+          logoutPath: Constants.logoutUserPath,
+          queryParameters: {
+            'tenantId': tenantId.toString(),
+          },
+          body: {'access_token': accessToken},
+        );
+        await localSecureStore.deleteAll();
+
+        emit(const AuthUnauthenticatedState());
+      }
     } catch (error) {
-      rethrow;
+      await localSecureStore.deleteAll();
+      emit(const AuthErrorState());
+      emit(const AuthUnauthenticatedState());
     }
+  }
+
+  FutureOr<void> _onAuthLogoutWithoutToken(
+    AuthLogoutWithoutTokenEvent event,
+    AuthEmitter emit,
+  ) async {
+    await localSecureStore.deleteAll();
     emit(const AuthUnauthenticatedState());
   }
 }
@@ -103,6 +145,9 @@ class AuthEvent with _$AuthEvent {
   }) = AuthAutoLoginEvent;
 
   const factory AuthEvent.logout() = AuthLogoutEvent;
+
+  const factory AuthEvent.logoutWithoutAuthToken() =
+      AuthLogoutWithoutTokenEvent;
 }
 
 @freezed

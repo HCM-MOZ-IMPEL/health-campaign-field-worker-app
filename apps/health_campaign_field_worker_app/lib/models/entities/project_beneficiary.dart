@@ -11,9 +11,10 @@ class ProjectBeneficiarySearchModel extends EntitySearchModel {
   final String? projectId;
   final String? beneficiaryId;
   final String? beneficiaryClientReferenceId;
+  final DateTime? beneficiaryRegistrationDateLte;
+  final DateTime? beneficiaryRegistrationDateGte;
   final List<String>? clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final DateTime? dateOfRegistrationTime;
   
   ProjectBeneficiarySearchModel({
@@ -21,15 +22,34 @@ class ProjectBeneficiarySearchModel extends EntitySearchModel {
     this.projectId,
     this.beneficiaryId,
     this.beneficiaryClientReferenceId,
+    this.beneficiaryRegistrationDateLte,
+    this.beneficiaryRegistrationDateGte,
     this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     int? dateOfRegistration,
     super.boundaryCode,
+    super.isDeleted,
   }): dateOfRegistrationTime = dateOfRegistration == null
       ? null
       : DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
    super();
+
+  @MappableConstructor()
+  ProjectBeneficiarySearchModel.ignoreDeleted({
+    this.id,
+    this.projectId,
+    this.beneficiaryId,
+    this.beneficiaryClientReferenceId,
+    this.beneficiaryRegistrationDateLte,
+    this.beneficiaryRegistrationDateGte,
+    this.clientReferenceId,
+    this.tenantId,
+    int? dateOfRegistration,
+    super.boundaryCode,
+  }): dateOfRegistrationTime = dateOfRegistration == null
+  ? null
+      : DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
+   super(isDeleted: false);
 
   int? get dateOfRegistration => dateOfRegistrationTime?.millisecondsSinceEpoch;
   
@@ -44,9 +64,9 @@ class ProjectBeneficiaryModel extends EntityModel {
   final String? projectId;
   final String? beneficiaryId;
   final String? beneficiaryClientReferenceId;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final DateTime dateOfRegistrationTime;
   final ProjectBeneficiaryAdditionalFields? additionalFields;
@@ -57,12 +77,13 @@ class ProjectBeneficiaryModel extends EntityModel {
     this.projectId,
     this.beneficiaryId,
     this.beneficiaryClientReferenceId,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     required int dateOfRegistration,
     super.auditDetails,
+    super.isDeleted = false,
   }): dateOfRegistrationTime = DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
       super();
 
@@ -76,13 +97,14 @@ class ProjectBeneficiaryModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       projectId: Value(projectId),
       beneficiaryId: Value(beneficiaryId),
       beneficiaryClientReferenceId: Value(beneficiaryClientReferenceId),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       dateOfRegistration: Value(dateOfRegistration),
       );

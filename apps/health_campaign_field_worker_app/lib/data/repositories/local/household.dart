@@ -4,10 +4,9 @@ import 'package:drift/drift.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
-import '../../data_repository.dart';
+import 'base/household_base.dart';
 
-class HouseholdLocalRepository
-    extends LocalRepository<HouseholdModel, HouseholdSearchModel> {
+class HouseholdLocalRepository extends HouseholdLocalBaseRepository {
   HouseholdLocalRepository(super.sql, super.opLogManager);
 
   @override
@@ -85,6 +84,10 @@ class HouseholdLocalRepository
                     pincode: address.pincode,
                     type: address.type,
                     rowVersion: address.rowVersion,
+                    locality: LocalityModel(
+                      code: address.localityBoundaryCode ?? "",
+                      name: address.localityBoundaryName,
+                    ),
                     auditDetails: AuditDetails(
                       createdBy: household.auditCreatedBy!,
                       createdTime: household.auditCreatedTime!,
@@ -183,7 +186,4 @@ class HouseholdLocalRepository
 
     return super.delete(updated);
   }
-
-  @override
-  DataModelType get type => DataModelType.household;
 }

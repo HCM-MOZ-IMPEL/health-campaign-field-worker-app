@@ -1,13 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_checkbox.dart';
-import 'package:digit_components/widgets/atoms/digit_toaster.dart';
-import 'package:digit_components/widgets/digit_dob_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../utils/validations.dart' as validation;
 import '../../blocs/app_initialization/app_initialization.dart';
 import '../../blocs/beneficiary_registration/beneficiary_registration.dart';
 import '../../blocs/search_households/search_households.dart';
@@ -17,8 +17,11 @@ import '../../router/app_router.dart';
 import '../../utils/environment_config.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
+import '../../widgets/digit_dob_picker.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class IndividualDetailsPage extends LocalizedStatefulWidget {
   final bool isHeadOfHousehold;
@@ -36,8 +39,8 @@ class IndividualDetailsPage extends LocalizedStatefulWidget {
 class _IndividualDetailsPageState
     extends LocalizedState<IndividualDetailsPage> {
   static const _individualNameKey = 'individualName';
-  static const _idTypeKey = 'idType';
-  static const _idNumberKey = 'idNumber';
+  static const _individualLastNameKey = 'individualLastName';
+
   static const _dobKey = 'dob';
   static const _genderKey = 'gender';
   static const _mobileNumberKey = 'mobileNumber';
@@ -56,37 +59,36 @@ class _IndividualDetailsPageState
           listener: (context, state) {
             state.mapOrNull(
               persisted: (value) {
-                if (value.navigateToRoot) {
-                  (router.parent() as StackRouter).pop();
-                } else {
-                  (router.parent() as StackRouter).pop();
+                final householdMemberWrapper = value.householdMemberWrapper;
+                if (householdMemberWrapper != null) {
                   context.read<SearchHouseholdsBloc>().add(
-                        SearchHouseholdsByHouseholdsEvent(
-                          householdModel: value.householdModel,
-                          projectId: context.projectId,
+                        SearchHouseholdsSetBeneficiaryWrapperEvent(
+                          householdMemberWrapper: householdMemberWrapper,
                         ),
                       );
-                  router.push(AcknowledgementRoute());
                 }
+                (router.parent() as StackRouter).pop();
               },
             );
           },
           builder: (context, state) {
             return ScrollableContent(
-              header: Column(children: const [
-                BackNavigationHelpHeaderWidget(),
+              header: const Column(children: [
+                BackNavigationHelpHeaderWidget(
+                  showcaseButton: ShowcaseButton(),
+                ),
               ]),
               footer: SizedBox(
                 height: 85,
                 child: DigitCard(
                   margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
                   child: DigitElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       final userId = context.loggedInUserUuid;
                       final projectId = context.projectId;
-
                       form.markAllAsTouched();
                       if (!form.valid) return;
+                      FocusManager.instance.primaryFocus?.unfocus();
 
                       state.maybeWhen(
                         orElse: () {
@@ -100,7 +102,7 @@ class _IndividualDetailsPageState
                           searchQuery,
                           loading,
                           isHeadOfHousehold,
-                        ) async {
+                        ) {
                           final individual = _getIndividualModel(
                             context,
                             form: form,
@@ -113,52 +115,19 @@ class _IndividualDetailsPageState
                               isHeadOfHousehold: widget.isHeadOfHousehold,
                             ),
                           );
-
-                          final submit = await DigitDialog.show<bool>(
-                            context,
-                            options: DigitDialogOptions(
-                              titleText: localizations.translate(
-                                i18.deliverIntervention.dialogTitle,
-                              ),
-                              contentText: localizations.translate(
-                                i18.deliverIntervention.dialogContent,
-                              ),
-                              primaryAction: DigitDialogActions(
-                                label: localizations.translate(
-                                  i18.common.coreCommonSubmit,
-                                ),
-                                action: (context) {
-                                  Navigator.of(
-                                    context,
-                                    rootNavigator: true,
-                                  ).pop(true);
-                                },
-                              ),
-                              secondaryAction: DigitDialogActions(
-                                label: localizations.translate(
-                                  i18.common.coreCommonCancel,
-                                ),
-                                action: (context) => Navigator.of(
-                                  context,
-                                  rootNavigator: true,
-                                ).pop(false),
-                              ),
+                          bloc.add(
+                            BeneficiaryRegistrationCreateEvent(
+                              projectId: projectId,
+                              userUuid: userId,
+                              boundary: context.boundary,
                             ),
                           );
-
-                          if (submit ?? false) {
-                            bloc.add(
-                              BeneficiaryRegistrationCreateEvent(
-                                projectId: projectId,
-                                userUuid: userId,
-                              ),
-                            );
-                          }
                         },
                         editIndividual: (
                           householdModel,
                           individualModel,
                           addressModel,
+                          householdMemberWrapper,
                           loading,
                         ) {
                           final individual = _getIndividualModel(
@@ -192,6 +161,7 @@ class _IndividualDetailsPageState
                               userUuid: userId,
                             ),
                           );
+                          context.router.pop();
                         },
                       );
                     },
@@ -199,165 +169,176 @@ class _IndividualDetailsPageState
                       child: Text(
                         state.mapOrNull(
                               editIndividual: (value) => localizations
-                                  .translate(i18.common.coreCommonSave),
+                                  .translate(i18.common.coreCommonProceed),
                             ) ??
                             localizations
-                                .translate(i18.common.coreCommonSubmit),
+                                .translate(i18.householdLocation.actionLabel),
                       ),
                     ),
                   ),
                 ),
               ),
-              children: [
-                DigitCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        localizations.translate(
-                          i18.individualDetails.individualsDetailsLabelText,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: DigitCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          localizations.translate(
+                            i18.individualDetails.individualsDetailsLabelText,
+                          ),
+                          style: theme.textTheme.displayMedium,
                         ),
-                        style: theme.textTheme.displayMedium,
-                      ),
-                      Column(
-                        children: [
-                          DigitTextFormField(
-                            formControlName: 'individualName',
-                            label: localizations.translate(
-                              i18.individualDetails.nameLabelText,
-                            ),
-                            maxLength: 200,
-                            isRequired: true,
-                            validationMessages: {
-                              'required': (object) => 'Name is required',
-                            },
-                          ),
-                          Offstage(
-                            offstage: !widget.isHeadOfHousehold,
-                            child: DigitCheckbox(
-                              label: localizations.translate(
-                                i18.individualDetails.checkboxLabelText,
+                        Column(
+                          children: [
+                            individualDetailsShowcaseData.firstNameOfIndividual
+                                .buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _individualNameKey,
+                                label: localizations.translate(
+                                  i18.individualDetails.firstNameLabelText,
+                                ),
+                                maxLength: 200,
+                                isRequired: true,
+                                validationMessages: {
+                                  'required': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .firstNameIsRequiredError,
+                                      ),
+                                  'minLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .firstNameLengthError,
+                                      ),
+                                  'maxLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .firstNameLengthError,
+                                      ),
+                                },
                               ),
-                              value: widget.isHeadOfHousehold,
                             ),
-                          ),
-                          BlocBuilder<AppInitializationBloc,
-                              AppInitializationState>(
-                            builder: (context, state) => state.maybeWhen(
-                              orElse: () => const Offstage(),
-                              initialized: (appConfiguration, _) {
-                                final idTypeOptions =
-                                    appConfiguration.idTypeOptions ??
-                                        <IdTypeOptions>[];
-
-                                return DigitDropdown<String>(
-                                  isRequired: true,
+                            individualDetailsShowcaseData.lastNameOfIndividual
+                                .buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _individualLastNameKey,
+                                label: localizations.translate(
+                                  i18.individualDetails.lastNameLabelText,
+                                ),
+                                maxLength: 200,
+                                isRequired: true,
+                                validationMessages: {
+                                  'required': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .lastNameIsRequiredError,
+                                      ),
+                                  'minLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .lastNameLengthError,
+                                      ),
+                                  'maxLength': (object) =>
+                                      localizations.translate(
+                                        i18.individualDetails
+                                            .lastNameLengthError,
+                                      ),
+                                },
+                              ),
+                            ),
+                            Offstage(
+                              offstage: !widget.isHeadOfHousehold,
+                              child: individualDetailsShowcaseData
+                                  .headOfHousehold
+                                  .buildWith(
+                                child: DigitCheckbox(
                                   label: localizations.translate(
-                                    i18.individualDetails.idTypeLabelText,
+                                    i18.individualDetails.checkboxLabelText,
                                   ),
-                                  valueMapper: (e) => e,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      if (value == 'DEFAULT') {
-                                        form.control(_idNumberKey).value =
-                                            IdGen.i.identifier.toString();
-                                      } else {
-                                        form.control(_idNumberKey).value = null;
-                                      }
-                                    });
-                                  },
-                                  initialValue: idTypeOptions.firstOrNull?.name,
-                                  menuItems: idTypeOptions.map(
-                                    (e) {
-                                      return localizations.translate(e.name);
-                                    },
-                                  ).toList(),
-                                  formControlName: _idTypeKey,
-                                );
-                              },
+                                  value: widget.isHeadOfHousehold,
+                                ),
+                              ),
                             ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ReactiveFormConsumer(
-                                builder: (context, formGroup, child) {
-                                  return DigitTextFormField(
-                                    readOnly: form.control(_idTypeKey).value ==
-                                        'DEFAULT',
-                                    isRequired: form
-                                        .control(_idNumberKey)
-                                        .validators
-                                        .isNotEmpty,
-                                    formControlName: _idNumberKey,
-                                    label: localizations.translate(
-                                      i18.individualDetails.idNumberLabelText,
+                            DigitDobPicker(
+                              datePickerFormControl: _dobKey,
+                              datePickerLabel: '${localizations.translate(
+                                i18.individualDetails.dobLabelText,
+                              )}*',
+                              ageFieldLabel: '${localizations.translate(
+                                i18.individualDetails.ageLabelText,
+                              )}*',
+                              separatorLabel: localizations.translate(
+                                i18.individualDetails.separatorLabelText,
+                              ),
+                            ),
+                            BlocBuilder<AppInitializationBloc,
+                                AppInitializationState>(
+                              builder: (context, state) => state.maybeWhen(
+                                orElse: () => const Offstage(),
+                                initialized: (appConfiguration, _) {
+                                  final genderOptions =
+                                      appConfiguration.genderOptions ??
+                                          <GenderOptions>[];
+
+                                  return individualDetailsShowcaseData.gender
+                                      .buildWith(
+                                    child: DigitReactiveDropdown<String>(
+                                      label: localizations.translate(
+                                        i18.individualDetails.genderLabelText,
+                                      ),
+                                      isRequired: true,
+                                      valueMapper: (value) =>
+                                          localizations.translate(
+                                        value,
+                                      ),
+                                      initialValue:
+                                          genderOptions.firstOrNull?.name,
+                                      menuItems: genderOptions.map(
+                                        (e) {
+                                          return e.code;
+                                        },
+                                      ).toList(),
+                                      formControlName: _genderKey,
+                                      validationMessages: {
+                                        'required': (object) =>
+                                            localizations.translate(
+                                              i18.common.corecommonRequired,
+                                            ),
+                                      },
                                     ),
-                                    validationMessages: {
-                                      'required': (object) =>
-                                          'ID Number is required',
-                                    },
                                   );
                                 },
                               ),
-                              const SizedBox(height: 4),
-                            ],
-                          ),
-                          DigitDobPicker(
-                            datePickerFormControl: _dobKey,
-                            datePickerLabel: localizations.translate(
-                              i18.individualDetails.dobLabelText,
                             ),
-                            ageFieldLabel: localizations.translate(
-                              i18.individualDetails.ageLabelText,
-                            ),
-                            separatorLabel: localizations.translate(
-                              i18.individualDetails.separatorLabelText,
-                            ),
-                          ),
-                          BlocBuilder<AppInitializationBloc,
-                              AppInitializationState>(
-                            builder: (context, state) => state.maybeWhen(
-                              orElse: () => const Offstage(),
-                              initialized: (appConfiguration, _) {
-                                final genderOptions =
-                                    appConfiguration.genderOptions ??
-                                        <GenderOptions>[];
-
-                                return DigitDropdown<String>(
-                                  label: localizations.translate(
-                                    i18.individualDetails.genderLabelText,
+                            individualDetailsShowcaseData.mobile.buildWith(
+                              child: DigitTextFormField(
+                                keyboardType: TextInputType.number,
+                                formControlName: _mobileNumberKey,
+                                label: localizations.translate(
+                                  i18.individualDetails.mobileNumberLabelText,
+                                ),
+                                maxLength: 9,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9]"),
                                   ),
-                                  valueMapper: (value) => value,
-                                  initialValue: genderOptions.firstOrNull?.name,
-                                  menuItems: genderOptions.map(
-                                    (e) {
-                                      return localizations.translate(e.name);
-                                    },
-                                  ).toList(),
-                                  formControlName: _genderKey,
-                                );
-                              },
+                                ],
+                                validationMessages: {
+                                  'mobileNumber': (object) =>
+                                      localizations.translate(i18
+                                          .individualDetails
+                                          .mobileNumberInvalidFormatValidationMessage),
+                                },
+                              ),
                             ),
-                          ),
-                          DigitTextFormField(
-                            keyboardType: TextInputType.number,
-                            formControlName: _mobileNumberKey,
-                            label: localizations.translate(
-                              i18.individualDetails.mobileNumberLabelText,
-                            ),
-                            maxLength: 10,
-                            validationMessages: {
-                              'mobileNumber': (object) =>
-                                  localizations.translate(i18.individualDetails
-                                      .mobileNumberInvalidFormatValidationMessage),
-                            },
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                    ],
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -417,7 +398,9 @@ class _IndividualDetailsPageState
 
     individual = individual.copyWith(
       name: name.copyWith(
-        givenName: form.control(_individualNameKey).value,
+        givenName: (form.control(_individualNameKey).value as String).trim(),
+        familyName:
+            (form.control(_individualLastNameKey).value as String).trim(),
       ),
       gender: form.control(_genderKey).value == null
           ? null
@@ -427,8 +410,8 @@ class _IndividualDetailsPageState
       dateOfBirth: dobString,
       identifiers: [
         identifier.copyWith(
-          identifierId: form.control(_idNumberKey).value,
-          identifierType: form.control(_idTypeKey).value,
+          identifierId: 'DEFAULT',
+          identifierType: 'DEFAULT',
         ),
       ],
     );
@@ -451,18 +434,25 @@ class _IndividualDetailsPageState
 
     return fb.group(<String, Object>{
       _individualNameKey: FormControl<String>(
-        validators: [Validators.required, CustomValidator.requiredMin],
-        value: individual?.name?.givenName ?? searchQuery,
+        validators: [
+          Validators.required,
+          Validators.minLength(validation.individual.nameMinLength),
+          Validators.maxLength(validation.individual.nameMaxLength),
+        ],
+        value: individual?.name?.givenName ?? searchQuery?.trim(),
       ),
-      _idTypeKey: FormControl<String>(
-        validators: [Validators.required],
-        value: individual?.identifiers?.firstOrNull?.identifierType,
-      ),
-      _idNumberKey: FormControl<String>(
-        validators: [Validators.required],
-        value: individual?.identifiers?.firstOrNull?.identifierId,
+      _individualLastNameKey: FormControl<String>(
+        validators: [
+          Validators.required,
+          Validators.minLength(validation.individual.nameMinLength),
+          Validators.maxLength(validation.individual.nameMaxLength),
+        ],
+        value: individual?.name?.familyName ?? '',
       ),
       _dobKey: FormControl<DateTime>(
+        validators: [
+          CustomValidator.dobRequired,
+        ],
         value: individual?.dateOfBirth != null
             ? DateFormat('dd/MM/yyyy').parse(
                 individual!.dateOfBirth!,
@@ -470,24 +460,26 @@ class _IndividualDetailsPageState
             : null,
       ),
       _genderKey: FormControl<String>(
+        validators: [
+          Validators.required,
+        ],
         value: context.read<AppInitializationBloc>().state.maybeWhen(
               orElse: () => null,
               initialized: (appConfiguration, serviceRegistryList) {
                 final options =
                     appConfiguration.genderOptions ?? <GenderOptions>[];
 
-                return options
-                    .map((e) => localizations.translate(e.code))
-                    .firstWhereOrNull(
-                      (element) => element == individual?.gender?.name,
+                return options.map((e) => e.code).firstWhereOrNull(
+                      (element) =>
+                          element.toLowerCase() == individual?.gender?.name,
                     );
               },
             ),
       ),
-      _mobileNumberKey:
-          FormControl<String>(value: individual?.mobileNumber, validators: [
-        CustomValidator.validMobileNumber,
-      ]),
+      _mobileNumberKey: FormControl<String>(
+        value: individual?.mobileNumber,
+        validators: [CustomValidator.validMobileNumber],
+      ),
     });
   }
 }

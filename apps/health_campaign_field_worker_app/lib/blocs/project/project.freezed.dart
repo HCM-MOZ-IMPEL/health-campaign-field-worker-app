@@ -314,61 +314,13 @@ abstract class ProjectSelectProjectEvent implements ProjectEvent {
 
 /// @nodoc
 mixin _$ProjectState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() uninitialized,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)
-        fetched,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? uninitialized,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? uninitialized,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ProjectUninitializedState value) uninitialized,
-    required TResult Function(ProjectLoadingState value) loading,
-    required TResult Function(ProjectsEmptyState value) empty,
-    required TResult Function(ProjectSelectionFetchedState value) fetched,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProjectUninitializedState value)? uninitialized,
-    TResult? Function(ProjectLoadingState value)? loading,
-    TResult? Function(ProjectsEmptyState value)? empty,
-    TResult? Function(ProjectSelectionFetchedState value)? fetched,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProjectUninitializedState value)? uninitialized,
-    TResult Function(ProjectLoadingState value)? loading,
-    TResult Function(ProjectsEmptyState value)? empty,
-    TResult Function(ProjectSelectionFetchedState value)? fetched,
-    required TResult orElse(),
-  }) =>
+  List<ProjectModel> get projects => throw _privateConstructorUsedError;
+  ProjectModel? get selectedProject => throw _privateConstructorUsedError;
+  bool get loading => throw _privateConstructorUsedError;
+  ProjectSyncErrorType? get syncError => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ProjectStateCopyWith<ProjectState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -377,6 +329,12 @@ abstract class $ProjectStateCopyWith<$Res> {
   factory $ProjectStateCopyWith(
           ProjectState value, $Res Function(ProjectState) then) =
       _$ProjectStateCopyWithImpl<$Res, ProjectState>;
+  @useResult
+  $Res call(
+      {List<ProjectModel> projects,
+      ProjectModel? selectedProject,
+      bool loading,
+      ProjectSyncErrorType? syncError});
 }
 
 /// @nodoc
@@ -388,387 +346,57 @@ class _$ProjectStateCopyWithImpl<$Res, $Val extends ProjectState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? projects = null,
+    Object? selectedProject = freezed,
+    Object? loading = null,
+    Object? syncError = freezed,
+  }) {
+    return _then(_value.copyWith(
+      projects: null == projects
+          ? _value.projects
+          : projects // ignore: cast_nullable_to_non_nullable
+              as List<ProjectModel>,
+      selectedProject: freezed == selectedProject
+          ? _value.selectedProject
+          : selectedProject // ignore: cast_nullable_to_non_nullable
+              as ProjectModel?,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      syncError: freezed == syncError
+          ? _value.syncError
+          : syncError // ignore: cast_nullable_to_non_nullable
+              as ProjectSyncErrorType?,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$ProjectUninitializedStateCopyWith<$Res> {
-  factory _$$ProjectUninitializedStateCopyWith(
-          _$ProjectUninitializedState value,
-          $Res Function(_$ProjectUninitializedState) then) =
-      __$$ProjectUninitializedStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ProjectUninitializedStateCopyWithImpl<$Res>
-    extends _$ProjectStateCopyWithImpl<$Res, _$ProjectUninitializedState>
-    implements _$$ProjectUninitializedStateCopyWith<$Res> {
-  __$$ProjectUninitializedStateCopyWithImpl(_$ProjectUninitializedState _value,
-      $Res Function(_$ProjectUninitializedState) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$ProjectUninitializedState implements ProjectUninitializedState {
-  const _$ProjectUninitializedState();
-
+abstract class _$$_ProjectStateCopyWith<$Res>
+    implements $ProjectStateCopyWith<$Res> {
+  factory _$$_ProjectStateCopyWith(
+          _$_ProjectState value, $Res Function(_$_ProjectState) then) =
+      __$$_ProjectStateCopyWithImpl<$Res>;
   @override
-  String toString() {
-    return 'ProjectState.uninitialized()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ProjectUninitializedState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() uninitialized,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)
-        fetched,
-  }) {
-    return uninitialized();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? uninitialized,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-  }) {
-    return uninitialized?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? uninitialized,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-    required TResult orElse(),
-  }) {
-    if (uninitialized != null) {
-      return uninitialized();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ProjectUninitializedState value) uninitialized,
-    required TResult Function(ProjectLoadingState value) loading,
-    required TResult Function(ProjectsEmptyState value) empty,
-    required TResult Function(ProjectSelectionFetchedState value) fetched,
-  }) {
-    return uninitialized(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProjectUninitializedState value)? uninitialized,
-    TResult? Function(ProjectLoadingState value)? loading,
-    TResult? Function(ProjectsEmptyState value)? empty,
-    TResult? Function(ProjectSelectionFetchedState value)? fetched,
-  }) {
-    return uninitialized?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProjectUninitializedState value)? uninitialized,
-    TResult Function(ProjectLoadingState value)? loading,
-    TResult Function(ProjectsEmptyState value)? empty,
-    TResult Function(ProjectSelectionFetchedState value)? fetched,
-    required TResult orElse(),
-  }) {
-    if (uninitialized != null) {
-      return uninitialized(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ProjectUninitializedState implements ProjectState {
-  const factory ProjectUninitializedState() = _$ProjectUninitializedState;
-}
-
-/// @nodoc
-abstract class _$$ProjectLoadingStateCopyWith<$Res> {
-  factory _$$ProjectLoadingStateCopyWith(_$ProjectLoadingState value,
-          $Res Function(_$ProjectLoadingState) then) =
-      __$$ProjectLoadingStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ProjectLoadingStateCopyWithImpl<$Res>
-    extends _$ProjectStateCopyWithImpl<$Res, _$ProjectLoadingState>
-    implements _$$ProjectLoadingStateCopyWith<$Res> {
-  __$$ProjectLoadingStateCopyWithImpl(
-      _$ProjectLoadingState _value, $Res Function(_$ProjectLoadingState) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$ProjectLoadingState implements ProjectLoadingState {
-  const _$ProjectLoadingState();
-
-  @override
-  String toString() {
-    return 'ProjectState.loading()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProjectLoadingState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() uninitialized,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)
-        fetched,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? uninitialized,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? uninitialized,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ProjectUninitializedState value) uninitialized,
-    required TResult Function(ProjectLoadingState value) loading,
-    required TResult Function(ProjectsEmptyState value) empty,
-    required TResult Function(ProjectSelectionFetchedState value) fetched,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProjectUninitializedState value)? uninitialized,
-    TResult? Function(ProjectLoadingState value)? loading,
-    TResult? Function(ProjectsEmptyState value)? empty,
-    TResult? Function(ProjectSelectionFetchedState value)? fetched,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProjectUninitializedState value)? uninitialized,
-    TResult Function(ProjectLoadingState value)? loading,
-    TResult Function(ProjectsEmptyState value)? empty,
-    TResult Function(ProjectSelectionFetchedState value)? fetched,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ProjectLoadingState implements ProjectState {
-  const factory ProjectLoadingState() = _$ProjectLoadingState;
-}
-
-/// @nodoc
-abstract class _$$ProjectsEmptyStateCopyWith<$Res> {
-  factory _$$ProjectsEmptyStateCopyWith(_$ProjectsEmptyState value,
-          $Res Function(_$ProjectsEmptyState) then) =
-      __$$ProjectsEmptyStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ProjectsEmptyStateCopyWithImpl<$Res>
-    extends _$ProjectStateCopyWithImpl<$Res, _$ProjectsEmptyState>
-    implements _$$ProjectsEmptyStateCopyWith<$Res> {
-  __$$ProjectsEmptyStateCopyWithImpl(
-      _$ProjectsEmptyState _value, $Res Function(_$ProjectsEmptyState) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$ProjectsEmptyState implements ProjectsEmptyState {
-  const _$ProjectsEmptyState();
-
-  @override
-  String toString() {
-    return 'ProjectState.empty()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProjectsEmptyState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() uninitialized,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)
-        fetched,
-  }) {
-    return empty();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? uninitialized,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-  }) {
-    return empty?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? uninitialized,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ProjectUninitializedState value) uninitialized,
-    required TResult Function(ProjectLoadingState value) loading,
-    required TResult Function(ProjectsEmptyState value) empty,
-    required TResult Function(ProjectSelectionFetchedState value) fetched,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProjectUninitializedState value)? uninitialized,
-    TResult? Function(ProjectLoadingState value)? loading,
-    TResult? Function(ProjectsEmptyState value)? empty,
-    TResult? Function(ProjectSelectionFetchedState value)? fetched,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProjectUninitializedState value)? uninitialized,
-    TResult Function(ProjectLoadingState value)? loading,
-    TResult Function(ProjectsEmptyState value)? empty,
-    TResult Function(ProjectSelectionFetchedState value)? fetched,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ProjectsEmptyState implements ProjectState {
-  const factory ProjectsEmptyState() = _$ProjectsEmptyState;
-}
-
-/// @nodoc
-abstract class _$$ProjectSelectionFetchedStateCopyWith<$Res> {
-  factory _$$ProjectSelectionFetchedStateCopyWith(
-          _$ProjectSelectionFetchedState value,
-          $Res Function(_$ProjectSelectionFetchedState) then) =
-      __$$ProjectSelectionFetchedStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<ProjectModel> projects, ProjectModel? selectedProject});
+  $Res call(
+      {List<ProjectModel> projects,
+      ProjectModel? selectedProject,
+      bool loading,
+      ProjectSyncErrorType? syncError});
 }
 
 /// @nodoc
-class __$$ProjectSelectionFetchedStateCopyWithImpl<$Res>
-    extends _$ProjectStateCopyWithImpl<$Res, _$ProjectSelectionFetchedState>
-    implements _$$ProjectSelectionFetchedStateCopyWith<$Res> {
-  __$$ProjectSelectionFetchedStateCopyWithImpl(
-      _$ProjectSelectionFetchedState _value,
-      $Res Function(_$ProjectSelectionFetchedState) _then)
+class __$$_ProjectStateCopyWithImpl<$Res>
+    extends _$ProjectStateCopyWithImpl<$Res, _$_ProjectState>
+    implements _$$_ProjectStateCopyWith<$Res> {
+  __$$_ProjectStateCopyWithImpl(
+      _$_ProjectState _value, $Res Function(_$_ProjectState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -776,8 +404,10 @@ class __$$ProjectSelectionFetchedStateCopyWithImpl<$Res>
   $Res call({
     Object? projects = null,
     Object? selectedProject = freezed,
+    Object? loading = null,
+    Object? syncError = freezed,
   }) {
-    return _then(_$ProjectSelectionFetchedState(
+    return _then(_$_ProjectState(
       projects: null == projects
           ? _value._projects
           : projects // ignore: cast_nullable_to_non_nullable
@@ -786,19 +416,32 @@ class __$$ProjectSelectionFetchedStateCopyWithImpl<$Res>
           ? _value.selectedProject
           : selectedProject // ignore: cast_nullable_to_non_nullable
               as ProjectModel?,
+      loading: null == loading
+          ? _value.loading
+          : loading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      syncError: freezed == syncError
+          ? _value.syncError
+          : syncError // ignore: cast_nullable_to_non_nullable
+              as ProjectSyncErrorType?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$ProjectSelectionFetchedState implements ProjectSelectionFetchedState {
-  const _$ProjectSelectionFetchedState(
-      {required final List<ProjectModel> projects, this.selectedProject})
-      : _projects = projects;
+class _$_ProjectState extends _ProjectState {
+  const _$_ProjectState(
+      {final List<ProjectModel> projects = const [],
+      this.selectedProject,
+      this.loading = false,
+      this.syncError})
+      : _projects = projects,
+        super._();
 
   final List<ProjectModel> _projects;
   @override
+  @JsonKey()
   List<ProjectModel> get projects {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_projects);
@@ -806,122 +449,63 @@ class _$ProjectSelectionFetchedState implements ProjectSelectionFetchedState {
 
   @override
   final ProjectModel? selectedProject;
+  @override
+  @JsonKey()
+  final bool loading;
+  @override
+  final ProjectSyncErrorType? syncError;
 
   @override
   String toString() {
-    return 'ProjectState.fetched(projects: $projects, selectedProject: $selectedProject)';
+    return 'ProjectState(projects: $projects, selectedProject: $selectedProject, loading: $loading, syncError: $syncError)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ProjectSelectionFetchedState &&
+            other is _$_ProjectState &&
             const DeepCollectionEquality().equals(other._projects, _projects) &&
             (identical(other.selectedProject, selectedProject) ||
-                other.selectedProject == selectedProject));
+                other.selectedProject == selectedProject) &&
+            (identical(other.loading, loading) || other.loading == loading) &&
+            (identical(other.syncError, syncError) ||
+                other.syncError == syncError));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_projects), selectedProject);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_projects),
+      selectedProject,
+      loading,
+      syncError);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ProjectSelectionFetchedStateCopyWith<_$ProjectSelectionFetchedState>
-      get copyWith => __$$ProjectSelectionFetchedStateCopyWithImpl<
-          _$ProjectSelectionFetchedState>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() uninitialized,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)
-        fetched,
-  }) {
-    return fetched(projects, selectedProject);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? uninitialized,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-  }) {
-    return fetched?.call(projects, selectedProject);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? uninitialized,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(
-            List<ProjectModel> projects, ProjectModel? selectedProject)?
-        fetched,
-    required TResult orElse(),
-  }) {
-    if (fetched != null) {
-      return fetched(projects, selectedProject);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ProjectUninitializedState value) uninitialized,
-    required TResult Function(ProjectLoadingState value) loading,
-    required TResult Function(ProjectsEmptyState value) empty,
-    required TResult Function(ProjectSelectionFetchedState value) fetched,
-  }) {
-    return fetched(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ProjectUninitializedState value)? uninitialized,
-    TResult? Function(ProjectLoadingState value)? loading,
-    TResult? Function(ProjectsEmptyState value)? empty,
-    TResult? Function(ProjectSelectionFetchedState value)? fetched,
-  }) {
-    return fetched?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ProjectUninitializedState value)? uninitialized,
-    TResult Function(ProjectLoadingState value)? loading,
-    TResult Function(ProjectsEmptyState value)? empty,
-    TResult Function(ProjectSelectionFetchedState value)? fetched,
-    required TResult orElse(),
-  }) {
-    if (fetched != null) {
-      return fetched(this);
-    }
-    return orElse();
-  }
+  _$$_ProjectStateCopyWith<_$_ProjectState> get copyWith =>
+      __$$_ProjectStateCopyWithImpl<_$_ProjectState>(this, _$identity);
 }
 
-abstract class ProjectSelectionFetchedState implements ProjectState {
-  const factory ProjectSelectionFetchedState(
-      {required final List<ProjectModel> projects,
-      final ProjectModel? selectedProject}) = _$ProjectSelectionFetchedState;
+abstract class _ProjectState extends ProjectState {
+  const factory _ProjectState(
+      {final List<ProjectModel> projects,
+      final ProjectModel? selectedProject,
+      final bool loading,
+      final ProjectSyncErrorType? syncError}) = _$_ProjectState;
+  const _ProjectState._() : super._();
 
+  @override
   List<ProjectModel> get projects;
+  @override
   ProjectModel? get selectedProject;
+  @override
+  bool get loading;
+  @override
+  ProjectSyncErrorType? get syncError;
+  @override
   @JsonKey(ignore: true)
-  _$$ProjectSelectionFetchedStateCopyWith<_$ProjectSelectionFetchedState>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_ProjectStateCopyWith<_$_ProjectState> get copyWith =>
+      throw _privateConstructorUsedError;
 }

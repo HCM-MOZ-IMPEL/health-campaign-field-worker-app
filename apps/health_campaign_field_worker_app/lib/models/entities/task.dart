@@ -15,7 +15,6 @@ class TaskSearchModel extends EntitySearchModel {
   final String? status;
   final List<String>? clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final DateTime? plannedStartDateTime;
   final DateTime? plannedEndDateTime;
   final DateTime? actualStartDateTime;
@@ -30,12 +29,12 @@ class TaskSearchModel extends EntitySearchModel {
     this.status,
     this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     int? plannedStartDate,
     int? plannedEndDate,
     int? actualStartDate,
     int? actualEndDate,
     super.boundaryCode,
+    super.isDeleted,
   }): plannedStartDateTime = plannedStartDate == null
       ? null
       : DateTime.fromMillisecondsSinceEpoch(plannedStartDate),
@@ -49,6 +48,35 @@ class TaskSearchModel extends EntitySearchModel {
       ? null
       : DateTime.fromMillisecondsSinceEpoch(actualEndDate),
    super();
+
+  @MappableConstructor()
+  TaskSearchModel.ignoreDeleted({
+    this.id,
+    this.projectId,
+    this.projectBeneficiaryId,
+    this.projectBeneficiaryClientReferenceId,
+    this.createdBy,
+    this.status,
+    this.clientReferenceId,
+    this.tenantId,
+    int? plannedStartDate,
+    int? plannedEndDate,
+    int? actualStartDate,
+    int? actualEndDate,
+    super.boundaryCode,
+  }): plannedStartDateTime = plannedStartDate == null
+  ? null
+      : DateTime.fromMillisecondsSinceEpoch(plannedStartDate),
+  plannedEndDateTime = plannedEndDate == null
+  ? null
+      : DateTime.fromMillisecondsSinceEpoch(plannedEndDate),
+  actualStartDateTime = actualStartDate == null
+  ? null
+      : DateTime.fromMillisecondsSinceEpoch(actualStartDate),
+  actualEndDateTime = actualEndDate == null
+  ? null
+      : DateTime.fromMillisecondsSinceEpoch(actualEndDate),
+   super(isDeleted: false);
 
   int? get plannedStartDate => plannedStartDateTime?.millisecondsSinceEpoch;
   
@@ -74,9 +102,9 @@ class TaskModel extends EntityModel {
   final String? projectBeneficiaryClientReferenceId;
   final String? createdBy;
   final String? status;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final List<TaskResourceModel>? resources;
   final AddressModel? address;
@@ -95,9 +123,9 @@ class TaskModel extends EntityModel {
     this.projectBeneficiaryClientReferenceId,
     this.createdBy,
     this.status,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     this.resources,
     this.address,
@@ -107,6 +135,7 @@ class TaskModel extends EntityModel {
     int? actualEndDate,
     int? createdDate,
     super.auditDetails,
+    super.isDeleted = false,
   }): plannedStartDateTime = plannedStartDate == null
           ? null
           : DateTime.fromMillisecondsSinceEpoch(plannedStartDate),
@@ -146,15 +175,16 @@ class TaskModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       projectId: Value(projectId),
       projectBeneficiaryId: Value(projectBeneficiaryId),
       projectBeneficiaryClientReferenceId: Value(projectBeneficiaryClientReferenceId),
       createdBy: Value(createdBy),
       status: Value(status),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       plannedStartDate: Value(plannedStartDate),
       plannedEndDate: Value(plannedEndDate),

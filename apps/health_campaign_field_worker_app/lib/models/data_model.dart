@@ -15,6 +15,7 @@ export 'entities/household.dart';
 export 'entities/household_member.dart';
 export 'entities/identifier.dart';
 export 'entities/individual.dart';
+export 'entities/locality.dart';
 export 'entities/name.dart';
 export 'entities/product.dart';
 export 'entities/product_variant.dart';
@@ -26,6 +27,7 @@ export 'entities/project_resource.dart';
 export 'entities/project_staff.dart';
 export 'entities/project_type.dart';
 export 'entities/service.dart';
+export 'entities/beneficiary_type.dart';
 export 'entities/service_attributes.dart';
 export 'entities/service_definition.dart';
 export 'entities/status.dart';
@@ -36,21 +38,29 @@ export 'entities/task.dart';
 export 'entities/task_resource.dart';
 export 'entities/transaction_reason.dart';
 export 'entities/transaction_type.dart';
-export 'entities/locality.dart';
 export 'oplog/oplog_entry.dart';
+export 'pgr_complaints/pgr_address.dart';
+export 'pgr_complaints/pgr_complaints.dart';
+export 'pgr_complaints/pgr_complaints_response.dart';
 
-@MappableClass()
 abstract class DataModel {
   final String? boundaryCode;
+  final bool? isDeleted;
 
-  const DataModel({this.boundaryCode});
+  const DataModel({
+    this.boundaryCode,
+    this.isDeleted,
+  });
 }
 
 @MappableClass()
 abstract class EntityModel extends DataModel {
   final AuditDetails? auditDetails;
 
-  const EntityModel({this.auditDetails});
+  const EntityModel({
+    this.auditDetails,
+    super.isDeleted = false,
+  });
 }
 
 @MappableClass(ignoreNull: true)
@@ -62,7 +72,15 @@ abstract class EntitySearchModel extends DataModel {
     super.boundaryCode,
     this.auditDetails,
     this.additionalFields,
+    super.isDeleted = false,
   });
+
+  @MappableConstructor()
+  const EntitySearchModel.ignoreDeleted({
+    super.boundaryCode,
+    this.auditDetails,
+    this.additionalFields,
+  }) : super(isDeleted: false);
 }
 
 @MappableClass()
@@ -102,16 +120,17 @@ class AuditDetails {
         lastModifiedTime = lastModifiedTime ?? createdTime;
 }
 
+// Do not change this order it will break the sync flow
 enum DataModelType {
   user,
   facility,
   household,
-  householdMember,
   individual,
+  projectBeneficiary,
+  householdMember,
   product,
   productVariant,
   project,
-  projectBeneficiary,
   projectFacility,
   projectProductVariant,
   projectStaff,
@@ -122,6 +141,7 @@ enum DataModelType {
   task,
   serviceDefinition,
   service,
+  complaints,
   attributes,
   boundary,
   serviceAttributes,

@@ -8,13 +8,18 @@ import '../../data/local_store/sql_store/sql_store.dart';
 @MappableClass(ignoreNull: true)
 class TargetSearchModel extends EntitySearchModel {
   final String? tenantId;
-  final bool? isDeleted;
   
   TargetSearchModel({
     this.tenantId,
-    this.isDeleted,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  TargetSearchModel.ignoreDeleted({
+    this.tenantId,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -23,24 +28,27 @@ class TargetModel extends EntityModel {
   static const schemaName = 'Target';
 
   final String id;
-  final String? beneficiaryType;
-  final String? baseline;
-  final String? target;
+  final String? clientReferenceId;
+  final double? totalNo;
+  final double? targetNo;
+  final bool? nonRecoverableError;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
+  final BeneficiaryType? beneficiaryType;
   final TargetAdditionalFields? additionalFields;
 
   TargetModel({
     this.additionalFields,
     required this.id,
-    this.beneficiaryType,
-    this.baseline,
-    this.target,
+    this.clientReferenceId,
+    this.totalNo,
+    this.targetNo,
+    this.nonRecoverableError = false,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
+    this.beneficiaryType,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   TargetCompanion get companion {
@@ -50,13 +58,15 @@ class TargetModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
-      id: Value(id),
-      beneficiaryType: Value(beneficiaryType),
-      baseline: Value(baseline),
-      target: Value(target),
-      tenantId: Value(tenantId),
       isDeleted: Value(isDeleted),
+      id: Value(id),
+      clientReferenceId: Value(clientReferenceId),
+      totalNo: Value(totalNo),
+      targetNo: Value(targetNo),
+      nonRecoverableError: Value(nonRecoverableError),
+      tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
+      beneficiaryType: Value(beneficiaryType),
       );
   }
 }

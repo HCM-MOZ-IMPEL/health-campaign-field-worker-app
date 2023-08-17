@@ -1,5 +1,4 @@
 import 'package:digit_components/digit_components.dart';
-import 'package:digit_components/widgets/labeled_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,6 +23,7 @@ class DigitTextField extends StatelessWidget {
   final bool readOnly;
   final bool? isFilled;
   final Widget? suffixIcon;
+  final TextStyle? textStyle;
 
   const DigitTextField({
     super.key,
@@ -47,12 +47,14 @@ class DigitTextField extends StatelessWidget {
     this.readOnly = false,
     this.isFilled,
     this.suffixIcon,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return LabeledField(
       label: label,
+      textStyle: textStyle,
       child: TextFormField(
         style: TextStyle(
             color: readOnly == true
@@ -77,7 +79,6 @@ class DigitTextField extends StatelessWidget {
             maxHeight: 48,
             maxWidth: 48,
           ),
-          //maxLines = 1 if suffixIcon != null
           suffixIcon: suffixIcon,
         ),
       ),

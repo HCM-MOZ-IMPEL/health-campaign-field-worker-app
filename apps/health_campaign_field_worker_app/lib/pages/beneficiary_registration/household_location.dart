@@ -11,6 +11,8 @@ import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class HouseholdLocationPage extends LocalizedStatefulWidget {
   const HouseholdLocationPage({
@@ -39,6 +41,13 @@ class _HouseholdLocationPageState
     final bloc = context.read<BeneficiaryRegistrationBloc>();
     final router = context.router;
 
+    final locationBloc = context.read<LocationBloc>();
+    final locationInitialState = locationBloc.state;
+
+    final initialLat = locationInitialState.latitude;
+    final initialLng = locationInitialState.longitude;
+    final initialAccuracy = locationInitialState.accuracy;
+
     return Scaffold(
       body: ReactiveFormBuilder(
         form: () => buildForm(bloc.state),
@@ -48,9 +57,15 @@ class _HouseholdLocationPageState
             final lng = locationState.longitude;
             final accuracy = locationState.accuracy;
 
-            form.control(_latKey).value ??= lat;
-            form.control(_lngKey).value ??= lng;
-            form.control(_accuracyKey).value ??= accuracy;
+            if (lat != null) {
+              form.control(_latKey).value = lat;
+            }
+            if (lng != null) {
+              form.control(_lngKey).value = lng;
+            }
+            if (accuracy != null) {
+              form.control(_accuracyKey).value = accuracy;
+            }
           },
           listenWhen: (previous, current) {
             final lat = form.control(_latKey).value;
@@ -65,9 +80,11 @@ class _HouseholdLocationPageState
               BeneficiaryRegistrationState>(
             builder: (context, registrationState) {
               return ScrollableContent(
-                header: Column(
-                  children: const [
-                    BackNavigationHelpHeaderWidget(),
+                header: const Column(
+                  children: [
+                    BackNavigationHelpHeaderWidget(
+                      showcaseButton: ShowcaseButton(),
+                    ),
                   ],
                 ),
                 footer: SizedBox(
@@ -78,15 +95,8 @@ class _HouseholdLocationPageState
                       onPressed: () {
                         form.markAllAsTouched();
                         if (!form.valid) return;
-
-                        final addressLine1 =
-                            form.control(_addressLine1Key).value as String?;
-                        final addressLine2 =
-                            form.control(_addressLine2Key).value as String?;
                         final landmark =
                             form.control(_landmarkKey).value as String?;
-                        final postalCode =
-                            form.control(_postalCodeKey).value as String?;
 
                         registrationState.maybeWhen(
                           orElse: () {
@@ -102,15 +112,25 @@ class _HouseholdLocationPageState
                             isHeadOfHousehold,
                           ) {
                             var addressModel = AddressModel(
-                              addressLine1: addressLine1,
-                              addressLine2: addressLine2,
-                              landmark: landmark,
-                              pincode: postalCode,
+                              addressLine1: context.boundary.name,
+                              addressLine2: 'addressLine2',
+                              landmark:
+                                  (landmark == null || landmark.trim() == "")
+                                      ? null
+                                      : landmark.trim(),
+                              pincode: 'postalCode',
                               type: AddressType.correspondence,
-                              latitude: form.control(_latKey).value,
-                              longitude: form.control(_lngKey).value,
+                              latitude:
+                                  form.control(_latKey).value ?? initialLat,
+                              longitude:
+                                  form.control(_lngKey).value ?? initialLng,
                               locationAccuracy:
-                                  form.control(_accuracyKey).value,
+                                  form.control(_accuracyKey).value ??
+                                      initialAccuracy,
+                              locality: LocalityModel(
+                                code: context.boundary.code!,
+                                name: context.boundary.name,
+                              ),
                               tenantId: envConfig.variables.tenantId,
                               rowVersion: 1,
                               auditDetails: AuditDetails(
@@ -134,10 +154,11 @@ class _HouseholdLocationPageState
                             loading,
                           ) {
                             var addressModel = address.copyWith(
-                              addressLine1: addressLine1,
-                              addressLine2: addressLine2,
+                              addressLine1: context.boundary.name,
+                              addressLine2: 'addressLine2',
                               landmark: landmark,
-                              pincode: postalCode,
+                              locality: address.locality,
+                              pincode: 'postalCode',
                               type: AddressType.correspondence,
                               latitude: form.control(_latKey).value,
                               longitude: form.control(_lngKey).value,
@@ -163,67 +184,51 @@ class _HouseholdLocationPageState
                     ),
                   ),
                 ),
-                children: [
-                  DigitCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          localizations.translate(
-                            i18.householdLocation.householdLocationLabelText,
-                          ),
-                          style: theme.textTheme.displayMedium,
-                        ),
-                        Column(children: [
-                          DigitTextFormField(
-                            formControlName: _administrationAreaKey,
-                            label: localizations.translate(
-                              i18.householdLocation.administrationAreaFormLabel,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: DigitCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            localizations.translate(
+                              i18.householdLocation.householdLocationLabelText,
                             ),
-                            readOnly: true,
-                            isRequired: true,
-                            validationMessages: {
-                              'required': (_) => localizations.translate(
-                                    i18.householdLocation
-                                        .administrationAreaRequiredValidation,
-                                  ),
-                            },
+                            style: theme.textTheme.displayMedium,
                           ),
-                          DigitTextFormField(
-                            formControlName: _addressLine1Key,
-                            label: localizations.translate(
-                              i18.householdLocation
-                                  .householdAddressLine1LabelText,
+                          Column(children: [
+                            householdLocationShowcaseData.administrativeArea
+                                .buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _administrationAreaKey,
+                                label: localizations.translate(
+                                  i18.householdLocation
+                                      .administrationAreaFormLabel,
+                                ),
+                                readOnly: true,
+                                isRequired: true,
+                                validationMessages: {
+                                  'required': (_) => localizations.translate(
+                                        i18.householdLocation
+                                            .administrationAreaRequiredValidation,
+                                      ),
+                                },
+                              ),
                             ),
-                            maxLength: 64,
-                          ),
-                          DigitTextFormField(
-                            formControlName: _addressLine2Key,
-                            label: localizations.translate(
-                              i18.householdLocation
-                                  .householdAddressLine2LabelText,
+                            householdLocationShowcaseData.landmark.buildWith(
+                              child: DigitTextFormField(
+                                formControlName: _landmarkKey,
+                                label: localizations.translate(
+                                  i18.householdLocation.landmarkFormLabel,
+                                ),
+                                maxLength: 64,
+                              ),
                             ),
-                            maxLength: 64,
-                          ),
-                          DigitTextFormField(
-                            formControlName: _landmarkKey,
-                            label: localizations.translate(
-                              i18.householdLocation.landmarkFormLabel,
-                            ),
-                            maxLength: 64,
-                          ),
-                          DigitTextFormField(
-                            keyboardType: TextInputType.text,
-                            formControlName: _postalCodeKey,
-                            label: localizations.translate(
-                              i18.householdLocation.postalCodeFormLabel,
-                            ),
-                            maxLength: 64,
-                          ),
-                        ]),
-                        const SizedBox(height: 16),
-                      ],
+                          ]),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -242,7 +247,7 @@ class _HouseholdLocationPageState
 
     return fb.group(<String, Object>{
       _administrationAreaKey: FormControl<String>(
-        value: context.boundaryCode,
+        value: context.boundary.name,
         validators: [Validators.required],
       ),
       _addressLine1Key:
@@ -255,7 +260,7 @@ class _HouseholdLocationPageState
       ),
       _landmarkKey:
           FormControl<String>(value: addressModel?.landmark, validators: [
-        CustomValidator.requiredMin,
+        CustomValidator.nonRequiredMin,
       ]),
       _postalCodeKey:
           FormControl<String>(value: addressModel?.pincode, validators: [

@@ -9,14 +9,20 @@ import '../../data/local_store/sql_store/sql_store.dart';
 class ProjectTypeSearchModel extends EntitySearchModel {
   final List<String>? clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   
   ProjectTypeSearchModel({
     this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  ProjectTypeSearchModel.ignoreDeleted({
+    this.clientReferenceId,
+    this.tenantId,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -31,9 +37,9 @@ class ProjectTypeModel extends EntityModel {
   final String? beneficiaryType;
   final List<String>? eligibilityCriteria;
   final List<String>? taskProcedure;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final List<ProjectProductVariantModel>? resources;
   final ProjectTypeAdditionalFields? additionalFields;
@@ -47,12 +53,13 @@ class ProjectTypeModel extends EntityModel {
     this.beneficiaryType,
     this.eligibilityCriteria,
     this.taskProcedure,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     this.resources,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   ProjectTypeCompanion get companion {
@@ -62,6 +69,7 @@ class ProjectTypeModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       name: Value(name),
       code: Value(code),
@@ -69,9 +77,9 @@ class ProjectTypeModel extends EntityModel {
       beneficiaryType: Value(beneficiaryType),
       eligibilityCriteria: Value(eligibilityCriteria?.toString()),
       taskProcedure: Value(taskProcedure?.toString()),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       );
   }

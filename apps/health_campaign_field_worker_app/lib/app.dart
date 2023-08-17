@@ -1,6 +1,10 @@
+import 'dart:math';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:isar/isar.dart';
@@ -20,11 +24,11 @@ import 'data/repositories/remote/mdms.dart';
 import 'models/data_model.dart';
 import 'router/app_navigator_observer.dart';
 import 'router/app_router.dart';
-import 'utils/constants.dart';
 import 'utils/environment_config.dart';
+import 'utils/utils.dart';
 import 'widgets/network_manager_provider_wrapper.dart';
 
-class MainApplication extends StatelessWidget {
+class MainApplication extends StatefulWidget {
   final Dio client;
   final AppRouter appRouter;
   final Isar isar;
@@ -39,24 +43,32 @@ class MainApplication extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() {
+    return MainApplicationState();
+  }
+}
+
+class MainApplicationState extends State<MainApplication>
+    with WidgetsBindingObserver {
+  @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<LocalSqlDataStore>.value(value: sql),
-        RepositoryProvider<Isar>.value(value: isar),
+        RepositoryProvider<LocalSqlDataStore>.value(value: widget.sql),
+        RepositoryProvider<Isar>.value(value: widget.isar),
       ],
       child: BlocProvider(
         create: (context) => AppInitializationBloc(
-          isar: isar,
-          mdmsRepository: MdmsRepository(client),
+          isar: widget.isar,
+          mdmsRepository: MdmsRepository(widget.client),
         )..add(const AppInitializationSetupEvent()),
         child: NetworkManagerProviderWrapper(
-          isar: isar,
+          isar: widget.isar,
           configuration: const NetworkManagerConfiguration(
             persistenceConfig: PersistenceConfiguration.offlineFirst,
           ),
-          dio: client,
-          sql: sql,
+          dio: widget.client,
+          sql: widget.sql,
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -67,8 +79,11 @@ class MainApplication extends StatelessWidget {
                 lazy: false,
               ),
               BlocProvider(
-                create: (ctx) => AuthBloc(authRepository: ctx.read())
-                  ..add(
+                create: (ctx) => AuthBloc(
+                  authRepository: ctx.read(),
+                  boundaryLocalRepository: ctx.read<
+                      LocalRepository<BoundaryModel, BoundarySearchModel>>(),
+                )..add(
                     AuthAutoLoginEvent(
                       tenantId: envConfig.variables.tenantId,
                     ),
@@ -76,7 +91,7 @@ class MainApplication extends StatelessWidget {
               ),
               BlocProvider(
                 create: (ctx) => BoundaryBloc(
-                  const BoundaryState.empty(),
+                  const BoundaryState(),
                   boundaryRepository: ctx
                       .read<NetworkManager>()
                       .repository<BoundaryModel, BoundarySearchModel>(ctx),
@@ -84,7 +99,7 @@ class MainApplication extends StatelessWidget {
               ),
               BlocProvider(
                 create: (ctx) => BoundaryBloc(
-                  const BoundaryState.empty(),
+                  const BoundaryState(),
                   boundaryRepository: ctx
                       .read<NetworkManager>()
                       .repository<BoundaryModel, BoundarySearchModel>(ctx),
@@ -93,12 +108,13 @@ class MainApplication extends StatelessWidget {
             ],
             child: BlocBuilder<AppInitializationBloc, AppInitializationState>(
               builder: (context, appConfigState) {
-                const defaultLocale = Locale('en', 'IN');
+                // const defaultLocale = Locale('en', 'IN');
+                const defaultLocale = Locale('pt', 'MZ');
 
                 return BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, authState) {
                     if (appConfigState is! AppInitialized) {
-                      return MaterialApp(
+                      return const MaterialApp(
                         home: Scaffold(
                           body: Center(
                             child: Text('Loading'),
@@ -120,8 +136,11 @@ class MainApplication extends StatelessWidget {
                                   firstLanguage != null)
                               ? (context) => LocalizationBloc(
                                     const LocalizationState(),
-                                    LocalizationRepository(client, isar),
-                                    isar,
+                                    LocalizationRepository(
+                                      widget.client,
+                                      widget.isar,
+                                    ),
+                                    widget.isar,
                                   )..add(
                                       LocalizationEvent.onLoadLocalization(
                                         module: localizationModulesList
@@ -139,12 +158,16 @@ class MainApplication extends StatelessWidget {
                                     )
                               : (context) => LocalizationBloc(
                                     const LocalizationState(),
-                                    LocalizationRepository(client, isar),
-                                    isar,
+                                    LocalizationRepository(
+                                      widget.client,
+                                      widget.isar,
+                                    ),
+                                    widget.isar,
                                   ),
                         ),
                         BlocProvider(
                           create: (ctx) => ProjectBloc(
+                            mdmsRepository: MdmsRepository(widget.client),
                             facilityLocalRepository: ctx.read<
                                 LocalRepository<FacilityModel,
                                     FacilitySearchModel>>(),
@@ -172,7 +195,7 @@ class MainApplication extends StatelessWidget {
                             serviceDefinitionRemoteRepository: ctx.read<
                                 RemoteRepository<ServiceDefinitionModel,
                                     ServiceDefinitionSearchModel>>(),
-                            isar: isar,
+                            isar: widget.isar,
                             serviceDefinitionLocalRepository: ctx.read<
                                 LocalRepository<ServiceDefinitionModel,
                                     ServiceDefinitionSearchModel>>(),
@@ -200,17 +223,17 @@ class MainApplication extends StatelessWidget {
                       child: BlocBuilder<LocalizationBloc, LocalizationState>(
                         builder: (context, langState) {
                           return MaterialApp.router(
+                            debugShowCheckedModeBanner: false,
                             supportedLocales: languages != null
                                 ? languages.map((e) {
-                                    final results = e.value.split('_');
-
-                                    return results.isNotEmpty
-                                        ? Locale(results.first, results.last)
-                                        : defaultLocale;
+                                    return defaultLocale;
                                   })
                                 : [defaultLocale],
                             localizationsDelegates: [
-                              AppLocalizations.getDelegate(appConfig, isar),
+                              AppLocalizations.getDelegate(
+                                appConfig,
+                                widget.isar,
+                              ),
                               GlobalWidgetsLocalizations.delegate,
                               GlobalCupertinoLocalizations.delegate,
                               GlobalMaterialLocalizations.delegate,
@@ -229,10 +252,69 @@ class MainApplication extends StatelessWidget {
                                 : defaultLocale,
                             theme: DigitTheme.instance.mobileTheme,
                             routeInformationParser:
-                                appRouter.defaultRouteParser(),
+                                widget.appRouter.defaultRouteParser(),
                             scaffoldMessengerKey: scaffoldMessengerKey,
+                            builder: (context, child) {
+                              if (child == null) {
+                                return const SizedBox.shrink();
+                              }
+
+                              final env = envConfig.variables.envType;
+                              if (env == EnvType.prod) {
+                                return child;
+                              }
+
+                              if (env == EnvType.training) {
+                                return Scaffold(
+                                  body: Stack(
+                                    children: [
+                                      Positioned.fill(child: child),
+                                      Positioned.fill(
+                                        child: IgnorePointer(
+                                          child: Transform.rotate(
+                                            angle: -pi / 4,
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: AutoSizeText(
+                                                  'Formação'.toUpperCase(),
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                    fontSize: 50,
+                                                    color: Colors.black
+                                                        .withAlpha(25),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+
+                              return Banner(
+                                message: envConfig.variables.envType.name,
+                                location: BannerLocation.topStart,
+                                color: () {
+                                  switch (envConfig.variables.envType) {
+                                    case EnvType.training:
+                                      return Colors.green;
+                                    case EnvType.uat:
+                                      return Colors.pink;
+                                    default:
+                                      return Colors.red;
+                                  }
+                                }(),
+                                child: child,
+                              );
+                            },
                             routerDelegate: AutoRouterDelegate.declarative(
-                              appRouter,
+                              widget.appRouter,
                               navigatorObservers: () => [AppRouterObserver()],
                               routes: (handler) => authState.maybeWhen(
                                 orElse: () => [

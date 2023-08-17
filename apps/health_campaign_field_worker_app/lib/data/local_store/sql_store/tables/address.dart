@@ -21,11 +21,14 @@ class Address extends Table {
   TextColumn get boundaryType => text().nullable()();
   TextColumn get boundary => text().nullable()();
   TextColumn get auditCreatedBy => text().nullable()();
+  BoolColumn get nonRecoverableError => boolean().nullable().withDefault(const Constant(false))();
   IntColumn get auditCreatedTime => integer().nullable()();
   TextColumn get auditModifiedBy => text().nullable()();
   IntColumn get auditModifiedTime => integer().nullable()();
+  TextColumn get localityBoundaryCode => text().nullable()();
+  TextColumn get localityBoundaryName => text().nullable()();
   TextColumn get tenantId => text().nullable()();
-  BoolColumn get isDeleted => boolean().nullable()();
+  BoolColumn get isDeleted => boolean().nullable().withDefault(const Constant(false))();
   IntColumn get rowVersion => integer().nullable()();
   IntColumn get type => intEnum<AddressType>().nullable()();
   

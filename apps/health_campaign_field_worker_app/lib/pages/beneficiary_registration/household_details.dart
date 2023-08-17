@@ -11,6 +11,8 @@ import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
+import '../../widgets/showcase/config/showcase_constants.dart';
+import '../../widgets/showcase/showcase_button.dart';
 
 class HouseHoldDetailsPage extends LocalizedStatefulWidget {
   const HouseHoldDetailsPage({
@@ -39,8 +41,10 @@ class _HouseHoldDetailsPageState extends LocalizedState<HouseHoldDetailsPage> {
             BeneficiaryRegistrationBloc, BeneficiaryRegistrationState>(
           builder: (context, registrationState) {
             return ScrollableContent(
-              header: Column(children: const [
-                BackNavigationHelpHeaderWidget(),
+              header: const Column(children: [
+                BackNavigationHelpHeaderWidget(
+                  showcaseButton: ShowcaseButton(),
+                ),
               ]),
               footer: SizedBox(
                 height: 85,
@@ -134,39 +138,49 @@ class _HouseHoldDetailsPageState extends LocalizedState<HouseHoldDetailsPage> {
                   ),
                 ),
               ),
-              children: [
-                DigitCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        localizations.translate(
-                          i18.householdDetails.householdDetailsLabel,
-                        ),
-                        style: theme.textTheme.displayMedium,
-                      ),
-                      Column(children: [
-                        DigitDateFormPicker(
-                          isEnabled: false,
-                          formControlName: _dateOfRegistrationKey,
-                          label: localizations.translate(
-                            i18.householdDetails.dateOfRegistrationLabel,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: DigitCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          localizations.translate(
+                            i18.householdDetails.householdDetailsLabel,
                           ),
-                          isRequired: false,
+                          style: theme.textTheme.displayMedium,
                         ),
-                        DigitIntegerFormPicker(
-                          minimum: 1,
-                          form: form,
-                          formControlName: _memberCountKey,
-                          label: localizations.translate(
-                            i18.householdDetails.noOfMembersCountLabel,
+                        Column(children: [
+                          householdDetailsShowcaseData.dateOfRegistration
+                              .buildWith(
+                            child: DigitDateFormPicker(
+                              isEnabled: false,
+                              formControlName: _dateOfRegistrationKey,
+                              label: localizations.translate(
+                                i18.householdDetails.dateOfRegistrationLabel,
+                              ),
+                              isRequired: false,
+                            ),
                           ),
-                          incrementer: true,
-                        ),
-                      ]),
-                      const SizedBox(height: 16),
-                    ],
+                          householdDetailsShowcaseData
+                              .numberOfMembersLivingInHousehold
+                              .buildWith(
+                            child: DigitIntegerFormPicker(
+                              minimum: 1,
+                              maximum: 20,
+                              form: form,
+                              formControlName: _memberCountKey,
+                              label: localizations.translate(
+                                i18.householdDetails.noOfMembersCountLabel,
+                              ),
+                              incrementer: true,
+                            ),
+                          ),
+                        ]),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
                 ),
               ],

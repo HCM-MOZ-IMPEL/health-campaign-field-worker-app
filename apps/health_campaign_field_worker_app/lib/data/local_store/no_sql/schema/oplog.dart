@@ -37,4 +37,18 @@ class OpLog {
   late bool syncedUp;
 
   late bool syncedDown;
+
+  late List<AdditionalId> additionalIds;
+
+  late int syncDownRetryCount;
+
+  late int rowVersion;
+
+  late bool nonRecoverableError;
+}
+
+@embedded
+class AdditionalId {
+  late String idType;
+  late String id;
 }

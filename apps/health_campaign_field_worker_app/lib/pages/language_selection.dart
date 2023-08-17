@@ -84,7 +84,10 @@ class LanguageSelectionPage extends StatelessWidget {
                 );
               },
             ),
-            const PoweredByDigit(isWhiteLogo: true),
+            PoweredByDigit(
+              isWhiteLogo: true,
+              version: Constants().version,
+            ),
           ],
         ),
       ),

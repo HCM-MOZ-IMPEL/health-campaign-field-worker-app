@@ -9,14 +9,20 @@ import '../../data/local_store/sql_store/sql_store.dart';
 class AddressSearchModel extends EntitySearchModel {
   final String? id;
   final String? tenantId;
-  final bool? isDeleted;
   
   AddressSearchModel({
     this.id,
     this.tenantId,
-    this.isDeleted,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  AddressSearchModel.ignoreDeleted({
+    this.id,
+    this.tenantId,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -39,10 +45,11 @@ class AddressModel extends EntityModel {
   final String? street;
   final String? boundaryType;
   final String? boundary;
+  final bool? nonRecoverableError;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final AddressType? type;
+  final LocalityModel? locality;
   final AddressAdditionalFields? additionalFields;
 
   AddressModel({
@@ -62,20 +69,25 @@ class AddressModel extends EntityModel {
     this.street,
     this.boundaryType,
     this.boundary,
+    this.nonRecoverableError = false,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     this.type,
+    this.locality,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   AddressCompanion get companion {
     return AddressCompanion(
+      localityBoundaryCode: Value(locality?.code),
+      localityBoundaryName: Value(locality?.name),
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       relatedClientReferenceId: Value(relatedClientReferenceId),
       doorNo: Value(doorNo),
@@ -91,8 +103,8 @@ class AddressModel extends EntityModel {
       street: Value(street),
       boundaryType: Value(boundaryType),
       boundary: Value(boundary),
+      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       type: Value(type),
       );

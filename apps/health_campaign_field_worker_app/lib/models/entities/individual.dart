@@ -11,7 +11,6 @@ class IndividualSearchModel extends EntitySearchModel {
   final String? dateOfBirth;
   final List<String>? clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final NameSearchModel? name;
   final Gender? gender;
   final List<IdentifierSearchModel>? identifiers;
@@ -21,12 +20,24 @@ class IndividualSearchModel extends EntitySearchModel {
     this.dateOfBirth,
     this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.name,
     this.gender,
     this.identifiers,
     super.boundaryCode,
+    super.isDeleted,
   }):  super();
+
+  @MappableConstructor()
+  IndividualSearchModel.ignoreDeleted({
+    this.id,
+    this.dateOfBirth,
+    this.clientReferenceId,
+    this.tenantId,
+    this.name,
+    this.gender,
+    this.identifiers,
+    super.boundaryCode,
+  }):  super(isDeleted: false);
 }
 
 @MappableClass(ignoreNull: true)
@@ -43,9 +54,9 @@ class IndividualModel extends EntityModel {
   final String? fatherName;
   final String? husbandName;
   final String? photo;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
-  final bool? isDeleted;
   final int? rowVersion;
   final NameModel? name;
   final BloodGroup? bloodGroup;
@@ -65,9 +76,9 @@ class IndividualModel extends EntityModel {
     this.fatherName,
     this.husbandName,
     this.photo,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
-    this.isDeleted,
     this.rowVersion,
     this.name,
     this.bloodGroup,
@@ -75,6 +86,7 @@ class IndividualModel extends EntityModel {
     this.gender,
     this.identifiers,
     super.auditDetails,
+    super.isDeleted = false,
   }): super();
 
   IndividualCompanion get companion {
@@ -84,6 +96,7 @@ class IndividualModel extends EntityModel {
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
+      isDeleted: Value(isDeleted),
       id: Value(id),
       userId: Value(userId),
       dateOfBirth: Value(dateOfBirth),
@@ -93,9 +106,9 @@ class IndividualModel extends EntityModel {
       fatherName: Value(fatherName),
       husbandName: Value(husbandName),
       photo: Value(photo),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
-      isDeleted: Value(isDeleted),
       rowVersion: Value(rowVersion),
       bloodGroup: Value(bloodGroup),
       gender: Value(gender),

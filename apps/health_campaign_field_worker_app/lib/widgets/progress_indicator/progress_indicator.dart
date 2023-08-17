@@ -1,5 +1,9 @@
 import 'package:digit_components/widgets/digit_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../blocs/auth/auth.dart';
+import '../../models/auth/auth_model.dart';
 
 class ProgressIndicatorContainer extends StatelessWidget {
   final String label;
@@ -17,6 +21,18 @@ class ProgressIndicatorContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.read<AuthBloc>().state;
+    if (state is! AuthAuthenticatedState) {
+      return Container();
+    }
+    final roles = state.userModel.roles.map((e) {
+      return e.code;
+    });
+
+    if(roles.contains(UserRoleCodeEnum.warehouseManager)){
+      return Container();
+    }
+
     final theme = Theme.of(context);
 
     return DigitCard(

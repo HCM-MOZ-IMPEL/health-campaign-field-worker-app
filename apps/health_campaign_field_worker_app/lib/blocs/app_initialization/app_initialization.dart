@@ -79,12 +79,37 @@ class AppInitializationBloc
                   MdmsMasterDetailModel('appConfig'),
                 ],
               ),
+              const MdmsModuleDetailModel(
+                moduleName: 'module-version',
+                masterDetails: [
+                  MdmsMasterDetailModel('ROW_VERSIONS'),
+                ],
+              ),
             ],
           ),
         ).toJson(),
       );
 
-      await mdmsRepository.writeToAppConfigDB(configResult, isar);
+      final pgrServiceDefinitions =
+          await mdmsRepository.searchPGRServiceDefinitions(
+        envConfig.variables.mdmsApiPath,
+        MdmsRequestModel(
+          mdmsCriteria: MdmsCriteriaModel(
+            tenantId: envConfig.variables.tenantId,
+            moduleDetails: [
+              const MdmsModuleDetailModel(
+                moduleName: 'RAINMAKER-PGR',
+                masterDetails: [
+                  MdmsMasterDetailModel('ServiceDefs'),
+                ],
+              ),
+            ],
+          ),
+        ).toJson(),
+      );
+
+      await mdmsRepository.writeToAppConfigDB(
+          configResult, pgrServiceDefinitions, isar);
 
       add(
         AppInitializationSetupEvent(
