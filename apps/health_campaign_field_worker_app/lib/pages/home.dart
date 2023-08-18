@@ -535,23 +535,23 @@ class _HomePageState extends LocalizedState<HomePage> {
       ]);
     }
 
-    homeItems.addAll(
-      [
-        HomeItemCard(
-          icon: Icons.table_chart,
-          label: 'DB',
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DriftDbViewer(
-                  context.read<LocalSqlDataStore>(),
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+    // homeItems.addAll(
+    //   [
+    //     HomeItemCard(
+    //       icon: Icons.table_chart,
+    //       label: 'DB',
+    //       onPressed: () {
+    //         Navigator.of(context).push(
+    //           MaterialPageRoute(
+    //             builder: (context) => DriftDbViewer(
+    //               context.read<LocalSqlDataStore>(),
+    //             ),
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //   ],
+    // );
 
     return _HomeItemDataModel(homeItems, showcaseKeys);
   }
