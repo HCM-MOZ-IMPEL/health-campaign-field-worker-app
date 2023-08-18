@@ -8,7 +8,6 @@ import '../../blocs/auth/auth.dart';
 import '../../router/app_router.dart';
 import '../../utils/checkbandwidth.dart';
 import '../../utils/constants.dart';
-import '../../utils/debound.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 
 class SideBar extends StatelessWidget {
@@ -90,18 +89,16 @@ class SideBar extends StatelessWidget {
                           secondaryAction: DigitDialogActions(
                             label: t.translate(i18.common.coreCommonYes),
                             action: (ctx) {
-                              i = i++;
-                              final deBouncer = Debouncer(seconds: 1);
+                              i = i + 1;
+
                               if (i == 1) {
-                                deBouncer.run(() async {
-                                  context
-                                      .read<AuthBloc>()
-                                      .add(const AuthLogoutEvent());
-                                  Navigator.of(
-                                    context,
-                                    rootNavigator: true,
-                                  ).pop(true);
-                                });
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthLogoutEvent());
+                                Navigator.of(
+                                  context,
+                                  rootNavigator: true,
+                                ).pop(true);
                               }
                             },
                           ),
