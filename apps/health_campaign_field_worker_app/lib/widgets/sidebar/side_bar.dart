@@ -17,6 +17,7 @@ class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     var t = AppLocalizations.of(context);
+    var tapCount = 0;
 
     return BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
       return Column(
@@ -88,13 +89,17 @@ class SideBar extends StatelessWidget {
                           secondaryAction: DigitDialogActions(
                             label: t.translate(i18.common.coreCommonYes),
                             action: (ctx) {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(const AuthLogoutEvent());
-                              Navigator.of(
-                                context,
-                                rootNavigator: true,
-                              ).pop(true);
+                              tapCount = tapCount + 1;
+
+                              if (tapCount == 1) {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthLogoutEvent());
+                                Navigator.of(
+                                  context,
+                                  rootNavigator: true,
+                                ).pop(true);
+                              }
                             },
                           ),
                         ),
