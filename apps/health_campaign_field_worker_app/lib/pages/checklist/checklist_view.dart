@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:digit_components/digit_components.dart';
-import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:intl/intl.dart';
 
 import '../../blocs/service/service.dart';
 import '../../blocs/service_definition/service_definition.dart';
@@ -29,6 +29,12 @@ class ChecklistViewPage extends LocalizedStatefulWidget {
 
 class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   String isStateChanged = '';
+  var submitTriggered = false;
+  List<TextEditingController> controller = [];
+  List<TextEditingController> additionalController = [];
+  List<AttributesModel>? initialAttributes;
+  bool areControllersInitialized = false;
+  List<int> visibleIndexes = [];
 
   @override
   void initState() {
@@ -56,23 +62,25 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
           children: [
             BlocBuilder<ServiceDefinitionBloc, ServiceDefinitionState>(
               builder: (context, state) {
-                List<TextEditingController> controller = [];
-                List<TextEditingController> additionalController = [];
                 state.mapOrNull(
-                  serviceDefinitionFetch: (value) =>
-                      value.selectedServiceDefinition?.attributes?.forEach((e) {
-                    controller.add(TextEditingController());
-                    additionalController.add(TextEditingController());
-                  }),
+                  serviceDefinitionFetch: (value) {
+                    initialAttributes =
+                        value.selectedServiceDefinition?.attributes;
+                    if (!areControllersInitialized) {
+                      initialAttributes?.forEach((e) {
+                        controller.add(TextEditingController());
+                        additionalController.add(TextEditingController());
+                      });
+
+                      // Set the flag to true after initializing controllers
+                      areControllersInitialized = true;
+                    }
+                  },
                 );
 
                 return state.maybeMap(
                   orElse: () => Text(state.runtimeType.toString()),
                   serviceDefinitionFetch: (value) {
-                    var i = -1;
-                    i++;
-                    var submitTriggered = false;
-
                     return Form(
                       key: abcKey, //assigning key to form
                       child: DigitCard(
@@ -94,12 +102,10 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               localizations.translate(i18.checklist.checklist),
                             ),
                           ),
-                          ...value.selectedServiceDefinition!.attributes!.map((
+                          ...initialAttributes!.map((
                             e,
                           ) {
-                            int index = value
-                                .selectedServiceDefinition!.attributes!
-                                .indexOf(e);
+                            int index = (initialAttributes ?? []).indexOf(e);
 
                             return Column(children: [
                               if (e.dataType == 'String') ...[
@@ -212,7 +218,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                                     ele = val.join(".");
                                                   } else {
                                                     ele =
-                                                        "${controller[i].text}.$e";
+                                                        "${controller[index].text}.$e";
                                                   }
                                                   controller[index].value =
                                                       TextEditingController
@@ -228,127 +234,25 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                   },
                                 ),
                               ] else if (e.dataType == 'SingleValueList') ...[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 8),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '${localizations.translate(
-                                                '${value.selectedServiceDefinition?.code}.${e.code}',
-                                              )} ${e.required == true ? '*' : ''}',
-                                              style:
-                                                  theme.textTheme.headlineSmall,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    BlocBuilder<ServiceBloc, ServiceState>(
-                                      builder: (context, state) {
-                                        return RadioGroup<String>.builder(
-                                          groupValue:
-                                              controller[index].text.trim(),
-                                          onChanged: (value) {
-                                            context.read<ServiceBloc>().add(
-                                                  ServiceChecklistEvent(
-                                                    value: Random()
-                                                        .nextInt(100)
-                                                        .toString(),
-                                                    submitTriggered:
-                                                        submitTriggered,
-                                                  ),
-                                                );
-                                            controller[index].value =
-                                                TextEditingController.fromValue(
-                                              TextEditingValue(
-                                                text: value!,
-                                              ),
-                                            ).value;
-                                          },
-                                          items:
-                                              e.values != null ? e.values! : [],
-                                          itemBuilder: (item) =>
-                                              RadioButtonBuilder(
-                                            item.trim(),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    BlocBuilder<ServiceBloc, ServiceState>(
-                                      builder: (context, state) {
-                                        return ((e.values?.length == 2 ||
-                                                    e.values?.length == 3) &&
-                                                controller[index].text ==
-                                                    e.values?[1].trim())
-                                            ? Padding(
-                                                padding: const EdgeInsets.only(
-                                                  bottom: 8,
-                                                ),
-                                                child: DigitTextField(
-                                                  maxLength: 1000,
-                                                  isRequired: true,
-                                                  controller:
-                                                      additionalController[
-                                                          index],
-                                                  label:
-                                                      '${localizations.translate(
-                                                    '${value.selectedServiceDefinition?.code}.${e.code}.ADDITIONAL_FIELD',
-                                                  )}*',
-                                                  validator: (value1) {
-                                                    if (value1 == null ||
-                                                        value1 == '') {
-                                                      return localizations
-                                                          .translate(
-                                                        i18.common
-                                                            .coreCommonReasonRequired,
-                                                      );
-                                                    }
-
-                                                    return null;
-                                                  },
-                                                ),
-                                              )
-                                            : const SizedBox();
-                                      },
-                                    ),
-                                    BlocBuilder<ServiceBloc, ServiceState>(
-                                      builder: (context, state) {
-                                        return Offstage(
-                                          offstage: e.required == null ||
-                                              e.required == true &&
-                                                  controller[index]
-                                                      .text
-                                                      .trim()
-                                                      .isNotEmpty ||
-                                              !submitTriggered,
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              localizations.translate(
-                                                i18.common.corecommonRequired,
-                                              ),
-                                              style: TextStyle(
-                                                color: theme.colorScheme.error,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    const DigitDivider(),
-                                  ],
-                                ),
+                                if (!(e.code ?? '').contains('.'))
+                                  _buildChecklist(
+                                    e,
+                                    index,
+                                    value.selectedServiceDefinition,
+                                    context,
+                                  ),
                               ],
                             ]);
                           }).toList(),
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
+                          const DigitDivider(),
                           DigitElevatedButton(
                             onPressed: () async {
                               final router = context.router;
@@ -364,11 +268,17 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               if (!isValid!) {
                                 return;
                               }
-                              final itemsAttributes =
-                                  value.selectedServiceDefinition!.attributes;
-                              for (i = 0; i < controller.length; i++) {
+                              final itemsAttributes = initialAttributes;
+
+                              for (int i = 0; i < controller.length; i++) {
                                 if (itemsAttributes?[i].required == true &&
-                                    (controller[i].text == '')) {
+                                    ((itemsAttributes?[i].dataType ==
+                                                'SingleValueList' &&
+                                            visibleIndexes.any((e) => e == i) &&
+                                            (controller[i].text == '')) ||
+                                        (itemsAttributes?[i].dataType !=
+                                                'SingleValueList' &&
+                                            (controller[i].text == '')))) {
                                   return;
                                 }
                               }
@@ -389,18 +299,19 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                       final referenceId = IdGen.i.identifier;
                                       List<ServiceAttributesModel> attributes =
                                           [];
-                                      for (i = 0; i < controller.length; i++) {
-                                        final attribute = value
-                                            .selectedServiceDefinition!
-                                            .attributes!;
+                                      for (int i = 0;
+                                          i < controller.length;
+                                          i++) {
+                                        final attribute = initialAttributes;
                                         attributes.add(ServiceAttributesModel(
                                           auditDetails: AuditDetails(
                                             createdBy: context.loggedInUserUuid,
                                             createdTime: context
                                                 .millisecondsSinceEpoch(),
                                           ),
-                                          attributeCode: '${attribute[i].code}',
-                                          dataType: attribute[i].dataType,
+                                          attributeCode:
+                                              '${attribute?[i].code}',
+                                          dataType: attribute?[i].dataType,
                                           clientReferenceId: IdGen.i.identifier,
                                           referenceId: referenceId,
                                           value: controller[i]
@@ -410,16 +321,16 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                               ? null
                                               : controller[i].text.toString(),
                                           rowVersion: 1,
-                                          tenantId: attribute[i].tenantId,
+                                          tenantId: attribute?[i].tenantId,
                                           additionalDetails:
-                                              ((attribute[i].values?.length ==
+                                              ((attribute?[i].values?.length ==
                                                               2 ||
-                                                          attribute[i]
+                                                          attribute?[i]
                                                                   .values
                                                                   ?.length ==
                                                               3) &&
                                                       controller[i].text ==
-                                                          attribute[i]
+                                                          attribute?[i]
                                                               .values?[1]
                                                               .trim())
                                                   ? additionalController[i]
@@ -437,14 +348,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                       context.read<ServiceBloc>().add(
                                             ServiceCreateEvent(
                                               serviceModel: ServiceModel(
-                                                createdAt: DigitDateUtils
-                                                    .getDateFromTimestamp(
-                                                  DateTime.now()
-                                                      .toLocal()
-                                                      .millisecondsSinceEpoch,
-                                                  dateFormat:
-                                                      "dd/MM/yyyy hh:mm a",
-                                                ),
+                                                createdAt: DateFormat(
+                                                  'dd/MM/yyyy hh:mm',
+                                                ).format(DateTime.now()),
                                                 tenantId: value
                                                     .selectedServiceDefinition!
                                                     .tenantId,
@@ -506,6 +412,184 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
         ),
       ),
     );
+  }
+
+  Widget _buildChecklist(
+    AttributesModel item,
+    int index,
+    ServiceDefinitionModel? selectedServiceDefinition,
+    BuildContext context,
+  ) {
+    final theme = Theme.of(context);
+    final childItems = getNextQuestions(
+      item.code.toString(),
+      initialAttributes ?? [],
+    );
+
+    if (!visibleIndexes.contains(index)) {
+      visibleIndexes.add(index);
+    }
+
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0), // Add padding here
+            child: Text(
+              '${localizations.translate(
+                '${selectedServiceDefinition?.code}.${item.code}',
+              )} ${item.required == true ? '*' : ''}',
+              style: theme.textTheme.headlineSmall,
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            BlocBuilder<ServiceBloc, ServiceState>(
+              builder: (context, state) {
+                return RadioGroup<String>.builder(
+                  groupValue: controller[index].text.trim(),
+                  onChanged: (value) {
+                    context.read<ServiceBloc>().add(
+                          ServiceChecklistEvent(
+                            value: Random().nextInt(100).toString(),
+                            submitTriggered: submitTriggered,
+                          ),
+                        );
+                    setState(() {
+                      controller[index].value = TextEditingController.fromValue(
+                        TextEditingValue(
+                          text: value!,
+                        ),
+                      ).value;
+
+                      // Remove corresponding controllers based on the removed attributes
+                    });
+                  },
+                  items: item.values != null ? item.values! : [],
+                  itemBuilder: (item) => RadioButtonBuilder(
+                    item.trim(),
+                  ),
+                );
+              },
+            ),
+            BlocBuilder<ServiceBloc, ServiceState>(
+              builder: (context, state) {
+                return ((item.values?.length == 2 ||
+                            item.values?.length == 3) &&
+                        controller[index].text == item.values?[1].trim())
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 8,
+                        ),
+                        child: DigitTextField(
+                          maxLength: 1000,
+                          isRequired: true,
+                          controller: additionalController[index],
+                          label: '${localizations.translate(
+                            '${selectedServiceDefinition?.code}.${item.code}.ADDITIONAL_FIELD',
+                          )}*',
+                          validator: (value1) {
+                            if (value1 == null || value1 == '') {
+                              return localizations.translate(
+                                i18.common.coreCommonReasonRequired,
+                              );
+                            }
+
+                            return null;
+                          },
+                        ),
+                      )
+                    : const SizedBox();
+              },
+            ),
+            BlocBuilder<ServiceBloc, ServiceState>(
+              builder: (context, state) {
+                return Offstage(
+                  offstage: item.required == null ||
+                      item.required == true &&
+                          controller[index].text.trim().isNotEmpty ||
+                      !submitTriggered,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      localizations.translate(
+                        i18.common.corecommonRequired,
+                      ),
+                      style: TextStyle(
+                        color: theme.colorScheme.error,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const DigitDivider(),
+          ],
+        ),
+        if (childItems.isNotEmpty &&
+            controller[index].text.trim().isNotEmpty) ...[
+          _buildNestedChecklists(
+            item.code.toString(),
+            index,
+            controller[index].text.trim(),
+            selectedServiceDefinition,
+            context,
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildNestedChecklists(
+    String parentCode,
+    int parentIndex,
+    String parentControllerValue,
+    ServiceDefinitionModel? selectedServiceDefinition,
+    BuildContext context,
+  ) {
+    final childItems = getNextQuestions(
+      parentCode,
+      initialAttributes ?? [],
+    );
+
+    return Column(
+      children: [
+        for (final matchingChildItem in childItems.where((childItem) =>
+            childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
+          _buildChecklist(
+            matchingChildItem,
+            initialAttributes?.indexOf(matchingChildItem) ??
+                parentIndex, // Pass parentIndex here as we're building at the same level
+            selectedServiceDefinition,
+            context,
+          ),
+        for (final matchingChildItem in childItems.where((childItem) =>
+            childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
+          _buildNestedChecklists(
+            matchingChildItem.code!,
+            initialAttributes?.indexOf(matchingChildItem) ?? parentIndex,
+            controller[parentIndex]
+                .text, // Pass parentIndex here as we're building at the same level
+            selectedServiceDefinition,
+            context,
+          ),
+      ],
+    );
+  }
+
+  List<AttributesModel> getNextQuestions(
+    String parentCode,
+    List<AttributesModel> checklistItems,
+  ) {
+    final childCodePrefix = '$parentCode.';
+    final nextCheckLists = checklistItems.where((item) {
+      return item.code!.startsWith(childCodePrefix) &&
+          item.code?.split('.').length == parentCode.split('.').length + 2;
+    }).toList();
+
+    return nextCheckLists;
   }
 
   Future<bool> _onBackPressed(BuildContext context) async {
