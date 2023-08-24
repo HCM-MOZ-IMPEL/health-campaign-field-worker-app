@@ -244,15 +244,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               ],
                             ]);
                           }).toList(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
+                          const SizedBox(
+                            height: 15,
+                          ),
                           DigitElevatedButton(
                             onPressed: () async {
                               final router = context.router;
@@ -302,47 +296,55 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                       for (int i = 0;
                                           i < controller.length;
                                           i++) {
-                                        final attribute = initialAttributes;
-                                        attributes.add(ServiceAttributesModel(
-                                          auditDetails: AuditDetails(
-                                            createdBy: context.loggedInUserUuid,
-                                            createdTime: context
-                                                .millisecondsSinceEpoch(),
-                                          ),
-                                          attributeCode:
-                                              '${attribute?[i].code}',
-                                          dataType: attribute?[i].dataType,
-                                          clientReferenceId: IdGen.i.identifier,
-                                          referenceId: referenceId,
-                                          value: controller[i]
-                                                  .text
-                                                  .toString()
-                                                  .isEmpty
-                                              ? null
-                                              : controller[i].text.toString(),
-                                          rowVersion: 1,
-                                          tenantId: attribute?[i].tenantId,
-                                          additionalDetails:
-                                              ((attribute?[i].values?.length ==
-                                                              2 ||
-                                                          attribute?[i]
-                                                                  .values
-                                                                  ?.length ==
-                                                              3) &&
-                                                      controller[i].text ==
-                                                          attribute?[i]
-                                                              .values?[1]
-                                                              .trim())
-                                                  ? additionalController[i]
-                                                          .text
-                                                          .toString()
-                                                          .isEmpty
-                                                      ? null
-                                                      : additionalController[i]
-                                                          .text
-                                                          .toString()
-                                                  : null,
-                                        ));
+                                        if (controller[i]
+                                            .text
+                                            .trim()
+                                            .isNotEmpty) {
+                                          final attribute = initialAttributes;
+                                          attributes.add(ServiceAttributesModel(
+                                            auditDetails: AuditDetails(
+                                              createdBy:
+                                                  context.loggedInUserUuid,
+                                              createdTime: context
+                                                  .millisecondsSinceEpoch(),
+                                            ),
+                                            attributeCode:
+                                                '${attribute?[i].code}',
+                                            dataType: attribute?[i].dataType,
+                                            clientReferenceId:
+                                                IdGen.i.identifier,
+                                            referenceId: referenceId,
+                                            value: controller[i]
+                                                    .text
+                                                    .toString()
+                                                    .isEmpty
+                                                ? null
+                                                : controller[i].text.toString(),
+                                            rowVersion: 1,
+                                            tenantId: attribute?[i].tenantId,
+                                            additionalDetails: ((attribute?[i]
+                                                                .values
+                                                                ?.length ==
+                                                            2 ||
+                                                        attribute?[i]
+                                                                .values
+                                                                ?.length ==
+                                                            3) &&
+                                                    controller[i].text ==
+                                                        attribute?[i]
+                                                            .values?[1]
+                                                            .trim())
+                                                ? additionalController[i]
+                                                        .text
+                                                        .toString()
+                                                        .isEmpty
+                                                    ? null
+                                                    : additionalController[i]
+                                                        .text
+                                                        .toString()
+                                                : null,
+                                          ));
+                                        }
                                       }
 
                                       context.read<ServiceBloc>().add(
@@ -430,6 +432,15 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
       visibleIndexes.add(index);
     }
 
+    List<int> includedIndexes = visibleIndexes;
+    List<int> excludedIndexes = [];
+
+    for (int i = 0; i < (initialAttributes ?? []).length; i++) {
+      if (!includedIndexes.contains(i)) {
+        excludedIndexes.add(i);
+      }
+    }
+
     return Column(
       children: [
         Align(
@@ -463,6 +474,16 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                           text: value!,
                         ),
                       ).value;
+                      if (excludedIndexes.isNotEmpty) {
+                        for (int i = 0; i < excludedIndexes.length; i++) {
+                          controller[excludedIndexes[i]].value =
+                              TextEditingController.fromValue(
+                            const TextEditingValue(
+                              text: '',
+                            ),
+                          ).value;
+                        }
+                      }
 
                       // Remove corresponding controllers based on the removed attributes
                     });
