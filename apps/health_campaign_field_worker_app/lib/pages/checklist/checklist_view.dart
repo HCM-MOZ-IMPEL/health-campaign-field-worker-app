@@ -35,6 +35,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   List<AttributesModel>? initialAttributes;
   bool areControllersInitialized = false;
   List<int> visibleIndexes = [];
+  GlobalKey<FormState> abcKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -50,7 +51,6 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    GlobalKey<FormState> abcKey = GlobalKey<FormState>();
 
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
@@ -428,144 +428,263 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
     BuildContext context,
   ) {
     final theme = Theme.of(context);
-    final childItems = getNextQuestions(
-      item.code.toString(),
-      initialAttributes ?? [],
-    );
+    if (item.dataType == 'SingleValueList') {
+      final childItems = getNextQuestions(
+        item.code.toString(),
+        initialAttributes ?? [],
+      );
 
-    if (!visibleIndexes.contains(index)) {
-      visibleIndexes.add(index);
-    }
-
-    List<int> includedIndexes = visibleIndexes;
-    List<int> excludedIndexes = [];
-
-    for (int i = 0; i < (initialAttributes ?? []).length; i++) {
-      if (!includedIndexes.contains(i)) {
-        excludedIndexes.add(i);
+      if (!visibleIndexes.contains(index)) {
+        visibleIndexes.add(index);
       }
-    }
 
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0), // Add padding here
-            child: Text(
-              '${localizations.translate(
-                '${selectedServiceDefinition?.code}.${item.code}',
-              )} ${item.required == true ? '*' : ''}',
-              style: theme.textTheme.headlineSmall,
+      List<int> includedIndexes = visibleIndexes;
+      List<int> excludedIndexes = [];
+
+      for (int i = 0; i < (initialAttributes ?? []).length; i++) {
+        if (!includedIndexes.contains(i)) {
+          excludedIndexes.add(i);
+        }
+      }
+
+      return Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0), // Add padding here
+              child: Text(
+                '${localizations.translate(
+                  '${selectedServiceDefinition?.code}.${item.code}',
+                )} ${item.required == true ? '*' : ''}',
+                style: theme.textTheme.headlineSmall,
+              ),
             ),
           ),
-        ),
-        Column(
-          children: [
-            BlocBuilder<ServiceBloc, ServiceState>(
-              builder: (context, state) {
-                return RadioGroup<String>.builder(
-                  groupValue: controller[index].text.trim(),
-                  onChanged: (value) {
-                    context.read<ServiceBloc>().add(
-                          ServiceChecklistEvent(
-                            value: Random().nextInt(100).toString(),
-                            submitTriggered: submitTriggered,
-                          ),
-                        );
-                    setState(() {
-                      controller[index].value = TextEditingController.fromValue(
-                        TextEditingValue(
-                          text: value!,
-                        ),
-                      ).value;
-                      if (excludedIndexes.isNotEmpty) {
-                        for (int i = 0; i < excludedIndexes.length; i++) {
-                          controller[excludedIndexes[i]].value =
-                              TextEditingController.fromValue(
-                            const TextEditingValue(
-                              text: '',
+          Column(
+            children: [
+              BlocBuilder<ServiceBloc, ServiceState>(
+                builder: (context, state) {
+                  return RadioGroup<String>.builder(
+                    groupValue: controller[index].text.trim(),
+                    onChanged: (value) {
+                      context.read<ServiceBloc>().add(
+                            ServiceChecklistEvent(
+                              value: Random().nextInt(100).toString(),
+                              submitTriggered: submitTriggered,
                             ),
-                          ).value;
+                          );
+                      setState(() {
+                        controller[index].value =
+                            TextEditingController.fromValue(
+                          TextEditingValue(
+                            text: value!,
+                          ),
+                        ).value;
+                        if (excludedIndexes.isNotEmpty) {
+                          for (int i = 0; i < excludedIndexes.length; i++) {
+                            controller[excludedIndexes[i]].value =
+                                TextEditingController.fromValue(
+                              const TextEditingValue(
+                                text: '',
+                              ),
+                            ).value;
+                          }
                         }
-                      }
 
-                      // Remove corresponding controllers based on the removed attributes
-                    });
-                  },
-                  items: item.values != null ? item.values! : [],
-                  itemBuilder: (item) => RadioButtonBuilder(
-                    item.trim(),
-                  ),
-                );
-              },
-            ),
-            BlocBuilder<ServiceBloc, ServiceState>(
-              builder: (context, state) {
-                return ((item.values?.length == 2 ||
-                            item.values?.length == 3) &&
-                        controller[index].text == item.values?[1].trim())
-                    ? Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 8,
-                        ),
-                        child: DigitTextField(
-                          maxLength: 1000,
-                          isRequired: true,
-                          controller: additionalController[index],
-                          label: '${localizations.translate(
-                            '${selectedServiceDefinition?.code}.${item.code}.ADDITIONAL_FIELD',
-                          )}*',
-                          validator: (value1) {
-                            if (value1 == null || value1 == '') {
-                              return localizations.translate(
-                                i18.common.coreCommonReasonRequired,
-                              );
-                            }
+                        // Remove corresponding controllers based on the removed attributes
+                      });
+                    },
+                    items: item.values != null ? item.values! : [],
+                    itemBuilder: (item) => RadioButtonBuilder(
+                      item.trim(),
+                    ),
+                  );
+                },
+              ),
+              BlocBuilder<ServiceBloc, ServiceState>(
+                builder: (context, state) {
+                  return ((item.values?.length == 2 ||
+                              item.values?.length == 3) &&
+                          controller[index].text == item.values?[1].trim())
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 8,
+                          ),
+                          child: DigitTextField(
+                            maxLength: 1000,
+                            isRequired: true,
+                            controller: additionalController[index],
+                            label: '${localizations.translate(
+                              '${selectedServiceDefinition?.code}.${item.code}.ADDITIONAL_FIELD',
+                            )}*',
+                            validator: (value1) {
+                              if (value1 == null || value1 == '') {
+                                return localizations.translate(
+                                  i18.common.coreCommonReasonRequired,
+                                );
+                              }
 
-                            return null;
-                          },
+                              return null;
+                            },
+                          ),
+                        )
+                      : const SizedBox();
+                },
+              ),
+              BlocBuilder<ServiceBloc, ServiceState>(
+                builder: (context, state) {
+                  return Offstage(
+                    offstage: item.required == null ||
+                        item.required == true &&
+                            controller[index].text.trim().isNotEmpty ||
+                        !submitTriggered,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        localizations.translate(
+                          i18.common.corecommonRequired,
                         ),
-                      )
-                    : const SizedBox();
-              },
-            ),
-            BlocBuilder<ServiceBloc, ServiceState>(
-              builder: (context, state) {
-                return Offstage(
-                  offstage: item.required == null ||
-                      item.required == true &&
-                          controller[index].text.trim().isNotEmpty ||
-                      !submitTriggered,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      localizations.translate(
-                        i18.common.corecommonRequired,
-                      ),
-                      style: TextStyle(
-                        color: theme.colorScheme.error,
+                        style: TextStyle(
+                          color: theme.colorScheme.error,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
+              const DigitDivider(),
+            ],
+          ),
+          if (childItems.isNotEmpty &&
+              controller[index].text.trim().isNotEmpty) ...[
+            _buildNestedChecklists(
+              item.code.toString(),
+              index,
+              controller[index].text.trim(),
+              selectedServiceDefinition,
+              context,
             ),
-            const DigitDivider(),
           ],
+        ],
+      );
+    } else if (item.dataType == 'String') {
+      return DigitTextField(
+        onChange: (value) {
+          abcKey.currentState?.validate();
+        },
+        isRequired: false,
+        controller: controller[index],
+        inputFormatter: [
+          FilteringTextInputFormatter.allow(RegExp(
+            "[a-zA-Z0-9]",
+          )),
+        ],
+        validator: (value) {
+          if (((value == null || value == '') && item.required == true)) {
+            return localizations.translate("${item.code}_REQUIRED");
+          }
+          if (item.regex != null) {
+            return (RegExp(item.regex!).hasMatch(value!))
+                ? null
+                : localizations.translate("${item.code}_REGEX");
+          }
+
+          return null;
+        },
+        label: localizations.translate(
+          '${selectedServiceDefinition?.code}.${item.code}',
         ),
-        if (childItems.isNotEmpty &&
-            controller[index].text.trim().isNotEmpty) ...[
-          _buildNestedChecklists(
-            item.code.toString(),
-            index,
-            controller[index].text.trim(),
-            selectedServiceDefinition,
-            context,
+      );
+    } else if (item.dataType == 'Number') {
+      return DigitTextField(
+        onChange: (value) {
+          abcKey.currentState?.validate();
+        },
+        textStyle: theme.textTheme.headlineMedium,
+        textInputType: TextInputType.number,
+        inputFormatter: [
+          FilteringTextInputFormatter.allow(RegExp(
+            "[0-9]",
+          )),
+        ],
+        validator: (value) {
+          if (((value == null || value == '') && item.required == true)) {
+            return localizations.translate(
+              i18.common.corecommonRequired,
+            );
+          }
+          if (item.regex != null) {
+            return (RegExp(item.regex!).hasMatch(value!))
+                ? null
+                : localizations.translate("${item.code}_REGEX");
+          }
+
+          return null;
+        },
+        controller: controller[index],
+        label: '${localizations.translate(
+              '${selectedServiceDefinition?.code}.${item.code}',
+            ).trim()} ${item.required == true ? '*' : ''}',
+      );
+    } else if (item.dataType == 'MultiValueList') {
+      return Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  Text(
+                    '${localizations.translate(
+                      '${selectedServiceDefinition?.code}.${item.code}',
+                    )} ${item.required == true ? '*' : ''}',
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          BlocBuilder<ServiceBloc, ServiceState>(
+            builder: (context, state) {
+              return Column(
+                children: item.values!
+                    .map((e) => DigitCheckboxTile(
+                          label: e,
+                          value: controller[index].text.split('.').contains(e),
+                          onChanged: (value) {
+                            context.read<ServiceBloc>().add(
+                                  ServiceChecklistEvent(
+                                    value: e.toString(),
+                                    submitTriggered: submitTriggered,
+                                  ),
+                                );
+                            final String ele;
+                            var val = controller[index].text.split('.');
+                            if (val.contains(e)) {
+                              val.remove(e);
+                              ele = val.join(".");
+                            } else {
+                              ele = "${controller[index].text}.$e";
+                            }
+                            controller[index].value =
+                                TextEditingController.fromValue(
+                              TextEditingValue(
+                                text: ele,
+                              ),
+                            ).value;
+                          },
+                        ))
+                    .toList(),
+              );
+            },
           ),
         ],
-      ],
-    );
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 
   Widget _buildNestedChecklists(
