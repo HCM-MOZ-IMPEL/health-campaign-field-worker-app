@@ -102,3 +102,15 @@ Enums should follow the following syntax.
   "isEnum": true
 }
 ```
+
+#### Generating apks
+For version change:
+Increase the version in `apps/health-campaign-field-worker-app/pubspec.yaml`.For example if current version is `1.0.3+4` change it to `1.0.4+5`
+Make sure both version anme and code are changed if not scalefusion will reject updates of app
+
+For Prod:
+1. run the script `./tools/generate-prod-apk.sh` from the root folder it will geenrate and open the folder which has `apk-prod.apk`
+For Training:
+1. run th following commadn to update the package "flutter pub run change_app_package_name:main org.egov.training"
+2. Change the label to `android:label="Formação"` and icon to `@mipmap/ic_launcher_training`
+3. run the script `./tools/generate-training-apk.sh` from the root folder it will geenrate and open the folder which has `apk-training.apk`
