@@ -296,10 +296,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                       for (int i = 0;
                                           i < controller.length;
                                           i++) {
-                                        if (controller[i]
-                                            .text
-                                            .trim()
-                                            .isNotEmpty) {
+                                        if (visibleIndexes.contains(i)) {
                                           final attribute = initialAttributes;
                                           attributes.add(ServiceAttributesModel(
                                             auditDetails: AuditDetails(
@@ -509,14 +506,16 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                           controller[index].text == item.values?[1].trim())
                       ? Padding(
                           padding: const EdgeInsets.only(
-                            bottom: 8,
+                            left: 4.0,
+                            right: 4.0,
+                            bottom: 16,
                           ),
                           child: DigitTextField(
                             maxLength: 1000,
                             isRequired: true,
                             controller: additionalController[index],
                             label: '${localizations.translate(
-                              '${selectedServiceDefinition?.code}.${item.code}.ADDITIONAL_FIELD',
+                              '${selectedServiceDefinition?.code}.${item.code}.ADDITIONALFIELD',
                             )}*',
                             validator: (value1) {
                               if (value1 == null || value1 == '') {
@@ -553,7 +552,6 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                   );
                 },
               ),
-              const DigitDivider(),
             ],
           ),
           if (childItems.isNotEmpty &&
@@ -566,6 +564,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               context,
             ),
           ],
+          const DigitDivider(),
         ],
       );
     } else if (item.dataType == 'String') {
@@ -703,12 +702,18 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
       children: [
         for (final matchingChildItem in childItems.where((childItem) =>
             childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
-          _buildChecklist(
-            matchingChildItem,
-            initialAttributes?.indexOf(matchingChildItem) ??
-                parentIndex, // Pass parentIndex here as we're building at the same level
-            selectedServiceDefinition,
-            context,
+          Card(
+            margin: EdgeInsets.only(bottom: 8.0, left: 4.0, right: 4.0),
+            color: countDots(matchingChildItem.code ?? '') % 4 == 2
+                ? const DigitColors().quillGray
+                : const DigitColors().white,
+            child: _buildChecklist(
+              matchingChildItem,
+              initialAttributes?.indexOf(matchingChildItem) ??
+                  parentIndex, // Pass parentIndex here as we're building at the same level
+              selectedServiceDefinition,
+              context,
+            ),
           ),
         for (final matchingChildItem in childItems.where((childItem) =>
             childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
@@ -735,6 +740,16 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
     }).toList();
 
     return nextCheckLists;
+  }
+
+  int countDots(String inputString) {
+    int dotCount = 0;
+    for (int i = 0; i < inputString.length; i++) {
+      if (inputString[i] == '.') {
+        dotCount++;
+      }
+    }
+    return dotCount;
   }
 
   Future<bool> _onBackPressed(BuildContext context) async {
