@@ -32,9 +32,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   List<TextEditingController> controller = [];
   List<TextEditingController> additionalController = [];
   List<AttributesModel>? initialAttributes;
-  bool areControllersInitialized = false;
-  List<int> visibleIndexes = [];
-  GlobalKey<FormState> abcKey = GlobalKey<FormState>();
+  bool isControllersInitialized = false;
+  List<int> visibleChecklistIndexes = [];
+  GlobalKey<FormState> checklistFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -65,14 +65,14 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                   serviceDefinitionFetch: (value) {
                     initialAttributes =
                         value.selectedServiceDefinition?.attributes;
-                    if (!areControllersInitialized) {
+                    if (!isControllersInitialized) {
                       initialAttributes?.forEach((e) {
                         controller.add(TextEditingController());
                         additionalController.add(TextEditingController());
                       });
 
                       // Set the flag to true after initializing controllers
-                      areControllersInitialized = true;
+                      isControllersInitialized = true;
                     }
                   },
                 );
@@ -81,7 +81,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                   orElse: () => Text(state.runtimeType.toString()),
                   serviceDefinitionFetch: (value) {
                     return Form(
-                      key: abcKey, //assigning key to form
+                      key: checklistFormKey, //assigning key to form
                       child: DigitCard(
                         child: Column(children: [
                           Padding(
@@ -111,7 +111,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                   !(e.code ?? '').contains('.')) ...[
                                 DigitTextField(
                                   onChange: (value) {
-                                    abcKey.currentState?.validate();
+                                    checklistFormKey.currentState?.validate();
                                   },
                                   isRequired: false,
                                   controller: controller[index],
@@ -143,7 +143,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                   !(e.code ?? '').contains('.')) ...[
                                 DigitTextField(
                                   onChange: (value) {
-                                    abcKey.currentState?.validate();
+                                    checklistFormKey.currentState?.validate();
                                   },
                                   textStyle: theme.textTheme.headlineMedium,
                                   textInputType: TextInputType.number,
@@ -262,7 +262,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                       submitTriggered: true,
                                     ),
                                   );
-                              final isValid = abcKey.currentState?.validate();
+                              final isValid =
+                                  checklistFormKey.currentState?.validate();
                               if (!isValid!) {
                                 return;
                               }
@@ -272,7 +273,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                 if (itemsAttributes?[i].required == true &&
                                     ((itemsAttributes?[i].dataType ==
                                                 'SingleValueList' &&
-                                            visibleIndexes.any((e) => e == i) &&
+                                            visibleChecklistIndexes
+                                                .any((e) => e == i) &&
                                             (controller[i].text == '')) ||
                                         (itemsAttributes?[i].dataType !=
                                                 'SingleValueList' &&
@@ -312,7 +314,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           dataType: attribute?[i].dataType,
                                           clientReferenceId: IdGen.i.identifier,
                                           referenceId: referenceId,
-                                          value: visibleIndexes.contains(i)
+                                          value: visibleChecklistIndexes
+                                                  .contains(i)
                                               ? controller[i].text.toString()
                                               : i18.checklist.notSelectedKey,
                                           rowVersion: 1,
@@ -427,11 +430,11 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
         initialAttributes ?? [],
       );
 
-      if (!visibleIndexes.contains(index)) {
-        visibleIndexes.add(index);
+      if (!visibleChecklistIndexes.contains(index)) {
+        visibleChecklistIndexes.add(index);
       }
 
-      List<int> includedIndexes = visibleIndexes;
+      List<int> includedIndexes = visibleChecklistIndexes;
       List<int> excludedIndexes = [];
 
       for (int i = 0; i < (initialAttributes ?? []).length; i++) {
@@ -570,7 +573,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
     } else if (item.dataType == 'String') {
       return DigitTextField(
         onChange: (value) {
-          abcKey.currentState?.validate();
+          checklistFormKey.currentState?.validate();
         },
         isRequired: false,
         controller: controller[index],
@@ -598,7 +601,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
     } else if (item.dataType == 'Number') {
       return DigitTextField(
         onChange: (value) {
-          abcKey.currentState?.validate();
+          checklistFormKey.currentState?.validate();
         },
         textStyle: theme.textTheme.headlineMedium,
         textInputType: TextInputType.number,
