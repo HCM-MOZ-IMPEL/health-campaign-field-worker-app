@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/utils/date_utils.dart';
-import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,7 +107,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             int index = (initialAttributes ?? []).indexOf(e);
 
                             return Column(children: [
-                              if (e.dataType == 'String') ...[
+                              if (e.dataType == 'String' &&
+                                  !(e.code ?? '').contains('.')) ...[
                                 DigitTextField(
                                   onChange: (value) {
                                     abcKey.currentState?.validate();
@@ -139,7 +139,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                     '${value.selectedServiceDefinition?.code}.${e.code}',
                                   ),
                                 ),
-                              ] else if (e.dataType == 'Number') ...[
+                              ] else if (e.dataType == 'Number' &&
+                                  !(e.code ?? '').contains('.')) ...[
                                 DigitTextField(
                                   onChange: (value) {
                                     abcKey.currentState?.validate();
@@ -172,7 +173,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                         '${value.selectedServiceDefinition?.code}.${e.code}',
                                       ).trim()} ${e.required == true ? '*' : ''}',
                                 ),
-                              ] else if (e.dataType == 'MultiValueList') ...[
+                              ] else if (e.dataType == 'MultiValueList' &&
+                                  !(e.code ?? '').contains('.')) ...[
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Padding(
@@ -235,11 +237,13 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                 ),
                               ] else if (e.dataType == 'SingleValueList') ...[
                                 if (!(e.code ?? '').contains('.'))
-                                  _buildChecklist(
-                                    e,
-                                    index,
-                                    value.selectedServiceDefinition,
-                                    context,
+                                  DigitCard(
+                                    child: _buildChecklist(
+                                      e,
+                                      index,
+                                      value.selectedServiceDefinition,
+                                      context,
+                                    ),
                                   ),
                               ],
                             ]);
@@ -296,52 +300,44 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                       for (int i = 0;
                                           i < controller.length;
                                           i++) {
-                                        if (visibleIndexes.contains(i)) {
-                                          final attribute = initialAttributes;
-                                          attributes.add(ServiceAttributesModel(
-                                            auditDetails: AuditDetails(
-                                              createdBy:
-                                                  context.loggedInUserUuid,
-                                              createdTime: context
-                                                  .millisecondsSinceEpoch(),
-                                            ),
-                                            attributeCode:
-                                                '${attribute?[i].code}',
-                                            dataType: attribute?[i].dataType,
-                                            clientReferenceId:
-                                                IdGen.i.identifier,
-                                            referenceId: referenceId,
-                                            value: controller[i]
-                                                    .text
-                                                    .toString()
-                                                    .isEmpty
-                                                ? null
-                                                : controller[i].text.toString(),
-                                            rowVersion: 1,
-                                            tenantId: attribute?[i].tenantId,
-                                            additionalDetails: ((attribute?[i]
-                                                                .values
-                                                                ?.length ==
-                                                            2 ||
-                                                        attribute?[i]
-                                                                .values
-                                                                ?.length ==
-                                                            3) &&
-                                                    controller[i].text ==
-                                                        attribute?[i]
-                                                            .values?[1]
-                                                            .trim())
-                                                ? additionalController[i]
-                                                        .text
-                                                        .toString()
-                                                        .isEmpty
-                                                    ? null
-                                                    : additionalController[i]
-                                                        .text
-                                                        .toString()
-                                                : null,
-                                          ));
-                                        }
+                                        final attribute = initialAttributes;
+                                        attributes.add(ServiceAttributesModel(
+                                          auditDetails: AuditDetails(
+                                            createdBy: context.loggedInUserUuid,
+                                            createdTime: context
+                                                .millisecondsSinceEpoch(),
+                                          ),
+                                          attributeCode:
+                                              '${attribute?[i].code}',
+                                          dataType: attribute?[i].dataType,
+                                          clientReferenceId: IdGen.i.identifier,
+                                          referenceId: referenceId,
+                                          value: visibleIndexes.contains(i)
+                                              ? controller[i].text.toString()
+                                              : i18.checklist.notSelectedKey,
+                                          rowVersion: 1,
+                                          tenantId: attribute?[i].tenantId,
+                                          additionalDetails:
+                                              ((attribute?[i].values?.length ==
+                                                              2 ||
+                                                          attribute?[i]
+                                                                  .values
+                                                                  ?.length ==
+                                                              3) &&
+                                                      controller[i].text ==
+                                                          attribute?[i]
+                                                              .values?[1]
+                                                              .trim())
+                                                  ? additionalController[i]
+                                                          .text
+                                                          .toString()
+                                                          .isEmpty
+                                                      ? null
+                                                      : additionalController[i]
+                                                          .text
+                                                          .toString()
+                                                  : null,
+                                        ));
                                       }
 
                                       context.read<ServiceBloc>().add(
@@ -492,7 +488,11 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                         // Remove corresponding controllers based on the removed attributes
                       });
                     },
-                    items: item.values != null ? item.values! : [],
+                    items: item.values != null
+                        ? item.values!
+                            .where((e) => e != i18.checklist.notSelectedKey)
+                            .toList()
+                        : [],
                     itemBuilder: (item) => RadioButtonBuilder(
                       item.trim(),
                     ),
@@ -533,11 +533,12 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               ),
               BlocBuilder<ServiceBloc, ServiceState>(
                 builder: (context, state) {
+                  final hasError = (item.required == true &&
+                      controller[index].text.isEmpty &&
+                      submitTriggered);
+
                   return Offstage(
-                    offstage: item.required == null ||
-                        item.required == true &&
-                            controller[index].text.trim().isNotEmpty ||
-                        !submitTriggered,
+                    offstage: !hasError,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -564,7 +565,6 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               context,
             ),
           ],
-          const DigitDivider(),
         ],
       );
     } else if (item.dataType == 'String') {
@@ -705,7 +705,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
           Card(
             margin: EdgeInsets.only(bottom: 8.0, left: 4.0, right: 4.0),
             color: countDots(matchingChildItem.code ?? '') % 4 == 2
-                ? const DigitColors().quillGray
+                ? const Color.fromRGBO(238, 238, 238, 1)
                 : const DigitColors().white,
             child: _buildChecklist(
               matchingChildItem,

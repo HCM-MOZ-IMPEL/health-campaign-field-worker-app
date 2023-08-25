@@ -161,6 +161,8 @@ class Checklist {
       'CHECKLIST_BACK_DIALOG_SECONDARY_ACTION';
 
   String get checklistdate => 'CHECKLIST_DATE';
+
+  String get notSelectedKey => 'NOT_SELECTED';
 }
 
 class ForgotPassword {
