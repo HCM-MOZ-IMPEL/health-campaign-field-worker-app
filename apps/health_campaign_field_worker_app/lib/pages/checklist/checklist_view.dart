@@ -518,7 +518,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             isRequired: true,
                             controller: additionalController[index],
                             label: '${localizations.translate(
-                              '${selectedServiceDefinition?.code}.${item.code}.ADDITIONALFIELD',
+                              '${selectedServiceDefinition?.code}.${item.code}.ADDITIONAL_FIELD',
                             )}*',
                             validator: (value1) {
                               if (value1 == null || value1 == '') {
