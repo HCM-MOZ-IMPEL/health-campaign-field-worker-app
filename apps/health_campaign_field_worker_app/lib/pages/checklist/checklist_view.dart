@@ -429,16 +429,15 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
         item.code.toString(),
         initialAttributes ?? [],
       );
+      List<int> excludedIndexes = [];
 
-      if (!visibleChecklistIndexes.contains(index)) {
+      if (!visibleChecklistIndexes.contains(index) &&
+          !excludedIndexes.contains(index)) {
         visibleChecklistIndexes.add(index);
       }
 
-      List<int> includedIndexes = visibleChecklistIndexes;
-      List<int> excludedIndexes = [];
-
       for (int i = 0; i < (initialAttributes ?? []).length; i++) {
-        if (!includedIndexes.contains(i)) {
+        if (!visibleChecklistIndexes.contains(i)) {
           excludedIndexes.add(i);
         }
       }
@@ -471,6 +470,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             ),
                           );
                       setState(() {
+                        visibleChecklistIndexes
+                            .removeWhere((v) => excludedIndexes.contains(v));
                         controller[index].value =
                             TextEditingController.fromValue(
                           TextEditingValue(
@@ -497,7 +498,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             .toList()
                         : [],
                     itemBuilder: (item) => RadioButtonBuilder(
-                      item.trim(),
+                      localizations.translate(
+                        'CORE_COMMON_${item.trim().toUpperCase()}',
+                      ),
                     ),
                   );
                 },
