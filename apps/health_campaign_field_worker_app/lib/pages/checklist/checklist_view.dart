@@ -32,6 +32,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
   List<TextEditingController> controller = [];
   List<TextEditingController> additionalController = [];
   List<AttributesModel>? initialAttributes;
+  ServiceDefinitionModel? selectedServiceDefinition;
   bool isControllersInitialized = false;
   List<int> visibleChecklistIndexes = [];
   GlobalKey<FormState> checklistFormKey = GlobalKey<FormState>();
@@ -63,6 +64,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               builder: (context, state) {
                 state.mapOrNull(
                   serviceDefinitionFetch: (value) {
+                    selectedServiceDefinition = value.selectedServiceDefinition;
                     initialAttributes =
                         value.selectedServiceDefinition?.attributes;
                     if (!isControllersInitialized) {
@@ -424,6 +426,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
     BuildContext context,
   ) {
     final theme = Theme.of(context);
+    /* Check the data type of the attribute*/
     if (item.dataType == 'SingleValueList') {
       final childItems = getNextQuestions(
         item.code.toString(),
@@ -431,11 +434,13 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
       );
       List<int> excludedIndexes = [];
 
+      // Ensure the current index is added to visible indexes and not excluded
       if (!visibleChecklistIndexes.contains(index) &&
           !excludedIndexes.contains(index)) {
         visibleChecklistIndexes.add(index);
       }
 
+      // Determine excluded indexes
       for (int i = 0; i < (initialAttributes ?? []).length; i++) {
         if (!visibleChecklistIndexes.contains(i)) {
           excludedIndexes.add(i);
@@ -470,8 +475,18 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                             ),
                           );
                       setState(() {
-                        visibleChecklistIndexes
-                            .removeWhere((v) => excludedIndexes.contains(v));
+                        // Clear child controllers and update visibility
+                        for (final matchingChildItem in childItems) {
+                          final childIndex =
+                              initialAttributes?.indexOf(matchingChildItem);
+                          if (childIndex != null) {
+                            controller[childIndex].clear();
+                            visibleChecklistIndexes
+                                .removeWhere((v) => v == childIndex);
+                          }
+                        }
+
+                        // Update the current controller's value
                         controller[index].value =
                             TextEditingController.fromValue(
                           TextEditingValue(
@@ -480,6 +495,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                         ).value;
                         if (excludedIndexes.isNotEmpty) {
                           for (int i = 0; i < excludedIndexes.length; i++) {
+                            // Clear excluded child controllers
                             controller[excludedIndexes[i]].value =
                                 TextEditingController.fromValue(
                               const TextEditingValue(
@@ -567,7 +583,6 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               item.code.toString(),
               index,
               controller[index].text.trim(),
-              selectedServiceDefinition,
               context,
             ),
           ],
@@ -692,13 +707,14 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
     }
   }
 
+  // Function to build nested checklists for child attributes
   Widget _buildNestedChecklists(
     String parentCode,
     int parentIndex,
     String parentControllerValue,
-    ServiceDefinitionModel? selectedServiceDefinition,
     BuildContext context,
   ) {
+    // Retrieve child items for the given parent code
     final childItems = getNextQuestions(
       parentCode,
       initialAttributes ?? [],
@@ -706,10 +722,11 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
 
     return Column(
       children: [
+        // Build cards for each matching child attribute
         for (final matchingChildItem in childItems.where((childItem) =>
             childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
           Card(
-            margin: EdgeInsets.only(bottom: 8.0, left: 4.0, right: 4.0),
+            margin: const EdgeInsets.only(bottom: 8.0, left: 4.0, right: 4.0),
             color: countDots(matchingChildItem.code ?? '') % 4 == 2
                 ? const Color.fromRGBO(238, 238, 238, 1)
                 : const DigitColors().white,
@@ -721,6 +738,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               context,
             ),
           ),
+        // Recursively build nested checklists for child attributes
         for (final matchingChildItem in childItems.where((childItem) =>
             childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
           _buildNestedChecklists(
@@ -728,13 +746,13 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
             initialAttributes?.indexOf(matchingChildItem) ?? parentIndex,
             controller[parentIndex]
                 .text, // Pass parentIndex here as we're building at the same level
-            selectedServiceDefinition,
             context,
           ),
       ],
     );
   }
 
+  // Function to get the next questions (child attributes) based on a parent code
   List<AttributesModel> getNextQuestions(
     String parentCode,
     List<AttributesModel> checklistItems,
@@ -755,6 +773,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
         dotCount++;
       }
     }
+
     return dotCount;
   }
 
