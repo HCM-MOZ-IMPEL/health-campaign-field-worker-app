@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -117,7 +118,10 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          e.createdAt.toString(),
+                                          DigitDateUtils.getDateFromTimestamp(
+                                            e.auditDetails?.createdTime ?? 0,
+                                            dateFormat: "dd/MM/yyyy hh:mm a",
+                                          ),
                                           style: theme.textTheme.headlineMedium,
                                         ),
                                       ),

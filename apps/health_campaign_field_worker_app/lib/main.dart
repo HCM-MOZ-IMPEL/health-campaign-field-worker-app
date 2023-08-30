@@ -1,6 +1,7 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'utils/checkbandwidth.dart';
@@ -18,7 +19,9 @@ import 'utils/utils.dart';
 
 final LocalSqlDataStore _sql = LocalSqlDataStore();
 late Dio _dio;
+late Isar _isar;
 int i = 0;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -38,20 +41,16 @@ void main() async {
   _dio = DioClient().dio;
 
   DigitUi.instance.initThemeComponents();
+  await Constants().initilize(info.version);
+  _isar = await Constants().isar;
+  await initializeService(_dio, _isar);
 
-  await initializeService(_dio);
-  if (Isar.getInstance('HCM') == null) {
-    await Constants().initilize(info.version);
-  }
-
-  runApp(
-    MainApplication(
-      appRouter: AppRouter(),
-      isar: Constants().isar,
-      client: _dio,
-      sql: _sql,
-    ),
-  );
+  runApp(MainApplication(
+    appRouter: AppRouter(),
+    isar: _isar,
+    client: _dio,
+    sql: _sql,
+  ));
 }
 
 class AppLifecycleObserver extends WidgetsBindingObserver {
@@ -60,12 +59,14 @@ class AppLifecycleObserver extends WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.paused) {
-      setBgrunning(true);
-      // FlutterBackgroundService().invoke('stopService');
+      final localSecureStore = LocalSecureStore.instance;
+      await localSecureStore.setAppInActive(true);
       // Stop the background service when the app is terminated
     } else if (state == AppLifecycleState.resumed) {
       // Stop the background service when the app is terminated
-      setBgrunning(false);
+
+      final localSecureStore = LocalSecureStore.instance;
+      await localSecureStore.setAppInActive(false);
     }
   }
 }

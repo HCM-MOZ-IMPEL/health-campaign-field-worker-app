@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:digit_components/digit_components.dart';
+import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-import 'package:intl/intl.dart';
 
 import '../../blocs/service/service.dart';
 import '../../blocs/service_definition/service_definition.dart';
@@ -346,15 +346,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               ],
                             ]);
                           }).toList(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
-                          const DigitDivider(),
+                          const SizedBox(
+                            height: 15,
+                          ),
                           DigitElevatedButton(
                             onPressed: () async {
                               final router = context.router;
@@ -418,23 +412,39 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           rowVersion: 1,
                                           tenantId: attribute[i].tenantId,
                                           additionalDetails:
-                                              additionalController[i]
-                                                      .text
-                                                      .toString()
-                                                      .isEmpty
-                                                  ? null
-                                                  : additionalController[i]
-                                                      .text
-                                                      .toString(),
+                                              ((attribute[i].values?.length ==
+                                                              2 ||
+                                                          attribute[i]
+                                                                  .values
+                                                                  ?.length ==
+                                                              3) &&
+                                                      controller[i].text ==
+                                                          attribute[i]
+                                                              .values?[1]
+                                                              .trim())
+                                                  ? additionalController[i]
+                                                          .text
+                                                          .toString()
+                                                          .isEmpty
+                                                      ? null
+                                                      : additionalController[i]
+                                                          .text
+                                                          .toString()
+                                                  : null,
                                         ));
                                       }
 
                                       context.read<ServiceBloc>().add(
                                             ServiceCreateEvent(
                                               serviceModel: ServiceModel(
-                                                createdAt: DateFormat(
-                                                  'dd/MM/yyyy hh:mm',
-                                                ).format(DateTime.now()),
+                                                createdAt: DigitDateUtils
+                                                    .getDateFromTimestamp(
+                                                  DateTime.now()
+                                                      .toLocal()
+                                                      .millisecondsSinceEpoch,
+                                                  dateFormat:
+                                                      "dd/MM/yyyy hh:mm a",
+                                                ),
                                                 tenantId: value
                                                     .selectedServiceDefinition!
                                                     .tenantId,

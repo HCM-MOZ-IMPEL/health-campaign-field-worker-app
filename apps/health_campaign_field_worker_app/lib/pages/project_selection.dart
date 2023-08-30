@@ -51,8 +51,8 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
               if (syncDialogRoute?.isActive ?? false) {
                 Navigator.of(context).removeRoute(syncDialogRoute!);
               }
-
-              if (error != null) {
+              if (error != null &&
+                  error != ProjectSyncErrorType.sessionExpired) {
                 syncDialogRoute = DialogRoute(
                   context: context,
                   barrierDismissible: false,
@@ -146,11 +146,44 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
                 return const Expanded(
                   child: Center(child: Offstage()),
                 );
+              } else if (!state.loading &&
+                  state.syncError == ProjectSyncErrorType.sessionExpired) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30),
+                    child: Column(
+                      children: [
+                        Text(localizations.translate(i18.login.sessionExpired)),
+                        Text(localizations.translate(i18.login.pleaseLogout)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: SizedBox(
+                            width: 300,
+                            child: DigitElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<AuthBloc>()
+                                    .add(const AuthLogoutWithoutTokenEvent());
+                              },
+                              child: Center(
+                                child: Text(
+                                  localizations.translate(
+                                    i18.common.coreCommonLogout,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
 
               final projects = state.projects;
 
-              if (projects.isEmpty) {
+              if (projects.isEmpty && state.syncError == null) {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 30),

@@ -11,8 +11,9 @@ class LocalSecureStore {
   static const userObjectKey = 'userObject';
   static const selectedProjectKey = 'selectedProject';
   static const hasAppRunBeforeKey = 'hasAppRunBefore';
-  static const backgroundServiceKey = 'backgroundServiceKey';
+  static const isAppInActiveKey = 'isAppInActiveKey';
   static const boundaryRefetchInKey = 'boundaryRefetchInKey';
+  static const manualSyncKey = 'manualSyncKey';
 
   final storage = const FlutterSecureStorage();
 
@@ -21,16 +22,27 @@ class LocalSecureStore {
 
   LocalSecureStore._();
 
-  Future<String?> get accessToken {
-    return storage.read(key: accessTokenKey);
+  Future<String?> get accessToken async {
+    return await storage.read(key: accessTokenKey);
   }
 
-  Future<String?> get refreshToken {
-    return storage.read(key: refreshTokenKey);
+  Future<String?> get refreshToken async {
+    return await storage.read(key: refreshTokenKey);
   }
 
-  Future<bool> get isBackgroundSerivceRunning async {
-    final hasRun = await storage.read(key: backgroundServiceKey);
+  Future<bool> get isAppInActive async {
+    final hasRun = await storage.read(key: isAppInActiveKey);
+
+    switch (hasRun) {
+      case 'true':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  Future<bool> get isManualSyncRunning async {
+    final hasRun = await storage.read(key: manualSyncKey);
 
     switch (hasRun) {
       case 'true':
@@ -78,6 +90,14 @@ class LocalSecureStore {
     }
   }
 
+// Note TO the app  as Trigger Manual Sync or Not
+  Future<void> setManualSyncTrigger(bool isManualSync) async {
+    await storage.write(
+      key: manualSyncKey,
+      value: isManualSync.toString(),
+    );
+  }
+
   Future<void> setSelectedProject(ProjectModel projectModel) async {
     await storage.write(
       key: selectedProjectKey,
@@ -101,8 +121,9 @@ class LocalSecureStore {
     );
   }
 
-  Future<void> setBackgroundService(bool isRunning) async {
-    await storage.write(key: backgroundServiceKey, value: isRunning.toString());
+// Note TO the app is in closed state or not
+  Future<void> setAppInActive(bool isRunning) async {
+    await storage.write(key: isAppInActiveKey, value: isRunning.toString());
   }
 
   Future<void> setHasAppRunBefore(bool hasRunBefore) async {

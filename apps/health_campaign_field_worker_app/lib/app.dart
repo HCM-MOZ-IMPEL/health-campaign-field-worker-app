@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:isar/isar.dart';
@@ -254,7 +255,9 @@ class MainApplicationState extends State<MainApplication>
                                 widget.appRouter.defaultRouteParser(),
                             scaffoldMessengerKey: scaffoldMessengerKey,
                             builder: (context, child) {
-                              if (child == null) return const SizedBox.shrink();
+                              if (child == null) {
+                                return const SizedBox.shrink();
+                              }
 
                               final env = envConfig.variables.envType;
                               if (env == EnvType.prod) {

@@ -38,6 +38,7 @@ class HouseholdModel extends EntityModel {
 
   final String? id;
   final int? memberCount;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
   final int? rowVersion;
@@ -48,6 +49,7 @@ class HouseholdModel extends EntityModel {
     this.additionalFields,
     this.id,
     this.memberCount,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
     this.rowVersion,
@@ -66,6 +68,7 @@ class HouseholdModel extends EntityModel {
       isDeleted: Value(isDeleted),
       id: Value(id),
       memberCount: Value(memberCount),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),

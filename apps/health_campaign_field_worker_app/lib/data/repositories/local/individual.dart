@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
-
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
 import 'base/individual_base.dart';
@@ -96,6 +95,7 @@ class IndividualLocalRepository extends IndividualLocalBaseRepository {
             mobileNumber: individual.mobileNumber,
             isDeleted: individual.isDeleted,
             rowVersion: individual.rowVersion,
+            nonRecoverableError: individual.nonRecoverableError,
             auditDetails: AuditDetails(
               createdBy: individual.auditCreatedBy!,
               createdTime: individual.auditCreatedTime!,

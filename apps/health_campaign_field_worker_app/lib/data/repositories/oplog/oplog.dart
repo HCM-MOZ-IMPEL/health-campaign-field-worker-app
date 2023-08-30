@@ -5,6 +5,8 @@ import 'package:isar/isar.dart';
 
 import '../../../models/data_model.dart';
 import '../../../utils/app_exception.dart';
+import '../../../utils/environment_config.dart';
+import '../../data_repository.dart';
 import '../../local_store/no_sql/schema/oplog.dart' hide AdditionalId;
 
 abstract class OpLogManager<T extends EntityModel> {
@@ -41,8 +43,17 @@ abstract class OpLogManager<T extends EntityModel> {
         .entityTypeEqualTo(type)
         .operationEqualTo(DataOperation.update)
         .serverGeneratedIdIsNotNull()
+        .nonRecoverableErrorEqualTo(false)
         .syncedUpEqualTo(false)
         .syncedDownEqualTo(false)
+        .createdByEqualTo(createdBy)
+        .findAll();
+
+    final errorOpLogs = await isar.opLogs
+        .filter()
+        .entityTypeEqualTo(type)
+        .syncedUpEqualTo(false)
+        .nonRecoverableErrorEqualTo(true)
         .createdByEqualTo(createdBy)
         .findAll();
 
@@ -56,11 +67,25 @@ abstract class OpLogManager<T extends EntityModel> {
         .createdByEqualTo(createdBy)
         .findAll();
 
+    final nonRecoverableOpLogs = await isar.opLogs
+        .filter()
+        .entityTypeEqualTo(type)
+        .syncedUpEqualTo(true)
+        .syncedDownEqualTo(false)
+        .nonRecoverableErrorEqualTo(false)
+        .syncDownRetryCountGreaterThan(
+          envConfig.variables.syncDownRetryCount - 1,
+        )
+        .createdByEqualTo(createdBy)
+        .findAll();
+
     var entries = [
       createOpLogs,
       updateOpLogs,
       deleteOpLogs,
       singleCreateOpLogs,
+      errorOpLogs,
+      nonRecoverableOpLogs,
     ].expand((element) => element);
 
     entries = entries.sortedBy((element) => element.createdAt);
@@ -89,8 +114,7 @@ abstract class OpLogManager<T extends EntityModel> {
     var oplogs = await isar.opLogs
         .filter()
         .syncedUpEqualTo(true)
-        .syncDownRetryCountLessThan(3)
-        // [TODO need to move config]
+        .syncDownRetryCountLessThan(envConfig.variables.syncDownRetryCount)
         .syncedDownEqualTo(false)
         .entityTypeEqualTo(type)
         .findAll();
@@ -107,6 +131,7 @@ abstract class OpLogManager<T extends EntityModel> {
             clientReferenceId: getClientReferenceId(entry.entity),
             serverGeneratedId: getServerGeneratedId(entry.entity),
             rowVersion: getRowVersion(entry.entity),
+            nonRecoverableError: getNonRecoverableError(entry.entity),
           )
           .oplog);
     });
@@ -116,8 +141,23 @@ abstract class OpLogManager<T extends EntityModel> {
     OpLogEntry<T>? entry,
     int? id,
     String? clientReferenceId,
+    bool? nonRecoverableError,
   }) async {
-    if (entry != null) {
+    if (nonRecoverableError == true && id != null && entry != null) {
+      final oplog = await isar.opLogs.filter().idEqualTo(id).findFirst();
+      if (oplog == null) return;
+      final fetchedEntry = OpLogEntry.fromOpLog<T>(oplog);
+      await isar.writeTxn(() async {
+        await isar.opLogs.put(fetchedEntry
+            .copyWith(
+              syncedUp: true,
+              syncedDown: true,
+              syncedDownOn: DateTime.now(),
+              syncedUpOn: DateTime.now(),
+            )
+            .oplog);
+      });
+    } else if (entry != null) {
       await put(entry.copyWith(syncedUp: true, syncedUpOn: DateTime.now()));
     } else if (id != null) {
       OpLog? oplog;
@@ -168,12 +208,12 @@ abstract class OpLogManager<T extends EntityModel> {
         serverGeneratedId: model.serverGeneratedId,
         additionalIds: model.additionalIds,
         rowVersion: model.rowVersion,
+        nonRecoverableError: model.nonRecoverableError,
       );
 
       if (entry.syncedUp) {
         updatedEntry = updatedEntry.copyWith(
           syncedDown: true,
-          syncDownRetryCount: 0,
           syncedDownOn: DateTime.now(),
         );
       }
@@ -203,7 +243,20 @@ abstract class OpLogManager<T extends EntityModel> {
     return oplog.map((e) => OpLogEntry.fromOpLog<T>(e)).toList();
   }
 
-  Future<void> updateSyncDownRetry(String clientReferenceId) async {
+  Future<List<OpLog>> getSyncDownRetryList(
+    String clientReferenceId,
+  ) async {
+    final oplogs = await isar.opLogs
+        .filter()
+        .clientReferenceIdEqualTo(clientReferenceId)
+        .findAll();
+
+    return oplogs;
+  }
+
+  Future<bool> updateSyncDownRetry(
+    String clientReferenceId,
+  ) async {
     final oplogs = await isar.opLogs
         .filter()
         .clientReferenceIdEqualTo(clientReferenceId)
@@ -212,36 +265,36 @@ abstract class OpLogManager<T extends EntityModel> {
     if (oplogs.isEmpty) {
       throw AppException('OpLog not found for id: $clientReferenceId');
     }
-
+    bool markAsNonRecoverable = false;
     for (final oplog in oplogs) {
       final entry = OpLogEntry.fromOpLog<T>(oplog);
       final syncDownRetryCount =
           entry.syncDownRetryCount < 0 ? 0 : entry.syncDownRetryCount;
-      if (syncDownRetryCount >= 3) {
-        OpLogEntry updatedEntry = entry.copyWith(
-          syncDownRetryCount: 0,
-          syncedUp: false,
-          syncedUpOn: null,
-        );
-        await isar.writeTxn(() async {
-          await isar.opLogs.put(updatedEntry.oplog);
-        });
-      } else {
-        if (syncDownRetryCount == 0) {
-          await Future.delayed(const Duration(seconds: 1));
-        } else if (syncDownRetryCount == 1) {
-          await Future.delayed(const Duration(seconds: 5));
-        } else if (syncDownRetryCount == 2) {
-          await Future.delayed(const Duration(seconds: 10));
-        }
-        OpLogEntry updatedEntry = entry.copyWith(
-          syncDownRetryCount: syncDownRetryCount + 1,
-        );
-        await isar.writeTxn(() async {
-          await isar.opLogs.put(updatedEntry.oplog);
-        });
+      OpLogEntry updatedEntry = entry.copyWith(
+        syncDownRetryCount: syncDownRetryCount + 1,
+      );
+      if (updatedEntry.syncDownRetryCount >=
+          envConfig.variables.syncDownRetryCount) {
+        markAsNonRecoverable = true;
       }
+
+      await isar.writeTxn(() async {
+        await isar.opLogs.put(updatedEntry.oplog);
+      });
     }
+
+    // [TODO] need to cross check only first records is failing
+
+    if (oplogs.first.syncDownRetryCount == 1) {
+      await Future.delayed(const Duration(seconds: 1));
+    } else {
+      await Future.delayed(Duration(
+        seconds: envConfig.variables.retryTimeInterval *
+            oplogs.first.syncDownRetryCount,
+      ));
+    }
+
+    return markAsNonRecoverable;
   }
 
   String? getServerGeneratedId(T entity);
@@ -250,6 +303,7 @@ abstract class OpLogManager<T extends EntityModel> {
 
   String getClientReferenceId(T entity);
 
+  bool? getNonRecoverableError(T entity);
   T applyServerGeneratedIdToEntity(
     T entity,
     String serverGeneratedId,
@@ -277,6 +331,10 @@ class IndividualOpLogManager extends OpLogManager<IndividualModel> {
 
   @override
   int? getRowVersion(IndividualModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(IndividualModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class HouseholdOpLogManager extends OpLogManager<HouseholdModel> {
@@ -302,6 +360,10 @@ class HouseholdOpLogManager extends OpLogManager<HouseholdModel> {
 
   @override
   int? getRowVersion(HouseholdModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(HouseholdModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class FacilityOpLogManager extends OpLogManager<FacilityModel> {
@@ -323,6 +385,10 @@ class FacilityOpLogManager extends OpLogManager<FacilityModel> {
 
   @override
   int? getRowVersion(FacilityModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(FacilityModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class HouseholdMemberOpLogManager extends OpLogManager<HouseholdMemberModel> {
@@ -345,6 +411,10 @@ class HouseholdMemberOpLogManager extends OpLogManager<HouseholdMemberModel> {
 
   @override
   int? getRowVersion(HouseholdMemberModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(HouseholdMemberModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ProjectBeneficiaryOpLogManager
@@ -368,6 +438,10 @@ class ProjectBeneficiaryOpLogManager
 
   @override
   int? getRowVersion(ProjectBeneficiaryModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ProjectBeneficiaryModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ProjectFacilityOpLogManager extends OpLogManager<ProjectFacilityModel> {
@@ -389,6 +463,10 @@ class ProjectFacilityOpLogManager extends OpLogManager<ProjectFacilityModel> {
 
   @override
   int? getRowVersion(ProjectFacilityModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ProjectFacilityModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class TaskOpLogManager extends OpLogManager<TaskModel> {
@@ -410,6 +488,9 @@ class TaskOpLogManager extends OpLogManager<TaskModel> {
 
   @override
   int? getRowVersion(TaskModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(TaskModel entity) => entity.nonRecoverableError;
 }
 
 class ProjectStaffOpLogManager extends OpLogManager<ProjectStaffModel> {
@@ -431,6 +512,10 @@ class ProjectStaffOpLogManager extends OpLogManager<ProjectStaffModel> {
 
   @override
   int? getRowVersion(ProjectStaffModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ProjectStaffModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ProjectOpLogManager extends OpLogManager<ProjectModel> {
@@ -452,6 +537,10 @@ class ProjectOpLogManager extends OpLogManager<ProjectModel> {
 
   @override
   int? getRowVersion(ProjectModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ProjectModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class StockOpLogManager extends OpLogManager<StockModel> {
@@ -473,6 +562,9 @@ class StockOpLogManager extends OpLogManager<StockModel> {
 
   @override
   int? getRowVersion(StockModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(StockModel entity) => entity.nonRecoverableError;
 }
 
 class StockReconciliationOpLogManager
@@ -496,6 +588,10 @@ class StockReconciliationOpLogManager
 
   @override
   int? getRowVersion(StockReconciliationModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(StockReconciliationModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ServiceDefinitionOpLogManager
@@ -520,6 +616,10 @@ class ServiceDefinitionOpLogManager
 
   @override
   int? getRowVersion(ServiceDefinitionModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ServiceDefinitionModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ServiceOpLogManager extends OpLogManager<ServiceModel> {
@@ -541,6 +641,10 @@ class ServiceOpLogManager extends OpLogManager<ServiceModel> {
 
   @override
   int? getRowVersion(ServiceModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ServiceModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ProjectResourceOpLogManager extends OpLogManager<ProjectResourceModel> {
@@ -563,6 +667,10 @@ class ProjectResourceOpLogManager extends OpLogManager<ProjectResourceModel> {
 
   @override
   int? getRowVersion(ProjectResourceModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ProjectResourceModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class ProductVariantOpLogManager extends OpLogManager<ProductVariantModel> {
@@ -584,6 +692,10 @@ class ProductVariantOpLogManager extends OpLogManager<ProductVariantModel> {
 
   @override
   int? getRowVersion(ProductVariantModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(ProductVariantModel entity) =>
+      entity.nonRecoverableError;
 }
 
 class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
@@ -606,6 +718,10 @@ class BoundaryOpLogManager extends OpLogManager<BoundaryModel> {
       throw UnimplementedError();
   @override
   int? getRowVersion(BoundaryModel entity) => throw UnimplementedError();
+
+  @override
+  bool? getNonRecoverableError(BoundaryModel entity) =>
+      throw UnimplementedError();
 }
 
 class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
@@ -634,6 +750,10 @@ class PgrServiceOpLogManager extends OpLogManager<PgrServiceModel> {
 
   @override
   int? getRowVersion(PgrServiceModel entity) => entity.rowVersion;
+
+  @override
+  bool? getNonRecoverableError(PgrServiceModel entity) =>
+      entity.nonRecoverableError;
 
   @override
   Future<List<OpLogEntry<PgrServiceModel>>> getPendingUpSync(
@@ -699,6 +819,7 @@ class UpdateServerGeneratedIdModel {
   final List<AdditionalId>? additionalIds;
   final OpLogEntry? entry;
   final int? rowVersion;
+  final bool? nonRecoverableError;
 
   const UpdateServerGeneratedIdModel({
     required this.clientReferenceId,
@@ -707,5 +828,6 @@ class UpdateServerGeneratedIdModel {
     this.additionalIds,
     this.entry,
     this.rowVersion,
+    this.nonRecoverableError,
   });
 }

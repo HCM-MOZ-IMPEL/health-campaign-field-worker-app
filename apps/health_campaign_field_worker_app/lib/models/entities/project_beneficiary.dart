@@ -16,7 +16,7 @@ class ProjectBeneficiarySearchModel extends EntitySearchModel {
   final List<String>? clientReferenceId;
   final String? tenantId;
   final DateTime? dateOfRegistrationTime;
-  
+
   ProjectBeneficiarySearchModel({
     this.id,
     this.projectId,
@@ -29,10 +29,10 @@ class ProjectBeneficiarySearchModel extends EntitySearchModel {
     int? dateOfRegistration,
     super.boundaryCode,
     super.isDeleted,
-  }): dateOfRegistrationTime = dateOfRegistration == null
-      ? null
-      : DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
-   super();
+  })  : dateOfRegistrationTime = dateOfRegistration == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
+        super();
 
   @MappableConstructor()
   ProjectBeneficiarySearchModel.ignoreDeleted({
@@ -46,24 +46,23 @@ class ProjectBeneficiarySearchModel extends EntitySearchModel {
     this.tenantId,
     int? dateOfRegistration,
     super.boundaryCode,
-  }): dateOfRegistrationTime = dateOfRegistration == null
-  ? null
-      : DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
-   super(isDeleted: false);
+  })  : dateOfRegistrationTime = dateOfRegistration == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
+        super(isDeleted: false);
 
   int? get dateOfRegistration => dateOfRegistrationTime?.millisecondsSinceEpoch;
-  
 }
 
 @MappableClass(ignoreNull: true)
 class ProjectBeneficiaryModel extends EntityModel {
-
   static const schemaName = 'ProjectBeneficiary';
 
   final String? id;
   final String? projectId;
   final String? beneficiaryId;
   final String? beneficiaryClientReferenceId;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
   final int? rowVersion;
@@ -76,17 +75,18 @@ class ProjectBeneficiaryModel extends EntityModel {
     this.projectId,
     this.beneficiaryId,
     this.beneficiaryClientReferenceId,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
     this.rowVersion,
     required int dateOfRegistration,
     super.auditDetails,
     super.isDeleted = false,
-  }): dateOfRegistrationTime = DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
-      super();
+  })  : dateOfRegistrationTime =
+            DateTime.fromMillisecondsSinceEpoch(dateOfRegistration),
+        super();
 
-  int  get dateOfRegistration => dateOfRegistrationTime.millisecondsSinceEpoch;
-  
+  int get dateOfRegistration => dateOfRegistrationTime.millisecondsSinceEpoch;
 
   ProjectBeneficiaryCompanion get companion {
     return ProjectBeneficiaryCompanion(
@@ -100,11 +100,12 @@ class ProjectBeneficiaryModel extends EntityModel {
       projectId: Value(projectId),
       beneficiaryId: Value(beneficiaryId),
       beneficiaryClientReferenceId: Value(beneficiaryClientReferenceId),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       dateOfRegistration: Value(dateOfRegistration),
-      );
+    );
   }
 }
 

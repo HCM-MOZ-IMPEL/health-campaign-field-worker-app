@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
-
 import '../../../models/data_model.dart';
 import '../../../utils/utils.dart';
 import 'base/project_beneficiary_base.dart';
@@ -13,10 +12,12 @@ class ProjectBeneficiaryLocalRepository
   void listenToChanges({
     required ProjectBeneficiarySearchModel query,
     required void Function(List<ProjectBeneficiaryModel> data) listener,
-  }) {
+    String? userId,
+  }) async {
     final select = sql.select(sql.projectBeneficiary)
       ..where(
         (tbl) => buildOr([
+          if (userId != null) tbl.auditCreatedBy.equals(userId),
           if (query.projectId != null) tbl.projectId.equals(query.projectId),
           if (query.beneficiaryRegistrationDateGte != null)
             tbl.dateOfRegistration.isBiggerOrEqualValue(
@@ -41,6 +42,10 @@ class ProjectBeneficiaryLocalRepository
           rowVersion: e.rowVersion,
           isDeleted: e.isDeleted,
           beneficiaryId: e.beneficiaryId,
+          auditDetails: AuditDetails(
+            createdBy: e.auditCreatedBy!,
+            createdTime: e.auditCreatedTime!,
+          ),
         );
       }).toList();
 

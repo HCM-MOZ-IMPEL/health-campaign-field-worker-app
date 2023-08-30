@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:uuid/uuid.dart';
+
 import '../data/local_store/secure_store/secure_store.dart';
 export 'app_exception.dart';
 export 'constants.dart';
@@ -141,11 +142,6 @@ class CustomValidator {
   }
 }
 
-setBgrunning(bool isBgRunning) async {
-  final localSecureStore = LocalSecureStore.instance;
-  await localSecureStore.setBackgroundService(isBgRunning);
-}
-
 performBackgroundService({
   BuildContext? context,
   required bool stopService,
@@ -159,23 +155,15 @@ performBackgroundService({
   var isRunning = await service.isRunning();
 
   if (!stopService) {
-    if (!isRunning && isOnline) {
-      service.startService();
+    if (isOnline & !isRunning) {
+      final isStarted = await service.startService();
+      if (!isStarted) {
+        await service.startService();
+      }
     }
   } else {
-    service.invoke('stopService');
+    if (isRunning) {
+      service.invoke('stopService');
+    }
   }
-}
-
-Timer makePeriodicTimer(
-  Duration duration,
-  void Function(Timer timer) callback, {
-  bool fireNow = false,
-}) {
-  var timer = Timer.periodic(duration, callback);
-  if (fireNow) {
-    callback(timer);
-  }
-
-  return timer;
 }
