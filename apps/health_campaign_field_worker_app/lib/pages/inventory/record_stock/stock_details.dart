@@ -326,10 +326,6 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
 
                                     if (entryType ==
                                         StockRecordEntryType.dispatch) {
-                                      print(
-                                          "-----------------Stock in hand--------------------");
-                                      print(stockState.stockInHand);
-
                                       int issueQuantity = quantity ?? 0;
 
                                       if (issueQuantity >
@@ -341,10 +337,15 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                             titleText: localizations.translate(
                                               i18.stockDetails.countDialogTitle,
                                             ),
-                                            contentText:
-                                                localizations.translate(
-                                              i18.stockDetails.countContent,
-                                            ),
+                                            contentText: localizations
+                                                .translate(
+                                                  i18.stockDetails.countContent,
+                                                )
+                                                .replaceAll(
+                                                  '{}',
+                                                  stockState.stockInHand
+                                                      .toString(),
+                                                ),
                                             primaryAction: DigitDialogActions(
                                               label: localizations.translate(
                                                 i18.stockDetails
@@ -354,18 +355,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                 Navigator.of(
                                                   context,
                                                   rootNavigator: true,
-                                                ).pop(true);
+                                                ).pop(false);
                                               },
-                                            ),
-                                            secondaryAction: DigitDialogActions(
-                                              label: localizations.translate(
-                                                i18.stockDetails
-                                                    .countDialogCancel,
-                                              ),
-                                              action: (context) => Navigator.of(
-                                                context,
-                                                rootNavigator: true,
-                                              ).pop(false),
                                             ),
                                           ),
                                         );
