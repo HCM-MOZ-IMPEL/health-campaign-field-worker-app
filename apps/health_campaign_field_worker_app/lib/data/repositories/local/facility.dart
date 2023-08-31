@@ -53,6 +53,11 @@ class FacilityLocalRepository extends FacilityLocalBaseRepository {
         storageCapacity: facility.storageCapacity,
         usage: facility.usage,
         name: facility.name,
+        additionalFields: facility.additionalFields == null
+            ? null
+            : Mapper.fromJson<FacilityAdditionalFields>(
+                facility.additionalFields!,
+              ),
         address: address == null
             ? null
             : AddressModel(
