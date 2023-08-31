@@ -572,146 +572,142 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         form
                                             .control(_transactingPartyKey)
                                             .value = facility;
-                                        if (entryType ==
-                                            StockRecordEntryType.receipt) {
-                                          String? facilityType;
 
-                                          final fields =
-                                              facility.additionalFields?.fields;
+                                        String? facilityType;
 
-                                          if (fields != null &&
-                                              fields.isNotEmpty) {
-                                            final type =
-                                                fields.firstWhereOrNull(
-                                              (element) =>
-                                                  element.key == 'type',
+                                        final fields =
+                                            facility.additionalFields?.fields;
+
+                                        if (fields != null &&
+                                            fields.isNotEmpty) {
+                                          final type = fields.firstWhereOrNull(
+                                            (element) => element.key == 'type',
+                                          );
+                                          final value = type?.value;
+                                          if (value != null &&
+                                              value is String &&
+                                              value.isNotEmpty) {
+                                            facilityType = value;
+                                          }
+                                        }
+                                        if (facilityType == 'DeliveryTeam') {
+                                          setState(() {
+                                            form
+                                                .control(_waybillNumberKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
                                             );
-                                            final value = type?.value;
-                                            if (value != null &&
-                                                value is String &&
-                                                value.isNotEmpty) {
-                                              facilityType = value;
-                                            }
-                                          }
-                                          if (facilityType == 'DeliveryTeam') {
-                                            setState(() {
-                                              form
-                                                  .control(_waybillNumberKey)
-                                                  .setValidators(
-                                                [],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_waybillQuantityKey)
-                                                  .setValidators(
-                                                [],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_vehicleNumberKey)
-                                                  .setValidators(
-                                                [],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_driverNameKey)
-                                                  .setValidators(
-                                                [],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_typeOfTransportKey)
-                                                  .setValidators(
-                                                [],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(
-                                                _commentsKey,
-                                              )
-                                                  .setValidators(
-                                                [],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              isDeliveryTeamReturn = true;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              isDeliveryTeamReturn = false;
-                                              form
-                                                  .control(_waybillNumberKey)
-                                                  .setValidators(
-                                                [
-                                                  Validators.required,
-                                                  Validators.minLength(
-                                                    validation.stocks.minLength,
-                                                  ),
-                                                  Validators.maxLength(
-                                                    validation.stocks
-                                                        .maxWayBillNoLength,
-                                                  ),
-                                                ],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_waybillQuantityKey)
-                                                  .setValidators(
-                                                [
-                                                  Validators.number,
-                                                  Validators.required,
-                                                  Validators.min(validation
-                                                      .stocks.minQuantity),
-                                                  Validators.max(validation
-                                                      .stocks.maxQuantity),
-                                                ],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_vehicleNumberKey)
-                                                  .setValidators(
-                                                [
-                                                  Validators.required,
-                                                  CustomValidator
-                                                      .vehicleNumberValidation,
-                                                ],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_driverNameKey)
-                                                  .setValidators(
-                                                [
-                                                  Validators.required,
-                                                  Validators.minLength(
-                                                    validation.stocks.minLength,
-                                                  ),
-                                                  Validators.maxLength(
-                                                    validation.stocks
-                                                        .maxWayBillNoLength,
-                                                  ),
-                                                ],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                              form
-                                                  .control(_typeOfTransportKey)
-                                                  .setValidators(
-                                                [
-                                                  Validators.required,
-                                                ],
-                                                updateParent: true,
-                                                autoValidate: true,
-                                              );
-                                            });
-                                          }
+                                            form
+                                                .control(_waybillQuantityKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_vehicleNumberKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_driverNameKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_typeOfTransportKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(
+                                              _commentsKey,
+                                            )
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            isDeliveryTeamReturn = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isDeliveryTeamReturn = false;
+                                            form
+                                                .control(_waybillNumberKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                                Validators.minLength(
+                                                  validation.stocks.minLength,
+                                                ),
+                                                Validators.maxLength(
+                                                  validation.stocks
+                                                      .maxWayBillNoLength,
+                                                ),
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_waybillQuantityKey)
+                                                .setValidators(
+                                              [
+                                                Validators.number,
+                                                Validators.required,
+                                                Validators.min(validation
+                                                    .stocks.minQuantity),
+                                                Validators.max(validation
+                                                    .stocks.maxQuantity),
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_vehicleNumberKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                                CustomValidator
+                                                    .vehicleNumberValidation,
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_driverNameKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                                Validators.minLength(
+                                                  validation.stocks.minLength,
+                                                ),
+                                                Validators.maxLength(
+                                                  validation.stocks
+                                                      .maxWayBillNoLength,
+                                                ),
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_typeOfTransportKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                          });
                                         }
                                       },
                                     ),
