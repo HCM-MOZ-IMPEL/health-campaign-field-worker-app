@@ -304,7 +304,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       configs.first.checklistTypes?.map((e) => e.code).forEach((element) {
         for (final project in projects) {
           codes.add(
-            '${project.name}.$element.${elements.code.name.snakeCase.toUpperCase()}',
+            '${project.name}.$element.${elements.code.snakeCase.toUpperCase()}',
           );
         }
       });
