@@ -20,10 +20,8 @@ import '../../utils/environment_config.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
 import '../../widgets/component_wrapper/product_variant_bloc_wrapper.dart';
-import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
 import '../../widgets/showcase/config/showcase_constants.dart';
-import '../../widgets/showcase/showcase_button.dart';
 
 class DeliverInterventionPage extends LocalizedStatefulWidget {
   final bool isEditing;
@@ -87,11 +85,6 @@ class _DeliverInterventionPageState
                       form: () => buildForm(context),
                       builder: (context, form, child) {
                         return ScrollableContent(
-                          header: const Column(children: [
-                            BackNavigationHelpHeaderWidget(
-                              showcaseButton: ShowcaseButton(),
-                            ),
-                          ]),
                           footer: isDelivered
                               ? null
                               : DigitCard(
