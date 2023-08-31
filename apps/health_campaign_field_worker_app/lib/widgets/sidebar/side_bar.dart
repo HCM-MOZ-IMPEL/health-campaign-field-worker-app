@@ -27,7 +27,7 @@ class SideBar extends StatelessWidget {
             children: [
               Container(
                 color: theme.colorScheme.secondary.withOpacity(0.12),
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(kPadding),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 200,
