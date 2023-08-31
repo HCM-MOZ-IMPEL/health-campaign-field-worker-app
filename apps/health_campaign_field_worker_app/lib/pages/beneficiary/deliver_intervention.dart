@@ -90,6 +90,7 @@ class _DeliverInterventionPageState
                           header: const Column(children: [
                             BackNavigationHelpHeaderWidget(
                               showcaseButton: ShowcaseButton(),
+                              showBackNavigation: false,
                             ),
                           ]),
                           footer: isDelivered
