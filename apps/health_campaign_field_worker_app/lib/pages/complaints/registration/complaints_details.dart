@@ -394,9 +394,6 @@ class _ComplaintsDetailsPageState
                                       if (isRaisedForSelf) {
                                         form.control(_complainantName).value =
                                             user.name;
-                                        form
-                                            .control(_complainantContactNumber)
-                                            .value = user.mobileNumber;
                                       }
                                     },
                                   );
@@ -432,7 +429,6 @@ class _ComplaintsDetailsPageState
                                             i18.complaints
                                                 .complainantContactNumber,
                                           ),
-                                          readOnly: isRaisedForSelf,
                                           maxLength: 9,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(
