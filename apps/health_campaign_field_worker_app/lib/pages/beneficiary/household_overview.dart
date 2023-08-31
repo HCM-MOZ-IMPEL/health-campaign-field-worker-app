@@ -26,6 +26,13 @@ class HouseholdOverviewPage extends LocalizedStatefulWidget {
 
 class _HouseholdOverviewPageState
     extends LocalizedState<HouseholdOverviewPage> {
+
+  @override
+  void initState() {
+    context.router.push(DeliverInterventionRoute());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
