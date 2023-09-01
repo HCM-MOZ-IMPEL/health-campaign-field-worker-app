@@ -337,8 +337,15 @@ class _HouseholdOverviewPageState
 
                                 final projectId = context.projectId;
 
-                                await context.router
-                                    .push(DeliverInterventionRoute());
+                                final householdMemberWrapper =
+                                    searchState.householdMemberWrapper;
+                                if (householdMemberWrapper != null) {
+                                  await context.router.push(
+                                    BeneficiaryWrapperRoute(
+                                      wrapper: householdMemberWrapper,
+                                    ),
+                                  );
+                                }
 
                                 bloc.add(
                                   HouseholdOverviewReloadEvent(
