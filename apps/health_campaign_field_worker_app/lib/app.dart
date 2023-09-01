@@ -83,6 +83,7 @@ class MainApplicationState extends State<MainApplication>
                   authRepository: ctx.read(),
                   boundaryLocalRepository: ctx.read<
                       LocalRepository<BoundaryModel, BoundarySearchModel>>(),
+                  mdmsRepository: MdmsRepository(widget.client),
                 )..add(
                     AuthAutoLoginEvent(
                       tenantId: envConfig.variables.tenantId,
@@ -320,7 +321,7 @@ class MainApplicationState extends State<MainApplication>
                                 orElse: () => [
                                   const UnauthenticatedRouteWrapper(),
                                 ],
-                                authenticated: (_, __, ___) => [
+                                authenticated: (_, __, ___, ____) => [
                                   AuthenticatedRouteWrapper(),
                                 ],
                               ),

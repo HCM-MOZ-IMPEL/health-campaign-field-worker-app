@@ -71,8 +71,7 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
                             orElse: () => const Offstage(),
                             authenticated: (res) {
                               List<String> roles = res.userModel.roles
-                                  .map((e) =>
-                                      e.code.name.snakeCase.toUpperCase())
+                                  .map((e) => e.code.snakeCase.toUpperCase())
                                   .toList();
 
                               var serviceDefinitionList = [

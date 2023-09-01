@@ -8,6 +8,7 @@ import 'package:isar/isar.dart';
 import '../../../models/app_config/app_config_model.dart' as app_configuration;
 import '../../../models/mdms/service_registry/pgr_service_defenitions.dart';
 import '../../../models/mdms/service_registry/service_registry_model.dart';
+import '../../../models/role_actions/role_actions_model.dart';
 import '../../local_store/no_sql/schema/app_configuration.dart';
 import '../../local_store/no_sql/schema/row_versions.dart';
 import '../../local_store/no_sql/schema/service_registry.dart';
@@ -257,5 +258,18 @@ class MdmsRepository {
       await isar.appConfigurations.put(appConfiguration);
       await isar.rowVersionLists.putAll(rowVersionList);
     });
+  }
+
+  Future<RoleActionsWrapperModel> searchRoleActions(
+    String apiEndPoint,
+    Map<String, dynamic> body,
+  ) async {
+    try {
+      final Response response = await _client.post(apiEndPoint, data: body);
+
+      return RoleActionsWrapperModel.fromJson(json.decode(response.toString()));
+    } catch (_) {
+      rethrow;
+    }
   }
 }
