@@ -316,10 +316,24 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                                           dataType: attribute?[i].dataType,
                                           clientReferenceId: IdGen.i.identifier,
                                           referenceId: referenceId,
-                                          value: visibleChecklistIndexes
-                                                  .contains(i)
-                                              ? controller[i].text.toString()
-                                              : i18.checklist.notSelectedKey,
+                                          value: attribute?[i].dataType !=
+                                                  'SingleValueList'
+                                              ? controller[i]
+                                                      .text
+                                                      .toString()
+                                                      .trim()
+                                                      .isNotEmpty
+                                                  ? controller[i]
+                                                      .text
+                                                      .toString()
+                                                  : null
+                                              : visibleChecklistIndexes
+                                                      .contains(i)
+                                                  ? controller[i]
+                                                      .text
+                                                      .toString()
+                                                  : i18
+                                                      .checklist.notSelectedKey,
                                           rowVersion: 1,
                                           tenantId: attribute?[i].tenantId,
                                           additionalDetails:

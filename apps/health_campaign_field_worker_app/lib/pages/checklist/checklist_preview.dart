@@ -217,11 +217,15 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              localizations
-                                                                  .translate(
-                                                                'CORE_COMMON_${e.value.toString().toUpperCase()}' ??
-                                                                    "",
-                                                              ),
+                                                              e.dataType ==
+                                                                      'SingleValueList'
+                                                                  ? localizations
+                                                                      .translate(
+                                                                      'CORE_COMMON_${e.value.toString().toUpperCase()}' ??
+                                                                          "",
+                                                                    )
+                                                                  : e.value ??
+                                                                      "",
                                                             ),
                                                           ),
                                                         ),
