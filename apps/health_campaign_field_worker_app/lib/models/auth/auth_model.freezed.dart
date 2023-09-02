@@ -870,7 +870,7 @@ UserRoleModel _$UserRoleModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserRoleModel {
   String get name => throw _privateConstructorUsedError;
-  UserRoleCodeEnum get code => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
   String? get tenantId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -885,7 +885,7 @@ abstract class $UserRoleModelCopyWith<$Res> {
           UserRoleModel value, $Res Function(UserRoleModel) then) =
       _$UserRoleModelCopyWithImpl<$Res, UserRoleModel>;
   @useResult
-  $Res call({String name, UserRoleCodeEnum code, String? tenantId});
+  $Res call({String name, String code, String? tenantId});
 }
 
 /// @nodoc
@@ -913,7 +913,7 @@ class _$UserRoleModelCopyWithImpl<$Res, $Val extends UserRoleModel>
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
-              as UserRoleCodeEnum,
+              as String,
       tenantId: freezed == tenantId
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
@@ -930,7 +930,7 @@ abstract class _$$_UserRoleModelCopyWith<$Res>
       __$$_UserRoleModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, UserRoleCodeEnum code, String? tenantId});
+  $Res call({String name, String code, String? tenantId});
 }
 
 /// @nodoc
@@ -956,7 +956,7 @@ class __$$_UserRoleModelCopyWithImpl<$Res>
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
-              as UserRoleCodeEnum,
+              as String,
       tenantId: freezed == tenantId
           ? _value.tenantId
           : tenantId // ignore: cast_nullable_to_non_nullable
@@ -977,7 +977,7 @@ class _$_UserRoleModel implements _UserRoleModel {
   @override
   final String name;
   @override
-  final UserRoleCodeEnum code;
+  final String code;
   @override
   final String? tenantId;
 
@@ -1018,7 +1018,7 @@ class _$_UserRoleModel implements _UserRoleModel {
 abstract class _UserRoleModel implements UserRoleModel {
   const factory _UserRoleModel(
       {required final String name,
-      required final UserRoleCodeEnum code,
+      required final String code,
       final String? tenantId}) = _$_UserRoleModel;
 
   factory _UserRoleModel.fromJson(Map<String, dynamic> json) =
@@ -1027,7 +1027,7 @@ abstract class _UserRoleModel implements UserRoleModel {
   @override
   String get name;
   @override
-  UserRoleCodeEnum get code;
+  String get code;
   @override
   String? get tenantId;
   @override

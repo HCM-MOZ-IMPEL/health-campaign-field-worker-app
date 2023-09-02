@@ -57,6 +57,8 @@ class _InventoryReportDetailsPageState
 
   late ProductVariantModel productVariantModel;
 
+  Map<String, FacilityModel> facilityMap = {};
+
   void handleSelection(FormGroup form) {
     final event = widget.reportType == InventoryReportType.reconciliation
         ? InventoryReportLoadStockReconciliationDataEvent(
@@ -171,6 +173,18 @@ class _InventoryReportDetailsPageState
                                                           facilities,
                                                 ) ??
                                                 [];
+
+                                            final allFacilities =
+                                                state.whenOrNull(
+                                                      fetched: (_,
+                                                              allFacilities,
+                                                              __) =>
+                                                          allFacilities,
+                                                    ) ??
+                                                    [];
+                                            for (var element in allFacilities) {
+                                              facilityMap[element.id] = element;
+                                            }
 
                                             return DigitTextFormField(
                                               valueAccessor:
@@ -330,8 +344,9 @@ class _InventoryReportDetailsPageState
                                                         DigitGridCell(
                                                           key:
                                                               transactingPartyKey,
-                                                          value: model
-                                                                  .transactingPartyId ??
+                                                          value: facilityMap[model
+                                                                      .transactingPartyId]
+                                                                  ?.name ??
                                                               model
                                                                   .transactingPartyType ??
                                                               '',
