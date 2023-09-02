@@ -103,9 +103,6 @@ class _IndividualDetailsPageState
                                   return;
                                 else {
                                   clickedStatus.value = true;
-                                  await Future.delayed(
-                                    const Duration(milliseconds: 500),
-                                  );
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   state.maybeWhen(
                                     orElse: () {
@@ -191,7 +188,7 @@ class _IndividualDetailsPageState
                                       .translate(i18.common.coreCommonProceed),
                                 ) ??
                                 localizations.translate(
-                                    i18.householdLocation.actionLabel),
+                                    i18.householdLocation.actionLabel,),
                           ),
                         ),
                       );

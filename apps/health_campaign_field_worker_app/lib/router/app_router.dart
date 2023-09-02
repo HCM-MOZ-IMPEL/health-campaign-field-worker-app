@@ -8,11 +8,11 @@ import '../blocs/record_stock/record_stock.dart';
 import '../blocs/search_households/search_households.dart';
 import '../models/data_model.dart';
 import '../pages/acknowledgement.dart';
-import '../pages/complaints_acknowledgement.dart';
 import '../pages/authenticated.dart';
 import '../pages/beneficiary/beneficiary_wrapper.dart';
 import '../pages/beneficiary/deliver_intervention.dart';
 import '../pages/beneficiary/household_overview.dart';
+import '../pages/beneficiary/household_overview_wrapper.dart';
 import '../pages/beneficiary_registration/beneficiary_registration_wrapper.dart';
 import '../pages/beneficiary_registration/household_details.dart';
 import '../pages/beneficiary_registration/household_location.dart';
@@ -33,6 +33,7 @@ import '../pages/complaints/registration/complaint_type.dart';
 import '../pages/complaints/registration/complaints_details.dart';
 import '../pages/complaints/registration/complaints_location.dart';
 import '../pages/complaints/registration/complaints_registration_wrapper.dart';
+import '../pages/complaints_acknowledgement.dart';
 import '../pages/home.dart';
 import '../pages/inventory/facility_selection.dart';
 import '../pages/inventory/manage_stocks.dart';
@@ -87,13 +88,20 @@ part 'app_router.gr.dart';
           path: 'beneficiary',
           children: [
             AutoRoute(
+              page: DeliverInterventionPage,
+              path: 'deliver-intervention',
+              initial: true,
+            ),
+          ],
+        ),
+        AutoRoute(
+          page: HouseholdOverviewWrapperPage,
+          path: 'household',
+          children: [
+            AutoRoute(
               page: HouseholdOverviewPage,
               path: 'overview',
               initial: true,
-            ),
-            AutoRoute(
-              page: DeliverInterventionPage,
-              path: 'deliver-intervention',
             ),
           ],
         ),

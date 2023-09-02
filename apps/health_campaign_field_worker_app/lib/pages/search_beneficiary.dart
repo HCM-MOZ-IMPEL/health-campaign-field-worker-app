@@ -136,8 +136,13 @@ class _SearchBeneficiaryPageState
                         hasShowcase: index == 0,
                         onOpenPressed: () async {
                           final bloc = context.read<SearchHouseholdsBloc>();
+                          context.read<SearchHouseholdsBloc>().add(
+                                SearchHouseholdsSetBeneficiaryWrapperEvent(
+                                  householdMemberWrapper: i,
+                                ),
+                              );
                           await context.router.push(
-                            BeneficiaryWrapperRoute(
+                            HouseholdOverviewWrapperRoute(
                               wrapper: i,
                             ),
                           );

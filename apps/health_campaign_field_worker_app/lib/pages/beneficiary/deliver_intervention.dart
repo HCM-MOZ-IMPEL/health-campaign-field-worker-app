@@ -87,10 +87,10 @@ class _DeliverInterventionPageState
                       form: () => buildForm(context),
                       builder: (context, form, child) {
                         return ScrollableContent(
-                          header: const Column(children: [
+                          header: Column(children: [
                             BackNavigationHelpHeaderWidget(
-                              showcaseButton: ShowcaseButton(),
-                              showBackNavigation: false,
+                              showcaseButton: const ShowcaseButton(),
+                              showBackNavigation: isDelivered ? true : false,
                             ),
                           ]),
                           footer: isDelivered
