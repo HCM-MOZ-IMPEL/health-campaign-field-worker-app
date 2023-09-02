@@ -313,21 +313,24 @@ class _HouseholdOverviewPageState
                   builder: (ctx, state) => DigitCard(
                     margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
                     child: state.task?.status == 'delivered'
-                        ? DigitOutLineButton(
-                            label: localizations.translate(
-                              i18.memberCard.deliverDetailsViewLabel,
+                        ? householdOverviewShowcaseData.deliverIntervention
+                            .buildWith(
+                            child: DigitOutLineButton(
+                              label: localizations.translate(
+                                i18.memberCard.deliverDetailsViewLabel,
+                              ),
+                              onPressed: () async {
+                                final householdMemberWrapper =
+                                    searchState.householdMemberWrapper;
+                                if (householdMemberWrapper != null) {
+                                  await context.router.push(
+                                    BeneficiaryWrapperRoute(
+                                      wrapper: householdMemberWrapper,
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                            onPressed: () async {
-                              final householdMemberWrapper =
-                                  searchState.householdMemberWrapper;
-                              if (householdMemberWrapper != null) {
-                                await context.router.push(
-                                  BeneficiaryWrapperRoute(
-                                    wrapper: householdMemberWrapper,
-                                  ),
-                                );
-                              }
-                            },
                           )
                         : householdOverviewShowcaseData.deliverIntervention
                             .buildWith(
