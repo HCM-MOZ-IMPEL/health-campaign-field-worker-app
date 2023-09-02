@@ -135,7 +135,7 @@ class AppInitializationBloc
     final configs = await isar.appConfigurations.where().findAll();
 
     if (serviceRegistryList.isEmpty) {
-      throw Exception('`configs` cannot be empty');
+      throw Exception('`serviceRegistryList` cannot be empty');
     }
     if (configs.isEmpty) {
       throw Exception('`configs` cannot be empty');
