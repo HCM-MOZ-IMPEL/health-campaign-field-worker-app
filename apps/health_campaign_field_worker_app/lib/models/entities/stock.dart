@@ -79,6 +79,7 @@ class StockModel extends EntityModel {
   final String? transactingPartyType;
   final String? quantity;
   final String? waybillNumber;
+  final bool? nonRecoverableError;
   final String clientReferenceId;
   final int? rowVersion;
   final TransactionType? transactionType;
@@ -98,6 +99,7 @@ class StockModel extends EntityModel {
     this.transactingPartyType,
     this.quantity,
     this.waybillNumber,
+    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.rowVersion,
     this.transactionType,
@@ -135,6 +137,7 @@ class StockModel extends EntityModel {
       transactingPartyType: Value(transactingPartyType),
       quantity: Value(quantity),
       waybillNumber: Value(waybillNumber),
+      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       rowVersion: Value(rowVersion),
       dateOfEntry: Value(dateOfEntry),

@@ -92,6 +92,7 @@ class BeneficiaryRegistrationBloc
         emit(value.copyWith(
           isHeadOfHousehold: event.isHeadOfHousehold,
           individualModel: event.model,
+          
         ));
       },
       editIndividual: (value) {

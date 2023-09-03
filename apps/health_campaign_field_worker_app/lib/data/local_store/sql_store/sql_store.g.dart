@@ -24,11 +24,12 @@ class Addres extends DataClass implements Insertable<Addres> {
   final String? boundaryType;
   final String? boundary;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? localityBoundaryCode;
@@ -55,11 +56,12 @@ class Addres extends DataClass implements Insertable<Addres> {
       this.boundaryType,
       this.boundary,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.localityBoundaryCode,
@@ -104,8 +106,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           .mapFromDatabaseResponse(data['${effectivePrefix}boundary']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -114,6 +116,8 @@ class Addres extends DataClass implements Insertable<Addres> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -186,8 +190,8 @@ class Addres extends DataClass implements Insertable<Addres> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -200,6 +204,9 @@ class Addres extends DataClass implements Insertable<Addres> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -276,9 +283,9 @@ class Addres extends DataClass implements Insertable<Addres> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -291,6 +298,9 @@ class Addres extends DataClass implements Insertable<Addres> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -340,11 +350,13 @@ class Addres extends DataClass implements Insertable<Addres> {
       boundaryType: serializer.fromJson<String?>(json['boundaryType']),
       boundary: serializer.fromJson<String?>(json['boundary']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       localityBoundaryCode:
@@ -379,11 +391,12 @@ class Addres extends DataClass implements Insertable<Addres> {
       'boundaryType': serializer.toJson<String?>(boundaryType),
       'boundary': serializer.toJson<String?>(boundary),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'localityBoundaryCode': serializer.toJson<String?>(localityBoundaryCode),
@@ -413,11 +426,12 @@ class Addres extends DataClass implements Insertable<Addres> {
           String? boundaryType,
           String? boundary,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? localityBoundaryCode,
@@ -445,11 +459,12 @@ class Addres extends DataClass implements Insertable<Addres> {
         boundaryType: boundaryType ?? this.boundaryType,
         boundary: boundary ?? this.boundary,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         localityBoundaryCode: localityBoundaryCode ?? this.localityBoundaryCode,
@@ -479,11 +494,12 @@ class Addres extends DataClass implements Insertable<Addres> {
           ..write('boundaryType: $boundaryType, ')
           ..write('boundary: $boundary, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('localityBoundaryCode: $localityBoundaryCode, ')
@@ -515,11 +531,12 @@ class Addres extends DataClass implements Insertable<Addres> {
         boundaryType,
         boundary,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         localityBoundaryCode,
@@ -550,11 +567,12 @@ class Addres extends DataClass implements Insertable<Addres> {
           other.boundaryType == this.boundaryType &&
           other.boundary == this.boundary &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.localityBoundaryCode == this.localityBoundaryCode &&
@@ -583,11 +601,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
   final Value<String?> boundaryType;
   final Value<String?> boundary;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> localityBoundaryCode;
@@ -614,11 +633,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.boundaryType = const Value.absent(),
     this.boundary = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.localityBoundaryCode = const Value.absent(),
@@ -646,11 +666,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     this.boundaryType = const Value.absent(),
     this.boundary = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.localityBoundaryCode = const Value.absent(),
@@ -678,11 +699,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     Expression<String?>? boundaryType,
     Expression<String?>? boundary,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? localityBoundaryCode,
@@ -711,12 +733,14 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       if (boundaryType != null) 'boundary_type': boundaryType,
       if (boundary != null) 'boundary': boundary,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (localityBoundaryCode != null)
@@ -748,11 +772,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       Value<String?>? boundaryType,
       Value<String?>? boundary,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? localityBoundaryCode,
@@ -780,11 +805,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
       boundaryType: boundaryType ?? this.boundaryType,
       boundary: boundary ?? this.boundary,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       localityBoundaryCode: localityBoundaryCode ?? this.localityBoundaryCode,
@@ -849,8 +875,8 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -863,6 +889,9 @@ class AddressCompanion extends UpdateCompanion<Addres> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -916,11 +945,12 @@ class AddressCompanion extends UpdateCompanion<Addres> {
           ..write('boundaryType: $boundaryType, ')
           ..write('boundary: $boundary, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('localityBoundaryCode: $localityBoundaryCode, ')
@@ -1027,12 +1057,15 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -1056,6 +1089,12 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -1129,11 +1168,12 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
         boundaryType,
         boundary,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         localityBoundaryCode,
@@ -1231,11 +1271,11 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -1260,6 +1300,12 @@ class $AddressTable extends Address with TableInfo<$AddressTable, Addres> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -1334,11 +1380,12 @@ class NameData extends DataClass implements Insertable<NameData> {
   final String? familyName;
   final String? otherNames;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -1352,11 +1399,12 @@ class NameData extends DataClass implements Insertable<NameData> {
       this.familyName,
       this.otherNames,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -1378,8 +1426,8 @@ class NameData extends DataClass implements Insertable<NameData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}other_names']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -1388,6 +1436,8 @@ class NameData extends DataClass implements Insertable<NameData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -1424,8 +1474,8 @@ class NameData extends DataClass implements Insertable<NameData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -1438,6 +1488,9 @@ class NameData extends DataClass implements Insertable<NameData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -1479,9 +1532,9 @@ class NameData extends DataClass implements Insertable<NameData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -1494,6 +1547,9 @@ class NameData extends DataClass implements Insertable<NameData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -1526,11 +1582,13 @@ class NameData extends DataClass implements Insertable<NameData> {
       familyName: serializer.fromJson<String?>(json['familyName']),
       otherNames: serializer.fromJson<String?>(json['otherNames']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -1550,11 +1608,12 @@ class NameData extends DataClass implements Insertable<NameData> {
       'familyName': serializer.toJson<String?>(familyName),
       'otherNames': serializer.toJson<String?>(otherNames),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -1571,11 +1630,12 @@ class NameData extends DataClass implements Insertable<NameData> {
           String? familyName,
           String? otherNames,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -1590,11 +1650,12 @@ class NameData extends DataClass implements Insertable<NameData> {
         familyName: familyName ?? this.familyName,
         otherNames: otherNames ?? this.otherNames,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -1611,11 +1672,12 @@ class NameData extends DataClass implements Insertable<NameData> {
           ..write('familyName: $familyName, ')
           ..write('otherNames: $otherNames, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -1634,11 +1696,12 @@ class NameData extends DataClass implements Insertable<NameData> {
       familyName,
       otherNames,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -1656,11 +1719,12 @@ class NameData extends DataClass implements Insertable<NameData> {
           other.familyName == this.familyName &&
           other.otherNames == this.otherNames &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -1676,11 +1740,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
   final Value<String?> familyName;
   final Value<String?> otherNames;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -1694,11 +1759,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
     this.familyName = const Value.absent(),
     this.otherNames = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -1713,11 +1779,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
     this.familyName = const Value.absent(),
     this.otherNames = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -1732,11 +1799,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
     Expression<String?>? familyName,
     Expression<String?>? otherNames,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -1752,12 +1820,14 @@ class NameCompanion extends UpdateCompanion<NameData> {
       if (familyName != null) 'family_name': familyName,
       if (otherNames != null) 'other_names': otherNames,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -1774,11 +1844,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
       Value<String?>? familyName,
       Value<String?>? otherNames,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -1793,11 +1864,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
       familyName: familyName ?? this.familyName,
       otherNames: otherNames ?? this.otherNames,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -1829,8 +1901,8 @@ class NameCompanion extends UpdateCompanion<NameData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -1843,6 +1915,9 @@ class NameCompanion extends UpdateCompanion<NameData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -1874,11 +1949,12 @@ class NameCompanion extends UpdateCompanion<NameData> {
           ..write('familyName: $familyName, ')
           ..write('otherNames: $otherNames, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -1928,12 +2004,15 @@ class $NameTable extends Name with TableInfo<$NameTable, NameData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -1957,6 +2036,12 @@ class $NameTable extends Name with TableInfo<$NameTable, NameData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -2002,11 +2087,12 @@ class $NameTable extends Name with TableInfo<$NameTable, NameData> {
         familyName,
         otherNames,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -2055,11 +2141,11 @@ class $NameTable extends Name with TableInfo<$NameTable, NameData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -2084,6 +2170,12 @@ class $NameTable extends Name with TableInfo<$NameTable, NameData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -2804,11 +2896,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
   final String? fileStoreId;
   final String? documentUid;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -2822,11 +2915,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
       this.fileStoreId,
       this.documentUid,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -2847,8 +2941,8 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}document_uid']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -2857,6 +2951,8 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -2891,8 +2987,8 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -2905,6 +3001,9 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -2943,9 +3042,9 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -2958,6 +3057,9 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -2989,11 +3091,13 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
       fileStoreId: serializer.fromJson<String?>(json['fileStoreId']),
       documentUid: serializer.fromJson<String?>(json['documentUid']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -3012,11 +3116,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
       'fileStoreId': serializer.toJson<String?>(fileStoreId),
       'documentUid': serializer.toJson<String?>(documentUid),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -3033,11 +3138,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
           String? fileStoreId,
           String? documentUid,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -3051,11 +3157,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
         fileStoreId: fileStoreId ?? this.fileStoreId,
         documentUid: documentUid ?? this.documentUid,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -3072,11 +3179,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
           ..write('fileStoreId: $fileStoreId, ')
           ..write('documentUid: $documentUid, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -3095,11 +3203,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
       fileStoreId,
       documentUid,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -3116,11 +3225,12 @@ class DocumentData extends DataClass implements Insertable<DocumentData> {
           other.fileStoreId == this.fileStoreId &&
           other.documentUid == this.documentUid &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -3136,11 +3246,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
   final Value<String?> fileStoreId;
   final Value<String?> documentUid;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -3154,11 +3265,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
     this.fileStoreId = const Value.absent(),
     this.documentUid = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -3173,11 +3285,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
     this.fileStoreId = const Value.absent(),
     this.documentUid = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -3192,11 +3305,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
     Expression<String?>? fileStoreId,
     Expression<String?>? documentUid,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -3211,12 +3325,14 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
       if (fileStoreId != null) 'file_store_id': fileStoreId,
       if (documentUid != null) 'document_uid': documentUid,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -3233,11 +3349,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
       Value<String?>? fileStoreId,
       Value<String?>? documentUid,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -3251,11 +3368,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
       fileStoreId: fileStoreId ?? this.fileStoreId,
       documentUid: documentUid ?? this.documentUid,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -3284,8 +3402,8 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -3298,6 +3416,9 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -3331,11 +3452,12 @@ class DocumentCompanion extends UpdateCompanion<DocumentData> {
           ..write('fileStoreId: $fileStoreId, ')
           ..write('documentUid: $documentUid, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -3383,12 +3505,15 @@ class $DocumentTable extends Document
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -3412,6 +3537,12 @@ class $DocumentTable extends Document
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -3462,11 +3593,12 @@ class $DocumentTable extends Document
         fileStoreId,
         documentUid,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -3511,11 +3643,11 @@ class $DocumentTable extends Document
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -3540,6 +3672,12 @@ class $DocumentTable extends Document
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -3605,11 +3743,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
   final String? usage;
   final int? storageCapacity;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -3623,11 +3762,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       this.usage,
       this.storageCapacity,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -3649,8 +3789,8 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}storage_capacity']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -3659,6 +3799,8 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -3692,8 +3834,8 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -3706,6 +3848,9 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -3743,9 +3888,9 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -3758,6 +3903,9 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -3789,11 +3937,13 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       usage: serializer.fromJson<String?>(json['usage']),
       storageCapacity: serializer.fromJson<int?>(json['storageCapacity']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -3812,11 +3962,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       'usage': serializer.toJson<String?>(usage),
       'storageCapacity': serializer.toJson<int?>(storageCapacity),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -3833,11 +3984,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
           String? usage,
           int? storageCapacity,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -3851,11 +4003,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
         usage: usage ?? this.usage,
         storageCapacity: storageCapacity ?? this.storageCapacity,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -3872,11 +4025,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
           ..write('usage: $usage, ')
           ..write('storageCapacity: $storageCapacity, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -3895,11 +4049,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
       usage,
       storageCapacity,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -3916,11 +4071,12 @@ class FacilityData extends DataClass implements Insertable<FacilityData> {
           other.usage == this.usage &&
           other.storageCapacity == this.storageCapacity &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -3936,11 +4092,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
   final Value<String?> usage;
   final Value<int?> storageCapacity;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -3954,11 +4111,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
     this.usage = const Value.absent(),
     this.storageCapacity = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -3973,11 +4131,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
     this.usage = const Value.absent(),
     this.storageCapacity = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -3992,11 +4151,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
     Expression<String?>? usage,
     Expression<int?>? storageCapacity,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -4011,12 +4171,14 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
       if (usage != null) 'usage': usage,
       if (storageCapacity != null) 'storage_capacity': storageCapacity,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -4033,11 +4195,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
       Value<String?>? usage,
       Value<int?>? storageCapacity,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -4051,11 +4214,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
       usage: usage ?? this.usage,
       storageCapacity: storageCapacity ?? this.storageCapacity,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -4086,8 +4250,8 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -4100,6 +4264,9 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -4131,11 +4298,12 @@ class FacilityCompanion extends UpdateCompanion<FacilityData> {
           ..write('usage: $usage, ')
           ..write('storageCapacity: $storageCapacity, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -4188,12 +4356,15 @@ class $FacilityTable extends Facility
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -4217,6 +4388,12 @@ class $FacilityTable extends Facility
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -4262,11 +4439,12 @@ class $FacilityTable extends Facility
         usage,
         storageCapacity,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -4314,11 +4492,11 @@ class $FacilityTable extends Facility
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -4343,6 +4521,12 @@ class $FacilityTable extends Facility
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -4397,11 +4581,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
   final String? id;
   final int? memberCount;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -4413,11 +4598,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
       {this.id,
       this.memberCount,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -4434,8 +4620,8 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}member_count']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -4444,6 +4630,8 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -4472,8 +4660,8 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -4486,6 +4674,9 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -4518,9 +4709,9 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -4533,6 +4724,9 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -4562,11 +4756,13 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
       id: serializer.fromJson<String?>(json['id']),
       memberCount: serializer.fromJson<int?>(json['memberCount']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -4583,11 +4779,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
       'id': serializer.toJson<String?>(id),
       'memberCount': serializer.toJson<int?>(memberCount),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -4602,11 +4799,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
           {String? id,
           int? memberCount,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -4618,11 +4816,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
         id: id ?? this.id,
         memberCount: memberCount ?? this.memberCount,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -4637,11 +4836,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
           ..write('id: $id, ')
           ..write('memberCount: $memberCount, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -4658,11 +4858,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
       id,
       memberCount,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -4677,11 +4878,12 @@ class HouseholdData extends DataClass implements Insertable<HouseholdData> {
           other.id == this.id &&
           other.memberCount == this.memberCount &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -4695,11 +4897,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
   final Value<String?> id;
   final Value<int?> memberCount;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -4711,11 +4914,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
     this.id = const Value.absent(),
     this.memberCount = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -4728,11 +4932,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
     this.id = const Value.absent(),
     this.memberCount = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -4745,11 +4950,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
     Expression<String?>? id,
     Expression<int?>? memberCount,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -4762,12 +4968,14 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
       if (id != null) 'id': id,
       if (memberCount != null) 'member_count': memberCount,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -4782,11 +4990,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
       {Value<String?>? id,
       Value<int?>? memberCount,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -4798,11 +5007,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
       id: id ?? this.id,
       memberCount: memberCount ?? this.memberCount,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -4825,8 +5035,8 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -4839,6 +5049,9 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -4870,11 +5083,12 @@ class HouseholdCompanion extends UpdateCompanion<HouseholdData> {
           ..write('id: $id, ')
           ..write('memberCount: $memberCount, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -4910,12 +5124,15 @@ class $HouseholdTable extends Household
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -4939,6 +5156,12 @@ class $HouseholdTable extends Household
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -4987,11 +5210,12 @@ class $HouseholdTable extends Household
         id,
         memberCount,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -5024,11 +5248,11 @@ class $HouseholdTable extends Household
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -5053,6 +5277,12 @@ class $HouseholdTable extends Household
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -5120,11 +5350,12 @@ class HouseholdMemberData extends DataClass
   final String? individualClientReferenceId;
   final bool isHeadOfHousehold;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -5140,11 +5371,12 @@ class HouseholdMemberData extends DataClass
       this.individualClientReferenceId,
       required this.isHeadOfHousehold,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -5170,8 +5402,8 @@ class HouseholdMemberData extends DataClass
           data['${effectivePrefix}is_head_of_household'])!,
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -5180,6 +5412,8 @@ class HouseholdMemberData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -5220,8 +5454,8 @@ class HouseholdMemberData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -5234,6 +5468,9 @@ class HouseholdMemberData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -5278,9 +5515,9 @@ class HouseholdMemberData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -5293,6 +5530,9 @@ class HouseholdMemberData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -5328,11 +5568,13 @@ class HouseholdMemberData extends DataClass
           serializer.fromJson<String?>(json['individualClientReferenceId']),
       isHeadOfHousehold: serializer.fromJson<bool>(json['isHeadOfHousehold']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -5355,11 +5597,12 @@ class HouseholdMemberData extends DataClass
           serializer.toJson<String?>(individualClientReferenceId),
       'isHeadOfHousehold': serializer.toJson<bool>(isHeadOfHousehold),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -5378,11 +5621,12 @@ class HouseholdMemberData extends DataClass
           String? individualClientReferenceId,
           bool? isHeadOfHousehold,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -5400,11 +5644,12 @@ class HouseholdMemberData extends DataClass
             individualClientReferenceId ?? this.individualClientReferenceId,
         isHeadOfHousehold: isHeadOfHousehold ?? this.isHeadOfHousehold,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -5423,11 +5668,12 @@ class HouseholdMemberData extends DataClass
           ..write('individualClientReferenceId: $individualClientReferenceId, ')
           ..write('isHeadOfHousehold: $isHeadOfHousehold, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -5448,11 +5694,12 @@ class HouseholdMemberData extends DataClass
       individualClientReferenceId,
       isHeadOfHousehold,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -5472,11 +5719,12 @@ class HouseholdMemberData extends DataClass
               this.individualClientReferenceId &&
           other.isHeadOfHousehold == this.isHeadOfHousehold &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -5494,11 +5742,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
   final Value<String?> individualClientReferenceId;
   final Value<bool> isHeadOfHousehold;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -5514,11 +5763,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
     this.individualClientReferenceId = const Value.absent(),
     this.isHeadOfHousehold = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -5535,11 +5785,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
     this.individualClientReferenceId = const Value.absent(),
     required bool isHeadOfHousehold,
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -5557,11 +5808,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
     Expression<String?>? individualClientReferenceId,
     Expression<bool>? isHeadOfHousehold,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -5580,12 +5832,14 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
         'individual_client_reference_id': individualClientReferenceId,
       if (isHeadOfHousehold != null) 'is_head_of_household': isHeadOfHousehold,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -5604,11 +5858,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
       Value<String?>? individualClientReferenceId,
       Value<bool>? isHeadOfHousehold,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -5626,11 +5881,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
           individualClientReferenceId ?? this.individualClientReferenceId,
       isHeadOfHousehold: isHeadOfHousehold ?? this.isHeadOfHousehold,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -5667,8 +5923,8 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -5681,6 +5937,9 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -5716,11 +5975,12 @@ class HouseholdMemberCompanion extends UpdateCompanion<HouseholdMemberData> {
           ..write('individualClientReferenceId: $individualClientReferenceId, ')
           ..write('isHeadOfHousehold: $isHeadOfHousehold, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -5784,12 +6044,15 @@ class $HouseholdMemberTable extends HouseholdMember
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -5813,6 +6076,12 @@ class $HouseholdMemberTable extends HouseholdMember
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -5865,11 +6134,12 @@ class $HouseholdMemberTable extends HouseholdMember
         individualClientReferenceId,
         isHeadOfHousehold,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -5931,11 +6201,11 @@ class $HouseholdMemberTable extends HouseholdMember
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -5960,6 +6230,12 @@ class $HouseholdMemberTable extends HouseholdMember
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -6023,11 +6299,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
   final String? identifierType;
   final String? identifierId;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -6040,11 +6317,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
       this.identifierType,
       this.identifierId,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -6063,8 +6341,8 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}identifier_id']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -6073,6 +6351,8 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -6104,8 +6384,8 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -6118,6 +6398,9 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -6153,9 +6436,9 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -6168,6 +6451,9 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -6198,11 +6484,13 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
       identifierType: serializer.fromJson<String?>(json['identifierType']),
       identifierId: serializer.fromJson<String?>(json['identifierId']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -6220,11 +6508,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
       'identifierType': serializer.toJson<String?>(identifierType),
       'identifierId': serializer.toJson<String?>(identifierId),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -6240,11 +6529,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
           String? identifierType,
           String? identifierId,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -6257,11 +6547,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
         identifierType: identifierType ?? this.identifierType,
         identifierId: identifierId ?? this.identifierId,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -6277,11 +6568,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
           ..write('identifierType: $identifierType, ')
           ..write('identifierId: $identifierId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -6299,11 +6591,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
       identifierType,
       identifierId,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -6319,11 +6612,12 @@ class IdentifierData extends DataClass implements Insertable<IdentifierData> {
           other.identifierType == this.identifierType &&
           other.identifierId == this.identifierId &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -6338,11 +6632,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
   final Value<String?> identifierType;
   final Value<String?> identifierId;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -6355,11 +6650,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
     this.identifierType = const Value.absent(),
     this.identifierId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -6373,11 +6669,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
     this.identifierType = const Value.absent(),
     this.identifierId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -6391,11 +6688,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
     Expression<String?>? identifierType,
     Expression<String?>? identifierId,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -6409,12 +6707,14 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
       if (identifierType != null) 'identifier_type': identifierType,
       if (identifierId != null) 'identifier_id': identifierId,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -6430,11 +6730,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
       Value<String?>? identifierType,
       Value<String?>? identifierId,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -6447,11 +6748,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
       identifierType: identifierType ?? this.identifierType,
       identifierId: identifierId ?? this.identifierId,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -6477,8 +6779,8 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -6491,6 +6793,9 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -6523,11 +6828,12 @@ class IdentifierCompanion extends UpdateCompanion<IdentifierData> {
           ..write('identifierType: $identifierType, ')
           ..write('identifierId: $identifierId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -6569,12 +6875,15 @@ class $IdentifierTable extends Identifier
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -6598,6 +6907,12 @@ class $IdentifierTable extends Identifier
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -6647,11 +6962,12 @@ class $IdentifierTable extends Identifier
         identifierType,
         identifierId,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -6690,11 +7006,11 @@ class $IdentifierTable extends Identifier
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -6719,6 +7035,12 @@ class $IdentifierTable extends Identifier
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -6788,11 +7110,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
   final String? husbandName;
   final String? photo;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -6813,11 +7136,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
       this.husbandName,
       this.photo,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -6850,8 +7174,8 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}photo']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -6860,6 +7184,8 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -6913,8 +7239,8 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -6927,6 +7253,9 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -6985,9 +7314,9 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -7000,6 +7329,9 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -7041,11 +7373,13 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
       husbandName: serializer.fromJson<String?>(json['husbandName']),
       photo: serializer.fromJson<String?>(json['photo']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -7071,11 +7405,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
       'husbandName': serializer.toJson<String?>(husbandName),
       'photo': serializer.toJson<String?>(photo),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -7099,11 +7434,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
           String? husbandName,
           String? photo,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -7124,11 +7460,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
         husbandName: husbandName ?? this.husbandName,
         photo: photo ?? this.photo,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -7152,11 +7489,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
           ..write('husbandName: $husbandName, ')
           ..write('photo: $photo, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -7182,11 +7520,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
         husbandName,
         photo,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -7211,11 +7550,12 @@ class IndividualData extends DataClass implements Insertable<IndividualData> {
           other.husbandName == this.husbandName &&
           other.photo == this.photo &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -7238,11 +7578,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
   final Value<String?> husbandName;
   final Value<String?> photo;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -7263,11 +7604,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
     this.husbandName = const Value.absent(),
     this.photo = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -7289,11 +7631,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
     this.husbandName = const Value.absent(),
     this.photo = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -7315,11 +7658,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
     Expression<String?>? husbandName,
     Expression<String?>? photo,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -7341,12 +7685,14 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
       if (husbandName != null) 'husband_name': husbandName,
       if (photo != null) 'photo': photo,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -7370,11 +7716,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
       Value<String?>? husbandName,
       Value<String?>? photo,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -7395,11 +7742,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
       husbandName: husbandName ?? this.husbandName,
       photo: photo ?? this.photo,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -7445,8 +7793,8 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -7459,6 +7807,9 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -7505,11 +7856,12 @@ class IndividualCompanion extends UpdateCompanion<IndividualData> {
           ..write('husbandName: $husbandName, ')
           ..write('photo: $photo, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -7585,12 +7937,15 @@ class $IndividualTable extends Individual
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -7614,6 +7969,12 @@ class $IndividualTable extends Individual
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -7681,11 +8042,12 @@ class $IndividualTable extends Individual
         husbandName,
         photo,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -7756,11 +8118,11 @@ class $IndividualTable extends Individual
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -7785,6 +8147,12 @@ class $IndividualTable extends Individual
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -7856,11 +8224,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
   final String? name;
   final String? manufacturer;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -7874,11 +8243,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
       this.name,
       this.manufacturer,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -7899,8 +8269,8 @@ class ProductData extends DataClass implements Insertable<ProductData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}manufacturer']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -7909,6 +8279,8 @@ class ProductData extends DataClass implements Insertable<ProductData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -7943,8 +8315,8 @@ class ProductData extends DataClass implements Insertable<ProductData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -7957,6 +8329,9 @@ class ProductData extends DataClass implements Insertable<ProductData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -7991,9 +8366,9 @@ class ProductData extends DataClass implements Insertable<ProductData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -8006,6 +8381,9 @@ class ProductData extends DataClass implements Insertable<ProductData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -8037,11 +8415,13 @@ class ProductData extends DataClass implements Insertable<ProductData> {
       name: serializer.fromJson<String?>(json['name']),
       manufacturer: serializer.fromJson<String?>(json['manufacturer']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -8060,11 +8440,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
       'name': serializer.toJson<String?>(name),
       'manufacturer': serializer.toJson<String?>(manufacturer),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -8081,11 +8462,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
           String? name,
           String? manufacturer,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -8099,11 +8481,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
         name: name ?? this.name,
         manufacturer: manufacturer ?? this.manufacturer,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -8120,11 +8503,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
           ..write('name: $name, ')
           ..write('manufacturer: $manufacturer, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -8143,11 +8527,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
       name,
       manufacturer,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -8164,11 +8549,12 @@ class ProductData extends DataClass implements Insertable<ProductData> {
           other.name == this.name &&
           other.manufacturer == this.manufacturer &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -8184,11 +8570,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
   final Value<String?> name;
   final Value<String?> manufacturer;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -8202,11 +8589,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
     this.name = const Value.absent(),
     this.manufacturer = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -8221,11 +8609,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
     this.name = const Value.absent(),
     this.manufacturer = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -8240,11 +8629,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
     Expression<String?>? name,
     Expression<String?>? manufacturer,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -8259,12 +8649,14 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
       if (name != null) 'name': name,
       if (manufacturer != null) 'manufacturer': manufacturer,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -8281,11 +8673,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
       Value<String?>? name,
       Value<String?>? manufacturer,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -8299,11 +8692,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
       name: name ?? this.name,
       manufacturer: manufacturer ?? this.manufacturer,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -8332,8 +8726,8 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -8346,6 +8740,9 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -8379,11 +8776,12 @@ class ProductCompanion extends UpdateCompanion<ProductData> {
           ..write('name: $name, ')
           ..write('manufacturer: $manufacturer, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -8428,12 +8826,15 @@ class $ProductTable extends Product with TableInfo<$ProductTable, ProductData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -8457,6 +8858,12 @@ class $ProductTable extends Product with TableInfo<$ProductTable, ProductData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -8507,11 +8914,12 @@ class $ProductTable extends Product with TableInfo<$ProductTable, ProductData> {
         name,
         manufacturer,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -8552,11 +8960,11 @@ class $ProductTable extends Product with TableInfo<$ProductTable, ProductData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -8581,6 +8989,12 @@ class $ProductTable extends Product with TableInfo<$ProductTable, ProductData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -8646,11 +9060,12 @@ class ProductVariantData extends DataClass
   final String? sku;
   final String? variation;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -8663,11 +9078,12 @@ class ProductVariantData extends DataClass
       this.sku,
       this.variation,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -8688,8 +9104,8 @@ class ProductVariantData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}variation']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -8698,6 +9114,8 @@ class ProductVariantData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -8728,8 +9146,8 @@ class ProductVariantData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -8742,6 +9160,9 @@ class ProductVariantData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -8777,9 +9198,9 @@ class ProductVariantData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -8792,6 +9213,9 @@ class ProductVariantData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -8822,11 +9246,13 @@ class ProductVariantData extends DataClass
       sku: serializer.fromJson<String?>(json['sku']),
       variation: serializer.fromJson<String?>(json['variation']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -8844,11 +9270,12 @@ class ProductVariantData extends DataClass
       'sku': serializer.toJson<String?>(sku),
       'variation': serializer.toJson<String?>(variation),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -8864,11 +9291,12 @@ class ProductVariantData extends DataClass
           String? sku,
           String? variation,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -8881,11 +9309,12 @@ class ProductVariantData extends DataClass
         sku: sku ?? this.sku,
         variation: variation ?? this.variation,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -8901,11 +9330,12 @@ class ProductVariantData extends DataClass
           ..write('sku: $sku, ')
           ..write('variation: $variation, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -8923,11 +9353,12 @@ class ProductVariantData extends DataClass
       sku,
       variation,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -8943,11 +9374,12 @@ class ProductVariantData extends DataClass
           other.sku == this.sku &&
           other.variation == this.variation &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -8962,11 +9394,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
   final Value<String?> sku;
   final Value<String?> variation;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -8979,11 +9412,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
     this.sku = const Value.absent(),
     this.variation = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -8997,11 +9431,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
     this.sku = const Value.absent(),
     this.variation = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -9015,11 +9450,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
     Expression<String?>? sku,
     Expression<String?>? variation,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -9033,12 +9469,14 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
       if (sku != null) 'sku': sku,
       if (variation != null) 'variation': variation,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -9054,11 +9492,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
       Value<String?>? sku,
       Value<String?>? variation,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -9071,11 +9510,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
       sku: sku ?? this.sku,
       variation: variation ?? this.variation,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -9103,8 +9543,8 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -9117,6 +9557,9 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -9147,11 +9590,12 @@ class ProductVariantCompanion extends UpdateCompanion<ProductVariantData> {
           ..write('sku: $sku, ')
           ..write('variation: $variation, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -9195,12 +9639,15 @@ class $ProductVariantTable extends ProductVariant
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -9224,6 +9671,12 @@ class $ProductVariantTable extends ProductVariant
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -9268,11 +9721,12 @@ class $ProductVariantTable extends ProductVariant
         sku,
         variation,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -9312,11 +9766,11 @@ class $ProductVariantTable extends ProductVariant
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -9341,6 +9795,12 @@ class $ProductVariantTable extends ProductVariant
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -9404,11 +9864,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
   final String? referenceId;
   final String? projectHierarchy;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -9430,11 +9891,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
       this.referenceId,
       this.projectHierarchy,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -9470,8 +9932,8 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}project_hierarchy']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -9480,6 +9942,8 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -9533,8 +9997,8 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -9547,6 +10011,9 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -9608,9 +10075,9 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -9623,6 +10090,9 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -9666,11 +10136,13 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
       referenceId: serializer.fromJson<String?>(json['referenceId']),
       projectHierarchy: serializer.fromJson<String?>(json['projectHierarchy']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -9697,11 +10169,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
       'referenceId': serializer.toJson<String?>(referenceId),
       'projectHierarchy': serializer.toJson<String?>(projectHierarchy),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -9726,11 +10199,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
           String? referenceId,
           String? projectHierarchy,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -9752,11 +10226,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
         referenceId: referenceId ?? this.referenceId,
         projectHierarchy: projectHierarchy ?? this.projectHierarchy,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -9781,11 +10256,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
           ..write('referenceId: $referenceId, ')
           ..write('projectHierarchy: $projectHierarchy, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -9812,11 +10288,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
         referenceId,
         projectHierarchy,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -9842,11 +10319,12 @@ class ProjectData extends DataClass implements Insertable<ProjectData> {
           other.referenceId == this.referenceId &&
           other.projectHierarchy == this.projectHierarchy &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -9870,11 +10348,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
   final Value<String?> referenceId;
   final Value<String?> projectHierarchy;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -9896,11 +10375,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
     this.referenceId = const Value.absent(),
     this.projectHierarchy = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -9923,11 +10403,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
     this.referenceId = const Value.absent(),
     this.projectHierarchy = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -9951,11 +10432,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
     Expression<String?>? referenceId,
     Expression<String?>? projectHierarchy,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -9978,12 +10460,14 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
       if (referenceId != null) 'reference_id': referenceId,
       if (projectHierarchy != null) 'project_hierarchy': projectHierarchy,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -10008,11 +10492,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
       Value<String?>? referenceId,
       Value<String?>? projectHierarchy,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -10034,11 +10519,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
       referenceId: referenceId ?? this.referenceId,
       projectHierarchy: projectHierarchy ?? this.projectHierarchy,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -10089,8 +10575,8 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -10103,6 +10589,9 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -10146,11 +10635,12 @@ class ProjectCompanion extends UpdateCompanion<ProjectData> {
           ..write('referenceId: $referenceId, ')
           ..write('projectHierarchy: $projectHierarchy, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -10239,12 +10729,15 @@ class $ProjectTable extends Project with TableInfo<$ProjectTable, ProjectData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -10268,6 +10761,12 @@ class $ProjectTable extends Project with TableInfo<$ProjectTable, ProjectData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -10329,11 +10828,12 @@ class $ProjectTable extends Project with TableInfo<$ProjectTable, ProjectData> {
         referenceId,
         projectHierarchy,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -10421,11 +10921,11 @@ class $ProjectTable extends Project with TableInfo<$ProjectTable, ProjectData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -10450,6 +10950,12 @@ class $ProjectTable extends Project with TableInfo<$ProjectTable, ProjectData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -10515,11 +11021,12 @@ class ProjectBeneficiaryData extends DataClass
   final String? beneficiaryId;
   final String? beneficiaryClientReferenceId;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -10534,11 +11041,12 @@ class ProjectBeneficiaryData extends DataClass
       this.beneficiaryId,
       this.beneficiaryClientReferenceId,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -10561,8 +11069,8 @@ class ProjectBeneficiaryData extends DataClass
           data['${effectivePrefix}beneficiary_client_reference_id']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -10571,6 +11079,8 @@ class ProjectBeneficiaryData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -10608,8 +11118,8 @@ class ProjectBeneficiaryData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -10622,6 +11132,9 @@ class ProjectBeneficiaryData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -10662,9 +11175,9 @@ class ProjectBeneficiaryData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -10677,6 +11190,9 @@ class ProjectBeneficiaryData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -10710,11 +11226,13 @@ class ProjectBeneficiaryData extends DataClass
       beneficiaryClientReferenceId:
           serializer.fromJson<String?>(json['beneficiaryClientReferenceId']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -10735,11 +11253,12 @@ class ProjectBeneficiaryData extends DataClass
       'beneficiaryClientReferenceId':
           serializer.toJson<String?>(beneficiaryClientReferenceId),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -10757,11 +11276,12 @@ class ProjectBeneficiaryData extends DataClass
           String? beneficiaryId,
           String? beneficiaryClientReferenceId,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -10777,11 +11297,12 @@ class ProjectBeneficiaryData extends DataClass
         beneficiaryClientReferenceId:
             beneficiaryClientReferenceId ?? this.beneficiaryClientReferenceId,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -10800,11 +11321,12 @@ class ProjectBeneficiaryData extends DataClass
           ..write(
               'beneficiaryClientReferenceId: $beneficiaryClientReferenceId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -10824,11 +11346,12 @@ class ProjectBeneficiaryData extends DataClass
       beneficiaryId,
       beneficiaryClientReferenceId,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -10847,11 +11370,12 @@ class ProjectBeneficiaryData extends DataClass
           other.beneficiaryClientReferenceId ==
               this.beneficiaryClientReferenceId &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -10869,11 +11393,12 @@ class ProjectBeneficiaryCompanion
   final Value<String?> beneficiaryId;
   final Value<String?> beneficiaryClientReferenceId;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -10888,11 +11413,12 @@ class ProjectBeneficiaryCompanion
     this.beneficiaryId = const Value.absent(),
     this.beneficiaryClientReferenceId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -10908,11 +11434,12 @@ class ProjectBeneficiaryCompanion
     this.beneficiaryId = const Value.absent(),
     this.beneficiaryClientReferenceId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -10929,11 +11456,12 @@ class ProjectBeneficiaryCompanion
     Expression<String?>? beneficiaryId,
     Expression<String?>? beneficiaryClientReferenceId,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -10950,12 +11478,14 @@ class ProjectBeneficiaryCompanion
       if (beneficiaryClientReferenceId != null)
         'beneficiary_client_reference_id': beneficiaryClientReferenceId,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -10974,11 +11504,12 @@ class ProjectBeneficiaryCompanion
       Value<String?>? beneficiaryId,
       Value<String?>? beneficiaryClientReferenceId,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -10994,11 +11525,12 @@ class ProjectBeneficiaryCompanion
       beneficiaryClientReferenceId:
           beneficiaryClientReferenceId ?? this.beneficiaryClientReferenceId,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -11029,8 +11561,8 @@ class ProjectBeneficiaryCompanion
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -11043,6 +11575,9 @@ class ProjectBeneficiaryCompanion
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -11080,11 +11615,12 @@ class ProjectBeneficiaryCompanion
           ..write(
               'beneficiaryClientReferenceId: $beneficiaryClientReferenceId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -11133,12 +11669,15 @@ class $ProjectBeneficiaryTable extends ProjectBeneficiary
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -11162,6 +11701,12 @@ class $ProjectBeneficiaryTable extends ProjectBeneficiary
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -11218,11 +11763,12 @@ class $ProjectBeneficiaryTable extends ProjectBeneficiary
         beneficiaryId,
         beneficiaryClientReferenceId,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -11268,11 +11814,11 @@ class $ProjectBeneficiaryTable extends ProjectBeneficiary
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -11297,6 +11843,12 @@ class $ProjectBeneficiaryTable extends ProjectBeneficiary
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -11369,11 +11921,12 @@ class ProjectFacilityData extends DataClass
   final String facilityId;
   final String projectId;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -11385,11 +11938,12 @@ class ProjectFacilityData extends DataClass
       required this.facilityId,
       required this.projectId,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -11408,8 +11962,8 @@ class ProjectFacilityData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}project_id'])!,
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -11418,6 +11972,8 @@ class ProjectFacilityData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -11441,8 +11997,8 @@ class ProjectFacilityData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -11455,6 +12011,9 @@ class ProjectFacilityData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -11485,9 +12044,9 @@ class ProjectFacilityData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -11500,6 +12059,9 @@ class ProjectFacilityData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -11529,11 +12091,13 @@ class ProjectFacilityData extends DataClass
       facilityId: serializer.fromJson<String>(json['facilityId']),
       projectId: serializer.fromJson<String>(json['projectId']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -11550,11 +12114,12 @@ class ProjectFacilityData extends DataClass
       'facilityId': serializer.toJson<String>(facilityId),
       'projectId': serializer.toJson<String>(projectId),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -11569,11 +12134,12 @@ class ProjectFacilityData extends DataClass
           String? facilityId,
           String? projectId,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -11585,11 +12151,12 @@ class ProjectFacilityData extends DataClass
         facilityId: facilityId ?? this.facilityId,
         projectId: projectId ?? this.projectId,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -11604,11 +12171,12 @@ class ProjectFacilityData extends DataClass
           ..write('facilityId: $facilityId, ')
           ..write('projectId: $projectId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -11625,11 +12193,12 @@ class ProjectFacilityData extends DataClass
       facilityId,
       projectId,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -11644,11 +12213,12 @@ class ProjectFacilityData extends DataClass
           other.facilityId == this.facilityId &&
           other.projectId == this.projectId &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -11662,11 +12232,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
   final Value<String> facilityId;
   final Value<String> projectId;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -11678,11 +12249,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
     this.facilityId = const Value.absent(),
     this.projectId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -11695,11 +12267,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
     required String facilityId,
     required String projectId,
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -11714,11 +12287,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
     Expression<String>? facilityId,
     Expression<String>? projectId,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -11731,12 +12305,14 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
       if (facilityId != null) 'facility_id': facilityId,
       if (projectId != null) 'project_id': projectId,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -11751,11 +12327,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
       Value<String>? facilityId,
       Value<String>? projectId,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -11767,11 +12344,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
       facilityId: facilityId ?? this.facilityId,
       projectId: projectId ?? this.projectId,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -11796,8 +12374,8 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -11810,6 +12388,9 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -11839,11 +12420,12 @@ class ProjectFacilityCompanion extends UpdateCompanion<ProjectFacilityData> {
           ..write('facilityId: $facilityId, ')
           ..write('projectId: $projectId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -11882,12 +12464,15 @@ class $ProjectFacilityTable extends ProjectFacility
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -11911,6 +12496,12 @@ class $ProjectFacilityTable extends ProjectFacility
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -11954,11 +12545,12 @@ class $ProjectFacilityTable extends ProjectFacility
         facilityId,
         projectId,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -12001,11 +12593,11 @@ class $ProjectFacilityTable extends ProjectFacility
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -12030,6 +12622,12 @@ class $ProjectFacilityTable extends ProjectFacility
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -12086,11 +12684,12 @@ class ProjectProductVariantData extends DataClass
   final String? type;
   final bool? isBaseUnitVariant;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -12102,11 +12701,12 @@ class ProjectProductVariantData extends DataClass
       this.type,
       this.isBaseUnitVariant,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -12125,8 +12725,8 @@ class ProjectProductVariantData extends DataClass
           data['${effectivePrefix}is_base_unit_variant']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -12135,6 +12735,8 @@ class ProjectProductVariantData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -12162,8 +12764,8 @@ class ProjectProductVariantData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -12176,6 +12778,9 @@ class ProjectProductVariantData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -12208,9 +12813,9 @@ class ProjectProductVariantData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -12223,6 +12828,9 @@ class ProjectProductVariantData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -12252,11 +12860,13 @@ class ProjectProductVariantData extends DataClass
       type: serializer.fromJson<String?>(json['type']),
       isBaseUnitVariant: serializer.fromJson<bool?>(json['isBaseUnitVariant']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -12273,11 +12883,12 @@ class ProjectProductVariantData extends DataClass
       'type': serializer.toJson<String?>(type),
       'isBaseUnitVariant': serializer.toJson<bool?>(isBaseUnitVariant),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -12292,11 +12903,12 @@ class ProjectProductVariantData extends DataClass
           String? type,
           bool? isBaseUnitVariant,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -12308,11 +12920,12 @@ class ProjectProductVariantData extends DataClass
         type: type ?? this.type,
         isBaseUnitVariant: isBaseUnitVariant ?? this.isBaseUnitVariant,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -12327,11 +12940,12 @@ class ProjectProductVariantData extends DataClass
           ..write('type: $type, ')
           ..write('isBaseUnitVariant: $isBaseUnitVariant, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -12348,11 +12962,12 @@ class ProjectProductVariantData extends DataClass
       type,
       isBaseUnitVariant,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -12367,11 +12982,12 @@ class ProjectProductVariantData extends DataClass
           other.type == this.type &&
           other.isBaseUnitVariant == this.isBaseUnitVariant &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -12386,11 +13002,12 @@ class ProjectProductVariantCompanion
   final Value<String?> type;
   final Value<bool?> isBaseUnitVariant;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -12402,11 +13019,12 @@ class ProjectProductVariantCompanion
     this.type = const Value.absent(),
     this.isBaseUnitVariant = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -12419,11 +13037,12 @@ class ProjectProductVariantCompanion
     this.type = const Value.absent(),
     this.isBaseUnitVariant = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -12436,11 +13055,12 @@ class ProjectProductVariantCompanion
     Expression<String?>? type,
     Expression<bool?>? isBaseUnitVariant,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -12453,12 +13073,14 @@ class ProjectProductVariantCompanion
       if (type != null) 'type': type,
       if (isBaseUnitVariant != null) 'is_base_unit_variant': isBaseUnitVariant,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -12473,11 +13095,12 @@ class ProjectProductVariantCompanion
       Value<String?>? type,
       Value<bool?>? isBaseUnitVariant,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -12489,11 +13112,12 @@ class ProjectProductVariantCompanion
       type: type ?? this.type,
       isBaseUnitVariant: isBaseUnitVariant ?? this.isBaseUnitVariant,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -12518,8 +13142,8 @@ class ProjectProductVariantCompanion
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -12532,6 +13156,9 @@ class ProjectProductVariantCompanion
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -12561,11 +13188,12 @@ class ProjectProductVariantCompanion
           ..write('type: $type, ')
           ..write('isBaseUnitVariant: $isBaseUnitVariant, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -12608,12 +13236,15 @@ class $ProjectProductVariantTable extends ProjectProductVariant
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -12637,6 +13268,12 @@ class $ProjectProductVariantTable extends ProjectProductVariant
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -12680,11 +13317,12 @@ class $ProjectProductVariantTable extends ProjectProductVariant
         type,
         isBaseUnitVariant,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -12726,11 +13364,11 @@ class $ProjectProductVariantTable extends ProjectProductVariant
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -12755,6 +13393,12 @@ class $ProjectProductVariantTable extends ProjectProductVariant
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -12811,11 +13455,12 @@ class ProjectResourceData extends DataClass
   final String? id;
   final String? projectId;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -12827,11 +13472,12 @@ class ProjectResourceData extends DataClass
       {this.id,
       this.projectId,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -12849,8 +13495,8 @@ class ProjectResourceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}project_id']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -12859,6 +13505,8 @@ class ProjectResourceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -12887,8 +13535,8 @@ class ProjectResourceData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -12901,6 +13549,9 @@ class ProjectResourceData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -12933,9 +13584,9 @@ class ProjectResourceData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -12948,6 +13599,9 @@ class ProjectResourceData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -12977,11 +13631,13 @@ class ProjectResourceData extends DataClass
       id: serializer.fromJson<String?>(json['id']),
       projectId: serializer.fromJson<String?>(json['projectId']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -12998,11 +13654,12 @@ class ProjectResourceData extends DataClass
       'id': serializer.toJson<String?>(id),
       'projectId': serializer.toJson<String?>(projectId),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -13017,11 +13674,12 @@ class ProjectResourceData extends DataClass
           {String? id,
           String? projectId,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -13033,11 +13691,12 @@ class ProjectResourceData extends DataClass
         id: id ?? this.id,
         projectId: projectId ?? this.projectId,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -13052,11 +13711,12 @@ class ProjectResourceData extends DataClass
           ..write('id: $id, ')
           ..write('projectId: $projectId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -13073,11 +13733,12 @@ class ProjectResourceData extends DataClass
       id,
       projectId,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -13092,11 +13753,12 @@ class ProjectResourceData extends DataClass
           other.id == this.id &&
           other.projectId == this.projectId &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -13110,11 +13772,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
   final Value<String?> id;
   final Value<String?> projectId;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -13126,11 +13789,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
     this.id = const Value.absent(),
     this.projectId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -13143,11 +13807,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
     this.id = const Value.absent(),
     this.projectId = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -13160,11 +13825,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
     Expression<String?>? id,
     Expression<String?>? projectId,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -13177,12 +13843,14 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
       if (id != null) 'id': id,
       if (projectId != null) 'project_id': projectId,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -13197,11 +13865,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
       {Value<String?>? id,
       Value<String?>? projectId,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -13213,11 +13882,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
       id: id ?? this.id,
       projectId: projectId ?? this.projectId,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -13240,8 +13910,8 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -13254,6 +13924,9 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -13285,11 +13958,12 @@ class ProjectResourceCompanion extends UpdateCompanion<ProjectResourceData> {
           ..write('id: $id, ')
           ..write('projectId: $projectId, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -13324,12 +13998,15 @@ class $ProjectResourceTable extends ProjectResource
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -13353,6 +14030,12 @@ class $ProjectResourceTable extends ProjectResource
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -13403,11 +14086,12 @@ class $ProjectResourceTable extends ProjectResource
         id,
         projectId,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -13439,11 +14123,11 @@ class $ProjectResourceTable extends ProjectResource
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -13468,6 +14152,12 @@ class $ProjectResourceTable extends ProjectResource
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -13532,11 +14222,12 @@ class ProjectStaffData extends DataClass
   final String? projectId;
   final String? channel;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -13552,11 +14243,12 @@ class ProjectStaffData extends DataClass
       this.projectId,
       this.channel,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -13581,8 +14273,8 @@ class ProjectStaffData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}channel']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -13591,6 +14283,8 @@ class ProjectStaffData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -13628,8 +14322,8 @@ class ProjectStaffData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -13642,6 +14336,9 @@ class ProjectStaffData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -13687,9 +14384,9 @@ class ProjectStaffData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -13702,6 +14399,9 @@ class ProjectStaffData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -13739,11 +14439,13 @@ class ProjectStaffData extends DataClass
       projectId: serializer.fromJson<String?>(json['projectId']),
       channel: serializer.fromJson<String?>(json['channel']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -13764,11 +14466,12 @@ class ProjectStaffData extends DataClass
       'projectId': serializer.toJson<String?>(projectId),
       'channel': serializer.toJson<String?>(channel),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -13787,11 +14490,12 @@ class ProjectStaffData extends DataClass
           String? projectId,
           String? channel,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -13807,11 +14511,12 @@ class ProjectStaffData extends DataClass
         projectId: projectId ?? this.projectId,
         channel: channel ?? this.channel,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -13830,11 +14535,12 @@ class ProjectStaffData extends DataClass
           ..write('projectId: $projectId, ')
           ..write('channel: $channel, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -13855,11 +14561,12 @@ class ProjectStaffData extends DataClass
       projectId,
       channel,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -13878,11 +14585,12 @@ class ProjectStaffData extends DataClass
           other.projectId == this.projectId &&
           other.channel == this.channel &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -13900,11 +14608,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
   final Value<String?> projectId;
   final Value<String?> channel;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -13920,11 +14629,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
     this.projectId = const Value.absent(),
     this.channel = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -13941,11 +14651,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
     this.projectId = const Value.absent(),
     this.channel = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -13962,11 +14673,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
     Expression<String?>? projectId,
     Expression<String?>? channel,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -13983,12 +14695,14 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
       if (projectId != null) 'project_id': projectId,
       if (channel != null) 'channel': channel,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -14007,11 +14721,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
       Value<String?>? projectId,
       Value<String?>? channel,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -14027,11 +14742,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
       projectId: projectId ?? this.projectId,
       channel: channel ?? this.channel,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -14064,8 +14780,8 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -14078,6 +14794,9 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -14115,11 +14834,12 @@ class ProjectStaffCompanion extends UpdateCompanion<ProjectStaffData> {
           ..write('projectId: $projectId, ')
           ..write('channel: $channel, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -14170,12 +14890,15 @@ class $ProjectStaffTable extends ProjectStaff
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -14199,6 +14922,12 @@ class $ProjectStaffTable extends ProjectStaff
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -14254,11 +14983,12 @@ class $ProjectStaffTable extends ProjectStaff
         projectId,
         channel,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -14304,11 +15034,11 @@ class $ProjectStaffTable extends ProjectStaff
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -14333,6 +15063,12 @@ class $ProjectStaffTable extends ProjectStaff
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -14400,11 +15136,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
   final String? eligibilityCriteria;
   final String? taskProcedure;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -14421,11 +15158,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
       this.eligibilityCriteria,
       this.taskProcedure,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -14453,8 +15191,8 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}task_procedure']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -14463,6 +15201,8 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -14506,8 +15246,8 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -14520,6 +15260,9 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -14562,9 +15305,9 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -14577,6 +15320,9 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -14612,11 +15358,13 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
           serializer.fromJson<String?>(json['eligibilityCriteria']),
       taskProcedure: serializer.fromJson<String?>(json['taskProcedure']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -14638,11 +15386,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
       'eligibilityCriteria': serializer.toJson<String?>(eligibilityCriteria),
       'taskProcedure': serializer.toJson<String?>(taskProcedure),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -14662,11 +15411,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
           String? eligibilityCriteria,
           String? taskProcedure,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -14683,11 +15433,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
         eligibilityCriteria: eligibilityCriteria ?? this.eligibilityCriteria,
         taskProcedure: taskProcedure ?? this.taskProcedure,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -14707,11 +15458,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
           ..write('eligibilityCriteria: $eligibilityCriteria, ')
           ..write('taskProcedure: $taskProcedure, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -14724,27 +15476,29 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      id,
-      name,
-      code,
-      group,
-      beneficiaryType,
-      eligibilityCriteria,
-      taskProcedure,
-      auditCreatedBy,
-      auditCreatedTime,
-      clientCreatedTime,
-      clientModifiedBy,
-      clientCreatedBy,
-      clientModifiedTime,
-      auditModifiedBy,
-      auditModifiedTime,
-      clientReferenceId,
-      tenantId,
-      isDeleted,
-      rowVersion,
-      additionalFields);
+  int get hashCode => Object.hashAll([
+        id,
+        name,
+        code,
+        group,
+        beneficiaryType,
+        eligibilityCriteria,
+        taskProcedure,
+        auditCreatedBy,
+        nonRecoverableError,
+        clientCreatedTime,
+        clientModifiedBy,
+        clientCreatedBy,
+        clientModifiedTime,
+        auditCreatedTime,
+        auditModifiedBy,
+        auditModifiedTime,
+        clientReferenceId,
+        tenantId,
+        isDeleted,
+        rowVersion,
+        additionalFields
+      ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -14757,11 +15511,12 @@ class ProjectTypeData extends DataClass implements Insertable<ProjectTypeData> {
           other.eligibilityCriteria == this.eligibilityCriteria &&
           other.taskProcedure == this.taskProcedure &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -14780,11 +15535,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
   final Value<String?> eligibilityCriteria;
   final Value<String?> taskProcedure;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -14801,11 +15557,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
     this.eligibilityCriteria = const Value.absent(),
     this.taskProcedure = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -14823,11 +15580,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
     this.eligibilityCriteria = const Value.absent(),
     this.taskProcedure = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -14845,11 +15603,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
     Expression<String?>? eligibilityCriteria,
     Expression<String?>? taskProcedure,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -14868,12 +15627,14 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
         'eligibility_criteria': eligibilityCriteria,
       if (taskProcedure != null) 'task_procedure': taskProcedure,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -14893,11 +15654,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
       Value<String?>? eligibilityCriteria,
       Value<String?>? taskProcedure,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -14914,11 +15676,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
       eligibilityCriteria: eligibilityCriteria ?? this.eligibilityCriteria,
       taskProcedure: taskProcedure ?? this.taskProcedure,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -14957,8 +15720,8 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -14971,6 +15734,9 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -15007,11 +15773,12 @@ class ProjectTypeCompanion extends UpdateCompanion<ProjectTypeData> {
           ..write('eligibilityCriteria: $eligibilityCriteria, ')
           ..write('taskProcedure: $taskProcedure, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -15074,12 +15841,15 @@ class $ProjectTypeTable extends ProjectType
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -15103,6 +15873,12 @@ class $ProjectTypeTable extends ProjectType
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -15156,11 +15932,12 @@ class $ProjectTypeTable extends ProjectType
         eligibilityCriteria,
         taskProcedure,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -15217,11 +15994,11 @@ class $ProjectTypeTable extends ProjectType
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -15246,6 +16023,12 @@ class $ProjectTypeTable extends ProjectType
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -15316,11 +16099,12 @@ class StockData extends DataClass implements Insertable<StockData> {
   final String? quantity;
   final String? waybillNumber;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -15342,11 +16126,12 @@ class StockData extends DataClass implements Insertable<StockData> {
       this.quantity,
       this.waybillNumber,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -15381,8 +16166,8 @@ class StockData extends DataClass implements Insertable<StockData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}waybill_number']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -15391,6 +16176,8 @@ class StockData extends DataClass implements Insertable<StockData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -15448,8 +16235,8 @@ class StockData extends DataClass implements Insertable<StockData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -15462,6 +16249,9 @@ class StockData extends DataClass implements Insertable<StockData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -15528,9 +16318,9 @@ class StockData extends DataClass implements Insertable<StockData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -15543,6 +16333,9 @@ class StockData extends DataClass implements Insertable<StockData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -15588,11 +16381,13 @@ class StockData extends DataClass implements Insertable<StockData> {
       quantity: serializer.fromJson<String?>(json['quantity']),
       waybillNumber: serializer.fromJson<String?>(json['waybillNumber']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -15621,11 +16416,12 @@ class StockData extends DataClass implements Insertable<StockData> {
       'quantity': serializer.toJson<String?>(quantity),
       'waybillNumber': serializer.toJson<String?>(waybillNumber),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -15651,11 +16447,12 @@ class StockData extends DataClass implements Insertable<StockData> {
           String? quantity,
           String? waybillNumber,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -15677,11 +16474,12 @@ class StockData extends DataClass implements Insertable<StockData> {
         quantity: quantity ?? this.quantity,
         waybillNumber: waybillNumber ?? this.waybillNumber,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -15706,11 +16504,12 @@ class StockData extends DataClass implements Insertable<StockData> {
           ..write('quantity: $quantity, ')
           ..write('waybillNumber: $waybillNumber, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -15737,11 +16536,12 @@ class StockData extends DataClass implements Insertable<StockData> {
         quantity,
         waybillNumber,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -15767,11 +16567,12 @@ class StockData extends DataClass implements Insertable<StockData> {
           other.quantity == this.quantity &&
           other.waybillNumber == this.waybillNumber &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -15795,11 +16596,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
   final Value<String?> quantity;
   final Value<String?> waybillNumber;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -15821,11 +16623,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
     this.quantity = const Value.absent(),
     this.waybillNumber = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -15848,11 +16651,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
     this.quantity = const Value.absent(),
     this.waybillNumber = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -15875,11 +16679,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
     Expression<String?>? quantity,
     Expression<String?>? waybillNumber,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -15904,12 +16709,14 @@ class StockCompanion extends UpdateCompanion<StockData> {
       if (quantity != null) 'quantity': quantity,
       if (waybillNumber != null) 'waybill_number': waybillNumber,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -15934,11 +16741,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
       Value<String?>? quantity,
       Value<String?>? waybillNumber,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -15960,11 +16768,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
       quantity: quantity ?? this.quantity,
       waybillNumber: waybillNumber ?? this.waybillNumber,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -16014,8 +16823,8 @@ class StockCompanion extends UpdateCompanion<StockData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -16028,6 +16837,9 @@ class StockCompanion extends UpdateCompanion<StockData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -16077,11 +16889,12 @@ class StockCompanion extends UpdateCompanion<StockData> {
           ..write('quantity: $quantity, ')
           ..write('waybillNumber: $waybillNumber, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -16163,12 +16976,15 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -16192,6 +17008,12 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -16265,11 +17087,12 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
         quantity,
         waybillNumber,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -16348,11 +17171,11 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -16377,6 +17200,12 @@ class $StockTable extends Stock with TableInfo<$StockTable, StockData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -16456,11 +17285,12 @@ class StockReconciliationData extends DataClass
   final int? calculatedCount;
   final String? commentsOnReconciliation;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -16479,11 +17309,12 @@ class StockReconciliationData extends DataClass
       this.calculatedCount,
       this.commentsOnReconciliation,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -16515,8 +17346,8 @@ class StockReconciliationData extends DataClass
           data['${effectivePrefix}comments_on_reconciliation']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -16525,6 +17356,8 @@ class StockReconciliationData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -16575,8 +17408,8 @@ class StockReconciliationData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -16589,6 +17422,9 @@ class StockReconciliationData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -16640,9 +17476,9 @@ class StockReconciliationData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -16655,6 +17491,9 @@ class StockReconciliationData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -16690,11 +17529,13 @@ class StockReconciliationData extends DataClass
       commentsOnReconciliation:
           serializer.fromJson<String?>(json['commentsOnReconciliation']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -16720,11 +17561,12 @@ class StockReconciliationData extends DataClass
       'commentsOnReconciliation':
           serializer.toJson<String?>(commentsOnReconciliation),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -16746,11 +17588,12 @@ class StockReconciliationData extends DataClass
           int? calculatedCount,
           String? commentsOnReconciliation,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -16770,11 +17613,12 @@ class StockReconciliationData extends DataClass
         commentsOnReconciliation:
             commentsOnReconciliation ?? this.commentsOnReconciliation,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -16796,11 +17640,12 @@ class StockReconciliationData extends DataClass
           ..write('calculatedCount: $calculatedCount, ')
           ..write('commentsOnReconciliation: $commentsOnReconciliation, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -16824,11 +17669,12 @@ class StockReconciliationData extends DataClass
         calculatedCount,
         commentsOnReconciliation,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -16851,11 +17697,12 @@ class StockReconciliationData extends DataClass
           other.calculatedCount == this.calculatedCount &&
           other.commentsOnReconciliation == this.commentsOnReconciliation &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -16877,11 +17724,12 @@ class StockReconciliationCompanion
   final Value<int?> calculatedCount;
   final Value<String?> commentsOnReconciliation;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -16900,11 +17748,12 @@ class StockReconciliationCompanion
     this.calculatedCount = const Value.absent(),
     this.commentsOnReconciliation = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -16924,11 +17773,12 @@ class StockReconciliationCompanion
     this.calculatedCount = const Value.absent(),
     this.commentsOnReconciliation = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -16949,11 +17799,12 @@ class StockReconciliationCompanion
     Expression<int?>? calculatedCount,
     Expression<String?>? commentsOnReconciliation,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -16974,12 +17825,14 @@ class StockReconciliationCompanion
       if (commentsOnReconciliation != null)
         'comments_on_reconciliation': commentsOnReconciliation,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -17002,11 +17855,12 @@ class StockReconciliationCompanion
       Value<int?>? calculatedCount,
       Value<String?>? commentsOnReconciliation,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -17026,11 +17880,12 @@ class StockReconciliationCompanion
       commentsOnReconciliation:
           commentsOnReconciliation ?? this.commentsOnReconciliation,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -17075,8 +17930,8 @@ class StockReconciliationCompanion
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -17089,6 +17944,9 @@ class StockReconciliationCompanion
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -17127,11 +17985,12 @@ class StockReconciliationCompanion
           ..write('calculatedCount: $calculatedCount, ')
           ..write('commentsOnReconciliation: $commentsOnReconciliation, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -17207,12 +18066,15 @@ class $StockReconciliationTable extends StockReconciliation
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -17236,6 +18098,12 @@ class $StockReconciliationTable extends StockReconciliation
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -17292,11 +18160,12 @@ class $StockReconciliationTable extends StockReconciliation
         calculatedCount,
         commentsOnReconciliation,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -17371,11 +18240,11 @@ class $StockReconciliationTable extends StockReconciliation
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -17400,6 +18269,12 @@ class $StockReconciliationTable extends StockReconciliation
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -17469,11 +18344,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
   final double? totalNo;
   final double? targetNo;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -17487,11 +18363,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       this.totalNo,
       this.targetNo,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -17512,8 +18389,8 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}target_no']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -17522,6 +18399,8 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -17554,8 +18433,8 @@ class TargetData extends DataClass implements Insertable<TargetData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -17568,6 +18447,9 @@ class TargetData extends DataClass implements Insertable<TargetData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -17610,9 +18492,9 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -17625,6 +18507,9 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -17659,11 +18544,13 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       totalNo: serializer.fromJson<double?>(json['totalNo']),
       targetNo: serializer.fromJson<double?>(json['targetNo']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -17683,11 +18570,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       'totalNo': serializer.toJson<double?>(totalNo),
       'targetNo': serializer.toJson<double?>(targetNo),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -17704,11 +18592,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           double? totalNo,
           double? targetNo,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -17722,11 +18611,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
         totalNo: totalNo ?? this.totalNo,
         targetNo: targetNo ?? this.targetNo,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -17743,11 +18633,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           ..write('totalNo: $totalNo, ')
           ..write('targetNo: $targetNo, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -17766,11 +18657,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
       totalNo,
       targetNo,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -17787,11 +18679,12 @@ class TargetData extends DataClass implements Insertable<TargetData> {
           other.totalNo == this.totalNo &&
           other.targetNo == this.targetNo &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -17807,11 +18700,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
   final Value<double?> totalNo;
   final Value<double?> targetNo;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -17825,11 +18719,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     this.totalNo = const Value.absent(),
     this.targetNo = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -17844,11 +18739,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     this.totalNo = const Value.absent(),
     this.targetNo = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -17863,11 +18759,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     Expression<double?>? totalNo,
     Expression<double?>? targetNo,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -17882,12 +18779,14 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
       if (totalNo != null) 'total_no': totalNo,
       if (targetNo != null) 'target_no': targetNo,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -17904,11 +18803,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
       Value<double?>? totalNo,
       Value<double?>? targetNo,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -17922,11 +18822,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
       totalNo: totalNo ?? this.totalNo,
       targetNo: targetNo ?? this.targetNo,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -17955,8 +18856,8 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -17969,6 +18870,9 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -18004,11 +18908,12 @@ class TargetCompanion extends UpdateCompanion<TargetData> {
           ..write('totalNo: $totalNo, ')
           ..write('targetNo: $targetNo, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -18053,12 +18958,15 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -18082,6 +18990,12 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -18134,11 +19048,12 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
         totalNo,
         targetNo,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -18181,11 +19096,11 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -18210,6 +19125,12 @@ class $TargetTable extends Target with TableInfo<$TargetTable, TargetData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -18272,11 +19193,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
   final String? createdBy;
   final String? status;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -18297,11 +19219,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
       this.createdBy,
       this.status,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -18332,8 +19255,8 @@ class TaskData extends DataClass implements Insertable<TaskData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}status']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -18342,6 +19265,8 @@ class TaskData extends DataClass implements Insertable<TaskData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -18393,8 +19318,8 @@ class TaskData extends DataClass implements Insertable<TaskData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -18407,6 +19332,9 @@ class TaskData extends DataClass implements Insertable<TaskData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -18466,9 +19394,9 @@ class TaskData extends DataClass implements Insertable<TaskData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -18481,6 +19409,9 @@ class TaskData extends DataClass implements Insertable<TaskData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -18531,11 +19462,13 @@ class TaskData extends DataClass implements Insertable<TaskData> {
       createdBy: serializer.fromJson<String?>(json['createdBy']),
       status: serializer.fromJson<String?>(json['status']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -18562,11 +19495,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
       'createdBy': serializer.toJson<String?>(createdBy),
       'status': serializer.toJson<String?>(status),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -18590,11 +19524,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
           String? createdBy,
           String? status,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -18617,11 +19552,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
         createdBy: createdBy ?? this.createdBy,
         status: status ?? this.status,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -18646,11 +19582,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
           ..write('createdBy: $createdBy, ')
           ..write('status: $status, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -18676,11 +19613,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
         createdBy,
         status,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -18706,11 +19644,12 @@ class TaskData extends DataClass implements Insertable<TaskData> {
           other.createdBy == this.createdBy &&
           other.status == this.status &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -18733,11 +19672,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
   final Value<String?> createdBy;
   final Value<String?> status;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -18758,11 +19698,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
     this.createdBy = const Value.absent(),
     this.status = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -18784,11 +19725,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
     this.createdBy = const Value.absent(),
     this.status = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -18810,11 +19752,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
     Expression<String?>? createdBy,
     Expression<String?>? status,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -18839,12 +19782,14 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
       if (createdBy != null) 'created_by': createdBy,
       if (status != null) 'status': status,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -18868,11 +19813,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
       Value<String?>? createdBy,
       Value<String?>? status,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -18895,11 +19841,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
       createdBy: createdBy ?? this.createdBy,
       status: status ?? this.status,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -18941,8 +19888,8 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -18955,6 +19902,9 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -19006,11 +19956,12 @@ class TaskCompanion extends UpdateCompanion<TaskData> {
           ..write('createdBy: $createdBy, ')
           ..write('status: $status, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -19072,12 +20023,15 @@ class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -19101,6 +20055,12 @@ class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -19183,11 +20143,12 @@ class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
         createdBy,
         status,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -19244,11 +20205,11 @@ class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -19273,6 +20234,12 @@ class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -19371,11 +20338,12 @@ class TaskResourceData extends DataClass
   final bool? isDelivered;
   final String? deliveryComment;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -19391,11 +20359,12 @@ class TaskResourceData extends DataClass
       this.isDelivered,
       this.deliveryComment,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -19422,8 +20391,8 @@ class TaskResourceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}delivery_comment']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -19432,6 +20401,8 @@ class TaskResourceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -19471,8 +20442,8 @@ class TaskResourceData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -19485,6 +20456,9 @@ class TaskResourceData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -19528,9 +20502,9 @@ class TaskResourceData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -19543,6 +20517,9 @@ class TaskResourceData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -19576,11 +20553,13 @@ class TaskResourceData extends DataClass
       isDelivered: serializer.fromJson<bool?>(json['isDelivered']),
       deliveryComment: serializer.fromJson<String?>(json['deliveryComment']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -19601,11 +20580,12 @@ class TaskResourceData extends DataClass
       'isDelivered': serializer.toJson<bool?>(isDelivered),
       'deliveryComment': serializer.toJson<String?>(deliveryComment),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -19624,11 +20604,12 @@ class TaskResourceData extends DataClass
           bool? isDelivered,
           String? deliveryComment,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -19644,11 +20625,12 @@ class TaskResourceData extends DataClass
         isDelivered: isDelivered ?? this.isDelivered,
         deliveryComment: deliveryComment ?? this.deliveryComment,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -19667,11 +20649,12 @@ class TaskResourceData extends DataClass
           ..write('isDelivered: $isDelivered, ')
           ..write('deliveryComment: $deliveryComment, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -19692,11 +20675,12 @@ class TaskResourceData extends DataClass
       isDelivered,
       deliveryComment,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -19715,11 +20699,12 @@ class TaskResourceData extends DataClass
           other.isDelivered == this.isDelivered &&
           other.deliveryComment == this.deliveryComment &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -19737,11 +20722,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
   final Value<bool?> isDelivered;
   final Value<String?> deliveryComment;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -19757,11 +20743,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
     this.isDelivered = const Value.absent(),
     this.deliveryComment = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -19778,11 +20765,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
     this.isDelivered = const Value.absent(),
     this.deliveryComment = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -19799,11 +20787,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
     Expression<bool?>? isDelivered,
     Expression<String?>? deliveryComment,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -19820,12 +20809,14 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
       if (isDelivered != null) 'is_delivered': isDelivered,
       if (deliveryComment != null) 'delivery_comment': deliveryComment,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -19844,11 +20835,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
       Value<bool?>? isDelivered,
       Value<String?>? deliveryComment,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -19864,11 +20856,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
       isDelivered: isDelivered ?? this.isDelivered,
       deliveryComment: deliveryComment ?? this.deliveryComment,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -19905,8 +20898,8 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -19919,6 +20912,9 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -19952,11 +20948,12 @@ class TaskResourceCompanion extends UpdateCompanion<TaskResourceData> {
           ..write('isDelivered: $isDelivered, ')
           ..write('deliveryComment: $deliveryComment, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -20021,12 +21018,15 @@ class $TaskResourceTable extends TaskResource
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -20050,6 +21050,12 @@ class $TaskResourceTable extends TaskResource
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -20097,11 +21103,12 @@ class $TaskResourceTable extends TaskResource
         isDelivered,
         deliveryComment,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -20161,11 +21168,11 @@ class $TaskResourceTable extends TaskResource
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -20190,6 +21197,12 @@ class $TaskResourceTable extends TaskResource
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -20249,11 +21262,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
   final String? additionalDetails;
   final String? createdAt;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -20269,11 +21283,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
       this.additionalDetails,
       this.createdAt,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -20299,8 +21314,8 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -20309,6 +21324,8 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -20348,8 +21365,8 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -20362,6 +21379,9 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -20406,9 +21426,9 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -20421,6 +21441,9 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -20455,11 +21478,13 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
           serializer.fromJson<String?>(json['additionalDetails']),
       createdAt: serializer.fromJson<String?>(json['createdAt']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -20480,11 +21505,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
       'additionalDetails': serializer.toJson<String?>(additionalDetails),
       'createdAt': serializer.toJson<String?>(createdAt),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -20503,11 +21529,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
           String? additionalDetails,
           String? createdAt,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -20523,11 +21550,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
         additionalDetails: additionalDetails ?? this.additionalDetails,
         createdAt: createdAt ?? this.createdAt,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -20546,11 +21574,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
           ..write('additionalDetails: $additionalDetails, ')
           ..write('createdAt: $createdAt, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -20571,11 +21600,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
       additionalDetails,
       createdAt,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -20594,11 +21624,12 @@ class ServiceData extends DataClass implements Insertable<ServiceData> {
           other.additionalDetails == this.additionalDetails &&
           other.createdAt == this.createdAt &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -20616,11 +21647,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
   final Value<String?> additionalDetails;
   final Value<String?> createdAt;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -20636,11 +21668,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
     this.additionalDetails = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -20657,11 +21690,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
     this.additionalDetails = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -20678,11 +21712,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
     Expression<String?>? additionalDetails,
     Expression<String?>? createdAt,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -20699,12 +21734,14 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
       if (additionalDetails != null) 'additional_details': additionalDetails,
       if (createdAt != null) 'created_at': createdAt,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -20723,11 +21760,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
       Value<String?>? additionalDetails,
       Value<String?>? createdAt,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -20743,11 +21781,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
       additionalDetails: additionalDetails ?? this.additionalDetails,
       createdAt: createdAt ?? this.createdAt,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -20784,8 +21823,8 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -20798,6 +21837,9 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -20831,11 +21873,12 @@ class ServiceCompanion extends UpdateCompanion<ServiceData> {
           ..write('additionalDetails: $additionalDetails, ')
           ..write('createdAt: $createdAt, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -20897,12 +21940,15 @@ class $ServiceTable extends Service with TableInfo<$ServiceTable, ServiceData> {
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -20926,6 +21972,12 @@ class $ServiceTable extends Service with TableInfo<$ServiceTable, ServiceData> {
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -20973,11 +22025,12 @@ class $ServiceTable extends Service with TableInfo<$ServiceTable, ServiceData> {
         additionalDetails,
         createdAt,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -21033,11 +22086,11 @@ class $ServiceTable extends Service with TableInfo<$ServiceTable, ServiceData> {
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -21062,6 +22115,12 @@ class $ServiceTable extends Service with TableInfo<$ServiceTable, ServiceData> {
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -21120,11 +22179,12 @@ class ServiceAttribute extends DataClass
   final String? referenceId;
   final String? additionalDetails;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String clientReferenceId;
@@ -21139,11 +22199,12 @@ class ServiceAttribute extends DataClass
       this.referenceId,
       this.additionalDetails,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       required this.clientReferenceId,
@@ -21167,8 +22228,8 @@ class ServiceAttribute extends DataClass
           data['${effectivePrefix}additional_details']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -21177,6 +22238,8 @@ class ServiceAttribute extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -21214,8 +22277,8 @@ class ServiceAttribute extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -21228,6 +22291,9 @@ class ServiceAttribute extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -21270,9 +22336,9 @@ class ServiceAttribute extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -21285,6 +22351,9 @@ class ServiceAttribute extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -21318,11 +22387,13 @@ class ServiceAttribute extends DataClass
       additionalDetails:
           serializer.fromJson<String?>(json['additionalDetails']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       clientReferenceId: serializer.fromJson<String>(json['clientReferenceId']),
@@ -21342,11 +22413,12 @@ class ServiceAttribute extends DataClass
       'referenceId': serializer.toJson<String?>(referenceId),
       'additionalDetails': serializer.toJson<String?>(additionalDetails),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'clientReferenceId': serializer.toJson<String>(clientReferenceId),
@@ -21364,11 +22436,12 @@ class ServiceAttribute extends DataClass
           String? referenceId,
           String? additionalDetails,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? clientReferenceId,
@@ -21383,11 +22456,12 @@ class ServiceAttribute extends DataClass
         referenceId: referenceId ?? this.referenceId,
         additionalDetails: additionalDetails ?? this.additionalDetails,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -21405,11 +22479,12 @@ class ServiceAttribute extends DataClass
           ..write('referenceId: $referenceId, ')
           ..write('additionalDetails: $additionalDetails, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -21429,11 +22504,12 @@ class ServiceAttribute extends DataClass
       referenceId,
       additionalDetails,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       clientReferenceId,
@@ -21451,11 +22527,12 @@ class ServiceAttribute extends DataClass
           other.referenceId == this.referenceId &&
           other.additionalDetails == this.additionalDetails &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.clientReferenceId == this.clientReferenceId &&
@@ -21472,11 +22549,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
   final Value<String?> referenceId;
   final Value<String?> additionalDetails;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String> clientReferenceId;
@@ -21491,11 +22569,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
     this.referenceId = const Value.absent(),
     this.additionalDetails = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.clientReferenceId = const Value.absent(),
@@ -21511,11 +22590,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
     this.referenceId = const Value.absent(),
     this.additionalDetails = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     required String clientReferenceId,
@@ -21531,11 +22611,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
     Expression<String?>? referenceId,
     Expression<String?>? additionalDetails,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String>? clientReferenceId,
@@ -21551,12 +22632,14 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
       if (referenceId != null) 'reference_id': referenceId,
       if (additionalDetails != null) 'additional_details': additionalDetails,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (clientReferenceId != null) 'client_reference_id': clientReferenceId,
@@ -21574,11 +22657,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
       Value<String?>? referenceId,
       Value<String?>? additionalDetails,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String>? clientReferenceId,
@@ -21593,11 +22677,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
       referenceId: referenceId ?? this.referenceId,
       additionalDetails: additionalDetails ?? this.additionalDetails,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       clientReferenceId: clientReferenceId ?? this.clientReferenceId,
@@ -21629,8 +22714,8 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -21643,6 +22728,9 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -21677,11 +22765,12 @@ class ServiceAttributesCompanion extends UpdateCompanion<ServiceAttribute> {
           ..write('referenceId: $referenceId, ')
           ..write('additionalDetails: $additionalDetails, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('clientReferenceId: $clientReferenceId, ')
@@ -21734,12 +22823,15 @@ class $ServiceAttributesTable extends ServiceAttributes
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -21763,6 +22855,12 @@ class $ServiceAttributesTable extends ServiceAttributes
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -21814,11 +22912,12 @@ class $ServiceAttributesTable extends ServiceAttributes
         referenceId,
         additionalDetails,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         clientReferenceId,
@@ -21868,11 +22967,11 @@ class $ServiceAttributesTable extends ServiceAttributes
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -21897,6 +22996,12 @@ class $ServiceAttributesTable extends ServiceAttributes
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -21962,11 +23067,12 @@ class ServiceDefinitionData extends DataClass
   final String? code;
   final bool? isActive;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final bool? isDeleted;
@@ -21978,11 +23084,12 @@ class ServiceDefinitionData extends DataClass
       this.code,
       this.isActive,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.isDeleted,
@@ -22002,8 +23109,8 @@ class ServiceDefinitionData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}is_active']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -22012,6 +23119,8 @@ class ServiceDefinitionData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -22042,8 +23151,8 @@ class ServiceDefinitionData extends DataClass
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -22056,6 +23165,9 @@ class ServiceDefinitionData extends DataClass
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -22088,9 +23200,9 @@ class ServiceDefinitionData extends DataClass
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -22103,6 +23215,9 @@ class ServiceDefinitionData extends DataClass
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -22130,11 +23245,13 @@ class ServiceDefinitionData extends DataClass
       code: serializer.fromJson<String?>(json['code']),
       isActive: serializer.fromJson<bool?>(json['isActive']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       isDeleted: serializer.fromJson<bool?>(json['isDeleted']),
@@ -22151,11 +23268,12 @@ class ServiceDefinitionData extends DataClass
       'code': serializer.toJson<String?>(code),
       'isActive': serializer.toJson<bool?>(isActive),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'isDeleted': serializer.toJson<bool?>(isDeleted),
@@ -22170,11 +23288,12 @@ class ServiceDefinitionData extends DataClass
           String? code,
           bool? isActive,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           bool? isDeleted,
@@ -22186,11 +23305,12 @@ class ServiceDefinitionData extends DataClass
         code: code ?? this.code,
         isActive: isActive ?? this.isActive,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         isDeleted: isDeleted ?? this.isDeleted,
@@ -22205,11 +23325,12 @@ class ServiceDefinitionData extends DataClass
           ..write('code: $code, ')
           ..write('isActive: $isActive, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('isDeleted: $isDeleted, ')
@@ -22226,11 +23347,12 @@ class ServiceDefinitionData extends DataClass
       code,
       isActive,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       isDeleted,
@@ -22245,11 +23367,12 @@ class ServiceDefinitionData extends DataClass
           other.code == this.code &&
           other.isActive == this.isActive &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.isDeleted == this.isDeleted &&
@@ -22264,11 +23387,12 @@ class ServiceDefinitionCompanion
   final Value<String?> code;
   final Value<bool?> isActive;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<bool?> isDeleted;
@@ -22280,11 +23404,12 @@ class ServiceDefinitionCompanion
     this.code = const Value.absent(),
     this.isActive = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.isDeleted = const Value.absent(),
@@ -22297,11 +23422,12 @@ class ServiceDefinitionCompanion
     this.code = const Value.absent(),
     this.isActive = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.isDeleted = const Value.absent(),
@@ -22314,11 +23440,12 @@ class ServiceDefinitionCompanion
     Expression<String?>? code,
     Expression<bool?>? isActive,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<bool?>? isDeleted,
@@ -22331,12 +23458,14 @@ class ServiceDefinitionCompanion
       if (code != null) 'code': code,
       if (isActive != null) 'is_active': isActive,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (isDeleted != null) 'is_deleted': isDeleted,
@@ -22351,11 +23480,12 @@ class ServiceDefinitionCompanion
       Value<String?>? code,
       Value<bool?>? isActive,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<bool?>? isDeleted,
@@ -22367,11 +23497,12 @@ class ServiceDefinitionCompanion
       code: code ?? this.code,
       isActive: isActive ?? this.isActive,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       isDeleted: isDeleted ?? this.isDeleted,
@@ -22398,8 +23529,8 @@ class ServiceDefinitionCompanion
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -22412,6 +23543,9 @@ class ServiceDefinitionCompanion
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -22439,11 +23573,12 @@ class ServiceDefinitionCompanion
           ..write('code: $code, ')
           ..write('isActive: $isActive, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('isDeleted: $isDeleted, ')
@@ -22488,12 +23623,15 @@ class $ServiceDefinitionTable extends ServiceDefinition
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -22517,6 +23655,12 @@ class $ServiceDefinitionTable extends ServiceDefinition
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -22556,11 +23700,12 @@ class $ServiceDefinitionTable extends ServiceDefinition
         code,
         isActive,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         isDeleted,
@@ -22598,11 +23743,11 @@ class $ServiceDefinitionTable extends ServiceDefinition
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -22627,6 +23772,12 @@ class $ServiceDefinitionTable extends ServiceDefinition
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -22685,11 +23836,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
   final String? regex;
   final int? order;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final bool? isDeleted;
@@ -22707,11 +23859,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
       this.regex,
       this.order,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.isDeleted,
@@ -22742,8 +23895,8 @@ class Attribute extends DataClass implements Insertable<Attribute> {
           .mapFromDatabaseResponse(data['${effectivePrefix}order']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -22752,6 +23905,8 @@ class Attribute extends DataClass implements Insertable<Attribute> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -22800,8 +23955,8 @@ class Attribute extends DataClass implements Insertable<Attribute> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -22814,6 +23969,9 @@ class Attribute extends DataClass implements Insertable<Attribute> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -22861,9 +24019,9 @@ class Attribute extends DataClass implements Insertable<Attribute> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -22876,6 +24034,9 @@ class Attribute extends DataClass implements Insertable<Attribute> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -22909,11 +24070,13 @@ class Attribute extends DataClass implements Insertable<Attribute> {
       regex: serializer.fromJson<String?>(json['regex']),
       order: serializer.fromJson<int?>(json['order']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       isDeleted: serializer.fromJson<bool?>(json['isDeleted']),
@@ -22936,11 +24099,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
       'regex': serializer.toJson<String?>(regex),
       'order': serializer.toJson<int?>(order),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'isDeleted': serializer.toJson<bool?>(isDeleted),
@@ -22961,11 +24125,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
           String? regex,
           int? order,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           bool? isDeleted,
@@ -22983,11 +24148,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
         regex: regex ?? this.regex,
         order: order ?? this.order,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         isDeleted: isDeleted ?? this.isDeleted,
@@ -23008,11 +24174,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
           ..write('regex: $regex, ')
           ..write('order: $order, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('isDeleted: $isDeleted, ')
@@ -23035,11 +24202,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
         regex,
         order,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         isDeleted,
@@ -23061,11 +24229,12 @@ class Attribute extends DataClass implements Insertable<Attribute> {
           other.regex == this.regex &&
           other.order == this.order &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.isDeleted == this.isDeleted &&
@@ -23085,11 +24254,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
   final Value<String?> regex;
   final Value<int?> order;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<bool?> isDeleted;
@@ -23107,11 +24277,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
     this.regex = const Value.absent(),
     this.order = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.isDeleted = const Value.absent(),
@@ -23130,11 +24301,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
     this.regex = const Value.absent(),
     this.order = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.isDeleted = const Value.absent(),
@@ -23153,11 +24325,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
     Expression<String?>? regex,
     Expression<int?>? order,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<bool?>? isDeleted,
@@ -23176,12 +24349,14 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
       if (regex != null) 'regex': regex,
       if (order != null) 'order': order,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (isDeleted != null) 'is_deleted': isDeleted,
@@ -23202,11 +24377,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
       Value<String?>? regex,
       Value<int?>? order,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<bool?>? isDeleted,
@@ -23224,11 +24400,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
       regex: regex ?? this.regex,
       order: order ?? this.order,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       isDeleted: isDeleted ?? this.isDeleted,
@@ -23273,8 +24450,8 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -23287,6 +24464,9 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -23320,11 +24500,12 @@ class AttributesCompanion extends UpdateCompanion<Attribute> {
           ..write('regex: $regex, ')
           ..write('order: $order, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('isDeleted: $isDeleted, ')
@@ -23400,12 +24581,15 @@ class $AttributesTable extends Attributes
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -23429,6 +24613,12 @@ class $AttributesTable extends Attributes
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -23474,11 +24664,12 @@ class $AttributesTable extends Attributes
         regex,
         order,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         isDeleted,
@@ -23541,11 +24732,11 @@ class $AttributesTable extends Attributes
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -23570,6 +24761,12 @@ class $AttributesTable extends Attributes
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
@@ -23620,11 +24817,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
   final String code;
   final String? name;
   final String? auditCreatedBy;
-  final int? auditCreatedTime;
+  final bool? nonRecoverableError;
   final int? clientCreatedTime;
   final String? clientModifiedBy;
   final String? clientCreatedBy;
   final int? clientModifiedTime;
+  final int? auditCreatedTime;
   final String? auditModifiedBy;
   final int? auditModifiedTime;
   final String? tenantId;
@@ -23635,11 +24833,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       {required this.code,
       this.name,
       this.auditCreatedBy,
-      this.auditCreatedTime,
+      this.nonRecoverableError,
       this.clientCreatedTime,
       this.clientModifiedBy,
       this.clientCreatedBy,
       this.clientModifiedTime,
+      this.auditCreatedTime,
       this.auditModifiedBy,
       this.auditModifiedTime,
       this.tenantId,
@@ -23655,8 +24854,8 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}name']),
       auditCreatedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_created_by']),
-      auditCreatedTime: const IntType().mapFromDatabaseResponse(
-          data['${effectivePrefix}audit_created_time']),
+      nonRecoverableError: const BoolType().mapFromDatabaseResponse(
+          data['${effectivePrefix}non_recoverable_error']),
       clientCreatedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_created_time']),
       clientModifiedBy: const StringType().mapFromDatabaseResponse(
@@ -23665,6 +24864,8 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}client_created_by']),
       clientModifiedTime: const IntType().mapFromDatabaseResponse(
           data['${effectivePrefix}client_modified_time']),
+      auditCreatedTime: const IntType().mapFromDatabaseResponse(
+          data['${effectivePrefix}audit_created_time']),
       auditModifiedBy: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}audit_modified_by']),
       auditModifiedTime: const IntType().mapFromDatabaseResponse(
@@ -23689,8 +24890,8 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
     if (!nullToAbsent || auditCreatedBy != null) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy);
     }
-    if (!nullToAbsent || auditCreatedTime != null) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
+    if (!nullToAbsent || nonRecoverableError != null) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError);
     }
     if (!nullToAbsent || clientCreatedTime != null) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime);
@@ -23703,6 +24904,9 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
     }
     if (!nullToAbsent || clientModifiedTime != null) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime);
+    }
+    if (!nullToAbsent || auditCreatedTime != null) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime);
     }
     if (!nullToAbsent || auditModifiedBy != null) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy);
@@ -23732,9 +24936,9 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       auditCreatedBy: auditCreatedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditCreatedBy),
-      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+      nonRecoverableError: nonRecoverableError == null && nullToAbsent
           ? const Value.absent()
-          : Value(auditCreatedTime),
+          : Value(nonRecoverableError),
       clientCreatedTime: clientCreatedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientCreatedTime),
@@ -23747,6 +24951,9 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       clientModifiedTime: clientModifiedTime == null && nullToAbsent
           ? const Value.absent()
           : Value(clientModifiedTime),
+      auditCreatedTime: auditCreatedTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(auditCreatedTime),
       auditModifiedBy: auditModifiedBy == null && nullToAbsent
           ? const Value.absent()
           : Value(auditModifiedBy),
@@ -23775,11 +24982,13 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String?>(json['name']),
       auditCreatedBy: serializer.fromJson<String?>(json['auditCreatedBy']),
-      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
+      nonRecoverableError:
+          serializer.fromJson<bool?>(json['nonRecoverableError']),
       clientCreatedTime: serializer.fromJson<int?>(json['clientCreatedTime']),
       clientModifiedBy: serializer.fromJson<String?>(json['clientModifiedBy']),
       clientCreatedBy: serializer.fromJson<String?>(json['clientCreatedBy']),
       clientModifiedTime: serializer.fromJson<int?>(json['clientModifiedTime']),
+      auditCreatedTime: serializer.fromJson<int?>(json['auditCreatedTime']),
       auditModifiedBy: serializer.fromJson<String?>(json['auditModifiedBy']),
       auditModifiedTime: serializer.fromJson<int?>(json['auditModifiedTime']),
       tenantId: serializer.fromJson<String?>(json['tenantId']),
@@ -23795,11 +25004,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String?>(name),
       'auditCreatedBy': serializer.toJson<String?>(auditCreatedBy),
-      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
+      'nonRecoverableError': serializer.toJson<bool?>(nonRecoverableError),
       'clientCreatedTime': serializer.toJson<int?>(clientCreatedTime),
       'clientModifiedBy': serializer.toJson<String?>(clientModifiedBy),
       'clientCreatedBy': serializer.toJson<String?>(clientCreatedBy),
       'clientModifiedTime': serializer.toJson<int?>(clientModifiedTime),
+      'auditCreatedTime': serializer.toJson<int?>(auditCreatedTime),
       'auditModifiedBy': serializer.toJson<String?>(auditModifiedBy),
       'auditModifiedTime': serializer.toJson<int?>(auditModifiedTime),
       'tenantId': serializer.toJson<String?>(tenantId),
@@ -23813,11 +25023,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
           {String? code,
           String? name,
           String? auditCreatedBy,
-          int? auditCreatedTime,
+          bool? nonRecoverableError,
           int? clientCreatedTime,
           String? clientModifiedBy,
           String? clientCreatedBy,
           int? clientModifiedTime,
+          int? auditCreatedTime,
           String? auditModifiedBy,
           int? auditModifiedTime,
           String? tenantId,
@@ -23828,11 +25039,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
         code: code ?? this.code,
         name: name ?? this.name,
         auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+        nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
         clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
         clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
         clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
         clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+        auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
         auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
         auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
         tenantId: tenantId ?? this.tenantId,
@@ -23846,11 +25058,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
           ..write('code: $code, ')
           ..write('name: $name, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -23866,11 +25079,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
       code,
       name,
       auditCreatedBy,
-      auditCreatedTime,
+      nonRecoverableError,
       clientCreatedTime,
       clientModifiedBy,
       clientCreatedBy,
       clientModifiedTime,
+      auditCreatedTime,
       auditModifiedBy,
       auditModifiedTime,
       tenantId,
@@ -23884,11 +25098,12 @@ class LocalityData extends DataClass implements Insertable<LocalityData> {
           other.code == this.code &&
           other.name == this.name &&
           other.auditCreatedBy == this.auditCreatedBy &&
-          other.auditCreatedTime == this.auditCreatedTime &&
+          other.nonRecoverableError == this.nonRecoverableError &&
           other.clientCreatedTime == this.clientCreatedTime &&
           other.clientModifiedBy == this.clientModifiedBy &&
           other.clientCreatedBy == this.clientCreatedBy &&
           other.clientModifiedTime == this.clientModifiedTime &&
+          other.auditCreatedTime == this.auditCreatedTime &&
           other.auditModifiedBy == this.auditModifiedBy &&
           other.auditModifiedTime == this.auditModifiedTime &&
           other.tenantId == this.tenantId &&
@@ -23901,11 +25116,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
   final Value<String> code;
   final Value<String?> name;
   final Value<String?> auditCreatedBy;
-  final Value<int?> auditCreatedTime;
+  final Value<bool?> nonRecoverableError;
   final Value<int?> clientCreatedTime;
   final Value<String?> clientModifiedBy;
   final Value<String?> clientCreatedBy;
   final Value<int?> clientModifiedTime;
+  final Value<int?> auditCreatedTime;
   final Value<String?> auditModifiedBy;
   final Value<int?> auditModifiedTime;
   final Value<String?> tenantId;
@@ -23916,11 +25132,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
     this.code = const Value.absent(),
     this.name = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -23932,11 +25149,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
     required String code,
     this.name = const Value.absent(),
     this.auditCreatedBy = const Value.absent(),
-    this.auditCreatedTime = const Value.absent(),
+    this.nonRecoverableError = const Value.absent(),
     this.clientCreatedTime = const Value.absent(),
     this.clientModifiedBy = const Value.absent(),
     this.clientCreatedBy = const Value.absent(),
     this.clientModifiedTime = const Value.absent(),
+    this.auditCreatedTime = const Value.absent(),
     this.auditModifiedBy = const Value.absent(),
     this.auditModifiedTime = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -23948,11 +25166,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
     Expression<String>? code,
     Expression<String?>? name,
     Expression<String?>? auditCreatedBy,
-    Expression<int?>? auditCreatedTime,
+    Expression<bool?>? nonRecoverableError,
     Expression<int?>? clientCreatedTime,
     Expression<String?>? clientModifiedBy,
     Expression<String?>? clientCreatedBy,
     Expression<int?>? clientModifiedTime,
+    Expression<int?>? auditCreatedTime,
     Expression<String?>? auditModifiedBy,
     Expression<int?>? auditModifiedTime,
     Expression<String?>? tenantId,
@@ -23964,12 +25183,14 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
       if (code != null) 'code': code,
       if (name != null) 'name': name,
       if (auditCreatedBy != null) 'audit_created_by': auditCreatedBy,
-      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
+      if (nonRecoverableError != null)
+        'non_recoverable_error': nonRecoverableError,
       if (clientCreatedTime != null) 'client_created_time': clientCreatedTime,
       if (clientModifiedBy != null) 'client_modified_by': clientModifiedBy,
       if (clientCreatedBy != null) 'client_created_by': clientCreatedBy,
       if (clientModifiedTime != null)
         'client_modified_time': clientModifiedTime,
+      if (auditCreatedTime != null) 'audit_created_time': auditCreatedTime,
       if (auditModifiedBy != null) 'audit_modified_by': auditModifiedBy,
       if (auditModifiedTime != null) 'audit_modified_time': auditModifiedTime,
       if (tenantId != null) 'tenant_id': tenantId,
@@ -23983,11 +25204,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
       {Value<String>? code,
       Value<String?>? name,
       Value<String?>? auditCreatedBy,
-      Value<int?>? auditCreatedTime,
+      Value<bool?>? nonRecoverableError,
       Value<int?>? clientCreatedTime,
       Value<String?>? clientModifiedBy,
       Value<String?>? clientCreatedBy,
       Value<int?>? clientModifiedTime,
+      Value<int?>? auditCreatedTime,
       Value<String?>? auditModifiedBy,
       Value<int?>? auditModifiedTime,
       Value<String?>? tenantId,
@@ -23998,11 +25220,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
       code: code ?? this.code,
       name: name ?? this.name,
       auditCreatedBy: auditCreatedBy ?? this.auditCreatedBy,
-      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
+      nonRecoverableError: nonRecoverableError ?? this.nonRecoverableError,
       clientCreatedTime: clientCreatedTime ?? this.clientCreatedTime,
       clientModifiedBy: clientModifiedBy ?? this.clientModifiedBy,
       clientCreatedBy: clientCreatedBy ?? this.clientCreatedBy,
       clientModifiedTime: clientModifiedTime ?? this.clientModifiedTime,
+      auditCreatedTime: auditCreatedTime ?? this.auditCreatedTime,
       auditModifiedBy: auditModifiedBy ?? this.auditModifiedBy,
       auditModifiedTime: auditModifiedTime ?? this.auditModifiedTime,
       tenantId: tenantId ?? this.tenantId,
@@ -24024,8 +25247,8 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
     if (auditCreatedBy.present) {
       map['audit_created_by'] = Variable<String?>(auditCreatedBy.value);
     }
-    if (auditCreatedTime.present) {
-      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
+    if (nonRecoverableError.present) {
+      map['non_recoverable_error'] = Variable<bool?>(nonRecoverableError.value);
     }
     if (clientCreatedTime.present) {
       map['client_created_time'] = Variable<int?>(clientCreatedTime.value);
@@ -24038,6 +25261,9 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
     }
     if (clientModifiedTime.present) {
       map['client_modified_time'] = Variable<int?>(clientModifiedTime.value);
+    }
+    if (auditCreatedTime.present) {
+      map['audit_created_time'] = Variable<int?>(auditCreatedTime.value);
     }
     if (auditModifiedBy.present) {
       map['audit_modified_by'] = Variable<String?>(auditModifiedBy.value);
@@ -24066,11 +25292,12 @@ class LocalityCompanion extends UpdateCompanion<LocalityData> {
           ..write('code: $code, ')
           ..write('name: $name, ')
           ..write('auditCreatedBy: $auditCreatedBy, ')
-          ..write('auditCreatedTime: $auditCreatedTime, ')
+          ..write('nonRecoverableError: $nonRecoverableError, ')
           ..write('clientCreatedTime: $clientCreatedTime, ')
           ..write('clientModifiedBy: $clientModifiedBy, ')
           ..write('clientCreatedBy: $clientCreatedBy, ')
           ..write('clientModifiedTime: $clientModifiedTime, ')
+          ..write('auditCreatedTime: $auditCreatedTime, ')
           ..write('auditModifiedBy: $auditModifiedBy, ')
           ..write('auditModifiedTime: $auditModifiedTime, ')
           ..write('tenantId: $tenantId, ')
@@ -24104,12 +25331,15 @@ class $LocalityTable extends Locality
   late final GeneratedColumn<String?> auditCreatedBy = GeneratedColumn<String?>(
       'audit_created_by', aliasedName, true,
       type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _auditCreatedTimeMeta =
-      const VerificationMeta('auditCreatedTime');
+  final VerificationMeta _nonRecoverableErrorMeta =
+      const VerificationMeta('nonRecoverableError');
   @override
-  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
-      'audit_created_time', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+  late final GeneratedColumn<bool?> nonRecoverableError =
+      GeneratedColumn<bool?>('non_recoverable_error', aliasedName, true,
+          type: const BoolType(),
+          requiredDuringInsert: false,
+          defaultConstraints: 'CHECK (non_recoverable_error IN (0, 1))',
+          defaultValue: const Constant(false));
   final VerificationMeta _clientCreatedTimeMeta =
       const VerificationMeta('clientCreatedTime');
   @override
@@ -24133,6 +25363,12 @@ class $LocalityTable extends Locality
   @override
   late final GeneratedColumn<int?> clientModifiedTime = GeneratedColumn<int?>(
       'client_modified_time', aliasedName, true,
+      type: const IntType(), requiredDuringInsert: false);
+  final VerificationMeta _auditCreatedTimeMeta =
+      const VerificationMeta('auditCreatedTime');
+  @override
+  late final GeneratedColumn<int?> auditCreatedTime = GeneratedColumn<int?>(
+      'audit_created_time', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
   final VerificationMeta _auditModifiedByMeta =
       const VerificationMeta('auditModifiedBy');
@@ -24175,11 +25411,12 @@ class $LocalityTable extends Locality
         code,
         name,
         auditCreatedBy,
-        auditCreatedTime,
+        nonRecoverableError,
         clientCreatedTime,
         clientModifiedBy,
         clientCreatedBy,
         clientModifiedTime,
+        auditCreatedTime,
         auditModifiedBy,
         auditModifiedTime,
         tenantId,
@@ -24212,11 +25449,11 @@ class $LocalityTable extends Locality
           auditCreatedBy.isAcceptableOrUnknown(
               data['audit_created_by']!, _auditCreatedByMeta));
     }
-    if (data.containsKey('audit_created_time')) {
+    if (data.containsKey('non_recoverable_error')) {
       context.handle(
-          _auditCreatedTimeMeta,
-          auditCreatedTime.isAcceptableOrUnknown(
-              data['audit_created_time']!, _auditCreatedTimeMeta));
+          _nonRecoverableErrorMeta,
+          nonRecoverableError.isAcceptableOrUnknown(
+              data['non_recoverable_error']!, _nonRecoverableErrorMeta));
     }
     if (data.containsKey('client_created_time')) {
       context.handle(
@@ -24241,6 +25478,12 @@ class $LocalityTable extends Locality
           _clientModifiedTimeMeta,
           clientModifiedTime.isAcceptableOrUnknown(
               data['client_modified_time']!, _clientModifiedTimeMeta));
+    }
+    if (data.containsKey('audit_created_time')) {
+      context.handle(
+          _auditCreatedTimeMeta,
+          auditCreatedTime.isAcceptableOrUnknown(
+              data['audit_created_time']!, _auditCreatedTimeMeta));
     }
     if (data.containsKey('audit_modified_by')) {
       context.handle(
