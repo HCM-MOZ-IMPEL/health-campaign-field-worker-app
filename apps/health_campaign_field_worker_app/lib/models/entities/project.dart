@@ -86,7 +86,6 @@ class ProjectModel extends EntityModel {
   final String? description;
   final String? referenceId;
   final String? projectHierarchy;
-  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final AddressModel? address;
@@ -109,7 +108,6 @@ class ProjectModel extends EntityModel {
     this.description,
     this.referenceId,
     this.projectHierarchy,
-    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
     this.address,
@@ -117,7 +115,7 @@ class ProjectModel extends EntityModel {
     this.documents,
     int? startDate,
     int? endDate,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): startDateTime = startDate == null
           ? null
@@ -138,6 +136,10 @@ class ProjectModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -152,7 +154,6 @@ class ProjectModel extends EntityModel {
       description: Value(description),
       referenceId: Value(referenceId),
       projectHierarchy: Value(projectHierarchy),
-      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       startDate: Value(startDate),

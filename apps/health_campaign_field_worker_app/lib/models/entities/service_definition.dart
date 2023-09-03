@@ -40,7 +40,6 @@ class ServiceDefinitionModel extends EntityModel {
   final String? tenantId;
   final String? code;
   final bool? isActive;
-  final bool? nonRecoverableError;
   final int? rowVersion;
   final List<AttributesModel>? attributes;
   final ServiceDefinitionAdditionalFields? additionalFields;
@@ -51,10 +50,9 @@ class ServiceDefinitionModel extends EntityModel {
     this.tenantId,
     this.code,
     this.isActive,
-    this.nonRecoverableError = false,
     this.rowVersion,
     this.attributes,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -63,6 +61,10 @@ class ServiceDefinitionModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -70,7 +72,6 @@ class ServiceDefinitionModel extends EntityModel {
       tenantId: Value(tenantId),
       code: Value(code),
       isActive: Value(isActive),
-      nonRecoverableError: Value(nonRecoverableError),
       rowVersion: Value(rowVersion),
       );
   }

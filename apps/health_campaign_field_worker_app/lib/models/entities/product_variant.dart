@@ -43,7 +43,6 @@ class ProductVariantModel extends EntityModel {
   final String? productId;
   final String? sku;
   final String? variation;
-  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final ProductVariantAdditionalFields? additionalFields;
@@ -54,10 +53,9 @@ class ProductVariantModel extends EntityModel {
     this.productId,
     this.sku,
     this.variation,
-    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -66,6 +64,10 @@ class ProductVariantModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -73,7 +75,6 @@ class ProductVariantModel extends EntityModel {
       productId: Value(productId),
       sku: Value(sku),
       variation: Value(variation),
-      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       );

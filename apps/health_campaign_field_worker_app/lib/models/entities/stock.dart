@@ -79,7 +79,6 @@ class StockModel extends EntityModel {
   final String? transactingPartyType;
   final String? quantity;
   final String? waybillNumber;
-  final bool? nonRecoverableError;
   final String clientReferenceId;
   final int? rowVersion;
   final TransactionType? transactionType;
@@ -99,13 +98,12 @@ class StockModel extends EntityModel {
     this.transactingPartyType,
     this.quantity,
     this.waybillNumber,
-    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.rowVersion,
     this.transactionType,
     this.transactionReason,
     int? dateOfEntry,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): dateOfEntryTime = dateOfEntry == null
           ? null
@@ -120,6 +118,10 @@ class StockModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -133,7 +135,6 @@ class StockModel extends EntityModel {
       transactingPartyType: Value(transactingPartyType),
       quantity: Value(quantity),
       waybillNumber: Value(waybillNumber),
-      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       rowVersion: Value(rowVersion),
       dateOfEntry: Value(dateOfEntry),

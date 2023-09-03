@@ -102,7 +102,6 @@ class TaskModel extends EntityModel {
   final String? projectBeneficiaryClientReferenceId;
   final String? createdBy;
   final String? status;
-  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
   final int? rowVersion;
@@ -123,7 +122,6 @@ class TaskModel extends EntityModel {
     this.projectBeneficiaryClientReferenceId,
     this.createdBy,
     this.status,
-    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
     this.rowVersion,
@@ -134,7 +132,7 @@ class TaskModel extends EntityModel {
     int? actualStartDate,
     int? actualEndDate,
     int? createdDate,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): plannedStartDateTime = plannedStartDate == null
           ? null
@@ -173,6 +171,10 @@ class TaskModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -182,7 +184,6 @@ class TaskModel extends EntityModel {
       projectBeneficiaryClientReferenceId: Value(projectBeneficiaryClientReferenceId),
       createdBy: Value(createdBy),
       status: Value(status),
-      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),

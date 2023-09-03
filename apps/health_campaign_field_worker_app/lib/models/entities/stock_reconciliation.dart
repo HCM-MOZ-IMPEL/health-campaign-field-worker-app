@@ -60,7 +60,6 @@ class StockReconciliationModel extends EntityModel {
   final int? physicalCount;
   final int? calculatedCount;
   final String? commentsOnReconciliation;
-  final bool? nonRecoverableError;
   final String clientReferenceId;
   final int? rowVersion;
   final DateTime dateOfReconciliationTime;
@@ -77,11 +76,10 @@ class StockReconciliationModel extends EntityModel {
     this.physicalCount,
     this.calculatedCount,
     this.commentsOnReconciliation,
-    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.rowVersion,
     required int dateOfReconciliation,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): dateOfReconciliationTime = DateTime.fromMillisecondsSinceEpoch(dateOfReconciliation),
       super();
@@ -94,6 +92,10 @@ class StockReconciliationModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -106,7 +108,6 @@ class StockReconciliationModel extends EntityModel {
       physicalCount: Value(physicalCount),
       calculatedCount: Value(calculatedCount),
       commentsOnReconciliation: Value(commentsOnReconciliation),
-      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       rowVersion: Value(rowVersion),
       dateOfReconciliation: Value(dateOfReconciliation),

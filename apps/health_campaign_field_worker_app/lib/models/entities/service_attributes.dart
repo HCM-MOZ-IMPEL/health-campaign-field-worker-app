@@ -35,7 +35,6 @@ class ServiceAttributesModel extends EntityModel {
   final String? dataType;
   final String? referenceId;
   final dynamic? additionalDetails;
-  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
   final int? rowVersion;
@@ -48,11 +47,10 @@ class ServiceAttributesModel extends EntityModel {
     this.dataType,
     this.referenceId,
     this.additionalDetails,
-    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
     this.rowVersion,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -61,6 +59,10 @@ class ServiceAttributesModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -69,7 +71,6 @@ class ServiceAttributesModel extends EntityModel {
       dataType: Value(dataType),
       referenceId: Value(referenceId),
       additionalDetails: Value(additionalDetails),
-      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),

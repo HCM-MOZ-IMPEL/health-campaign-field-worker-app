@@ -68,7 +68,6 @@ class ProjectStaffModel extends EntityModel {
   final String? userId;
   final String? projectId;
   final String? channel;
-  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final DateTime? startDateTime;
@@ -82,12 +81,11 @@ class ProjectStaffModel extends EntityModel {
     this.userId,
     this.projectId,
     this.channel,
-    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
     int? startDate,
     int? endDate,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): startDateTime = startDate == null
           ? null
@@ -108,6 +106,10 @@ class ProjectStaffModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -116,7 +118,6 @@ class ProjectStaffModel extends EntityModel {
       userId: Value(userId),
       projectId: Value(projectId),
       channel: Value(channel),
-      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       startDate: Value(startDate),

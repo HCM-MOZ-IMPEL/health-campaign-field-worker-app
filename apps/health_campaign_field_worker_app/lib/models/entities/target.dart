@@ -31,7 +31,6 @@ class TargetModel extends EntityModel {
   final String? clientReferenceId;
   final double? totalNo;
   final double? targetNo;
-  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final BeneficiaryType? beneficiaryType;
@@ -43,11 +42,10 @@ class TargetModel extends EntityModel {
     this.clientReferenceId,
     this.totalNo,
     this.targetNo,
-    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
     this.beneficiaryType,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -56,6 +54,10 @@ class TargetModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -63,7 +65,6 @@ class TargetModel extends EntityModel {
       clientReferenceId: Value(clientReferenceId),
       totalNo: Value(totalNo),
       targetNo: Value(targetNo),
-      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       beneficiaryType: Value(beneficiaryType),

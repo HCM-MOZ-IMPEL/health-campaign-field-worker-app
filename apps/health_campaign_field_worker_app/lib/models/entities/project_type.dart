@@ -37,7 +37,6 @@ class ProjectTypeModel extends EntityModel {
   final String? beneficiaryType;
   final List<String>? eligibilityCriteria;
   final List<String>? taskProcedure;
-  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
   final int? rowVersion;
@@ -53,12 +52,11 @@ class ProjectTypeModel extends EntityModel {
     this.beneficiaryType,
     this.eligibilityCriteria,
     this.taskProcedure,
-    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
     this.rowVersion,
     this.resources,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -67,6 +65,10 @@ class ProjectTypeModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -77,7 +79,6 @@ class ProjectTypeModel extends EntityModel {
       beneficiaryType: Value(beneficiaryType),
       eligibilityCriteria: Value(eligibilityCriteria?.toString()),
       taskProcedure: Value(taskProcedure?.toString()),
-      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),

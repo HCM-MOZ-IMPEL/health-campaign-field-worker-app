@@ -61,7 +61,6 @@ class AttributesModel extends EntityModel {
   final bool? required;
   final String? regex;
   final int? order;
-  final bool? nonRecoverableError;
   final int? rowVersion;
   final AttributesAdditionalFields? additionalFields;
 
@@ -77,9 +76,8 @@ class AttributesModel extends EntityModel {
     this.required,
     this.regex,
     this.order,
-    this.nonRecoverableError = false,
     this.rowVersion,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -88,6 +86,10 @@ class AttributesModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -101,7 +103,6 @@ class AttributesModel extends EntityModel {
       required: Value(required),
       regex: Value(regex),
       order: Value(order),
-      nonRecoverableError: Value(nonRecoverableError),
       rowVersion: Value(rowVersion),
       );
   }

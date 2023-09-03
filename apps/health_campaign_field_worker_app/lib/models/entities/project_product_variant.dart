@@ -33,7 +33,6 @@ class ProjectProductVariantModel extends EntityModel {
   final String productVariantId;
   final String? type;
   final bool? isBaseUnitVariant;
-  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final ProjectProductVariantAdditionalFields? additionalFields;
@@ -43,10 +42,9 @@ class ProjectProductVariantModel extends EntityModel {
     required this.productVariantId,
     this.type,
     this.isBaseUnitVariant,
-    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -55,13 +53,16 @@ class ProjectProductVariantModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
       productVariantId: Value(productVariantId),
       type: Value(type),
       isBaseUnitVariant: Value(isBaseUnitVariant),
-      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       );

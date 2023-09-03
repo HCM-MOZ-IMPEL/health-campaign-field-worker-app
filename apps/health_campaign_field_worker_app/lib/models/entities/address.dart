@@ -45,7 +45,6 @@ class AddressModel extends EntityModel {
   final String? street;
   final String? boundaryType;
   final String? boundary;
-  final bool? nonRecoverableError;
   final String? tenantId;
   final int? rowVersion;
   final AddressType? type;
@@ -69,12 +68,11 @@ class AddressModel extends EntityModel {
     this.street,
     this.boundaryType,
     this.boundary,
-    this.nonRecoverableError = false,
     this.tenantId,
     this.rowVersion,
     this.type,
     this.locality,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -85,6 +83,10 @@ class AddressModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -103,7 +105,6 @@ class AddressModel extends EntityModel {
       street: Value(street),
       boundaryType: Value(boundaryType),
       boundary: Value(boundary),
-      nonRecoverableError: Value(nonRecoverableError),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
       type: Value(type),

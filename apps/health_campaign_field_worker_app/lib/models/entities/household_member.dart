@@ -54,7 +54,6 @@ class HouseholdMemberModel extends EntityModel {
   final String? individualId;
   final String? individualClientReferenceId;
   final bool isHeadOfHousehold;
-  final bool? nonRecoverableError;
   final String clientReferenceId;
   final String? tenantId;
   final int? rowVersion;
@@ -68,11 +67,10 @@ class HouseholdMemberModel extends EntityModel {
     this.individualId,
     this.individualClientReferenceId,
     required this.isHeadOfHousehold,
-    this.nonRecoverableError = false,
     required this.clientReferenceId,
     this.tenantId,
     this.rowVersion,
-    super.auditDetails,
+    super.auditDetails,super.clientAuditDetails,
     super.isDeleted = false,
   }): super();
 
@@ -81,6 +79,10 @@ class HouseholdMemberModel extends EntityModel {
       auditCreatedBy: Value(auditDetails?.createdBy),
       auditCreatedTime: Value(auditDetails?.createdTime),
       auditModifiedBy: Value(auditDetails?.lastModifiedBy),
+      clientCreatedTime: Value(clientAuditDetails?.createdTime),
+      clientModifiedTime: Value(clientAuditDetails?.lastModifiedTime),
+      clientCreatedBy: Value(clientAuditDetails?.createdBy),
+      clientModifiedBy: Value(clientAuditDetails?.lastModifiedBy),
       auditModifiedTime: Value(auditDetails?.lastModifiedTime),
       additionalFields: Value(additionalFields?.toJson()),
       isDeleted: Value(isDeleted),
@@ -90,7 +92,6 @@ class HouseholdMemberModel extends EntityModel {
       individualId: Value(individualId),
       individualClientReferenceId: Value(individualClientReferenceId),
       isHeadOfHousehold: Value(isHeadOfHousehold),
-      nonRecoverableError: Value(nonRecoverableError),
       clientReferenceId: Value(clientReferenceId),
       tenantId: Value(tenantId),
       rowVersion: Value(rowVersion),
