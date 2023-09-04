@@ -45,6 +45,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   static const _commentsKey = 'comments';
   late ProductVariantModel productVariantModel;
   bool isDeliveryTeamReturn = false;
+  List<ShowcaseItemBuilder> showcaseFor = [];
 
   FormGroup _form() {
     return fb.group({
@@ -130,6 +131,22 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   quantityCountLabel = module.quantityReceivedLabel;
                   quantityValidationMessage = module.quantityReceivedValidation;
                   transactionType = TransactionType.received;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.receiptReceivedFrom,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .receiptNumberOfNetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.receiptNumberOfBednetsReceived,
+                    stockDetailsShowcaseData.receiptComments,
+                  ];
                   break;
                 case StockRecordEntryType.dispatch:
                   pageTitle = module.issuedPageTitle;
@@ -137,6 +154,22 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   quantityCountLabel = module.quantitySentLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.dispatched;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.issuedIssuedTo,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .issuedNumberOfBednetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.issuedNumberOfBednetsIssued,
+                    stockDetailsShowcaseData.issuedComments,
+                  ];
                   break;
                 case StockRecordEntryType.returned:
                   pageTitle = module.returnedPageTitle;
@@ -144,6 +177,22 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   quantityCountLabel = module.quantityReturnedLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.received;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.returnedReturnedFrom,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .returnedNumberOfBednetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.returnedNumberOfBednetsReturned,
+                    stockDetailsShowcaseData.returnedComments,
+                  ];
                   break;
                 case StockRecordEntryType.loss:
                   pageTitle = module.lostPageTitle;
@@ -182,44 +231,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                     header: Column(children: [
                       BackNavigationHelpHeaderWidget(
                         showcaseButton: ShowcaseButton(
-                          showcaseFor: [
-                            if (entryType == StockRecordEntryType.receipt) ...[
-                              stockDetailsShowcaseData.receiptReceivedFrom,
-                              stockDetailsShowcaseData.receiptPackingSlipId,
-                              stockDetailsShowcaseData.receiptTypeOfTransport,
-                              stockDetailsShowcaseData.receiptVehicleNumber,
-                              stockDetailsShowcaseData.receiptDriverName,
-                              stockDetailsShowcaseData
-                                  .receiptNumberOfNetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .receiptNumberOfBednetsReceived,
-                              stockDetailsShowcaseData.receiptComments,
-                            ],
-                            if (entryType == StockRecordEntryType.dispatch) ...[
-                              stockDetailsShowcaseData.issuedIssuedTo,
-                              stockDetailsShowcaseData.issuedPackingSlipId,
-                              stockDetailsShowcaseData.issuedTypeOfTransport,
-                              stockDetailsShowcaseData.issuedVehicleNumber,
-                              stockDetailsShowcaseData.issuedDriverName,
-                              stockDetailsShowcaseData
-                                  .issuedNumberOfBednetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .issuedNumberOfBednetsIssued,
-                              stockDetailsShowcaseData.issuedComments,
-                            ],
-                            if (entryType == StockRecordEntryType.returned) ...[
-                              stockDetailsShowcaseData.returnedReturnedFrom,
-                              stockDetailsShowcaseData.returnedPackingSlipId,
-                              stockDetailsShowcaseData.returnedTypeOfTransport,
-                              stockDetailsShowcaseData.returnedVehicleNumber,
-                              stockDetailsShowcaseData.returnedDriverName,
-                              stockDetailsShowcaseData
-                                  .returnedNumberOfBednetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .returnedNumberOfBednetsReturned,
-                              stockDetailsShowcaseData.returnedComments,
-                            ],
-                          ].map((e) => e.showcaseKey),
+                          showcaseFor: showcaseFor.map((e) => e.showcaseKey),
                         ),
                       ),
                     ]),
