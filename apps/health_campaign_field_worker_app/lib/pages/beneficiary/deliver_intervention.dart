@@ -271,10 +271,9 @@ class _DeliverInterventionPageState
                                       if (shouldSubmit ?? false) {
                                         final parent =
                                             router.parent() as StackRouter;
-                                        parent
-                                          ..pop()
-                                          ..pop();
-
+                                        parent.popUntilRouteWithName(
+                                          SearchBeneficiaryRoute.name,
+                                        );
                                         router.push(AcknowledgementRoute());
                                       }
                                     },
