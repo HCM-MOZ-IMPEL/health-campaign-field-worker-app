@@ -1,9 +1,12 @@
 import 'package:digit_components/digit_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utils/i18_key_constants.dart' as i18;
+import '../../blocs/auth/auth.dart';
 import '../../blocs/record_stock/record_stock.dart';
 import '../../router/app_router.dart';
+import '../../utils/extensions/extensions.dart';
 import '../../widgets/header/back_navigation_help_header.dart';
 import '../../widgets/localized.dart';
 import '../../widgets/showcase/config/showcase_constants.dart';
@@ -23,6 +26,7 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isWarehouseManager = context.isWarehouseManager;
 
     return Scaffold(
       body: ScrollableContent(
@@ -54,7 +58,10 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                       title: localizations
                           .translate(i18.manageStock.recordstockReceiptLabel),
                       description: localizations.translate(
-                        i18.manageStock.recordstockReceiptDescription,
+                        isWarehouseManager
+                            ? i18.manageStock.recordstockReceiptDescription
+                            : i18.manageStock
+                                .recordstockReceiptDescriptionLocalMonitor,
                       ),
                       prefixIcon: Icons.login,
                       sufixIcon: Icons.arrow_circle_right,
@@ -70,7 +77,10 @@ class _ManageStocksPageState extends LocalizedState<ManageStocksPage> {
                       title: localizations
                           .translate(i18.manageStock.recordstockIssuedLabel),
                       description: localizations.translate(
-                        i18.manageStock.recordstockIssuedtDescription,
+                        isWarehouseManager
+                            ? i18.manageStock.recordstockIssuedtDescription
+                            : i18.manageStock
+                                .recordstockIssuedtDescriptionLocalMonitor,
                       ),
                       prefixIcon: Icons.logout,
                       sufixIcon: Icons.arrow_circle_right,

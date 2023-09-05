@@ -36,6 +36,20 @@ extension ContextUtilityExtensions on BuildContext {
     return selectedBoundary;
   }
 
+  bool get isWarehouseManager {
+    final authState = _get<AuthBloc>().state;
+
+    if (authState is! AuthAuthenticatedState) {
+      return false;
+    }
+
+    final roles = authState.userModel.roles.map((e) {
+      return e.code;
+    });
+
+    return roles.contains("WAREHOUSE_MANAGER");
+  }
+
   BeneficiaryType get beneficiaryType {
     final projectBloc = _get<ProjectBloc>();
 

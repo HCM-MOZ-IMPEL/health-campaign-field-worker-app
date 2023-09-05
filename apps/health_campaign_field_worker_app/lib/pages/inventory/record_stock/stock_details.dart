@@ -7,6 +7,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:recase/recase.dart';
 
 import '../../../blocs/app_initialization/app_initialization.dart';
+import '../../../blocs/auth/auth.dart';
 import '../../../blocs/facility/facility.dart';
 import '../../../blocs/product_variant/product_variant.dart';
 import '../../../blocs/record_stock/record_stock.dart';
@@ -97,6 +98,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isWarehouseManager = context.isWarehouseManager;
 
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
@@ -127,7 +129,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
               switch (entryType) {
                 case StockRecordEntryType.receipt:
                   pageTitle = module.receivedPageTitle;
-                  transactionPartyLabel = module.selectTransactingPartyReceived;
+                  transactionPartyLabel = isWarehouseManager
+                      ? module.selectTransactingPartyReceived
+                      : module.selectTransactingPartyReceivedLocalMonitor;
                   quantityCountLabel = module.quantityReceivedLabel;
                   quantityValidationMessage = module.quantityReceivedValidation;
                   transactionType = TransactionType.received;
@@ -150,7 +154,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   break;
                 case StockRecordEntryType.dispatch:
                   pageTitle = module.issuedPageTitle;
-                  transactionPartyLabel = module.selectTransactingPartyIssued;
+                  transactionPartyLabel = isWarehouseManager
+                      ? module.selectTransactingPartyIssued
+                      : module.selectTransactingPartyIssuedLocalMonitor;
                   quantityCountLabel = module.quantitySentLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.dispatched;
