@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../blocs/auth/auth.dart';
 import '../../../blocs/boundary/boundary.dart';
 import '../../../blocs/facility/facility.dart';
 import '../../../blocs/localization/app_localization.dart';
@@ -64,6 +65,7 @@ class _StockReconciliationPageState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isWarehouseManager = context.isWarehouseManager;
 
     return BlocListener<BoundaryBloc, BoundaryState>(
       listener: (context, state) {
@@ -330,8 +332,13 @@ class _StockReconciliationPageState
                                                   facilities,
                                                 ),
                                                 label: localizations.translate(
-                                                  i18.stockReconciliationDetails
-                                                      .facilityLabel,
+                                                  isWarehouseManager
+                                                      ? i18
+                                                          .stockReconciliationDetails
+                                                          .facilityLabel
+                                                      : i18
+                                                          .stockReconciliationDetails
+                                                          .facilityLabelLocalMonitor,
                                                 ),
                                                 suffix: const Padding(
                                                   padding: EdgeInsets.all(8.0),

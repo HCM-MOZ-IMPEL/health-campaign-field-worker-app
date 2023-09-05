@@ -25,7 +25,7 @@ class DigitListView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-                width: MediaQuery.of(context).size.width - 100,
+                width: MediaQuery.of(context).size.width - 90,
                 child: Column(
                   children: [
                     Row(
@@ -54,7 +54,6 @@ class DigitListView extends StatelessWidget {
                         ),
                       ],
                     ),
-
                   ],
                 )),
             Icon(
