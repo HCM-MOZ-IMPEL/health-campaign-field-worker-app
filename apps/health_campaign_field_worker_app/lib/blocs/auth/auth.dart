@@ -87,16 +87,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await localSecureStore.setAuthCredentials(result);
       await localSecureStore.setBoundaryRefetch(true);
 
-      final actionsWrapper = await mdmsRepository
-          .searchRoleActions(envConfig.variables.actionMapApiPath, {
-        "roleCodes": result.userRequestModel.roles.map((e) => e.code).toList(),
-        "tenantId": envConfig.variables.tenantId,
-        "actionMaster": "actions-test",
-        "enabled": true,
-      });
+      final actionsWrapper = await mdmsRepository.searchRoleActions(
+        envConfig.variables.actionMapApiPath,
+        localSecureStore,
+        {
+          "roleCodes":
+              result.userRequestModel.roles.map((e) => e.code).toList(),
+          "tenantId": envConfig.variables.tenantId,
+          "actionMaster": "actions-test",
+          "enabled": true,
+        },
+      );
+
       await localSecureStore.setBoundaryRefetch(true);
 
-      await localSecureStore.setRoleActions(actionsWrapper);
       emit(
         AuthAuthenticatedState(
           accessToken: result.accessToken,

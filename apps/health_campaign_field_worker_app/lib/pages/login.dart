@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../blocs/auth/auth.dart';
-import '../utils/constants.dart';
 import '../utils/environment_config.dart';
 import '../utils/i18_key_constants.dart' as i18;
 import '../widgets/localized.dart';
@@ -69,9 +68,6 @@ class _LoginPageState extends LocalizedState<LoginPage> {
           );
         },
         child: ScrollableContent(
-          footer: PoweredByDigit(
-            version: Constants().version,
-          ),
           children: [
             ReactiveFormBuilder(
               form: buildForm,
@@ -191,11 +187,11 @@ class _LoginPageState extends LocalizedState<LoginPage> {
 
   FormGroup buildForm() => fb.group(<String, Object>{
         _userId: FormControl<String>(
-          // value: 'UAT-DISTRIBUTOR',
+          value: 'ANG-SUPERVISOR',
           validators: [Validators.required],
         ),
         _password: FormControl<String>(
-          // value: 'eGov@4321',
+          value: 'egov@1234',
           validators: [Validators.required],
         ),
       });
