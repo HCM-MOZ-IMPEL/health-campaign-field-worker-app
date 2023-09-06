@@ -258,7 +258,7 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class RequestInfoData {
   static const String apiId = 'hcm';
-  static String ver = Constants()._version.toString();
+  static String ver = '1';
   static num ts = DateTime.now().millisecondsSinceEpoch;
   static const did = "1";
   static const key = "";
