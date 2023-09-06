@@ -537,9 +537,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               ),
               BlocBuilder<ServiceBloc, ServiceState>(
                 builder: (context, state) {
-                  return ((item.values?.length == 2 ||
-                              item.values?.length == 3) &&
-                          controller[index].text == item.values?[1].trim())
+                  return (controller[index].text == item.values?[1].trim())
                       ? Padding(
                           padding: const EdgeInsets.only(
                             left: 4.0,
@@ -751,16 +749,6 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
               selectedServiceDefinition,
               context,
             ),
-          ),
-        // Recursively build nested checklists for child attributes
-        for (final matchingChildItem in childItems.where((childItem) =>
-            childItem.code!.startsWith('$parentCode.$parentControllerValue.')))
-          _buildNestedChecklists(
-            matchingChildItem.code!,
-            initialAttributes?.indexOf(matchingChildItem) ?? parentIndex,
-            controller[parentIndex]
-                .text, // Pass parentIndex here as we're building at the same level
-            context,
           ),
       ],
     );
