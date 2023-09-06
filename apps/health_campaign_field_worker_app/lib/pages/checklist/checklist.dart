@@ -85,6 +85,7 @@ class _ChecklistPageState extends LocalizedState<ChecklistPage> {
                                 "LOCAL_MONITOR_TRAINING",
                                 "REGISTRATION_TEAM_TRAINING",
                                 "REGISTRATION_BASIC",
+                                "SOCIAL_MOBILIZATION",
                                 "MATERIAL_RECEIVED",
                                 "MATERIAL_ISSUED",
                               ];
