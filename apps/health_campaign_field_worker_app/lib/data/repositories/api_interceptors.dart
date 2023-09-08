@@ -29,7 +29,8 @@ class AuthTokenInterceptor extends Interceptor {
         ...options.data,
         "RequestInfo": RequestInfoModel(
           apiId: RequestInfoData.apiId,
-          ver: info.version.toString(),
+          ver:
+              'App Version: ${info.version}', //TODO: remove App Version once backend change is fixed
           ts: RequestInfoData.ts,
           action: options.path.split('/').last,
           did: RequestInfoData.did,
