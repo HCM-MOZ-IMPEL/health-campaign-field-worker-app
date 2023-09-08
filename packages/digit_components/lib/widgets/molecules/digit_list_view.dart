@@ -25,7 +25,7 @@ class DigitListView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-                width: MediaQuery.of(context).size.width - 90,
+                width: MediaQuery.of(context).size.width - 100,
                 child: Column(
                   children: [
                     Row(
@@ -39,18 +39,21 @@ class DigitListView extends StatelessWidget {
                         const SizedBox(
                           width: 14,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              title,
-                              style: theme.textTheme.headlineMedium,
-                            ),
-                            Offstage(
-                              offstage: description == null,
-                              child: Text(description!),
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: theme.textTheme.headlineMedium,
+                              ),
+                              Offstage(
+                                offstage: description == null,
+                                child: Text(description ??
+                                    ""), // Ensures there's always a Text widget
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

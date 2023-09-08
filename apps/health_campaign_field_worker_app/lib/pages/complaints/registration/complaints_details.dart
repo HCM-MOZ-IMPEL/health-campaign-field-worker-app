@@ -387,17 +387,6 @@ class _ComplaintsDetailsPageState
                               ),
                               BlocBuilder<AuthBloc, AuthState>(
                                 builder: (context, state) {
-                                  state.mapOrNull(
-                                    authenticated: (value) {
-                                      var user = value.userModel;
-
-                                      if (isRaisedForSelf) {
-                                        form.control(_complainantName).value =
-                                            user.name;
-                                      }
-                                    },
-                                  );
-
                                   return Column(
                                     children: [
                                       complaintsDetailsShowcaseData
@@ -408,7 +397,6 @@ class _ComplaintsDetailsPageState
                                           label: localizations.translate(
                                             i18.complaints.complainantName,
                                           ),
-                                          readOnly: isRaisedForSelf,
                                           maxLength: 64,
                                           isRequired: true,
                                           validationMessages: {

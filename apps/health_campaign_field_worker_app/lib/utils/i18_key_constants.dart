@@ -224,6 +224,12 @@ class SearchBeneficiary {
 
   String get beneficiaryInfoTitle => 'BENEFICIARY_INFO_TITLE';
 
+  String get beneficiaryStatisticsInfoDescription =>
+      'BENEFICIARY_STATISTICS_INFO_DESCRIPTION';
+
+  String get beneficiaryStatisticsInfoTitle =>
+      'BENEFICIARY_STATISTICS_INFO_TITLE';
+
   String get beneficiaryAddActionLabel => 'BENEFICIARY_ADD_ACTION_LABEL';
 
   String get iconLabel => 'ICON_LABEL';
