@@ -128,6 +128,24 @@ class LocalSecureStore {
     );
   }
 
+  Future<void> setProjectSetUpComplete(String key, bool value) async {
+    await storage.write(
+      key: key,
+      value: value.toString(),
+    );
+  }
+
+  Future<bool> isProjectSetUpComplete(String projectId) async {
+    final isProjectSetUpComplete = await storage.read(key: projectId);
+
+    switch (isProjectSetUpComplete) {
+      case 'true':
+        return true;
+      default:
+        return false;
+    }
+  }
+
   Future<void> setRoleActions(String actions) async {
     await storage.write(key: actionsListkey, value: actions);
   }

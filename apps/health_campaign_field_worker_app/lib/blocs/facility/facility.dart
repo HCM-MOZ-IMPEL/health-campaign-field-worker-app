@@ -40,6 +40,12 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
           version: 1,
           fields: [const AdditionalField('type', 'ProvisionalWarehouse')],
         ),
+        auditDetails: AuditDetails(
+          createdBy: 'createdBy',
+          lastModifiedBy: 'lastModifiedBy',
+          createdTime: DateTime.now().millisecondsSinceEpoch,
+          lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+        ),
       ),
     ];
 
@@ -70,6 +76,11 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
       );
       final facility = facilities
           .firstWhereOrNull((element) => element.id == latestStock?.facilityId);
+
+      allFacilities.sort((a, b) => b.auditDetails!.lastModifiedTime
+          .compareTo(a.auditDetails!.lastModifiedTime));
+      facilities.sort((a, b) => b.auditDetails!.lastModifiedTime
+          .compareTo(a.auditDetails!.lastModifiedTime));
 
       emit(FacilityFetchedState(
         facilities: facilities,
