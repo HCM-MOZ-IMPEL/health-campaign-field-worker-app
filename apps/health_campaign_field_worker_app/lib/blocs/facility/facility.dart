@@ -40,6 +40,12 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
           version: 1,
           fields: [const AdditionalField('type', 'ProvisionalWarehouse')],
         ),
+        auditDetails: AuditDetails(
+          createdBy: event.userId,
+          lastModifiedBy: event.userId,
+          createdTime: DateTime.now().millisecondsSinceEpoch,
+          lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+        ),
       ),
     ];
 

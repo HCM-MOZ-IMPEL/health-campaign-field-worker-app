@@ -234,7 +234,11 @@ class SearchHouseholdsBloc
     List<IndividualModel> results = [
       ...firstNameResults,
       ...lastNameResults,
-    ].where((obj) => uniqueIds.contains(obj.clientReferenceId)).toList();
+    ]
+        .where((obj) =>
+            uniqueIds.contains(obj.clientReferenceId) &&
+            obj.auditDetails?.createdBy == userUid)
+        .toList();
 
     final householdMembers = <HouseholdMemberModel>[];
     for (final element in results) {
