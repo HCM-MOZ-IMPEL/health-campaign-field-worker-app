@@ -542,11 +542,20 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 ),
                               BlocBuilder<FacilityBloc, FacilityState>(
                                 builder: (context, state) {
-                                  final facilities = state.whenOrNull(
+                                  final unSortedFacilities = state.whenOrNull(
                                         fetched: (_, facilities, __) =>
                                             facilities,
                                       ) ??
                                       [];
+
+                                  var facilities = unSortedFacilities.toList();
+                                  if (!isWarehouseManager) {
+                                    facilities.sort((a, b) => b
+                                            .auditDetails!.lastModifiedTime
+                                            .compareTo(
+                                          a.auditDetails!.lastModifiedTime,
+                                        ));
+                                  }
 
                                   return _StockDetailsShowcaseBuilder(
                                     entryType: entryType,

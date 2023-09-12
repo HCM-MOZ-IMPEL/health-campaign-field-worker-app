@@ -77,11 +77,6 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
       final facility = facilities
           .firstWhereOrNull((element) => element.id == latestStock?.facilityId);
 
-      allFacilities.sort((a, b) => b.auditDetails!.lastModifiedTime
-          .compareTo(a.auditDetails!.lastModifiedTime));
-      facilities.sort((a, b) => b.auditDetails!.lastModifiedTime
-          .compareTo(a.auditDetails!.lastModifiedTime));
-
       emit(FacilityFetchedState(
         facilities: facilities,
         allFacilities: allFacilities,
