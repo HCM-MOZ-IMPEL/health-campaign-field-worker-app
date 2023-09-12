@@ -76,12 +76,15 @@ class FacilityLocalRepository extends FacilityLocalBaseRepository {
                 type: address.type,
                 rowVersion: address.rowVersion,
               ),
-        auditDetails: AuditDetails(
-          createdBy: facility.auditCreatedBy ?? "",
-          createdTime: facility.auditCreatedTime ?? 0,
-          lastModifiedBy: facility.auditModifiedBy,
-          lastModifiedTime: facility.auditModifiedTime,
-        ),
+        auditDetails: (facility.auditCreatedBy != null &&
+                facility.auditCreatedTime != null)
+            ? AuditDetails(
+                createdBy: facility.auditCreatedBy!,
+                createdTime: facility.auditCreatedTime!,
+                lastModifiedBy: facility.auditModifiedBy,
+                lastModifiedTime: facility.auditModifiedTime,
+              )
+            : null,
       );
     }).toList();
   }
