@@ -550,10 +550,11 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
 
                                   var facilities = unSortedFacilities.toList();
                                   if (!isWarehouseManager) {
-                                    facilities.sort((a, b) => b
-                                            .auditDetails!.lastModifiedTime
+                                    facilities.sort((a, b) =>
+                                        (b.auditDetails?.lastModifiedTime ?? 0)
                                             .compareTo(
-                                          a.auditDetails!.lastModifiedTime,
+                                          (a.auditDetails?.lastModifiedTime ??
+                                              0),
                                         ));
                                   }
 
@@ -809,7 +810,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                               onChanged: (value) {
                                                 setState(() {
                                                   form.control(
-                                                      _typeOfTransportKey);
+                                                    _typeOfTransportKey,
+                                                  );
                                                 });
                                               },
                                               initialValue:

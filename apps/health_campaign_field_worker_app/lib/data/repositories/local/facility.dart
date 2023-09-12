@@ -77,8 +77,8 @@ class FacilityLocalRepository extends FacilityLocalBaseRepository {
                 rowVersion: address.rowVersion,
               ),
         auditDetails: AuditDetails(
-          createdBy: facility.auditCreatedBy!,
-          createdTime: facility.auditCreatedTime!,
+          createdBy: facility.auditCreatedBy ?? "",
+          createdTime: facility.auditCreatedTime ?? 0,
           lastModifiedBy: facility.auditModifiedBy,
           lastModifiedTime: facility.auditModifiedTime,
         ),
