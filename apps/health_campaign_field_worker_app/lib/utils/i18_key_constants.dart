@@ -433,6 +433,8 @@ class DeliverIntervention {
   String get dialogContent => 'DELIVER_INTERVENTION_DIALOG_CONTENT';
 
   String get deliveryCommentRequired => 'DELIVERY_COMMENT_REQUIRED';
+
+  String get bedNetsNonZero => 'BED_NETS_NON_ZERO';
 }
 
 class ProjectSelection {

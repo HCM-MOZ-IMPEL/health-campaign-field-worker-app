@@ -140,6 +140,11 @@ class CustomValidator {
 
     return null;
   }
+
+  static Map<String, dynamic>? bedNetValidaiton(
+      AbstractControl<dynamic> control) {
+    return control.value > 0 ? null : {'nonZero': true};
+  }
 }
 
 performBackgroundService({

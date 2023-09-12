@@ -472,6 +472,14 @@ class _DeliverInterventionPageState
                                             });
                                           }
                                         },
+                                        validationMessages: {
+                                          "nonZero": (control) {
+                                            return localizations.translate(
+                                              i18.deliverIntervention
+                                                  .bedNetsNonZero,
+                                            );
+                                          },
+                                        },
                                       ),
                                     ),
                                     BlocBuilder<AppInitializationBloc,
@@ -494,9 +502,7 @@ class _DeliverInterventionPageState
                                               i18.deliverIntervention
                                                   .deliveryCommentLabel,
                                             ),
-                                            readOnly: isDelivered ||
-                                                readOnly ||
-                                                (initialCount == 1),
+                                            readOnly: isDelivered || readOnly,
                                             valueMapper: (value) => value,
                                             initialValue:
                                                 localizations.translate(
@@ -546,7 +552,10 @@ class _DeliverInterventionPageState
             ? int.tryParse(
                 state.householdMemberWrapper.task!.resources!.first.quantity!,
               )
-            : 1,
+            : 0,
+        validators: [
+          CustomValidator.bedNetValidaiton,
+        ],
       ),
       _deliveryCommentKey: FormControl<String>(
         value:
@@ -558,7 +567,7 @@ class _DeliverInterventionPageState
                     1.8,
                 3,
               ).round() >
-              1)
+              0)
             Validators.required,
         ],
       ),
