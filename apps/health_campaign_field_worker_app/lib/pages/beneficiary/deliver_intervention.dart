@@ -46,6 +46,7 @@ class _DeliverInterventionPageState
   int count = 0;
   late ProductVariantModel productVariantModel;
   bool readOnly = false;
+  bool hasErrors = false;
 
   @override
   initState() {
@@ -99,9 +100,13 @@ class _DeliverInterventionPageState
                                   child: DigitElevatedButton(
                                     onPressed: () async {
                                       form.markAllAsTouched();
+                                      setState(() {
+                                        hasErrors = form
+                                            .control(_quantityDistributedKey)
+                                            .hasErrors;
+                                      });
                                       if (!form.valid) return;
                                       final router = context.router;
-
                                       final shouldSubmit =
                                           await DigitDialog.show<bool>(
                                         context,
@@ -415,6 +420,7 @@ class _DeliverInterventionPageState
                                         .buildWith(
                                       child: DigitIntegerFormPicker(
                                         form: form,
+                                        hasErrors: hasErrors,
                                         minimum: 1,
                                         maximum: min(
                                           (householdMemberWrapper
@@ -453,6 +459,11 @@ class _DeliverInterventionPageState
                                                   .control(_deliveryCommentKey)
                                                   .touched;
                                               readOnly = false;
+                                              hasErrors = form
+                                                  .control(
+                                                    _quantityDistributedKey,
+                                                  )
+                                                  .hasErrors;
                                             });
                                           } else {
                                             form.markAsPristine();
@@ -469,6 +480,11 @@ class _DeliverInterventionPageState
                                                   .value = null;
 
                                               readOnly = true;
+                                              hasErrors = form
+                                                  .control(
+                                                    _quantityDistributedKey,
+                                                  )
+                                                  .hasErrors;
                                             });
                                           }
                                         },

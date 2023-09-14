@@ -12,6 +12,8 @@ class DigitIntegerFormPicker extends StatelessWidget {
   final String formControlName;
   final void Function(String)? onChanged;
   final Map<String, ValidationMessageFunction>? validationMessages;
+  final bool hasErrors;
+
   const DigitIntegerFormPicker({
     super.key,
     this.minimum,
@@ -23,6 +25,7 @@ class DigitIntegerFormPicker extends StatelessWidget {
     required this.label,
     this.onChanged,
     this.validationMessages,
+    this.hasErrors = false,
   });
 
   @override
@@ -103,8 +106,10 @@ class DigitIntegerFormPicker extends StatelessWidget {
     required IconData icon,
     VoidCallback? onPressed,
   }) =>
-      AspectRatio(
-        aspectRatio: 1,
+      Container(
+        height: 43,
+        width: 43,
+        margin: EdgeInsets.only(bottom: hasErrors ? 22 : 0),
         child: Material(
           shape: border,
           color: Theme.of(context).colorScheme.background,
