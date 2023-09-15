@@ -42,10 +42,14 @@ class ProjectBeneficiaryLocalRepository
           rowVersion: e.rowVersion,
           isDeleted: e.isDeleted,
           beneficiaryId: e.beneficiaryId,
-          auditDetails: AuditDetails(
-            createdBy: e.auditCreatedBy!,
-            createdTime: e.auditCreatedTime!,
-          ),
+          auditDetails: (e.auditCreatedBy != null && e.auditCreatedTime != null)
+              ? AuditDetails(
+                  createdBy: e.auditCreatedBy!,
+                  createdTime: e.auditCreatedTime!,
+                  lastModifiedBy: e.auditModifiedBy,
+                  lastModifiedTime: e.auditModifiedTime,
+                )
+              : null,
         );
       }).toList();
 
