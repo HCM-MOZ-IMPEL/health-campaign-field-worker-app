@@ -420,7 +420,6 @@ class _DeliverInterventionPageState
                                         .buildWith(
                                       child: DigitIntegerFormPicker(
                                         form: form,
-                                        hasErrors: hasErrors,
                                         minimum: 1,
                                         maximum: min(
                                           (householdMemberWrapper
@@ -488,15 +487,35 @@ class _DeliverInterventionPageState
                                             });
                                           }
                                         },
-                                        validationMessages: {
-                                          "nonZero": (control) {
-                                            return localizations.translate(
-                                              i18.deliverIntervention
-                                                  .bedNetsNonZero,
-                                            );
-                                          },
-                                        },
                                       ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ReactiveFormConsumer(
+                                      builder: (context, form, child) {
+                                        if (hasErrors) {
+                                          final error = localizations.translate(
+                                            i18.deliverIntervention
+                                                .bedNetsNonZero,
+                                          );
+
+                                          return Container(
+                                            padding: const EdgeInsets.only(
+                                              left: kPadding * 2,
+                                            ),
+                                            alignment: Alignment
+                                                .centerLeft, // Align the text to the left
+                                            child: Text(
+                                              error,
+                                              style: const TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(); // Empty container if no error
+                                        }
+                                      },
                                     ),
                                     BlocBuilder<AppInitializationBloc,
                                         AppInitializationState>(

@@ -11,8 +11,6 @@ class DigitIntegerFormPicker extends StatelessWidget {
   final FormGroup form;
   final String formControlName;
   final void Function(String)? onChanged;
-  final Map<String, ValidationMessageFunction>? validationMessages;
-  final bool hasErrors;
 
   const DigitIntegerFormPicker({
     super.key,
@@ -24,8 +22,6 @@ class DigitIntegerFormPicker extends StatelessWidget {
     required this.form,
     required this.label,
     this.onChanged,
-    this.validationMessages,
-    this.hasErrors = false,
   });
 
   @override
@@ -73,7 +69,7 @@ class DigitIntegerFormPicker extends StatelessWidget {
                   formControlName: formControlName,
                   decoration: InputDecoration(labelText: hint),
                   keyboardType: TextInputType.number,
-                  validationMessages: validationMessages,
+                  showErrors: (control) => false,
                 ),
               ),
               _buildButton(
@@ -106,10 +102,8 @@ class DigitIntegerFormPicker extends StatelessWidget {
     required IconData icon,
     VoidCallback? onPressed,
   }) =>
-      Container(
-        height: 43,
-        width: 43,
-        margin: EdgeInsets.only(bottom: hasErrors ? 22 : 0),
+      AspectRatio(
+        aspectRatio: 1,
         child: Material(
           shape: border,
           color: Theme.of(context).colorScheme.background,
