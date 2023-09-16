@@ -46,8 +46,6 @@ class ProjectBeneficiaryLocalRepository
               ? AuditDetails(
                   createdBy: e.auditCreatedBy!,
                   createdTime: e.auditCreatedTime!,
-                  lastModifiedBy: e.auditModifiedBy,
-                  lastModifiedTime: e.auditModifiedTime,
                 )
               : null,
         );
