@@ -3,11 +3,11 @@ import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import '../../blocs/beneficiary_registration/beneficiary_registration.dart';
 import '../../blocs/delivery_intervention/deliver_intervention.dart';
 import '../../blocs/household_overview/household_overview.dart';
+import '../../blocs/search_households/search_households.dart';
 import '../../router/app_router.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
@@ -26,6 +26,11 @@ class HouseholdOverviewPage extends LocalizedStatefulWidget {
 
 class _HouseholdOverviewPageState
     extends LocalizedState<HouseholdOverviewPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -301,47 +306,69 @@ class _HouseholdOverviewPageState
                 ),
           bottomNavigationBar: SizedBox(
             height: 85,
-            child:
-                BlocBuilder<DeliverInterventionBloc, DeliverInterventionState>(
-              builder: (ctx, state) => DigitCard(
-                margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
-                child: state.task?.status == 'delivered'
-                    ? DigitOutLineButton(
-                        label: localizations.translate(
-                          i18.memberCard.deliverDetailsViewLabel,
-                        ),
-                        onPressed: () async {
-                          await context.router.push(DeliverInterventionRoute());
-                        },
-                      )
-                    : householdOverviewShowcaseData.deliverIntervention
-                        .buildWith(
-                        child: DigitElevatedButton(
-                          onPressed: () async {
-                            final bloc = ctx.read<HouseholdOverviewBloc>();
-
-                            final projectId = context.projectId;
-
-                            await context.router
-                                .push(DeliverInterventionRoute());
-
-                            bloc.add(
-                              HouseholdOverviewReloadEvent(
-                                projectId: projectId,
+            child: BlocBuilder<SearchHouseholdsBloc, SearchHouseholdsState>(
+              builder: (context, searchState) {
+                return BlocBuilder<DeliverInterventionBloc,
+                    DeliverInterventionState>(
+                  builder: (ctx, state) => DigitCard(
+                    margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
+                    child: state.task?.status == 'delivered'
+                        ? householdOverviewShowcaseData.deliverIntervention
+                            .buildWith(
+                            child: DigitOutLineButton(
+                              label: localizations.translate(
+                                i18.memberCard.deliverDetailsViewLabel,
                               ),
-                            );
-                          },
-                          child: Center(
-                            child: Text(
-                              localizations.translate(
-                                i18.householdOverView
-                                    .householdOverViewActionText,
+                              onPressed: () async {
+                                final householdMemberWrapper =
+                                    searchState.householdMemberWrapper;
+                                if (householdMemberWrapper != null) {
+                                  await context.router.push(
+                                    BeneficiaryWrapperRoute(
+                                      wrapper: householdMemberWrapper,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                          )
+                        : householdOverviewShowcaseData.deliverIntervention
+                            .buildWith(
+                            child: DigitElevatedButton(
+                              onPressed: () async {
+                                final bloc = ctx.read<HouseholdOverviewBloc>();
+
+                                final projectId = context.projectId;
+
+                                final householdMemberWrapper =
+                                    searchState.householdMemberWrapper;
+                                if (householdMemberWrapper != null) {
+                                  await context.router.push(
+                                    BeneficiaryWrapperRoute(
+                                      wrapper: householdMemberWrapper,
+                                    ),
+                                  );
+                                }
+
+                                bloc.add(
+                                  HouseholdOverviewReloadEvent(
+                                    projectId: projectId,
+                                  ),
+                                );
+                              },
+                              child: Center(
+                                child: Text(
+                                  localizations.translate(
+                                    i18.householdOverView
+                                        .householdOverViewActionText,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
         );

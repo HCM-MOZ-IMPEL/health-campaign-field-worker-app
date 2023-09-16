@@ -178,87 +178,104 @@ class _ChecklistPreviewPageState extends LocalizedState<ChecklistPreviewPage> {
                                                 ),
                                               ),
                                             ),
-                                            ...value2.attributes!.map(
-                                              (e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        localizations.translate(
-                                                          "${item2.code}.${e.attributeCode!}",
-                                                        ),
-                                                        style: theme.textTheme
-                                                            .headlineSmall,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      margin: const EdgeInsets
-                                                              .only()
-                                                          .copyWith(
-                                                        top: kPadding,
-                                                        bottom: kPadding,
-                                                      ),
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Text(
-                                                          localizations
-                                                              .translate(
-                                                            e.value ?? "",
+                                            ...(value2.attributes ?? [])
+                                                .where((a) =>
+                                                    a.value !=
+                                                    i18.checklist
+                                                        .notSelectedKey)
+                                                .map(
+                                                  (e) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            localizations
+                                                                .translate(
+                                                              "${item2.code}.${e.attributeCode!}",
+                                                            ),
+                                                            style: theme
+                                                                .textTheme
+                                                                .headlineSmall,
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    e.additionalDetails != '' &&
-                                                            e.additionalDetails !=
-                                                                null
-                                                        ? Container(
-                                                            margin:
-                                                                const EdgeInsets
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only()
+                                                                  .copyWith(
+                                                            top: kPadding,
+                                                            bottom: kPadding,
+                                                          ),
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Text(
+                                                              e.dataType ==
+                                                                      'SingleValueList'
+                                                                  ? localizations
+                                                                      .translate(
+                                                                      'CORE_COMMON_${e.value.toString().toUpperCase()}' ??
+                                                                          "",
+                                                                    )
+                                                                  : e.value ??
+                                                                      "",
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        e.additionalDetails !=
+                                                                    '' &&
+                                                                e.additionalDetails !=
+                                                                    null
+                                                            ? Container(
+                                                                margin: const EdgeInsets
                                                                         .only()
                                                                     .copyWith(
-                                                              top: kPadding,
-                                                              bottom: kPadding,
-                                                            ),
-                                                            child: Column(
-                                                              children: [
-                                                                Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .centerLeft,
-                                                                  child: Text(
-                                                                    localizations
-                                                                        .translate(
-                                                                      "${item2.code}.${e.attributeCode!}.ADDITIONAL_FIELD",
-                                                                    ),
-                                                                  ),
+                                                                  top: kPadding,
+                                                                  bottom:
+                                                                      kPadding,
                                                                 ),
-                                                                Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .centerLeft,
-                                                                  child: Text(
-                                                                    localizations
-                                                                        .translate(
-                                                                      e.additionalDetails,
+                                                                child: Column(
+                                                                  children: [
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          Text(
+                                                                        localizations
+                                                                            .translate(
+                                                                          "${item2.code}.${e.attributeCode!}.ADDITIONAL_FIELD",
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                                  ),
+                                                                    Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          Text(
+                                                                        localizations
+                                                                            .translate(
+                                                                          e.additionalDetails,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        : const Offstage(),
-                                                    const DigitDivider(),
-                                                  ],
+                                                              )
+                                                            : const Offstage(),
+                                                        const DigitDivider(),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
                                           ].toList(),
                                         ),
                                       ),

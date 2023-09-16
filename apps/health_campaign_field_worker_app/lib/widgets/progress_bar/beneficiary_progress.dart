@@ -38,32 +38,36 @@ class _BeneficiaryProgressBarState extends State<BeneficiaryProgressBar> {
         projectId: context.projectId,
       ),
       userId: context.loggedInUserUuid,
-      listener: (data) => setState(() {
-        final now = DateTime.now();
-        final gte = DateTime(
-          now.year,
-          now.month,
-          now.day,
-        );
+      listener: (data) {
+        if (mounted) {
+          setState(() {
+            final now = DateTime.now();
+            final gte = DateTime(
+              now.year,
+              now.month,
+              now.day,
+            );
 
-        final lte = DateTime(
-          now.year,
-          now.month,
-          now.day,
-          23,
-          59,
-          59,
-          999,
-        );
+            final lte = DateTime(
+              now.year,
+              now.month,
+              now.day,
+              23,
+              59,
+              59,
+              999,
+            );
 
-        current = data
-            .where((element) =>
-                element.dateOfRegistrationTime.isAfter(gte) &&
-                (element.isDeleted == false || element.isDeleted == null) &&
-                element.dateOfRegistrationTime.isBefore(lte) &&
-                element.auditDetails!.createdBy == context.loggedInUserUuid)
-            .length;
-      }),
+            current = data
+                .where((element) =>
+                    element.dateOfRegistrationTime.isAfter(gte) &&
+                    (element.isDeleted == false || element.isDeleted == null) &&
+                    element.dateOfRegistrationTime.isBefore(lte) &&
+                    element.auditDetails?.createdBy == context.loggedInUserUuid)
+                .length;
+          });
+        }
+      },
     );
     super.didChangeDependencies();
   }

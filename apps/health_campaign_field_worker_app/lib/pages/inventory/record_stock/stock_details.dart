@@ -7,6 +7,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:recase/recase.dart';
 
 import '../../../blocs/app_initialization/app_initialization.dart';
+import '../../../blocs/auth/auth.dart';
 import '../../../blocs/facility/facility.dart';
 import '../../../blocs/product_variant/product_variant.dart';
 import '../../../blocs/record_stock/record_stock.dart';
@@ -44,6 +45,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   static const _typeOfTransportKey = 'typeOfTransport';
   static const _commentsKey = 'comments';
   late ProductVariantModel productVariantModel;
+  bool isDeliveryTeamReturn = false;
+  List<ShowcaseItemBuilder> showcaseFor = [];
 
   FormGroup _form() {
     return fb.group({
@@ -95,6 +98,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isWarehouseManager = context.isWarehouseManager;
 
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
@@ -125,17 +129,53 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
               switch (entryType) {
                 case StockRecordEntryType.receipt:
                   pageTitle = module.receivedPageTitle;
-                  transactionPartyLabel = module.selectTransactingPartyReceived;
+                  transactionPartyLabel = isWarehouseManager
+                      ? module.selectTransactingPartyReceived
+                      : module.selectTransactingPartyReceivedLocalMonitor;
                   quantityCountLabel = module.quantityReceivedLabel;
                   quantityValidationMessage = module.quantityReceivedValidation;
                   transactionType = TransactionType.received;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.receiptReceivedFrom,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .receiptNumberOfNetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.receiptNumberOfBednetsReceived,
+                    stockDetailsShowcaseData.receiptComments,
+                  ];
                   break;
                 case StockRecordEntryType.dispatch:
                   pageTitle = module.issuedPageTitle;
-                  transactionPartyLabel = module.selectTransactingPartyIssued;
+                  transactionPartyLabel = isWarehouseManager
+                      ? module.selectTransactingPartyIssued
+                      : module.selectTransactingPartyIssuedLocalMonitor;
                   quantityCountLabel = module.quantitySentLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.dispatched;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.issuedIssuedTo,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .issuedNumberOfBednetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.issuedNumberOfBednetsIssued,
+                    stockDetailsShowcaseData.issuedComments,
+                  ];
                   break;
                 case StockRecordEntryType.returned:
                   pageTitle = module.returnedPageTitle;
@@ -143,6 +183,22 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   quantityCountLabel = module.quantityReturnedLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.received;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.returnedReturnedFrom,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .returnedNumberOfBednetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.returnedNumberOfBednetsReturned,
+                    stockDetailsShowcaseData.returnedComments,
+                  ];
                   break;
                 case StockRecordEntryType.loss:
                   pageTitle = module.lostPageTitle;
@@ -181,44 +237,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                     header: Column(children: [
                       BackNavigationHelpHeaderWidget(
                         showcaseButton: ShowcaseButton(
-                          showcaseFor: [
-                            if (entryType == StockRecordEntryType.receipt) ...[
-                              stockDetailsShowcaseData.receiptReceivedFrom,
-                              stockDetailsShowcaseData.receiptPackingSlipId,
-                              stockDetailsShowcaseData.receiptTypeOfTransport,
-                              stockDetailsShowcaseData.receiptVehicleNumber,
-                              stockDetailsShowcaseData.receiptDriverName,
-                              stockDetailsShowcaseData
-                                  .receiptNumberOfNetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .receiptNumberOfBednetsReceived,
-                              stockDetailsShowcaseData.receiptComments,
-                            ],
-                            if (entryType == StockRecordEntryType.dispatch) ...[
-                              stockDetailsShowcaseData.issuedIssuedTo,
-                              stockDetailsShowcaseData.issuedPackingSlipId,
-                              stockDetailsShowcaseData.issuedTypeOfTransport,
-                              stockDetailsShowcaseData.issuedVehicleNumber,
-                              stockDetailsShowcaseData.issuedDriverName,
-                              stockDetailsShowcaseData
-                                  .issuedNumberOfBednetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .issuedNumberOfBednetsIssued,
-                              stockDetailsShowcaseData.issuedComments,
-                            ],
-                            if (entryType == StockRecordEntryType.returned) ...[
-                              stockDetailsShowcaseData.returnedReturnedFrom,
-                              stockDetailsShowcaseData.returnedPackingSlipId,
-                              stockDetailsShowcaseData.returnedTypeOfTransport,
-                              stockDetailsShowcaseData.returnedVehicleNumber,
-                              stockDetailsShowcaseData.returnedDriverName,
-                              stockDetailsShowcaseData
-                                  .returnedNumberOfBednetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .returnedNumberOfBednetsReturned,
-                              stockDetailsShowcaseData.returnedComments,
-                            ],
-                          ].map((e) => e.showcaseKey),
+                          showcaseFor: showcaseFor.map((e) => e.showcaseKey),
                         ),
                       ),
                     ]),
@@ -323,6 +342,49 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                     }
 
                                     transactingPartyType ??= 'WAREHOUSE';
+
+                                    if (entryType ==
+                                        StockRecordEntryType.dispatch) {
+                                      int issueQuantity = quantity ?? 0;
+
+                                      if (issueQuantity >
+                                          stockState.stockInHand) {
+                                        final alert =
+                                            await DigitDialog.show<bool>(
+                                          context,
+                                          options: DigitDialogOptions(
+                                            titleText: localizations.translate(
+                                              i18.stockDetails.countDialogTitle,
+                                            ),
+                                            contentText: localizations
+                                                .translate(
+                                                  i18.stockDetails.countContent,
+                                                )
+                                                .replaceAll(
+                                                  '{}',
+                                                  stockState.stockInHand
+                                                      .toString(),
+                                                ),
+                                            primaryAction: DigitDialogActions(
+                                              label: localizations.translate(
+                                                i18.stockDetails
+                                                    .countDialogSuccess,
+                                              ),
+                                              action: (context) {
+                                                Navigator.of(
+                                                  context,
+                                                  rootNavigator: true,
+                                                ).pop(false);
+                                              },
+                                            ),
+                                          ),
+                                        );
+
+                                        if (!(alert ?? false)) {
+                                          return;
+                                        }
+                                      }
+                                    }
 
                                     final stockModel = StockModel(
                                       clientReferenceId: IdGen.i.identifier,
@@ -480,11 +542,21 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 ),
                               BlocBuilder<FacilityBloc, FacilityState>(
                                 builder: (context, state) {
-                                  final facilities = state.whenOrNull(
+                                  final unSortedFacilities = state.whenOrNull(
                                         fetched: (_, facilities, __) =>
                                             facilities,
                                       ) ??
                                       [];
+
+                                  var facilities = unSortedFacilities.toList();
+                                  if (!isWarehouseManager) {
+                                    facilities.sort((a, b) =>
+                                        (b.auditDetails?.lastModifiedTime ?? 0)
+                                            .compareTo(
+                                          (a.auditDetails?.lastModifiedTime ??
+                                              0),
+                                        ));
+                                  }
 
                                   return _StockDetailsShowcaseBuilder(
                                     entryType: entryType,
@@ -528,238 +600,404 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         form
                                             .control(_transactingPartyKey)
                                             .value = facility;
+
+                                        String? facilityType;
+
+                                        final fields =
+                                            facility.additionalFields?.fields;
+
+                                        if (fields != null &&
+                                            fields.isNotEmpty) {
+                                          final type = fields.firstWhereOrNull(
+                                            (element) => element.key == 'type',
+                                          );
+                                          final value = type?.value;
+                                          if (value != null &&
+                                              value is String &&
+                                              value.isNotEmpty) {
+                                            facilityType = value;
+                                          }
+                                        }
+                                        if (facilityType == 'DeliveryTeam') {
+                                          setState(() {
+                                            form
+                                                .control(_waybillNumberKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_waybillQuantityKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_vehicleNumberKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_driverNameKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_typeOfTransportKey)
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(
+                                              _commentsKey,
+                                            )
+                                                .setValidators(
+                                              [],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            isDeliveryTeamReturn = true;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            isDeliveryTeamReturn = false;
+                                            form
+                                                .control(_waybillNumberKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                                Validators.minLength(
+                                                  validation.stocks.minLength,
+                                                ),
+                                                Validators.maxLength(
+                                                  validation.stocks
+                                                      .maxWayBillNoLength,
+                                                ),
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_waybillQuantityKey)
+                                                .setValidators(
+                                              [
+                                                Validators.number,
+                                                Validators.required,
+                                                Validators.min(validation
+                                                    .stocks.minQuantity),
+                                                Validators.max(validation
+                                                    .stocks.maxQuantity),
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_vehicleNumberKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                                CustomValidator
+                                                    .vehicleNumberValidation,
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_driverNameKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                                Validators.minLength(
+                                                  validation.stocks.minLength,
+                                                ),
+                                                Validators.maxLength(
+                                                  validation.stocks
+                                                      .maxWayBillNoLength,
+                                                ),
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                            form
+                                                .control(_typeOfTransportKey)
+                                                .setValidators(
+                                              [
+                                                Validators.required,
+                                              ],
+                                              updateParent: true,
+                                              autoValidate: true,
+                                            );
+                                          });
+                                        }
                                       },
                                     ),
                                   );
                                 },
                               ),
-                              _StockDetailsShowcaseBuilder(
-                                entryType: entryType,
-                                issuedBuilder: stockDetailsShowcaseData
-                                    .issuedPackingSlipId,
-                                receiptBuilder: stockDetailsShowcaseData
-                                    .receiptPackingSlipId,
-                                returnedBuilder: stockDetailsShowcaseData
-                                    .returnedPackingSlipId,
-                                child: DigitTextFormField(
-                                  label: localizations.translate(
-                                    i18.stockDetails.waybillNumberLabel,
-                                  ),
-                                  formControlName: _waybillNumberKey,
-                                  isRequired: true,
-                                  validationMessages: {
-                                    'required': (object) =>
-                                        localizations.translate(
-                                          module.waybillNumberValidation,
-                                        ),
-                                    'minLength': (object) =>
-                                        localizations.translate(
-                                          i18.stockDetails
-                                              .waybillNumberMinMaxLengthValidation,
-                                        ),
-                                    'maxLength': (object) =>
-                                        localizations.translate(
-                                          i18.stockDetails
-                                              .waybillNumberMinMaxLengthValidation,
-                                        ),
-                                  },
-                                ),
-                              ),
-                              BlocBuilder<AppInitializationBloc,
-                                  AppInitializationState>(
-                                builder: (context, state) => state.maybeWhen(
-                                  orElse: () => const Offstage(),
-                                  initialized: (appConfiguration, _) {
-                                    final transportTypeOptions =
-                                        appConfiguration.transportTypes ??
-                                            <TransportTypes>[];
-
-                                    return _StockDetailsShowcaseBuilder(
+                              isDeliveryTeamReturn
+                                  ? const Offstage()
+                                  : _StockDetailsShowcaseBuilder(
                                       entryType: entryType,
                                       issuedBuilder: stockDetailsShowcaseData
-                                          .issuedTypeOfTransport,
+                                          .issuedPackingSlipId,
                                       receiptBuilder: stockDetailsShowcaseData
-                                          .receiptTypeOfTransport,
+                                          .receiptPackingSlipId,
                                       returnedBuilder: stockDetailsShowcaseData
-                                          .returnedTypeOfTransport,
-                                      child: DigitReactiveDropdown<String>(
-                                        isRequired: true,
+                                          .returnedPackingSlipId,
+                                      child: DigitTextFormField(
                                         label: localizations.translate(
-                                          i18.stockDetails.transportTypeLabel,
+                                          i18.stockDetails.waybillNumberLabel,
                                         ),
-                                        valueMapper: (e) => e,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            form.control(_typeOfTransportKey);
-                                          });
-                                        },
-                                        initialValue: localizations.translate(
-                                          transportTypeOptions
-                                                  .firstOrNull?.code ??
-                                              '',
-                                        ),
-                                        menuItems: transportTypeOptions.map(
-                                          (e) {
-                                            return localizations
-                                                .translate(e.code);
-                                          },
-                                        ).toList(),
-                                        formControlName: _typeOfTransportKey,
+                                        formControlName: _waybillNumberKey,
+                                        isRequired: true,
                                         validationMessages: {
                                           'required': (object) =>
                                               localizations.translate(
-                                                module.transportTypeValidation,
+                                                module.waybillNumberValidation,
+                                              ),
+                                          'minLength': (object) =>
+                                              localizations.translate(
+                                                i18.stockDetails
+                                                    .waybillNumberMinMaxLengthValidation,
+                                              ),
+                                          'maxLength': (object) =>
+                                              localizations.translate(
+                                                i18.stockDetails
+                                                    .waybillNumberMinMaxLengthValidation,
                                               ),
                                         },
                                       ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              _StockDetailsShowcaseBuilder(
-                                entryType: entryType,
-                                issuedBuilder: stockDetailsShowcaseData
-                                    .issuedVehicleNumber,
-                                receiptBuilder: stockDetailsShowcaseData
-                                    .receiptVehicleNumber,
-                                returnedBuilder: stockDetailsShowcaseData
-                                    .returnedVehicleNumber,
-                                child: DigitTextFormField(
-                                  label: localizations.translate(
-                                    i18.stockDetails.vehicleNumberLabel,
-                                  ),
-                                  isRequired: true,
-                                  formControlName: _vehicleNumberKey,
-                                  inputFormatters: [
-                                    UpperCaseTextFormatter(),
-                                  ],
-                                  maxLength: 9,
-                                  validationMessages: {
-                                    'required': (object) =>
-                                        localizations.translate(
-                                          module
-                                              .vehicleNumberRequiredValidation,
+                                    ),
+                              isDeliveryTeamReturn
+                                  ? const Offstage()
+                                  : BlocBuilder<AppInitializationBloc,
+                                      AppInitializationState>(
+                                      builder: (context, state) =>
+                                          state.maybeWhen(
+                                        orElse: () => const Offstage(),
+                                        initialized: (appConfiguration, _) {
+                                          final transportTypeOptions =
+                                              appConfiguration.transportTypes ??
+                                                  <TransportTypes>[];
+
+                                          return _StockDetailsShowcaseBuilder(
+                                            entryType: entryType,
+                                            issuedBuilder:
+                                                stockDetailsShowcaseData
+                                                    .issuedTypeOfTransport,
+                                            receiptBuilder:
+                                                stockDetailsShowcaseData
+                                                    .receiptTypeOfTransport,
+                                            returnedBuilder:
+                                                stockDetailsShowcaseData
+                                                    .returnedTypeOfTransport,
+                                            child:
+                                                DigitReactiveDropdown<String>(
+                                              isRequired: true,
+                                              label: localizations.translate(
+                                                i18.stockDetails
+                                                    .transportTypeLabel,
+                                              ),
+                                              valueMapper: (e) => e,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  form.control(
+                                                    _typeOfTransportKey,
+                                                  );
+                                                });
+                                              },
+                                              initialValue:
+                                                  localizations.translate(
+                                                transportTypeOptions
+                                                        .firstOrNull?.code ??
+                                                    '',
+                                              ),
+                                              menuItems:
+                                                  transportTypeOptions.map(
+                                                (e) {
+                                                  return localizations
+                                                      .translate(e.code);
+                                                },
+                                              ).toList(),
+                                              formControlName:
+                                                  _typeOfTransportKey,
+                                              validationMessages: {
+                                                'required': (object) =>
+                                                    localizations.translate(
+                                                      module
+                                                          .transportTypeValidation,
+                                                    ),
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                              isDeliveryTeamReturn
+                                  ? const Offstage()
+                                  : _StockDetailsShowcaseBuilder(
+                                      entryType: entryType,
+                                      issuedBuilder: stockDetailsShowcaseData
+                                          .issuedVehicleNumber,
+                                      receiptBuilder: stockDetailsShowcaseData
+                                          .receiptVehicleNumber,
+                                      returnedBuilder: stockDetailsShowcaseData
+                                          .returnedVehicleNumber,
+                                      child: DigitTextFormField(
+                                        label: localizations.translate(
+                                          i18.stockDetails.vehicleNumberLabel,
                                         ),
-                                    'vehicleNumber': (object) =>
-                                        localizations.translate(
-                                          module.vehicleNumberValidation,
+                                        isRequired: true,
+                                        formControlName: _vehicleNumberKey,
+                                        inputFormatters: [
+                                          UpperCaseTextFormatter(),
+                                        ],
+                                        maxLength: 9,
+                                        validationMessages: {
+                                          'required': (object) =>
+                                              localizations.translate(
+                                                module
+                                                    .vehicleNumberRequiredValidation,
+                                              ),
+                                          'vehicleNumber': (object) =>
+                                              localizations.translate(
+                                                module.vehicleNumberValidation,
+                                              ),
+                                        },
+                                      ),
+                                    ),
+                              isDeliveryTeamReturn
+                                  ? const Offstage()
+                                  : _StockDetailsShowcaseBuilder(
+                                      entryType: entryType,
+                                      issuedBuilder: stockDetailsShowcaseData
+                                          .issuedDriverName,
+                                      receiptBuilder: stockDetailsShowcaseData
+                                          .receiptDriverName,
+                                      returnedBuilder: stockDetailsShowcaseData
+                                          .returnedDriverName,
+                                      child: DigitTextFormField(
+                                        label: localizations.translate(
+                                          i18.stockDetails.driverNameLabel,
                                         ),
-                                  },
-                                ),
-                              ),
-                              _StockDetailsShowcaseBuilder(
-                                entryType: entryType,
-                                issuedBuilder:
-                                    stockDetailsShowcaseData.issuedDriverName,
-                                receiptBuilder:
-                                    stockDetailsShowcaseData.receiptDriverName,
-                                returnedBuilder:
-                                    stockDetailsShowcaseData.returnedDriverName,
-                                child: DigitTextFormField(
-                                  label: localizations.translate(
-                                    i18.stockDetails.driverNameLabel,
-                                  ),
-                                  isRequired: true,
-                                  formControlName: _driverNameKey,
-                                  validationMessages: {
-                                    'required': (object) =>
-                                        localizations.translate(
-                                          i18.stockDetails.driverNameValidation,
-                                        ),
-                                    'minLength': (object) =>
-                                        localizations.translate(
+                                        isRequired: true,
+                                        formControlName: _driverNameKey,
+                                        validationMessages: {
+                                          'required': (object) =>
+                                              localizations.translate(
+                                                i18.stockDetails
+                                                    .driverNameValidation,
+                                              ),
+                                          'minLength': (object) =>
+                                              localizations.translate(
+                                                i18.stockDetails
+                                                    .driverNameMinMaxLengthValidation,
+                                              ),
+                                          'maxLength': (object) =>
+                                              localizations.translate(
+                                                i18.stockDetails
+                                                    .driverNameMinMaxLengthValidation,
+                                              ),
+                                        },
+                                      ),
+                                    ),
+                              isDeliveryTeamReturn
+                                  ? const Offstage()
+                                  : _StockDetailsShowcaseBuilder(
+                                      entryType: entryType,
+                                      issuedBuilder: stockDetailsShowcaseData
+                                          .issuedNumberOfBednetsIndicatedOnPackingSlip,
+                                      receiptBuilder: stockDetailsShowcaseData
+                                          .receiptNumberOfNetsIndicatedOnPackingSlip,
+                                      returnedBuilder: stockDetailsShowcaseData
+                                          .returnedNumberOfBednetsIndicatedOnPackingSlip,
+                                      child: DigitTextFormField(
+                                        label: localizations.translate(
                                           i18.stockDetails
-                                              .driverNameMinMaxLengthValidation,
+                                              .quantityOfProductIndicatedOnWaybillLabel,
                                         ),
-                                    'maxLength': (object) =>
-                                        localizations.translate(
-                                          i18.stockDetails
-                                              .driverNameMinMaxLengthValidation,
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(
+                                          decimal: true,
                                         ),
-                                  },
-                                ),
-                              ),
-                              _StockDetailsShowcaseBuilder(
-                                entryType: entryType,
-                                issuedBuilder: stockDetailsShowcaseData
-                                    .issuedNumberOfBednetsIndicatedOnPackingSlip,
-                                receiptBuilder: stockDetailsShowcaseData
-                                    .receiptNumberOfNetsIndicatedOnPackingSlip,
-                                returnedBuilder: stockDetailsShowcaseData
-                                    .returnedNumberOfBednetsIndicatedOnPackingSlip,
-                                child: DigitTextFormField(
-                                  label: localizations.translate(
-                                    i18.stockDetails
-                                        .quantityOfProductIndicatedOnWaybillLabel,
-                                  ),
-                                  keyboardType:
-                                      const TextInputType.numberWithOptions(
-                                    decimal: true,
-                                  ),
-                                  formControlName: _waybillQuantityKey,
-                                  isRequired: true,
-                                  validationMessages: {
-                                    'required': (object) =>
-                                        localizations.translate(
-                                          module
-                                              .quantityIndicatedOnWaybillValidation,
-                                        ),
-                                    'number': (object) =>
-                                        localizations.translate(
-                                          module
-                                              .quantityIndicatedOnWaybillValidation,
-                                        ),
-                                    'min': (object) => localizations.translate(
-                                          module
-                                              .quantityMinAndMaxWaybillValidation,
-                                        ),
-                                    'max': (object) => localizations.translate(
-                                          module
-                                              .quantityMinAndMaxWaybillValidation,
-                                        ),
-                                  },
-                                  onChanged: (control) {
-                                    final quantity = form
-                                        .control(_transactionQuantityKey)
-                                        .value as int?;
-                                    final waybillQuantity = form
-                                        .control(_waybillQuantityKey)
-                                        .value as int?;
-                                    if (StockRecordEntryType.receipt ==
-                                            entryType &&
-                                        quantity != waybillQuantity) {
-                                      setState(() {
-                                        form
-                                            .control(
-                                          _commentsKey,
-                                        )
-                                            .setValidators(
-                                          [Validators.required],
-                                          updateParent: true,
-                                          autoValidate: true,
-                                        );
-                                        form
-                                            .control(
-                                              _commentsKey,
-                                            )
-                                            .touched;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        form
-                                            .control(
-                                          _commentsKey,
-                                        )
-                                            .setValidators(
-                                          [],
-                                          updateParent: true,
-                                          autoValidate: true,
-                                        );
-                                      });
-                                    }
-                                  },
-                                ),
-                              ),
+                                        formControlName: _waybillQuantityKey,
+                                        isRequired: true,
+                                        validationMessages: {
+                                          'required': (object) =>
+                                              localizations.translate(
+                                                module
+                                                    .quantityIndicatedOnWaybillValidation,
+                                              ),
+                                          'number': (object) =>
+                                              localizations.translate(
+                                                module
+                                                    .quantityIndicatedOnWaybillValidation,
+                                              ),
+                                          'min': (object) =>
+                                              localizations.translate(
+                                                module
+                                                    .quantityMinAndMaxWaybillValidation,
+                                              ),
+                                          'max': (object) =>
+                                              localizations.translate(
+                                                module
+                                                    .quantityMinAndMaxWaybillValidation,
+                                              ),
+                                        },
+                                        onChanged: (control) {
+                                          if (StockRecordEntryType.receipt ==
+                                                  entryType &&
+                                              !isDeliveryTeamReturn) {
+                                            final quantity = form
+                                                .control(
+                                                  _transactionQuantityKey,
+                                                )
+                                                .value as int?;
+                                            final waybillQuantity = form
+                                                .control(_waybillQuantityKey)
+                                                .value as int?;
+                                            if (quantity != waybillQuantity) {
+                                              setState(() {
+                                                form
+                                                    .control(
+                                                  _commentsKey,
+                                                )
+                                                    .setValidators(
+                                                  [Validators.required],
+                                                  updateParent: true,
+                                                  autoValidate: true,
+                                                );
+                                                form
+                                                    .control(
+                                                      _commentsKey,
+                                                    )
+                                                    .touched;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                form
+                                                    .control(
+                                                  _commentsKey,
+                                                )
+                                                    .setValidators(
+                                                  [],
+                                                  updateParent: true,
+                                                  autoValidate: true,
+                                                );
+                                              });
+                                            }
+                                          }
+                                        },
+                                      ),
+                                    ),
                               _StockDetailsShowcaseBuilder(
                                 entryType: entryType,
                                 returnedBuilder: stockDetailsShowcaseData
@@ -797,43 +1035,47 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                         ),
                                   },
                                   onChanged: (control) {
-                                    final quantity = form
-                                        .control(_transactionQuantityKey)
-                                        .value as int?;
-                                    final waybillQuantity = form
-                                        .control(_waybillQuantityKey)
-                                        .value as int?;
                                     if (StockRecordEntryType.receipt ==
                                             entryType &&
-                                        quantity != waybillQuantity) {
-                                      setState(() {
-                                        form
-                                            .control(
-                                          _commentsKey,
-                                        )
-                                            .setValidators(
-                                          [Validators.required],
-                                          updateParent: true,
-                                          autoValidate: true,
-                                        );
-                                        form
-                                            .control(
-                                              _commentsKey,
-                                            )
-                                            .touched;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        form
-                                            .control(
-                                          _commentsKey,
-                                        )
-                                            .setValidators(
-                                          [],
-                                          updateParent: true,
-                                          autoValidate: true,
-                                        );
-                                      });
+                                        !isDeliveryTeamReturn) {
+                                      final quantity = form
+                                          .control(
+                                            _transactionQuantityKey,
+                                          )
+                                          .value as int?;
+                                      final waybillQuantity = form
+                                          .control(_waybillQuantityKey)
+                                          .value as int?;
+                                      if (quantity != waybillQuantity) {
+                                        setState(() {
+                                          form
+                                              .control(
+                                            _commentsKey,
+                                          )
+                                              .setValidators(
+                                            [Validators.required],
+                                            updateParent: true,
+                                            autoValidate: true,
+                                          );
+                                          form
+                                              .control(
+                                                _commentsKey,
+                                              )
+                                              .touched;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          form
+                                              .control(
+                                            _commentsKey,
+                                          )
+                                              .setValidators(
+                                            [],
+                                            updateParent: true,
+                                            autoValidate: true,
+                                          );
+                                        });
+                                      }
                                     }
                                   },
                                 ),

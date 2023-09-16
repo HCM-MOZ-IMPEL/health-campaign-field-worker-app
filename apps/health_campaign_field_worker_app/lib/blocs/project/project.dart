@@ -121,8 +121,11 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
 
     final isOnline = connectivityResult == ConnectivityResult.wifi ||
         connectivityResult == ConnectivityResult.mobile;
+    final selectedProject = await localSecureStore.selectedProject;
+    final isProjectSetUpComplete = await localSecureStore
+        .isProjectSetUpComplete(selectedProject?.id ?? "noProjectId");
 
-    if (isOnline) {
+    if (isOnline && !isProjectSetUpComplete) {
       await _loadOnline(emit);
     } else {
       await _loadOffline(emit);
@@ -248,8 +251,9 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       loading: false,
       syncError: null,
     ));
-
-    add(ProjectSelectProjectEvent(projects.first));
+    if (projects.length == 1) {
+      add(ProjectSelectProjectEvent(projects.first));
+    }
   }
 
   FutureOr<void> _loadOffline(ProjectEmitter emit) async {
@@ -283,22 +287,17 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
         projectFacility,
         createOpLog: false,
       );
-
-      /// Passing [id] as [null] is required to load all facilities associated
-      /// with the tenant
-      final facilities = await facilityRemoteRepository.search(
-        FacilitySearchModel(
-          id: null,
-        ),
-      );
-
-      for (final facility in facilities) {
-        await facilityLocalRepository.create(
-          facility,
-          createOpLog: false,
-        );
-      }
     }
+
+    /// Passing [id] as [null] is required to load all facilities associated
+    /// with the tenant
+    final facilities = await facilityRemoteRepository.search(
+      FacilitySearchModel(
+        id: null,
+      ),
+    );
+
+    await facilityLocalRepository.bulkCreate(facilities);
   }
 
   FutureOr<void> _loadServiceDefinition(List<ProjectModel> projects) async {
@@ -309,7 +308,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
       configs.first.checklistTypes?.map((e) => e.code).forEach((element) {
         for (final project in projects) {
           codes.add(
-            '${project.name}.$element.${elements.code.name.snakeCase.toUpperCase()}',
+            '${project.name}.$element.${elements.code.snakeCase.toUpperCase()}',
           );
         }
       });
@@ -442,6 +441,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
         }
         await localSecureStore.setSelectedProject(event.model);
       }
+      await localSecureStore.setProjectSetUpComplete(event.model.id, true);
     } catch (_) {
       emit(state.copyWith(
         loading: false,

@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../models/auth/auth_model.dart';
 import '../../../models/data_model.dart';
+import '../../../models/role_actions/role_actions_model.dart';
 
 class LocalSecureStore {
   static const accessTokenKey = 'accessTokenKey';
@@ -14,6 +15,7 @@ class LocalSecureStore {
   static const isAppInActiveKey = 'isAppInActiveKey';
   static const boundaryRefetchInKey = 'boundaryRefetchInKey';
   static const manualSyncKey = 'manualSyncKey';
+  static const actionsListkey = 'actionsListkey';
 
   final storage = const FlutterSecureStorage();
 
@@ -78,6 +80,20 @@ class LocalSecureStore {
     }
   }
 
+  Future<RoleActionsWrapperModel?> get savedActions async {
+    final actionsListString = await storage.read(key: actionsListkey);
+    if (actionsListString == null) return null;
+
+    try {
+      final actions =
+          RoleActionsWrapperModel.fromJson(json.decode(actionsListString));
+
+      return actions;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<bool> get boundaryRefetched async {
     final isboundaryRefetchRequired =
         await storage.read(key: boundaryRefetchInKey);
@@ -110,6 +126,28 @@ class LocalSecureStore {
       key: boundaryRefetchInKey,
       value: isboundaryRefetch.toString(),
     );
+  }
+
+  Future<void> setProjectSetUpComplete(String key, bool value) async {
+    await storage.write(
+      key: key,
+      value: value.toString(),
+    );
+  }
+
+  Future<bool> isProjectSetUpComplete(String projectId) async {
+    final isProjectSetUpComplete = await storage.read(key: projectId);
+
+    switch (isProjectSetUpComplete) {
+      case 'true':
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  Future<void> setRoleActions(String actions) async {
+    await storage.write(key: actionsListkey, value: actions);
   }
 
   Future<void> setAuthCredentials(AuthModel model) async {

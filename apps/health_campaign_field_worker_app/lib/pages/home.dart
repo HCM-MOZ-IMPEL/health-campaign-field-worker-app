@@ -83,12 +83,7 @@ class _HomePageState extends LocalizedState<HomePage> {
       return e.code;
     });
 
-    if (roles.contains(UserRoleCodeEnum.warehouseManager) ||
-        roles.contains(UserRoleCodeEnum.supervisor) ||
-        roles.contains(UserRoleCodeEnum.districtSupervisor) ||
-        roles.contains(UserRoleCodeEnum.nationalSupervisor) ||
-        roles.contains(UserRoleCodeEnum.provincialSupervisor) ||
-        roles.contains(UserRoleCodeEnum.fieldSupervisor)) {
+    if (!(roles.contains("DISTRIBUTOR") || roles.contains("REGISTRAR"))) {
       skipProgressBar = true;
     }
 
@@ -304,256 +299,165 @@ class _HomePageState extends LocalizedState<HomePage> {
       return null;
     }
 
-    final roles = state.userModel.roles.map((e) {
-      return e.code;
-    });
-
-    bool isDistributor = false;
-    bool isSupervisor = false;
-    bool isWarehouseManager = false;
-
-    for (final role in roles) {
-      if (role == UserRoleCodeEnum.systemAdministrator) {
-        isDistributor = true;
-        isWarehouseManager = true;
-      }
-      if (role == UserRoleCodeEnum.distributor) {
-        if (!isDistributor) isDistributor = true;
-        continue;
-      }
-      if (role == UserRoleCodeEnum.supervisor ||
-          role == UserRoleCodeEnum.districtSupervisor ||
-          role == UserRoleCodeEnum.nationalSupervisor ||
-          role == UserRoleCodeEnum.provincialSupervisor ||
-          role == UserRoleCodeEnum.fieldSupervisor) {
-        if (!isSupervisor) isSupervisor = true;
-        continue;
-      }
-      if (role == UserRoleCodeEnum.warehouseManager) {
-        if (!isWarehouseManager) isWarehouseManager = true;
-        continue;
-      }
-    }
-
-    List<Widget> homeItems = <Widget>[];
-    List<GlobalKey> showcaseKeys = <GlobalKey>[];
-
-    if (isDistributor) {
-      showcaseKeys.addAll([
-        homeShowcaseData.distributorBeneficiaries.showcaseKey,
-        homeShowcaseData.distributorFileComplaint.showcaseKey,
-        homeShowcaseData.distributorSyncData.showcaseKey,
-      ]);
-      homeItems.addAll([
-        homeShowcaseData.distributorBeneficiaries.buildWith(
-          child: HomeItemCard(
-            icon: Icons.all_inbox,
-            label: i18.home.beneficiaryLabel,
-            onPressed: () async {
-              final searchBloc = context.read<SearchHouseholdsBloc>();
-              await context.router.push(
-                SearchBeneficiaryRoute(),
-              );
-              searchBloc.add(const SearchHouseholdsClearEvent());
-            },
-          ),
+    final Map<String, Widget> homeItemsMap = {
+      i18.home.beneficiaryLabel:
+          homeShowcaseData.distributorBeneficiaries.buildWith(
+        child: HomeItemCard(
+          icon: Icons.all_inbox,
+          label: i18.home.beneficiaryLabel,
+          onPressed: () async {
+            final searchBloc = context.read<SearchHouseholdsBloc>();
+            await context.router.push(
+              SearchBeneficiaryRoute(),
+            );
+            searchBloc.add(const SearchHouseholdsClearEvent());
+          },
         ),
-        homeShowcaseData.distributorFileComplaint.buildWith(
-          child: HomeItemCard(
-            icon: Icons.announcement,
-            label: i18.home.fileComplaint,
-            onPressed: () =>
-                context.router.push(const ComplaintsInboxWrapperRoute()),
-          ),
-        ),
-        homeShowcaseData.distributorSyncData.buildWith(
-          child: StreamBuilder<Map<String, dynamic>?>(
-            stream: FlutterBackgroundService().on('serviceRunning'),
-            builder: (context, snapshot) {
-              return HomeItemCard(
-                icon: Icons.sync_alt,
-                label: i18.home.syncDataLabel,
-                onPressed: () async {
-                  if (snapshot.data?['enablesManualSync'] == true) {
-                    if (context.mounted) _attemptSyncUp(context);
-                  } else {
-                    if (context.mounted) {
-                      DigitToast.show(
-                        context,
-                        options: DigitToastOptions(
-                          localizations
-                              .translate(i18.common.coreCommonSyncInProgress),
-                          false,
-                          Theme.of(context),
-                        ),
-                      );
-                    }
-                  }
-                },
-              );
-            },
-          ),
-        ),
-      ]);
-    }
-    if (isWarehouseManager) {
-      showcaseKeys.addAll([
-        homeShowcaseData.warehouseManagerManageStock.showcaseKey,
-        homeShowcaseData.wareHouseManagerStockReconciliation.showcaseKey,
-        homeShowcaseData.wareHouseManagerChecklist.showcaseKey,
-        homeShowcaseData.warehouseManagerFileComplaint.showcaseKey,
-        homeShowcaseData.warehouseManagerSyncData.showcaseKey,
-        homeShowcaseData.inventoryReport.showcaseKey,
-      ]);
-      homeItems.addAll(
-        [
+      ),
+      i18.home.manageStockLabel:
           homeShowcaseData.warehouseManagerManageStock.buildWith(
-            child: HomeItemCard(
-              icon: Icons.store_mall_directory,
-              label: i18.home.manageStockLabel,
-              onPressed: () {
-                context.router.push(ManageStocksRoute());
-              },
-            ),
-          ),
+        child: HomeItemCard(
+          icon: Icons.store_mall_directory,
+          label: i18.home.manageStockLabel,
+          onPressed: () {
+            context.router.push(ManageStocksRoute());
+          },
+        ),
+      ),
+      i18.home.stockReconciliationLabel:
           homeShowcaseData.wareHouseManagerStockReconciliation.buildWith(
-            child: HomeItemCard(
-              icon: Icons.menu_book,
-              label: i18.home.stockReconciliationLabel,
-              onPressed: () {
-                context.router.push(StockReconciliationRoute());
-              },
-            ),
-          ),
+        child: HomeItemCard(
+          icon: Icons.menu_book,
+          label: i18.home.stockReconciliationLabel,
+          onPressed: () {
+            context.router.push(StockReconciliationRoute());
+          },
+        ),
+      ),
+      i18.home.warehouseManagerCheckList:
           homeShowcaseData.wareHouseManagerChecklist.buildWith(
-            child: HomeItemCard(
-              icon: Icons.menu_book,
-              label: i18.home.warehouseManagerCheckList,
-              onPressed: () => context.router.push(ChecklistWrapperRoute()),
-            ),
-          ),
-          homeShowcaseData.warehouseManagerFileComplaint.buildWith(
-            child: HomeItemCard(
-              icon: Icons.announcement,
-              label: i18.home.fileComplaint,
-              onPressed: () =>
-                  context.router.push(const ComplaintsInboxWrapperRoute()),
-            ),
-          ),
-          homeShowcaseData.warehouseManagerSyncData.buildWith(
-            child: StreamBuilder<Map<String, dynamic>?>(
-              stream: FlutterBackgroundService().on('serviceRunning'),
-              builder: (context, snapshot) {
-                return HomeItemCard(
-                  icon: Icons.sync_alt,
-                  label: i18.home.syncDataLabel,
-                  onPressed: () async {
-                    if (snapshot.data?['enablesManualSync'] == true) {
-                      if (context.mounted) _attemptSyncUp(context);
-                    } else {
-                      if (context.mounted) {
-                        DigitToast.show(
-                          context,
-                          options: DigitToastOptions(
-                            localizations
-                                .translate(i18.common.coreCommonSyncInProgress),
-                            false,
-                            Theme.of(context),
-                          ),
-                        );
-                      }
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-          homeShowcaseData.inventoryReport.buildWith(
-            child: HomeItemCard(
-              icon: Icons.announcement,
-              label: i18.home.viewReportsLabel,
-              onPressed: () {
-                context.router.push(
-                  InventoryReportSelectionRoute(),
-                );
-              },
-            ),
-          ),
-        ],
-      );
-    }
-    if (isSupervisor) {
-      showcaseKeys.addAll([
-        homeShowcaseData.supervisorMyChecklist.showcaseKey,
-        homeShowcaseData.supervisorComplaints.showcaseKey,
-        homeShowcaseData.supervisorSyncData.showcaseKey,
-      ]);
-      homeItems.addAll([
-        homeShowcaseData.supervisorMyChecklist.buildWith(
-          child: HomeItemCard(
-            icon: Icons.menu_book,
-            label: i18.home.myCheckList,
-            onPressed: () => context.router.push(ChecklistWrapperRoute()),
-          ),
+        child: HomeItemCard(
+          icon: Icons.menu_book,
+          label: i18.home.warehouseManagerCheckList,
+          onPressed: () => context.router.push(ChecklistWrapperRoute()),
         ),
-        homeShowcaseData.supervisorComplaints.buildWith(
-          child: HomeItemCard(
-            icon: Icons.announcement,
-            label: i18.home.fileComplaint,
-            onPressed: () =>
-                context.router.push(const ComplaintsInboxWrapperRoute()),
-          ),
+      ),
+      i18.home.myCheckList: homeShowcaseData.supervisorMyChecklist.buildWith(
+        child: HomeItemCard(
+          icon: Icons.menu_book,
+          label: i18.home.myCheckList,
+          onPressed: () => context.router.push(ChecklistWrapperRoute()),
         ),
-        homeShowcaseData.supervisorSyncData.buildWith(
-          child: StreamBuilder<Map<String, dynamic>?>(
-            stream: FlutterBackgroundService().on('serviceRunning'),
-            builder: (context, snapshot) {
-              return HomeItemCard(
-                icon: Icons.sync_alt,
-                label: i18.home.syncDataLabel,
-                onPressed: () async {
-                  if (snapshot.data?['enablesManualSync'] == true) {
-                    if (context.mounted) _attemptSyncUp(context);
-                  } else {
-                    if (context.mounted) {
-                      DigitToast.show(
-                        context,
-                        options: DigitToastOptions(
-                          localizations
-                              .translate(i18.common.coreCommonSyncInProgress),
-                          false,
-                          Theme.of(context),
-                        ),
-                      );
-                    }
+      ),
+      i18.home.fileComplaint:
+          homeShowcaseData.distributorFileComplaint.buildWith(
+        child: HomeItemCard(
+          icon: Icons.announcement,
+          label: i18.home.fileComplaint,
+          onPressed: () =>
+              context.router.push(const ComplaintsInboxWrapperRoute()),
+        ),
+      ),
+      i18.home.syncDataLabel: homeShowcaseData.distributorSyncData.buildWith(
+        child: StreamBuilder<Map<String, dynamic>?>(
+          stream: FlutterBackgroundService().on('serviceRunning'),
+          builder: (context, snapshot) {
+            return HomeItemCard(
+              icon: Icons.sync_alt,
+              label: i18.home.syncDataLabel,
+              onPressed: () async {
+                if (snapshot.data?['enablesManualSync'] == true) {
+                  if (context.mounted) _attemptSyncUp(context);
+                } else {
+                  if (context.mounted) {
+                    DigitToast.show(
+                      context,
+                      options: DigitToastOptions(
+                        localizations
+                            .translate(i18.common.coreCommonSyncInProgress),
+                        false,
+                        Theme.of(context),
+                      ),
+                    );
                   }
-                },
-              );
-            },
-          ),
+                }
+              },
+            );
+          },
         ),
-      ]);
-    }
+      ),
+      i18.home.viewReportsLabel: homeShowcaseData.inventoryReport.buildWith(
+        child: HomeItemCard(
+          icon: Icons.announcement,
+          label: i18.home.viewReportsLabel,
+          onPressed: () {
+            context.router.push(
+              InventoryReportSelectionRoute(),
+            );
+          },
+        ),
+      ),
+      'DB': HomeItemCard(
+        icon: Icons.table_chart,
+        label: 'DB',
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DriftDbViewer(
+                context.read<LocalSqlDataStore>(),
+              ),
+            ),
+          );
+        },
+      ),
+    };
 
-    // homeItems.addAll(
-    //   [
-    //     HomeItemCard(
-    //       icon: Icons.table_chart,
-    //       label: 'DB',
-    //       onPressed: () {
-    //         Navigator.of(context).push(
-    //           MaterialPageRoute(
-    //             builder: (context) => DriftDbViewer(
-    //               context.read<LocalSqlDataStore>(),
-    //             ),
-    //           ),
-    //         );
-    //       },
-    //     ),
-    //   ],
-    // );
+    final Map<String, GlobalKey> homeItemsShowcaseMap = {
+      i18.home.beneficiaryLabel:
+          homeShowcaseData.distributorBeneficiaries.showcaseKey,
+      i18.home.manageStockLabel:
+          homeShowcaseData.warehouseManagerManageStock.showcaseKey,
+      i18.home.stockReconciliationLabel:
+          homeShowcaseData.wareHouseManagerStockReconciliation.showcaseKey,
+      i18.home.warehouseManagerCheckList:
+          homeShowcaseData.wareHouseManagerChecklist.showcaseKey,
+      i18.home.myCheckList: homeShowcaseData.supervisorMyChecklist.showcaseKey,
+      i18.home.fileComplaint:
+          homeShowcaseData.distributorFileComplaint.showcaseKey,
+      i18.home.syncDataLabel: homeShowcaseData.distributorSyncData.showcaseKey,
+      i18.home.viewReportsLabel: homeShowcaseData.inventoryReport.showcaseKey,
+      'DB': homeShowcaseData.inventoryReport.showcaseKey,
+    };
 
-    return _HomeItemDataModel(homeItems, showcaseKeys);
+    final homeItemsLabel = <String>[
+      i18.home.beneficiaryLabel,
+      i18.home.manageStockLabel,
+      i18.home.stockReconciliationLabel,
+      i18.home.warehouseManagerCheckList,
+      i18.home.myCheckList,
+      i18.home.fileComplaint,
+      i18.home.syncDataLabel,
+      i18.home.viewReportsLabel,
+      'DB',
+    ];
+
+    final List<String> filteredLabels = homeItemsLabel
+        .where((element) => state.actionsWrapper.actions
+            .map((e) => e.displayName)
+            .toList()
+            .contains(element))
+        .toList();
+
+    final showcaseKeys =
+        filteredLabels.map((label) => homeItemsShowcaseMap[label]!).toList();
+
+    final List<Widget> widgetList =
+        filteredLabels.map((label) => homeItemsMap[label]!).toList();
+
+    return _HomeItemDataModel(
+      widgetList,
+      showcaseKeys,
+    );
   }
 
   void _attemptSyncUp(BuildContext context) async {

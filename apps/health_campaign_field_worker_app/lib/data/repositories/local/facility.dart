@@ -53,6 +53,11 @@ class FacilityLocalRepository extends FacilityLocalBaseRepository {
         storageCapacity: facility.storageCapacity,
         usage: facility.usage,
         name: facility.name,
+        additionalFields: facility.additionalFields == null
+            ? null
+            : Mapper.fromJson<FacilityAdditionalFields>(
+                facility.additionalFields!,
+              ),
         address: address == null
             ? null
             : AddressModel(
@@ -71,6 +76,15 @@ class FacilityLocalRepository extends FacilityLocalBaseRepository {
                 type: address.type,
                 rowVersion: address.rowVersion,
               ),
+        auditDetails: (facility.auditCreatedBy != null &&
+                facility.auditCreatedTime != null)
+            ? AuditDetails(
+                createdBy: facility.auditCreatedBy!,
+                createdTime: facility.auditCreatedTime!,
+                lastModifiedBy: facility.auditModifiedBy,
+                lastModifiedTime: facility.auditModifiedTime,
+              )
+            : null,
       );
     }).toList();
   }
@@ -104,5 +118,33 @@ class FacilityLocalRepository extends FacilityLocalBaseRepository {
       entity,
       createOpLog: createOpLog,
     );
+  }
+
+  @override
+  FutureOr<void> bulkCreate(
+    List<FacilityModel> entities,
+  ) async {
+    final facilityCompanions = entities.map((e) => e.companion).toList();
+    final addressCompanions = entities
+        .where((entity) => entity.address != null)
+        .map((e) => e.address!.companion)
+        .toList();
+
+    await sql.batch((batch) async {
+      batch.insertAll(
+        sql.facility,
+        facilityCompanions,
+        mode: InsertMode.insertOrReplace,
+      );
+    });
+    if (addressCompanions.isNotEmpty) {
+      await sql.batch((batch) async {
+        batch.insertAll(
+          sql.address,
+          addressCompanions,
+          mode: InsertMode.insertOrReplace,
+        );
+      });
+    }
   }
 }

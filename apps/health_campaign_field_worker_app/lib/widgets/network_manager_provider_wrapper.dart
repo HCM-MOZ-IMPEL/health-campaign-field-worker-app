@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:digit_components/digit_components.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,8 +74,40 @@ class NetworkManagerProviderWrapper extends StatelessWidget {
     return BlocBuilder<AppInitializationBloc, AppInitializationState>(
       builder: (context, state) {
         final actionMap = state.entityActionMapping;
+
         if (actionMap.isEmpty) {
-          return const Offstage();
+          return MaterialApp(
+            theme: DigitTheme.instance.mobileTheme,
+            home: Scaffold(
+              appBar: AppBar(),
+              body: state.maybeWhen(
+                orElse: () => const Center(
+                  child: Text('Não é possível inicializar o aplicativo'),
+                ),
+                loading: () => const Center(
+                  child: Text('Carregando'),
+                ),
+                failed: () => ScrollableContent(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  footer: DigitCard(
+                    child: DigitElevatedButton(
+                      onPressed: () => exit(0),
+                      child: const Center(
+                        child: Text('Fechar'),
+                      ),
+                    ),
+                  ),
+                  children: const [
+                    Center(
+                      child:
+                          Text('Internet não disponível. Tentar mais tarde.'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
 
         final remote = _getRemoteRepositories(dio, actionMap);

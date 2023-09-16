@@ -387,20 +387,6 @@ class _ComplaintsDetailsPageState
                               ),
                               BlocBuilder<AuthBloc, AuthState>(
                                 builder: (context, state) {
-                                  state.mapOrNull(
-                                    authenticated: (value) {
-                                      var user = value.userModel;
-
-                                      if (isRaisedForSelf) {
-                                        form.control(_complainantName).value =
-                                            user.name;
-                                        form
-                                            .control(_complainantContactNumber)
-                                            .value = user.mobileNumber;
-                                      }
-                                    },
-                                  );
-
                                   return Column(
                                     children: [
                                       complaintsDetailsShowcaseData
@@ -411,7 +397,6 @@ class _ComplaintsDetailsPageState
                                           label: localizations.translate(
                                             i18.complaints.complainantName,
                                           ),
-                                          readOnly: isRaisedForSelf,
                                           maxLength: 64,
                                           isRequired: true,
                                           validationMessages: {
@@ -432,7 +417,6 @@ class _ComplaintsDetailsPageState
                                             i18.complaints
                                                 .complainantContactNumber,
                                           ),
-                                          readOnly: isRaisedForSelf,
                                           maxLength: 9,
                                           inputFormatters: [
                                             FilteringTextInputFormatter.allow(

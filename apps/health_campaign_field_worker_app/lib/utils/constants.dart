@@ -8,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+
 import '../blocs/app_initialization/app_initialization.dart';
 import '../data/data_repository.dart';
 import '../data/local_store/no_sql/schema/app_configuration.dart';
@@ -257,8 +258,8 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class RequestInfoData {
   static const String apiId = 'hcm';
-  static const String ver = '.01';
-  static String ts = DateTime.now().millisecondsSinceEpoch.toString();
+  static String ver = '1';
+  static num ts = DateTime.now().millisecondsSinceEpoch;
   static const did = "1";
   static const key = "";
   static String? authToken;

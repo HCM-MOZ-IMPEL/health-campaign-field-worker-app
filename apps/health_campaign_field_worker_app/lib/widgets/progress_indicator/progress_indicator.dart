@@ -29,7 +29,7 @@ class ProgressIndicatorContainer extends StatelessWidget {
       return e.code;
     });
 
-    if(roles.contains(UserRoleCodeEnum.warehouseManager)){
+    if (!(roles.contains("DISTRIBUTOR") || roles.contains("DISTRIBUTOR"))) {
       return Container();
     }
 

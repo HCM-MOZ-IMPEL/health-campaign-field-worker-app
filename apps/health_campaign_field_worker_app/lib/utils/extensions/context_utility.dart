@@ -36,6 +36,20 @@ extension ContextUtilityExtensions on BuildContext {
     return selectedBoundary;
   }
 
+  bool get isWarehouseManager {
+    final authState = _get<AuthBloc>().state;
+
+    if (authState is! AuthAuthenticatedState) {
+      return false;
+    }
+
+    final roles = authState.userModel.roles.map((e) {
+      return e.code;
+    });
+
+    return roles.contains("WAREHOUSE_MANAGER");
+  }
+
   BeneficiaryType get beneficiaryType {
     final projectBloc = _get<ProjectBloc>();
 
@@ -62,7 +76,7 @@ extension ContextUtilityExtensions on BuildContext {
   String get loggedInUserUuid {
     final authBloc = _get<AuthBloc>();
     final userRequestObject = authBloc.state.whenOrNull(
-      authenticated: (accessToken, refreshToken, userModel) {
+      authenticated: (accessToken, refreshToken, userModel, actions) {
         return userModel;
       },
     );
@@ -77,7 +91,7 @@ extension ContextUtilityExtensions on BuildContext {
   UserRequestModel get loggedInUser {
     final authBloc = _get<AuthBloc>();
     final userRequestObject = authBloc.state.whenOrNull(
-      authenticated: (accessToken, refreshToken, userModel) {
+      authenticated: (accessToken, refreshToken, userModel, actions) {
         return userModel;
       },
     );

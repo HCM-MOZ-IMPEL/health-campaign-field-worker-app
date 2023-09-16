@@ -126,6 +126,10 @@ class LocalSqlDataStore extends _$LocalSqlDataStore {
           }
         }
       },
+      beforeOpen: (details) async {
+        // Enable WAL mode
+        await customStatement('PRAGMA journal_mode=WAL');
+      },
     );
   }
 

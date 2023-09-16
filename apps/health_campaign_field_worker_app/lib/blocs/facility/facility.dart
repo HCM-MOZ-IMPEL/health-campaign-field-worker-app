@@ -34,19 +34,17 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
 
     List<FacilityModel> allFacilities = [
       FacilityModel(
-        id: 'LM',
-        name: 'Monitor local',
-        additionalFields: FacilityAdditionalFields(
-          version: 1,
-          fields: [const AdditionalField('type', 'DeliveryTeam')],
-        ),
-      ),
-      FacilityModel(
         id: 'AP',
         name: 'Armazém Provincial',
         additionalFields: FacilityAdditionalFields(
           version: 1,
           fields: [const AdditionalField('type', 'ProvisionalWarehouse')],
+        ),
+        auditDetails: AuditDetails(
+          createdBy: event.userId,
+          lastModifiedBy: event.userId,
+          createdTime: DateTime.now().millisecondsSinceEpoch,
+          lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
         ),
       ),
     ];

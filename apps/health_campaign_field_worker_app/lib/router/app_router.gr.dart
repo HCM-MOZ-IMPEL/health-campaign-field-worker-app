@@ -86,6 +86,17 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    HouseholdOverviewWrapperRoute.name: (routeData) {
+      final args = routeData.argsAs<HouseholdOverviewWrapperRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: HouseholdOverviewWrapperPage(
+          key: args.key,
+          wrapper: args.wrapper,
+          isEditing: args.isEditing,
+        ),
+      );
+    },
     ChecklistWrapperRoute.name: (routeData) {
       final args = routeData.argsAs<ChecklistWrapperRouteArgs>(
           orElse: () => const ChecklistWrapperRouteArgs());
@@ -255,17 +266,6 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    HouseholdOverviewRoute.name: (routeData) {
-      final args = routeData.argsAs<HouseholdOverviewRouteArgs>(
-          orElse: () => const HouseholdOverviewRouteArgs());
-      return MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: HouseholdOverviewPage(
-          key: args.key,
-          appLocalizations: args.appLocalizations,
-        ),
-      );
-    },
     DeliverInterventionRoute.name: (routeData) {
       final args = routeData.argsAs<DeliverInterventionRouteArgs>(
           orElse: () => const DeliverInterventionRouteArgs());
@@ -275,6 +275,17 @@ class _$AppRouter extends RootStackRouter {
           key: args.key,
           appLocalizations: args.appLocalizations,
           isEditing: args.isEditing,
+        ),
+      );
+    },
+    HouseholdOverviewRoute.name: (routeData) {
+      final args = routeData.argsAs<HouseholdOverviewRouteArgs>(
+          orElse: () => const HouseholdOverviewRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: HouseholdOverviewPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
         ),
       );
     },
@@ -512,18 +523,32 @@ class _$AppRouter extends RootStackRouter {
                   '#redirect',
                   path: '',
                   parent: BeneficiaryWrapperRoute.name,
+                  redirectTo: 'deliver-intervention',
+                  fullMatch: true,
+                ),
+                RouteConfig(
+                  DeliverInterventionRoute.name,
+                  path: 'deliver-intervention',
+                  parent: BeneficiaryWrapperRoute.name,
+                ),
+              ],
+            ),
+            RouteConfig(
+              HouseholdOverviewWrapperRoute.name,
+              path: 'household',
+              parent: AuthenticatedRouteWrapper.name,
+              children: [
+                RouteConfig(
+                  '#redirect',
+                  path: '',
+                  parent: HouseholdOverviewWrapperRoute.name,
                   redirectTo: 'overview',
                   fullMatch: true,
                 ),
                 RouteConfig(
                   HouseholdOverviewRoute.name,
                   path: 'overview',
-                  parent: BeneficiaryWrapperRoute.name,
-                ),
-                RouteConfig(
-                  DeliverInterventionRoute.name,
-                  path: 'deliver-intervention',
-                  parent: BeneficiaryWrapperRoute.name,
+                  parent: HouseholdOverviewWrapperRoute.name,
                 ),
               ],
             ),
@@ -915,6 +940,48 @@ class BeneficiaryWrapperRouteArgs {
   @override
   String toString() {
     return 'BeneficiaryWrapperRouteArgs{key: $key, wrapper: $wrapper, isEditing: $isEditing}';
+  }
+}
+
+/// generated route for
+/// [HouseholdOverviewWrapperPage]
+class HouseholdOverviewWrapperRoute
+    extends PageRouteInfo<HouseholdOverviewWrapperRouteArgs> {
+  HouseholdOverviewWrapperRoute({
+    Key? key,
+    required HouseholdMemberWrapper wrapper,
+    bool isEditing = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HouseholdOverviewWrapperRoute.name,
+          path: 'household',
+          args: HouseholdOverviewWrapperRouteArgs(
+            key: key,
+            wrapper: wrapper,
+            isEditing: isEditing,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'HouseholdOverviewWrapperRoute';
+}
+
+class HouseholdOverviewWrapperRouteArgs {
+  const HouseholdOverviewWrapperRouteArgs({
+    this.key,
+    required this.wrapper,
+    this.isEditing = false,
+  });
+
+  final Key? key;
+
+  final HouseholdMemberWrapper wrapper;
+
+  final bool isEditing;
+
+  @override
+  String toString() {
+    return 'HouseholdOverviewWrapperRouteArgs{key: $key, wrapper: $wrapper, isEditing: $isEditing}';
   }
 }
 
@@ -1442,40 +1509,6 @@ class HouseholdLocationRouteArgs {
 }
 
 /// generated route for
-/// [HouseholdOverviewPage]
-class HouseholdOverviewRoute extends PageRouteInfo<HouseholdOverviewRouteArgs> {
-  HouseholdOverviewRoute({
-    Key? key,
-    AppLocalizations? appLocalizations,
-  }) : super(
-          HouseholdOverviewRoute.name,
-          path: 'overview',
-          args: HouseholdOverviewRouteArgs(
-            key: key,
-            appLocalizations: appLocalizations,
-          ),
-        );
-
-  static const String name = 'HouseholdOverviewRoute';
-}
-
-class HouseholdOverviewRouteArgs {
-  const HouseholdOverviewRouteArgs({
-    this.key,
-    this.appLocalizations,
-  });
-
-  final Key? key;
-
-  final AppLocalizations? appLocalizations;
-
-  @override
-  String toString() {
-    return 'HouseholdOverviewRouteArgs{key: $key, appLocalizations: $appLocalizations}';
-  }
-}
-
-/// generated route for
 /// [DeliverInterventionPage]
 class DeliverInterventionRoute
     extends PageRouteInfo<DeliverInterventionRouteArgs> {
@@ -1512,6 +1545,40 @@ class DeliverInterventionRouteArgs {
   @override
   String toString() {
     return 'DeliverInterventionRouteArgs{key: $key, appLocalizations: $appLocalizations, isEditing: $isEditing}';
+  }
+}
+
+/// generated route for
+/// [HouseholdOverviewPage]
+class HouseholdOverviewRoute extends PageRouteInfo<HouseholdOverviewRouteArgs> {
+  HouseholdOverviewRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+  }) : super(
+          HouseholdOverviewRoute.name,
+          path: 'overview',
+          args: HouseholdOverviewRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+          ),
+        );
+
+  static const String name = 'HouseholdOverviewRoute';
+}
+
+class HouseholdOverviewRouteArgs {
+  const HouseholdOverviewRouteArgs({
+    this.key,
+    this.appLocalizations,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  @override
+  String toString() {
+    return 'HouseholdOverviewRouteArgs{key: $key, appLocalizations: $appLocalizations}';
   }
 }
 
