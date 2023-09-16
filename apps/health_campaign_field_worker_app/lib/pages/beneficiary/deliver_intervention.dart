@@ -46,6 +46,7 @@ class _DeliverInterventionPageState
   int count = 0;
   late ProductVariantModel productVariantModel;
   bool readOnly = false;
+  bool hasErrors = false;
 
   @override
   initState() {
@@ -99,9 +100,13 @@ class _DeliverInterventionPageState
                                   child: DigitElevatedButton(
                                     onPressed: () async {
                                       form.markAllAsTouched();
+                                      setState(() {
+                                        hasErrors = form
+                                            .control(_quantityDistributedKey)
+                                            .hasErrors;
+                                      });
                                       if (!form.valid) return;
                                       final router = context.router;
-
                                       final shouldSubmit =
                                           await DigitDialog.show<bool>(
                                         context,
@@ -453,6 +458,11 @@ class _DeliverInterventionPageState
                                                   .control(_deliveryCommentKey)
                                                   .touched;
                                               readOnly = false;
+                                              hasErrors = form
+                                                  .control(
+                                                    _quantityDistributedKey,
+                                                  )
+                                                  .hasErrors;
                                             });
                                           } else {
                                             form.markAsPristine();
@@ -469,10 +479,43 @@ class _DeliverInterventionPageState
                                                   .value = null;
 
                                               readOnly = true;
+                                              hasErrors = form
+                                                  .control(
+                                                    _quantityDistributedKey,
+                                                  )
+                                                  .hasErrors;
                                             });
                                           }
                                         },
                                       ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    ReactiveFormConsumer(
+                                      builder: (context, form, child) {
+                                        if (hasErrors) {
+                                          final error = localizations.translate(
+                                            i18.deliverIntervention
+                                                .bedNetsNonZero,
+                                          );
+
+                                          return Container(
+                                            padding: const EdgeInsets.only(
+                                              left: kPadding * 2,
+                                            ),
+                                            alignment: Alignment
+                                                .centerLeft, // Align the text to the left
+                                            child: Text(
+                                              error,
+                                              style: const TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(); // Empty container if no error
+                                        }
+                                      },
                                     ),
                                     BlocBuilder<AppInitializationBloc,
                                         AppInitializationState>(
@@ -494,9 +537,7 @@ class _DeliverInterventionPageState
                                               i18.deliverIntervention
                                                   .deliveryCommentLabel,
                                             ),
-                                            readOnly: isDelivered ||
-                                                readOnly ||
-                                                (initialCount == 1),
+                                            readOnly: isDelivered || readOnly,
                                             valueMapper: (value) => value,
                                             initialValue:
                                                 localizations.translate(
@@ -546,7 +587,10 @@ class _DeliverInterventionPageState
             ? int.tryParse(
                 state.householdMemberWrapper.task!.resources!.first.quantity!,
               )
-            : 1,
+            : 0,
+        validators: [
+          CustomValidator.bedNetValidaiton,
+        ],
       ),
       _deliveryCommentKey: FormControl<String>(
         value:
@@ -558,7 +602,7 @@ class _DeliverInterventionPageState
                     1.8,
                 3,
               ).round() >
-              1)
+              0)
             Validators.required,
         ],
       ),
