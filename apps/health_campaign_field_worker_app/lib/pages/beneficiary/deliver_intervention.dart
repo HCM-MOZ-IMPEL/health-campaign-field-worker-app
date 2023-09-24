@@ -57,22 +57,16 @@ class _DeliverInterventionPageState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return WillPopScope(
-      onWillPop: () => _onBackPressed(context),
-      child: ProductVariantBlocWrapper(
-        child: BlocBuilder<HouseholdOverviewBloc, HouseholdOverviewState>(
-          builder: (context, state) {
-            final householdMemberWrapper = state.householdMemberWrapper;
-            final initialCount = min(
-              (householdMemberWrapper.household.memberCount ??
-                      householdMemberWrapper.members.length) /
-                  1.8,
-              3,
-            ).round();
-            final isDelivered =
-                householdMemberWrapper.task?.status == 'delivered';
+    return ProductVariantBlocWrapper(
+      child: BlocBuilder<HouseholdOverviewBloc, HouseholdOverviewState>(
+        builder: (context, state) {
+          final householdMemberWrapper = state.householdMemberWrapper;
+          final isDelivered =
+              householdMemberWrapper.task?.status == 'delivered';
 
-            return BlocListener<ProductVariantBloc, ProductVariantState>(
+          return WillPopScope(
+            onWillPop: () => _onBackPressed(context, isDelivered),
+            child: BlocListener<ProductVariantBloc, ProductVariantState>(
               listener: (context, productState) {
                 productState.maybeWhen(
                   orElse: () => {},
@@ -463,7 +457,8 @@ class _DeliverInterventionPageState
                                               setState(() {
                                                 form
                                                     .control(
-                                                        _deliveryCommentKey)
+                                                  _deliveryCommentKey,
+                                                )
                                                     .setValidators(
                                                   [Validators.required],
                                                   updateParent: true,
@@ -471,7 +466,8 @@ class _DeliverInterventionPageState
                                                 );
                                                 form
                                                     .control(
-                                                        _deliveryCommentKey)
+                                                      _deliveryCommentKey,
+                                                    )
                                                     .touched;
                                                 readOnly = false;
                                                 hasErrors = form
@@ -485,7 +481,8 @@ class _DeliverInterventionPageState
                                               setState(() {
                                                 form
                                                     .control(
-                                                        _deliveryCommentKey)
+                                                  _deliveryCommentKey,
+                                                )
                                                     .setValidators(
                                                   [],
                                                   updateParent: true,
@@ -493,7 +490,8 @@ class _DeliverInterventionPageState
                                                 );
                                                 form
                                                     .control(
-                                                        _deliveryCommentKey)
+                                                      _deliveryCommentKey,
+                                                    )
                                                     .value = null;
 
                                                 readOnly = true;
@@ -591,14 +589,17 @@ class _DeliverInterventionPageState
                         },
                       ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Future<bool> _onBackPressed(BuildContext context) async {
+  Future<bool> _onBackPressed(BuildContext context, bool isDelivered) async {
+    if (isDelivered) {
+      return true;
+    }
     bool? shouldNavigateBack = await showDialog<bool>(
       context: context,
       builder: (context) => DigitDialog(
