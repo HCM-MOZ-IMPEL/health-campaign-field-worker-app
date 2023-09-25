@@ -229,6 +229,40 @@ class _DeliverInterventionPageState
                                                               ?.address
                                                               ?.id,
                                                         ),
+                                                        clientAuditDetails:
+                                                            householdMemberWrapper
+                                                                        .task
+                                                                        ?.clientAuditDetails ==
+                                                                    null
+                                                                ? ClientAuditDetails(
+                                                                    createdBy:
+                                                                        context
+                                                                            .loggedInUserUuid,
+                                                                    createdTime:
+                                                                        context
+                                                                            .millisecondsSinceEpoch(),
+                                                                    lastModifiedBy:
+                                                                        context
+                                                                            .loggedInUserUuid,
+                                                                    lastModifiedTime:
+                                                                        context
+                                                                            .millisecondsSinceEpoch(),
+                                                                  )
+                                                                : ClientAuditDetails(
+                                                                    createdBy:
+                                                                        context
+                                                                            .loggedInUserUuid,
+                                                                    createdTime: householdMemberWrapper
+                                                                        .task!
+                                                                        .clientAuditDetails!
+                                                                        .createdTime,
+                                                                    lastModifiedBy:
+                                                                        context
+                                                                            .loggedInUserUuid,
+                                                                    lastModifiedTime:
+                                                                        context
+                                                                            .millisecondsSinceEpoch(),
+                                                                  ),
                                                         auditDetails:
                                                             AuditDetails(
                                                           createdBy: context

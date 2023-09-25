@@ -92,7 +92,6 @@ class BeneficiaryRegistrationBloc
         emit(value.copyWith(
           isHeadOfHousehold: event.isHeadOfHousehold,
           individualModel: event.model,
-          
         ));
       },
       editIndividual: (value) {
@@ -148,16 +147,19 @@ class BeneficiaryRegistrationBloc
         household = household.copyWith(
           address: address.copyWith(
             relatedClientReferenceId: household.clientReferenceId,
-            auditDetails: individual.auditDetails,
+            auditDetails: household.auditDetails,
+            clientAuditDetails: household.clientAuditDetails,
             locality: locality,
           ),
         );
 
+        final initialModifiedAt = DateTime.now().millisecondsSinceEpoch;
         individual = individual.copyWith(
           address: [
             address.copyWith(
               relatedClientReferenceId: individual.clientReferenceId,
               auditDetails: individual.auditDetails,
+              clientAuditDetails: individual.clientAuditDetails,
               locality: locality,
             ),
           ],
@@ -170,6 +172,12 @@ class BeneficiaryRegistrationBloc
           dateOfRegistration: dateOfRegistration.millisecondsSinceEpoch,
           projectId: event.projectId,
           beneficiaryClientReferenceId: household.clientReferenceId,
+          clientAuditDetails: ClientAuditDetails(
+            createdTime: createdAt,
+            lastModifiedTime: initialModifiedAt,
+            lastModifiedBy: event.userUuid,
+            createdBy: event.userUuid,
+          ),
           auditDetails: AuditDetails(
             createdBy: event.userUuid,
             createdTime: createdAt,
@@ -183,6 +191,12 @@ class BeneficiaryRegistrationBloc
           tenantId: envConfig.variables.tenantId,
           rowVersion: 1,
           clientReferenceId: IdGen.i.identifier,
+          clientAuditDetails: ClientAuditDetails(
+            createdTime: createdAt,
+            lastModifiedTime: initialModifiedAt,
+            lastModifiedBy: event.userUuid,
+            createdBy: event.userUuid,
+          ),
           auditDetails: AuditDetails(
             createdBy: event.userUuid,
             createdTime: createdAt,
@@ -232,6 +246,14 @@ class BeneficiaryRegistrationBloc
         try {
           await householdRepository.update(
             value.householdModel.copyWith(
+              clientAuditDetails: ClientAuditDetails(
+                createdBy: value.householdModel.clientAuditDetails!.createdBy,
+                createdTime:
+                    value.householdModel.clientAuditDetails!.createdTime,
+                lastModifiedBy:
+                    value.householdModel.clientAuditDetails!.lastModifiedBy,
+                lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+              ),
               memberCount: event.household.memberCount,
               address: value.addressModel.copyWith(
                 relatedClientReferenceId:
@@ -340,6 +362,7 @@ class BeneficiaryRegistrationBloc
           );
 
           final createdAt = DateTime.now().millisecondsSinceEpoch;
+          final initialModifiedAt = DateTime.now().millisecondsSinceEpoch;
 
           householdMemberRepository.create(
             HouseholdMemberModel(
@@ -351,6 +374,12 @@ class BeneficiaryRegistrationBloc
               tenantId: envConfig.variables.tenantId,
               rowVersion: 1,
               clientReferenceId: IdGen.i.identifier,
+              clientAuditDetails: ClientAuditDetails(
+                createdTime: createdAt,
+                lastModifiedTime: initialModifiedAt,
+                lastModifiedBy: event.userUuid,
+                createdBy: event.userUuid,
+              ),
               auditDetails: AuditDetails(
                 createdBy: event.userUuid,
                 createdTime: createdAt,
