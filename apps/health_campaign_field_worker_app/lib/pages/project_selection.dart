@@ -225,7 +225,7 @@ class _ProjectSelectionPageState extends LocalizedState<ProjectSelectionPage> {
                 children: projects
                     .map(
                       (element) => DigitProjectCell(
-                        projectText: element.name,
+                        projectText: element.description ?? element.name,
                         onTap: () {
                           _selectedProject = element;
 

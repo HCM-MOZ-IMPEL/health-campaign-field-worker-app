@@ -92,7 +92,9 @@ class SearchHouseholdsBloc
     final interventionDelivered = tasks
         .map(
           (task) {
-            return task.resources?.map(
+            return task.resources?.where((element) {
+              return element.auditDetails?.createdBy == userUid;
+            }).map(
               (taskResource) {
                 return int.tryParse(taskResource.quantity ?? '0');
               },
@@ -104,7 +106,9 @@ class SearchHouseholdsBloc
         .fold(0, (previousValue, element) => previousValue + element);
 
     emit(state.copyWith(
-      registeredHouseholds: beneficiaries.length,
+      registeredHouseholds: beneficiaries.where((element) {
+        return element.auditDetails?.createdBy == userUid;
+      }).length,
       deliveredInterventions: interventionDelivered,
     ));
   }
@@ -230,7 +234,11 @@ class SearchHouseholdsBloc
     List<IndividualModel> results = [
       ...firstNameResults,
       ...lastNameResults,
-    ].where((obj) => uniqueIds.contains(obj.clientReferenceId)).toList();
+    ]
+        .where((obj) =>
+            uniqueIds.contains(obj.clientReferenceId) &&
+            obj.auditDetails?.createdBy == userUid)
+        .toList();
 
     final householdMembers = <HouseholdMemberModel>[];
     for (final element in results) {

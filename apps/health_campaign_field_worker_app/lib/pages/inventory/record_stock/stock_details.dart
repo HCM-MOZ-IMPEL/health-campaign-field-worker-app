@@ -7,6 +7,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:recase/recase.dart';
 
 import '../../../blocs/app_initialization/app_initialization.dart';
+import '../../../blocs/auth/auth.dart';
 import '../../../blocs/facility/facility.dart';
 import '../../../blocs/product_variant/product_variant.dart';
 import '../../../blocs/record_stock/record_stock.dart';
@@ -45,6 +46,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   static const _commentsKey = 'comments';
   late ProductVariantModel productVariantModel;
   bool isDeliveryTeamReturn = false;
+  List<ShowcaseItemBuilder> showcaseFor = [];
 
   FormGroup _form() {
     return fb.group({
@@ -96,6 +98,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isWarehouseManager = context.isWarehouseManager;
 
     return Scaffold(
       body: BlocBuilder<LocationBloc, LocationState>(
@@ -126,17 +129,53 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
               switch (entryType) {
                 case StockRecordEntryType.receipt:
                   pageTitle = module.receivedPageTitle;
-                  transactionPartyLabel = module.selectTransactingPartyReceived;
+                  transactionPartyLabel = isWarehouseManager
+                      ? module.selectTransactingPartyReceived
+                      : module.selectTransactingPartyReceivedLocalMonitor;
                   quantityCountLabel = module.quantityReceivedLabel;
                   quantityValidationMessage = module.quantityReceivedValidation;
                   transactionType = TransactionType.received;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.receiptReceivedFrom,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.receiptDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .receiptNumberOfNetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.receiptNumberOfBednetsReceived,
+                    stockDetailsShowcaseData.receiptComments,
+                  ];
                   break;
                 case StockRecordEntryType.dispatch:
                   pageTitle = module.issuedPageTitle;
-                  transactionPartyLabel = module.selectTransactingPartyIssued;
+                  transactionPartyLabel = isWarehouseManager
+                      ? module.selectTransactingPartyIssued
+                      : module.selectTransactingPartyIssuedLocalMonitor;
                   quantityCountLabel = module.quantitySentLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.dispatched;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.issuedIssuedTo,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.issuedDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .issuedNumberOfBednetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.issuedNumberOfBednetsIssued,
+                    stockDetailsShowcaseData.issuedComments,
+                  ];
                   break;
                 case StockRecordEntryType.returned:
                   pageTitle = module.returnedPageTitle;
@@ -144,6 +183,22 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                   quantityCountLabel = module.quantityReturnedLabel;
                   quantityValidationMessage = module.quantitySentValidation;
                   transactionType = TransactionType.received;
+                  showcaseFor = [
+                    stockDetailsShowcaseData.returnedReturnedFrom,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedPackingSlipId,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedTypeOfTransport,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedVehicleNumber,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData.returnedDriverName,
+                    if (!isDeliveryTeamReturn)
+                      stockDetailsShowcaseData
+                          .returnedNumberOfBednetsIndicatedOnPackingSlip,
+                    stockDetailsShowcaseData.returnedNumberOfBednetsReturned,
+                    stockDetailsShowcaseData.returnedComments,
+                  ];
                   break;
                 case StockRecordEntryType.loss:
                   pageTitle = module.lostPageTitle;
@@ -182,44 +237,7 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                     header: Column(children: [
                       BackNavigationHelpHeaderWidget(
                         showcaseButton: ShowcaseButton(
-                          showcaseFor: [
-                            if (entryType == StockRecordEntryType.receipt) ...[
-                              stockDetailsShowcaseData.receiptReceivedFrom,
-                              stockDetailsShowcaseData.receiptPackingSlipId,
-                              stockDetailsShowcaseData.receiptTypeOfTransport,
-                              stockDetailsShowcaseData.receiptVehicleNumber,
-                              stockDetailsShowcaseData.receiptDriverName,
-                              stockDetailsShowcaseData
-                                  .receiptNumberOfNetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .receiptNumberOfBednetsReceived,
-                              stockDetailsShowcaseData.receiptComments,
-                            ],
-                            if (entryType == StockRecordEntryType.dispatch) ...[
-                              stockDetailsShowcaseData.issuedIssuedTo,
-                              stockDetailsShowcaseData.issuedPackingSlipId,
-                              stockDetailsShowcaseData.issuedTypeOfTransport,
-                              stockDetailsShowcaseData.issuedVehicleNumber,
-                              stockDetailsShowcaseData.issuedDriverName,
-                              stockDetailsShowcaseData
-                                  .issuedNumberOfBednetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .issuedNumberOfBednetsIssued,
-                              stockDetailsShowcaseData.issuedComments,
-                            ],
-                            if (entryType == StockRecordEntryType.returned) ...[
-                              stockDetailsShowcaseData.returnedReturnedFrom,
-                              stockDetailsShowcaseData.returnedPackingSlipId,
-                              stockDetailsShowcaseData.returnedTypeOfTransport,
-                              stockDetailsShowcaseData.returnedVehicleNumber,
-                              stockDetailsShowcaseData.returnedDriverName,
-                              stockDetailsShowcaseData
-                                  .returnedNumberOfBednetsIndicatedOnPackingSlip,
-                              stockDetailsShowcaseData
-                                  .returnedNumberOfBednetsReturned,
-                              stockDetailsShowcaseData.returnedComments,
-                            ],
-                          ].map((e) => e.showcaseKey),
+                          showcaseFor: showcaseFor.map((e) => e.showcaseKey),
                         ),
                       ),
                     ]),
@@ -524,11 +542,21 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                 ),
                               BlocBuilder<FacilityBloc, FacilityState>(
                                 builder: (context, state) {
-                                  final facilities = state.whenOrNull(
+                                  final unSortedFacilities = state.whenOrNull(
                                         fetched: (_, facilities, __) =>
                                             facilities,
                                       ) ??
                                       [];
+
+                                  var facilities = unSortedFacilities.toList();
+                                  if (!isWarehouseManager) {
+                                    facilities.sort((a, b) =>
+                                        (b.auditDetails?.lastModifiedTime ?? 0)
+                                            .compareTo(
+                                          (a.auditDetails?.lastModifiedTime ??
+                                              0),
+                                        ));
+                                  }
 
                                   return _StockDetailsShowcaseBuilder(
                                     entryType: entryType,
@@ -782,7 +810,8 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                               onChanged: (value) {
                                                 setState(() {
                                                   form.control(
-                                                      _typeOfTransportKey);
+                                                    _typeOfTransportKey,
+                                                  );
                                                 });
                                               },
                                               initialValue:

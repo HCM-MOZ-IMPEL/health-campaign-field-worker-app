@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../blocs/auth/auth.dart';
 import '../../../blocs/facility/facility.dart';
 import '../../../blocs/project/project.dart';
 import '../../../blocs/record_stock/record_stock.dart';
@@ -47,6 +48,13 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isWarehouseManager = context.isWarehouseManager;
+
+    final stockState = context.read<RecordStockBloc>().state;
+    final entryType = stockState.entryType;
+
+    final isReceiveing = (entryType == StockRecordEntryType.receipt);
+
     return BlocBuilder<ProjectBloc, ProjectState>(
       builder: (ctx, projectState) {
         final selectedProject = projectState.selectedProject;
@@ -144,7 +152,11 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                               children: [
                                 Text(
                                   localizations.translate(
-                                    i18.warehouseDetails.warehouseDetailsLabel,
+                                    isReceiveing
+                                        ? i18.warehouseDetails
+                                            .warehouseDetailsLabel
+                                        : i18.warehouseDetails
+                                            .warehouseDetailsIssueLabel,
                                   ),
                                   style: theme.textTheme.displayMedium,
                                 ),
@@ -156,7 +168,10 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                                       lastDate: DateTime.now(),
                                       formControlName: _dateOfEntryKey,
                                       label: localizations.translate(
-                                        i18.warehouseDetails.dateOfReceipt,
+                                        isReceiveing
+                                            ? i18.warehouseDetails.dateOfReceipt
+                                            : i18.warehouseDetails
+                                                .dateOfDispatch,
                                       ),
                                       isRequired: false,
                                     ),
@@ -187,8 +202,10 @@ class _WarehouseDetailsPageState extends LocalizedState<WarehouseDetailsPage> {
                                           ),
                                     },
                                     label: localizations.translate(
-                                      i18.stockReconciliationDetails
-                                          .facilityLabel,
+                                      isWarehouseManager
+                                          ? i18.warehouseDetails.warehouseNameId
+                                          : i18.warehouseDetails
+                                              .warehouseNameIdLocalMonitor,
                                     ),
                                     suffix: const Padding(
                                       padding: EdgeInsets.all(8.0),

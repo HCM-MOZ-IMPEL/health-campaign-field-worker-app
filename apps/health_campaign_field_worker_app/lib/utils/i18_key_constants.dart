@@ -161,6 +161,8 @@ class Checklist {
       'CHECKLIST_BACK_DIALOG_SECONDARY_ACTION';
 
   String get checklistdate => 'CHECKLIST_DATE';
+
+  String get notSelectedKey => 'NOT_SELECTED';
 }
 
 class ForgotPassword {
@@ -221,6 +223,12 @@ class SearchBeneficiary {
   String get beneficiaryInfoDescription => 'BENEFICIARY_INFO_DESCRIPTION';
 
   String get beneficiaryInfoTitle => 'BENEFICIARY_INFO_TITLE';
+
+  String get beneficiaryStatisticsInfoDescription =>
+      'BENEFICIARY_STATISTICS_INFO_DESCRIPTION';
+
+  String get beneficiaryStatisticsInfoTitle =>
+      'BENEFICIARY_STATISTICS_INFO_TITLE';
 
   String get beneficiaryAddActionLabel => 'BENEFICIARY_ADD_ACTION_LABEL';
 
@@ -425,6 +433,8 @@ class DeliverIntervention {
   String get dialogContent => 'DELIVER_INTERVENTION_DIALOG_CONTENT';
 
   String get deliveryCommentRequired => 'DELIVERY_COMMENT_REQUIRED';
+
+  String get bedNetsNonZero => 'BED_NETS_NON_ZERO';
 }
 
 class ProjectSelection {
@@ -454,11 +464,18 @@ class WarehouseDetails {
 
   String get warehouseDetailsLabel => 'WAREHOUSE_DETAILS_LABEL';
 
+  String get warehouseDetailsIssueLabel => 'WAREHOUSE_DETAILS_ISSUE_LABEL';
+
   String get dateOfReceipt => 'WAREHOUSE_DETAILS_DATE_OF_RECEIPT';
+
+  String get dateOfDispatch => 'WAREHOUSE_DETAILS_DATE_OF_DISPATCH';
 
   String get administrativeUnit => 'WAREHOUSE_DETAILS_ADMINISTRATIVE_UNIT';
 
   String get warehouseNameId => 'WAREHOSUE_DETAILS_WAREHOUSE_NAME_ID';
+
+  String get warehouseNameIdLocalMonitor =>
+      'WAREHOSUE_DETAILS_WAREHOUSE_NAME_ID_LOCAL_MONITOR';
 }
 
 class StockDetails {
@@ -481,9 +498,16 @@ class StockDetails {
   /// Select Transacting party label
   String get selectTransactingPartyReceived => 'STOCK_DETAILS_RECEIVED_FROM';
 
+  String get selectTransactingPartyReceivedLocalMonitor =>
+      'STOCK_DETAILS_RECEIVED_FROM_LOCAL_MONITOR';
+
   String get selectTransactingPartyIssued => 'STOCK_DETAILS_ISSUED_TO';
 
-  String get selectTransactingPartyReturned => 'STOCK_DETAILS_RETURNED_TO';
+  String get selectTransactingPartyIssuedLocalMonitor =>
+      'STOCK_DETAILS_ISSUED_TO_LOCAL_MONITOR';
+
+  String get selectTransactingPartyReturned =>
+      'STOCK_DETAILS_RETURNED_TO_LOCAL_MONITOR';
 
   String get selectTransactingPartyReceivedFromDamaged {
     return 'STOCK_DETAILS_RECEIVED_FROM_DAMAGED';
@@ -591,6 +615,9 @@ class StockReconciliationDetails {
 
   String get facilityLabel => 'STOCK_RECONCILIATION_FACILITY_LABEL';
 
+  String get facilityLabelLocalMonitor =>
+      'STOCK_RECONCILIATION_FACILITY_LABEL_LOCAL_MONITOR';
+
   String get productLabel => 'STOCK_RECONCILIATION_PRODUCT_LABEL';
 
   String get dateOfReconciliation => 'STOCK_RECONCILIATION_DATE';
@@ -653,10 +680,16 @@ class ManageStock {
   String get recordstockReceiptDescription =>
       'MANAGE_STOCK_RECEIPT_DESCRIPTION';
 
+  String get recordstockReceiptDescriptionLocalMonitor =>
+      'MANAGE_STOCK_RECEIPT_DESCRIPTION_LOCAL_MONITOR';
+
   String get recordstockIssuedLabel => 'MANAGE_STOCK_RECORDSTOCK_ISSUED_LABEL';
 
   String get recordstockIssuedtDescription =>
       'MANAGE_STOCK_RECORDSTOCK_ISSUED_DESCRIPTION';
+
+  String get recordstockIssuedtDescriptionLocalMonitor =>
+      'MANAGE_STOCK_RECORDSTOCK_ISSUED_DESCRIPTION_LOCAL_MONITOR';
 
   String get recordstockReturnedLabel =>
       'MANAGE_STOCK_RECORDSTOCK_RETURNED_LABEL';

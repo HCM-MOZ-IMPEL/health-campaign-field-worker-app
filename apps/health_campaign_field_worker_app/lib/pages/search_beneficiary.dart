@@ -82,6 +82,15 @@ class _SearchBeneficiaryPageState
                           ],
                         ),
                       ),
+                      DigitInfoCard(
+                        description: localizations.translate(
+                          i18.searchBeneficiary
+                              .beneficiaryStatisticsInfoDescription,
+                        ),
+                        title: localizations.translate(
+                          i18.searchBeneficiary.beneficiaryStatisticsInfoTitle,
+                        ),
+                      ),
                       searchBeneficiariesShowcaseData.nameOfHouseholdHead
                           .buildWith(
                         child: DigitSearchBar(
