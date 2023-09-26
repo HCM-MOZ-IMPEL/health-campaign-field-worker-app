@@ -216,69 +216,71 @@ class _DeliverInterventionPageState
                                                                         .millisecondsSinceEpoch(),
                                                               ),
                                                             ),
-                                                        ],
-                                                        address:
-                                                            householdMemberWrapper
-                                                                .household
-                                                                .address
-                                                                ?.copyWith(
-                                                          relatedClientReferenceId:
-                                                              clientReferenceId,
-                                                          id: state
-                                                              .householdMemberWrapper
-                                                              .task
-                                                              ?.address
-                                                              ?.id,
-                                                        ),
-                                                        clientAuditDetails:
-                                                            householdMemberWrapper
-                                                                        .task
-                                                                        ?.clientAuditDetails ==
-                                                                    null
-                                                                ? ClientAuditDetails(
-                                                                    createdBy:
-                                                                        context
-                                                                            .loggedInUserUuid,
-                                                                    createdTime:
-                                                                        context
-                                                                            .millisecondsSinceEpoch(),
-                                                                    lastModifiedBy:
-                                                                        context
-                                                                            .loggedInUserUuid,
-                                                                    lastModifiedTime:
-                                                                        context
-                                                                            .millisecondsSinceEpoch(),
-                                                                  )
-                                                                : ClientAuditDetails(
-                                                                    createdBy:
-                                                                        context
-                                                                            .loggedInUserUuid,
-                                                                    createdTime: householdMemberWrapper
-                                                                        .task!
-                                                                        .clientAuditDetails!
-                                                                        .createdTime,
-                                                                    lastModifiedBy:
-                                                                        context
-                                                                            .loggedInUserUuid,
-                                                                    lastModifiedTime:
-                                                                        context
-                                                                            .millisecondsSinceEpoch(),
-                                                                  ),
-                                                        auditDetails:
-                                                            AuditDetails(
-                                                          createdBy: context
-                                                              .loggedInUserUuid,
-                                                          createdTime: householdMemberWrapper
-                                                                  .task
-                                                                  ?.address
-                                                                  ?.auditDetails
-                                                                  ?.createdTime ??
-                                                              context
-                                                                  .millisecondsSinceEpoch(),
-                                                          lastModifiedBy: context
-                                                              .loggedInUserUuid,
-                                                          lastModifiedTime: context
-                                                              .millisecondsSinceEpoch(),
+                                                          ],
+                                                          address:
+                                                              householdMemberWrapper
+                                                                  .household
+                                                                  .address
+                                                                  ?.copyWith(
+                                                            relatedClientReferenceId:
+                                                                clientReferenceId,
+                                                            id: state
+                                                                .householdMemberWrapper
+                                                                .task
+                                                                ?.address
+                                                                ?.id,
+                                                          ),
+                                                          clientAuditDetails:
+                                                              householdMemberWrapper
+                                                                          .task
+                                                                          ?.clientAuditDetails ==
+                                                                      null
+                                                                  ? ClientAuditDetails(
+                                                                      createdBy:
+                                                                          context
+                                                                              .loggedInUserUuid,
+                                                                      createdTime:
+                                                                          context
+                                                                              .millisecondsSinceEpoch(),
+                                                                      lastModifiedBy:
+                                                                          context
+                                                                              .loggedInUserUuid,
+                                                                      lastModifiedTime:
+                                                                          context
+                                                                              .millisecondsSinceEpoch(),
+                                                                    )
+                                                                  : ClientAuditDetails(
+                                                                      createdBy:
+                                                                          context
+                                                                              .loggedInUserUuid,
+                                                                      createdTime: householdMemberWrapper
+                                                                          .task!
+                                                                          .clientAuditDetails!
+                                                                          .createdTime,
+                                                                      lastModifiedBy:
+                                                                          context
+                                                                              .loggedInUserUuid,
+                                                                      lastModifiedTime:
+                                                                          context
+                                                                              .millisecondsSinceEpoch(),
+                                                                    ),
+                                                          auditDetails:
+                                                              AuditDetails(
+                                                            createdBy: context
+                                                                .loggedInUserUuid,
+                                                            createdTime: householdMemberWrapper
+                                                                    .task
+                                                                    ?.address
+                                                                    ?.auditDetails
+                                                                    ?.createdTime ??
+                                                                context
+                                                                    .millisecondsSinceEpoch(),
+                                                            lastModifiedBy: context
+                                                                .loggedInUserUuid,
+                                                            lastModifiedTime:
+                                                                context
+                                                                    .millisecondsSinceEpoch(),
+                                                          ),
                                                         ),
                                                         state.householdMemberWrapper
                                                                     .task ==
