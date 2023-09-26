@@ -5,6 +5,7 @@ import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -61,64 +62,68 @@ class _DeliverInterventionPageState
       child: BlocBuilder<HouseholdOverviewBloc, HouseholdOverviewState>(
         builder: (context, state) {
           final householdMemberWrapper = state.householdMemberWrapper;
+          final calculatedCount = min(
+            (householdMemberWrapper.household.memberCount ??
+                    householdMemberWrapper.members.length) /
+                1.8,
+            3,
+          ).round();
+          RegExp bedNetRegex = RegExp(r'^[1-3]+$');
+          if (calculatedCount == 2) {
+            bedNetRegex = RegExp(r'^[1-2]+$');
+          }
+          if (calculatedCount == 1) {
+            bedNetRegex = RegExp(r'^[1]+$');
+          }
           final isDelivered =
               householdMemberWrapper.task?.status == 'delivered';
 
-          return WillPopScope(
-            onWillPop: () => _onBackPressed(context, isDelivered),
-            child: BlocListener<ProductVariantBloc, ProductVariantState>(
-              listener: (context, productState) {
-                productState.maybeWhen(
-                  orElse: () => {},
-                  fetched: (productVariants) {
-                    setState(() {
-                      productVariantModel = productVariants[0];
-                    });
-                  },
-                );
-              },
-              child: Scaffold(
-                body: state.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : ReactiveFormBuilder(
-                        form: () => buildForm(context),
-                        builder: (context, form, child) {
-                          return ScrollableContent(
-                            header: Column(children: [
-                              BackNavigationHelpHeaderWidget(
-                                showcaseButton: const ShowcaseButton(),
-                                showBackNavigation: isDelivered ? true : false,
-                              ),
-                            ]),
-                            footer: isDelivered
-                                ? null
-                                : DigitCard(
-                                    child: DigitElevatedButton(
-                                      onPressed: () async {
-                                        form.markAllAsTouched();
-                                        setState(() {
-                                          hasErrors = form
-                                              .control(_quantityDistributedKey)
-                                              .hasErrors;
-                                        });
-                                        if (!form.valid) return;
-                                        final router = context.router;
-                                        final shouldSubmit =
-                                            await DigitDialog.show<bool>(
-                                          context,
-                                          options: DigitDialogOptions(
-                                            titleText: localizations.translate(
-                                              i18.deliverIntervention
-                                                  .dialogTitle,
-                                            ),
-                                            contentText:
-                                                localizations.translate(
-                                              i18.deliverIntervention
-                                                  .dialogContent,
-                                            ),
-                                            primaryAction: DigitDialogActions(
-                                              label: localizations.translate(
-                                                i18.common.coreCommonSubmit,
+          return BlocListener<ProductVariantBloc, ProductVariantState>(
+            listener: (context, productState) {
+              productState.maybeWhen(
+                orElse: () => {},
+                fetched: (productVariants) {
+                  setState(() {
+                    productVariantModel = productVariants[0];
+                  });
+                },
+              );
+            },
+            child: Scaffold(
+              body: state.loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ReactiveFormBuilder(
+                      form: () => buildForm(context),
+                      builder: (context, form, child) {
+                        return ScrollableContent(
+                          header: Column(children: [
+                            BackNavigationHelpHeaderWidget(
+                              showcaseButton: const ShowcaseButton(),
+                              showBackNavigation: isDelivered ? true : false,
+                            ),
+                          ]),
+                          footer: isDelivered
+                              ? null
+                              : DigitCard(
+                                  child: DigitElevatedButton(
+                                    onPressed: () async {
+                                      form.markAllAsTouched();
+                                      if (!form.valid) return;
+                                      final router = context.router;
+                                      final shouldSubmit =
+                                          await DigitDialog.show<bool>(
+                                        context,
+                                        options: DigitDialogOptions(
+                                          titleText: localizations.translate(
+                                            i18.deliverIntervention.dialogTitle,
+                                          ),
+                                          contentText: localizations.translate(
+                                            i18.deliverIntervention
+                                                .dialogContent,
+                                          ),
+                                          primaryAction: DigitDialogActions(
+                                            label: localizations.translate(
+                                              i18.common.coreCommonSubmit,
                                               ),
                                               action: (ctx) {
                                                 final clientReferenceId = state
@@ -422,200 +427,138 @@ class _DeliverInterventionPageState
                                               '',
                                         },
                                       ),
-                                      deliverInterventionShowcaseData
-                                          .memberCount
-                                          .buildWith(
-                                        child: DigitTableCard(
-                                          element: {
-                                            "${localizations.translate(
-                                              i18.deliverIntervention
-                                                  .memberCountText,
-                                            )}:": householdMemberWrapper
-                                                    .household.memberCount ??
-                                                householdMemberWrapper
-                                                    .members.length,
-                                          },
-                                        ),
+                                    ),
+                                    const DigitDivider(),
+                                    deliverInterventionShowcaseData
+                                        .numberOfBednetsToDeliver
+                                        .buildWith(
+                                      child: DigitTableCard(
+                                        element: {
+                                          "${localizations.translate(i18.deliverIntervention.noOfResourcesForDelivery)}:":
+                                              calculatedCount,
+                                        },
                                       ),
-                                      const DigitDivider(),
-                                      deliverInterventionShowcaseData
-                                          .numberOfBednetsToDeliver
-                                          .buildWith(
-                                        child: DigitTableCard(
-                                          element: {
-                                            "${localizations.translate(i18.deliverIntervention.noOfResourcesForDelivery)}:":
-                                                () {
-                                              count = householdMemberWrapper
-                                                      .household.memberCount ??
-                                                  householdMemberWrapper
-                                                      .members.length;
-
-                                              return min(count / 1.8, 3)
-                                                  .round();
-                                            }(),
-                                          },
-                                        ),
-                                      ),
-                                      const DigitDivider(),
-                                      deliverInterventionShowcaseData
-                                          .numberOfBednetsDistributed
-                                          .buildWith(
-                                        child: DigitIntegerFormPicker(
-                                          form: form,
-                                          minimum: 1,
-                                          maximum: min(
-                                            (householdMemberWrapper.household
-                                                        .memberCount ??
-                                                    householdMemberWrapper
-                                                        .members.length) /
-                                                1.8,
-                                            3,
-                                          ).round(),
-                                          formControlName:
-                                              _quantityDistributedKey,
-                                          label: "${localizations.translate(
-                                            i18.deliverIntervention
-                                                .quantityDistributedLabel,
-                                          )}*",
-                                          incrementer: !isDelivered,
-                                          onChanged: (formValue) {
-                                            final count = min(
-                                              (householdMemberWrapper.household
-                                                          .memberCount ??
-                                                      householdMemberWrapper
-                                                          .members.length) /
-                                                  1.8,
-                                              3,
-                                            ).round();
-                                            if (int.parse(formValue) != count) {
-                                              setState(() {
-                                                form
-                                                    .control(
-                                                  _deliveryCommentKey,
-                                                )
-                                                    .setValidators(
-                                                  [Validators.required],
-                                                  updateParent: true,
-                                                  autoValidate: true,
-                                                );
-                                                form
-                                                    .control(
-                                                      _deliveryCommentKey,
-                                                    )
-                                                    .touched;
-                                                readOnly = false;
-                                                hasErrors = form
-                                                    .control(
-                                                      _quantityDistributedKey,
-                                                    )
-                                                    .hasErrors;
-                                              });
-                                            } else {
-                                              form.markAsPristine();
-                                              setState(() {
-                                                form
-                                                    .control(
-                                                  _deliveryCommentKey,
-                                                )
-                                                    .setValidators(
-                                                  [],
-                                                  updateParent: true,
-                                                  autoValidate: true,
-                                                );
-                                                form
-                                                    .control(
-                                                      _deliveryCommentKey,
-                                                    )
-                                                    .value = null;
-
-                                                readOnly = true;
-                                                hasErrors = form
-                                                    .control(
-                                                      _quantityDistributedKey,
-                                                    )
-                                                    .hasErrors;
-                                              });
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      ReactiveFormConsumer(
-                                        builder: (context, form, child) {
-                                          if (hasErrors) {
-                                            final error =
-                                                localizations.translate(
-                                              i18.deliverIntervention
-                                                  .bedNetsNonZero,
-                                            );
-
-                                            return Container(
-                                              padding: const EdgeInsets.only(
-                                                left: kPadding * 2,
-                                              ),
-                                              alignment: Alignment
-                                                  .centerLeft, // Align the text to the left
-                                              child: Text(
-                                                error,
-                                                style: const TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            );
+                                    ),
+                                    const DigitDivider(),
+                                    deliverInterventionShowcaseData
+                                        .numberOfBednetsDistributed
+                                        .buildWith(
+                                      child: DigitTextFormField(
+                                        readOnly: isDelivered,
+                                        formControlName:
+                                            _quantityDistributedKey,
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(decimal: true),
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(1),
+                                          FilteringTextInputFormatter.allow(
+                                            bedNetRegex,
+                                          ),
+                                        ],
+                                        label: "${localizations.translate(
+                                          i18.deliverIntervention
+                                              .quantityDistributedLabel,
+                                        )}*",
+                                        onChanged: (formValue) {
+                                          if (formValue.value == null ||
+                                              formValue.value
+                                                  .toString()
+                                                  .trim()
+                                                  .isEmpty) {
+                                            return;
+                                          }
+                                          if (int.parse(
+                                                formValue.value.toString(),
+                                              ) !=
+                                              calculatedCount) {
+                                            setState(() {
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .setValidators(
+                                                [Validators.required],
+                                                updateParent: true,
+                                                autoValidate: true,
+                                              );
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .touched;
+                                              readOnly = false;
+                                            });
                                           } else {
-                                            return Container(); // Empty container if no error
+                                            form.markAsPristine();
+                                            setState(() {
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .setValidators(
+                                                [],
+                                                updateParent: true,
+                                                autoValidate: true,
+                                              );
+                                              form
+                                                  .control(_deliveryCommentKey)
+                                                  .value = null;
+
+                                              readOnly = true;
+                                            });
+
                                           }
                                         },
+                                        validationMessages: {
+                                          "required": (control) {
+                                            return localizations.translate(
+                                              i18.deliverIntervention
+                                                  .bedNetsCountRequired,
+                                            );
+                                          },
+                                        },
                                       ),
-                                      BlocBuilder<AppInitializationBloc,
-                                          AppInitializationState>(
-                                        builder: (context, state) {
-                                          if (state is! AppInitialized) {
-                                            return const Offstage();
-                                          }
+                                    ),
+                                    BlocBuilder<AppInitializationBloc,
+                                        AppInitializationState>(
+                                      builder: (context, state) {
+                                        if (state is! AppInitialized) {
+                                          return const Offstage();
+                                        }
 
-                                          final deliveryCommentOptions = state
-                                                  .appConfiguration
-                                                  .deliveryCommentOptions ??
-                                              <DeliveryCommentOptions>[];
+                                        final deliveryCommentOptions = state
+                                                .appConfiguration
+                                                .deliveryCommentOptions ??
+                                            <DeliveryCommentOptions>[];
 
-                                          return deliverInterventionShowcaseData
-                                              .deliveryComment
-                                              .buildWith(
-                                            child:
-                                                DigitReactiveDropdown<String>(
-                                              label: localizations.translate(
-                                                i18.deliverIntervention
-                                                    .deliveryCommentLabel,
-                                              ),
-                                              readOnly: isDelivered || readOnly,
-                                              valueMapper: (value) => value,
-                                              initialValue:
-                                                  localizations.translate(
-                                                deliveryCommentOptions
-                                                        .firstOrNull?.code ??
-                                                    '',
-                                              ),
-                                              menuItems: deliveryCommentOptions
-                                                  .map((e) {
-                                                return localizations
-                                                    .translate(e.code);
-                                              }).toList(),
-                                              validationMessages: {
-                                                'required': (object) =>
-                                                    localizations.translate(i18
-                                                        .deliverIntervention
-                                                        .deliveryCommentRequired),
-                                              },
-                                              formControlName:
-                                                  _deliveryCommentKey,
+                                        return deliverInterventionShowcaseData
+                                            .deliveryComment
+                                            .buildWith(
+                                          child: DigitReactiveDropdown<String>(
+                                            label: localizations.translate(
+                                              i18.deliverIntervention
+                                                  .deliveryCommentLabel,
                                             ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                            readOnly: isDelivered || readOnly,
+                                            valueMapper: (value) => value,
+                                            initialValue:
+                                                localizations.translate(
+                                              deliveryCommentOptions
+                                                      .firstOrNull?.code ??
+                                                  '',
+                                            ),
+                                            menuItems:
+                                                deliveryCommentOptions.map((e) {
+                                              return localizations
+                                                  .translate(e.code);
+                                            }).toList(),
+                                            validationMessages: {
+                                              'required': (object) =>
+                                                  localizations.translate(i18
+                                                      .deliverIntervention
+                                                      .deliveryCommentRequired),
+                                            },
+                                            formControlName:
+                                                _deliveryCommentKey,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -665,29 +608,21 @@ class _DeliverInterventionPageState
     final state = context.read<HouseholdOverviewBloc>().state;
 
     return fb.group(<String, Object>{
-      _quantityDistributedKey: FormControl<int>(
-        value: state.householdMemberWrapper.task?.resources?.first.quantity !=
-                null
-            ? int.tryParse(
-                state.householdMemberWrapper.task!.resources!.first.quantity!,
-              )
-            : 0,
+      _quantityDistributedKey: FormControl<String>(
+        value:
+            state.householdMemberWrapper.task?.resources?.first.quantity != null
+                ? state.householdMemberWrapper.task!.resources!.first.quantity!
+                : null,
         validators: [
-          CustomValidator.bedNetValidaiton,
+          Validators.required,
+          // CustomValidator.bedNetValidaiton,
         ],
       ),
       _deliveryCommentKey: FormControl<String>(
         value:
             state.householdMemberWrapper.task?.resources?.first.deliveryComment,
         validators: [
-          if (min(
-                (state.householdMemberWrapper.household.memberCount ??
-                        state.householdMemberWrapper.members.length) /
-                    1.8,
-                3,
-              ).round() >
-              0)
-            Validators.required,
+          Validators.required,
         ],
       ),
     });
