@@ -191,6 +191,7 @@ class AuthenticatedPageWrapper extends StatelessWidget {
                           switch (context.router.topRoute.name) {
                             case ProjectSelectionRoute.name:
                             case BoundarySelectionRoute.name:
+                            case DeliverInterventionRoute.name:
                               shouldShowDrawer = false;
                               break;
                             default:
