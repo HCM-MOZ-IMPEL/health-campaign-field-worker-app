@@ -96,7 +96,7 @@ class NetworkManager {
         service: service,
       );
     } else if (pendingSyncUpEntries.isEmpty && list.isEmpty) {
-      await LocalSecureStore.instance.setManualSyncTrigger(true);
+      await LocalSecureStore.instance.setManualSyncTrigger(false);
       isSyncCompleted = true;
     }
 
@@ -364,9 +364,6 @@ class NetworkManager {
                   ),
                 );
               } else {
-                await local.opLogManager
-                    .updateSyncDownRetry(entity.clientReferenceId);
-
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
 
