@@ -167,7 +167,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                   state.maybeWhen(
                     orElse: () => null,
                     syncInProgress: () async {
-                      await localSecureStore.setManualSyncTrigger(false);
+                      await localSecureStore.setManualSyncTrigger(true);
                       if (context.mounted) {
                         DigitSyncDialog.show(
                           context,
@@ -181,7 +181,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                     },
                     completedSync: () async {
                       Navigator.of(context, rootNavigator: true).pop();
-                      await localSecureStore.setManualSyncTrigger(true);
+                      await localSecureStore.setManualSyncTrigger(false);
                       if (context.mounted) {
                         DigitSyncDialog.show(
                           context,
@@ -201,7 +201,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                       }
                     },
                     failedSync: () async {
-                      await localSecureStore.setManualSyncTrigger(true);
+                      await localSecureStore.setManualSyncTrigger(false);
                       if (context.mounted) {
                         _showSyncFailedDialog(
                           context,
@@ -212,7 +212,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                       }
                     },
                     failedDownSync: () async {
-                      await localSecureStore.setManualSyncTrigger(true);
+                      await localSecureStore.setManualSyncTrigger(false);
                       if (context.mounted) {
                         _showSyncFailedDialog(
                           context,
@@ -223,7 +223,7 @@ class _HomePageState extends LocalizedState<HomePage> {
                       }
                     },
                     failedUpSync: () async {
-                      await localSecureStore.setManualSyncTrigger(true);
+                      await localSecureStore.setManualSyncTrigger(false);
                       if (context.mounted) {
                         _showSyncFailedDialog(
                           context,
