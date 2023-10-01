@@ -208,28 +208,13 @@ class NetworkManager {
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
 
-                final List<OpLog> opLogEntry = await local.opLogManager
-                    .getSyncDownRetryList(entity.clientReferenceId);
                 if (markAsNonRecoverable) {
-                  for (var element in opLogEntry) {
-                    // OPLOG
-                    await local.opLogManager.updateServerGeneratedIds(
-                      model: UpdateServerGeneratedIdModel(
-                        clientReferenceId: entity.clientReferenceId,
-                        dataOperation: element.operation,
-                        rowVersion: rowVersion,
-                        nonRecoverableError: true,
-                        serverGeneratedId:
-                            entity.id ?? entity.clientReferenceId,
-                      ),
-                    );
-                    await local.update(
-                      entity.copyWith(
-                        nonRecoverableError: true,
-                      ),
-                      createOpLog: false,
-                    );
-                  }
+                  await local.update(
+                    entity.copyWith(
+                      nonRecoverableError: true,
+                    ),
+                    createOpLog: false,
+                  );
                 }
               }
             }
@@ -305,28 +290,13 @@ class NetworkManager {
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
 
-                final List<OpLog> opLogEntry = await local.opLogManager
-                    .getSyncDownRetryList(entity.clientReferenceId);
                 if (markAsNonRecoverable) {
-                  for (var element in opLogEntry) {
-                    // OPLOG
-                    await local.opLogManager.updateServerGeneratedIds(
-                      model: UpdateServerGeneratedIdModel(
-                        clientReferenceId: entity.clientReferenceId,
-                        dataOperation: element.operation,
-                        rowVersion: rowVersion,
-                        nonRecoverableError: true,
-                        serverGeneratedId:
-                            entity.id ?? entity.clientReferenceId,
-                      ),
-                    );
-                    await local.update(
-                      entity.copyWith(
-                        nonRecoverableError: true,
-                      ),
-                      createOpLog: false,
-                    );
-                  }
+                  await local.update(
+                    entity.copyWith(
+                      nonRecoverableError: true,
+                    ),
+                    createOpLog: false,
+                  );
                 }
               }
             }
@@ -367,28 +337,13 @@ class NetworkManager {
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
 
-                final List<OpLog> opLogEntry = await local.opLogManager
-                    .getSyncDownRetryList(entity.clientReferenceId);
                 if (markAsNonRecoverable) {
-                  for (var element in opLogEntry) {
-                    // OPLOG
-                    await local.opLogManager.updateServerGeneratedIds(
-                      model: UpdateServerGeneratedIdModel(
-                        clientReferenceId: entity.clientReferenceId,
-                        dataOperation: element.operation,
-                        rowVersion: rowVersion,
-                        nonRecoverableError: true,
-                        serverGeneratedId:
-                            entity.id ?? entity.clientReferenceId,
-                      ),
-                    );
-                    await local.update(
-                      entity.copyWith(
-                        nonRecoverableError: true,
-                      ),
-                      createOpLog: false,
-                    );
-                  }
+                  await local.update(
+                    entity.copyWith(
+                      nonRecoverableError: true,
+                    ),
+                    createOpLog: false,
+                  );
                 }
               }
             }
@@ -441,28 +396,13 @@ class NetworkManager {
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(taskModel.clientReferenceId);
 
-                final List<OpLog> opLogEntry = await local.opLogManager
-                    .getSyncDownRetryList(taskModel.clientReferenceId);
                 if (markAsNonRecoverable) {
-                  for (var element in opLogEntry) {
-                    // OPLOG
-                    await local.opLogManager.updateServerGeneratedIds(
-                      model: UpdateServerGeneratedIdModel(
-                        clientReferenceId: taskModel.clientReferenceId,
-                        dataOperation: element.operation,
-                        rowVersion: rowVersion,
-                        nonRecoverableError: true,
-                        serverGeneratedId:
-                            taskModel.id ?? taskModel.clientReferenceId,
-                      ),
-                    );
-                    await local.update(
-                      taskModel.copyWith(
-                        nonRecoverableError: true,
-                      ),
-                      createOpLog: false,
-                    );
-                  }
+                  await local.update(
+                    taskModel.copyWith(
+                      nonRecoverableError: true,
+                    ),
+                    createOpLog: false,
+                  );
                 }
               }
             }
@@ -504,28 +444,13 @@ class NetworkManager {
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
 
-                final List<OpLog> opLogEntry = await local.opLogManager
-                    .getSyncDownRetryList(entity.clientReferenceId);
                 if (markAsNonRecoverable) {
-                  for (var element in opLogEntry) {
-                    // OPLOG
-                    await local.opLogManager.updateServerGeneratedIds(
-                      model: UpdateServerGeneratedIdModel(
-                        clientReferenceId: entity.clientReferenceId,
-                        dataOperation: element.operation,
-                        rowVersion: rowVersion,
-                        nonRecoverableError: true,
-                        serverGeneratedId:
-                            entity.id ?? entity.clientReferenceId,
-                      ),
-                    );
-                    await local.update(
-                      entity.copyWith(
-                        nonRecoverableError: true,
-                      ),
-                      createOpLog: false,
-                    );
-                  }
+                  await local.update(
+                    entity.copyWith(
+                      nonRecoverableError: true,
+                    ),
+                    createOpLog: false,
+                  );
                 }
               }
             }
@@ -567,28 +492,13 @@ class NetworkManager {
                 final bool markAsNonRecoverable = await local.opLogManager
                     .updateSyncDownRetry(entity.clientReferenceId);
 
-                final List<OpLog> opLogEntry = await local.opLogManager
-                    .getSyncDownRetryList(entity.clientReferenceId);
                 if (markAsNonRecoverable) {
-                  for (var element in opLogEntry) {
-                    // OPLOG
-                    await local.opLogManager.updateServerGeneratedIds(
-                      model: UpdateServerGeneratedIdModel(
-                        clientReferenceId: entity.clientReferenceId,
-                        dataOperation: element.operation,
-                        rowVersion: rowVersion,
-                        nonRecoverableError: true,
-                        serverGeneratedId:
-                            entity.id ?? entity.clientReferenceId,
-                      ),
-                    );
-                    await local.update(
-                      entity.copyWith(
-                        nonRecoverableError: true,
-                      ),
-                      createOpLog: false,
-                    );
-                  }
+                  await local.update(
+                    entity.copyWith(
+                      nonRecoverableError: true,
+                    ),
+                    createOpLog: false,
+                  );
                 }
               }
             }
@@ -720,13 +630,6 @@ class NetworkManager {
         final opLogErrorList = operationGroupedEntity.value
             .where((element) => element.nonRecoverableError)
             .toList();
-        // [returns list of oplogs whose nonRecoverableError is false and retry count is equal to configured value]
-        final nonRecoverableErrorList = operationGroupedEntity.value
-            .where((element) =>
-                !element.nonRecoverableError &&
-                element.syncDownRetryCount ==
-                    envConfig.variables.syncDownRetryCount)
-            .toList();
 
         final List<List<OpLogEntry<EntityModel>>> listOfBatchedOpLogList =
             opLogList.slices(bandwidthModel.batchSize).toList();
@@ -734,28 +637,6 @@ class NetworkManager {
         final List<List<OpLogEntry<EntityModel>>> listOfBatchedOpLogErrorList =
             opLogErrorList.slices(bandwidthModel.batchSize).toList();
 
-        final List<List<OpLogEntry<EntityModel>>>
-            listOfBatchedNonRecoverableErrorList =
-            nonRecoverableErrorList.slices(bandwidthModel.batchSize).toList();
-
-        if (listOfBatchedNonRecoverableErrorList.isNotEmpty) {
-          for (final sublist in listOfBatchedNonRecoverableErrorList) {
-            final nonRecoverableErrorEntities = getEntityModel(sublist, local);
-            await remote.dumpError(
-              nonRecoverableErrorEntities,
-              operationGroupedEntity.key,
-            );
-            for (final syncedEntity in sublist) {
-              if (syncedEntity.type == DataModelType.complaints) continue;
-              await local.markSyncedUp(
-                entry: syncedEntity,
-                nonRecoverableError: syncedEntity.nonRecoverableError,
-                clientReferenceId: syncedEntity.clientReferenceId,
-                id: syncedEntity.id,
-              );
-            }
-          }
-        }
         if (listOfBatchedOpLogErrorList.isNotEmpty) {
           for (final sublist in listOfBatchedOpLogErrorList) {
             final errorEntities = getEntityModel(sublist, local);
@@ -763,10 +644,10 @@ class NetworkManager {
               errorEntities,
               operationGroupedEntity.key,
             );
-            for (final syncedEntity in nonRecoverableErrorList) {
+            for (final syncedEntity in sublist) {
               await local.markSyncedUp(
                 entry: syncedEntity,
-                nonRecoverableError: true,
+                nonRecoverableError: syncedEntity.nonRecoverableError,
                 clientReferenceId: syncedEntity.clientReferenceId,
                 id: syncedEntity.id,
               );
