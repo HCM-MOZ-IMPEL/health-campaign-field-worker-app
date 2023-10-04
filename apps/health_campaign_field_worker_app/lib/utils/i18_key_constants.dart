@@ -443,6 +443,8 @@ class DeliverIntervention {
 
   String get deliveryAlertActionLabel =>
       'DELIVER_INTERVENTION_ALERT_ACTION_LABEL';
+
+  String get bedNetsCountRequired => 'BED_NETS_COUNT_REQUIRED';
 }
 
 class ProjectSelection {
