@@ -435,6 +435,8 @@ class DeliverIntervention {
   String get deliveryCommentRequired => 'DELIVERY_COMMENT_REQUIRED';
 
   String get bedNetsNonZero => 'BED_NETS_NON_ZERO';
+
+  String get bedNetsCountRequired => 'BED_NETS_COUNT_REQUIRED';
 }
 
 class ProjectSelection {
