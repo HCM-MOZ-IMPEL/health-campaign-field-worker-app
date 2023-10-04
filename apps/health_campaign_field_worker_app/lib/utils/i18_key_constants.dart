@@ -436,6 +436,14 @@ class DeliverIntervention {
 
   String get bedNetsNonZero => 'BED_NETS_NON_ZERO';
 
+  String get deliveryAlertTitle => 'DELIVER_INTERVENTION_ALERT_DIALOG_TITLE';
+
+  String get deliveryAlertContent =>
+      'DELIVER_INTERVENTION_ALERT_DIALOG_CONTENT';
+
+  String get deliveryAlertActionLabel =>
+      'DELIVER_INTERVENTION_ALERT_ACTION_LABEL';
+
   String get bedNetsCountRequired => 'BED_NETS_COUNT_REQUIRED';
 }
 
