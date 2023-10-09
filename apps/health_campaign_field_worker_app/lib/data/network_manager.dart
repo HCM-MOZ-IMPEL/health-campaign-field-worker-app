@@ -631,11 +631,42 @@ class NetworkManager {
             .where((element) => element.nonRecoverableError)
             .toList();
 
+        // [returns list of oplogs whose nonRecoverableError is false and retry count is equal to configured value]
+        final nonRecoverableErrorList = operationGroupedEntity.value
+            .where((element) =>
+                !element.nonRecoverableError &&
+                element.syncDownRetryCount >=
+                    envConfig.variables.syncDownRetryCount)
+            .toList();
+
         final List<List<OpLogEntry<EntityModel>>> listOfBatchedOpLogList =
             opLogList.slices(bandwidthModel.batchSize).toList();
 
         final List<List<OpLogEntry<EntityModel>>> listOfBatchedOpLogErrorList =
             opLogErrorList.slices(bandwidthModel.batchSize).toList();
+
+        final List<List<OpLogEntry<EntityModel>>>
+            listOfBatchedNonRecoverableErrorList =
+            nonRecoverableErrorList.slices(bandwidthModel.batchSize).toList();
+
+        if (listOfBatchedNonRecoverableErrorList.isNotEmpty) {
+          for (final sublist in listOfBatchedNonRecoverableErrorList) {
+            final nonRecoverableErrorEntities = getEntityModel(sublist, local);
+            await remote.dumpError(
+              nonRecoverableErrorEntities,
+              operationGroupedEntity.key,
+            );
+            for (final syncedEntity in sublist) {
+              if (syncedEntity.type == DataModelType.complaints) continue;
+              await local.markSyncedUp(
+                entry: syncedEntity,
+                nonRecoverableError: syncedEntity.nonRecoverableError,
+                clientReferenceId: syncedEntity.clientReferenceId,
+                id: syncedEntity.id,
+              );
+            }
+          }
+        }
 
         if (listOfBatchedOpLogErrorList.isNotEmpty) {
           for (final sublist in listOfBatchedOpLogErrorList) {
