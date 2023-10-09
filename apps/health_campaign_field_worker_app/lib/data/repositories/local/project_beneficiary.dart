@@ -116,7 +116,18 @@ class ProjectBeneficiaryLocalRepository
             auditDetails: AuditDetails(
               createdTime: projectBeneficiary.auditCreatedTime!,
               createdBy: projectBeneficiary.auditCreatedBy!,
+              lastModifiedBy: projectBeneficiary.auditModifiedBy,
+              lastModifiedTime: projectBeneficiary.auditModifiedTime,
             ),
+            clientAuditDetails: (projectBeneficiary.clientCreatedBy != null &&
+                    projectBeneficiary.clientCreatedTime != null)
+                ? ClientAuditDetails(
+                    createdBy: projectBeneficiary.clientCreatedBy!,
+                    createdTime: projectBeneficiary.clientCreatedTime!,
+                    lastModifiedBy: projectBeneficiary.clientModifiedBy,
+                    lastModifiedTime: projectBeneficiary.clientModifiedTime,
+                  )
+                : null,
           );
         })
         .where((element) => element.isDeleted != true)
@@ -165,6 +176,15 @@ class ProjectBeneficiaryLocalRepository
     final updated = entity.copyWith(
       isDeleted: true,
       rowVersion: entity.rowVersion,
+      clientAuditDetails: (entity.clientAuditDetails?.createdBy != null &&
+              entity.clientAuditDetails!.createdTime != null)
+          ? ClientAuditDetails(
+              createdBy: entity.clientAuditDetails!.createdBy,
+              createdTime: entity.clientAuditDetails!.createdTime,
+              lastModifiedBy: entity.clientAuditDetails!.lastModifiedBy,
+              lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+            )
+          : null,
     );
     await sql.batch((batch) {
       batch.update(
