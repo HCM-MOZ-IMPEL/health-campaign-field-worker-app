@@ -377,10 +377,24 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                                 ).pop(false);
                                               },
                                             ),
+                                            secondaryAction: DigitDialogActions(
+                                              label: localizations.translate(
+                                                i18.stockDetails
+                                                    .countDialogCancel,
+                                              ),
+                                              action: (context) => Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop(true),
+                                            ),
                                           ),
                                         );
 
                                         if (!(alert ?? false)) {
+                                          form
+                                              .control(_transactionQuantityKey)
+                                              .value = null;
+
                                           return;
                                         }
                                       }
