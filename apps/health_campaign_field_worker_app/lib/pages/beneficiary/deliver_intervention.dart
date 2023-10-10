@@ -97,197 +97,259 @@ class _DeliverInterventionPageState
                           footer: isDelivered
                               ? null
                               : DigitCard(
-                                  child: DigitElevatedButton(
-                                    onPressed: () async {
-                                      form.markAllAsTouched();
-                                      setState(() {
-                                        hasErrors = form
-                                            .control(_quantityDistributedKey)
-                                            .hasErrors;
-                                      });
-                                      if (!form.valid) return;
-                                      final router = context.router;
-                                      final shouldSubmit =
-                                          await DigitDialog.show<bool>(
-                                        context,
-                                        options: DigitDialogOptions(
-                                          titleText: localizations.translate(
-                                            i18.deliverIntervention.dialogTitle,
-                                          ),
-                                          contentText: localizations.translate(
-                                            i18.deliverIntervention
-                                                .dialogContent,
-                                          ),
-                                          primaryAction: DigitDialogActions(
-                                            label: localizations.translate(
-                                              i18.common.coreCommonSubmit,
-                                            ),
-                                            action: (ctx) {
-                                              final clientReferenceId = state
-                                                          .householdMemberWrapper
-                                                          .task ==
-                                                      null
-                                                  ? IdGen.i.identifier
-                                                  : state.householdMemberWrapper
-                                                      .task!.clientReferenceId;
-                                              context
-                                                  .read<
-                                                      DeliverInterventionBloc>()
-                                                  .add(
-                                                    DeliverInterventionSubmitEvent(
-                                                      TaskModel(
-                                                        id: householdMemberWrapper
-                                                            .task?.id,
-                                                        clientReferenceId:
-                                                            clientReferenceId,
-                                                        projectBeneficiaryClientReferenceId:
-                                                            householdMemberWrapper
-                                                                .projectBeneficiary
-                                                                .clientReferenceId,
-                                                        tenantId: envConfig
-                                                            .variables.tenantId,
-                                                        rowVersion:
-                                                            householdMemberWrapper
-                                                                    .task
-                                                                    ?.rowVersion ??
-                                                                1,
-                                                        projectId:
-                                                            context.projectId,
-                                                        status: Status
-                                                            .delivered.name,
-                                                        createdDate: context
-                                                            .millisecondsSinceEpoch(),
-                                                        resources: [
-                                                          TaskResourceModel(
-                                                            id: householdMemberWrapper
-                                                                .task
-                                                                ?.resources
-                                                                ?.first
-                                                                .id,
-                                                            taskId:
-                                                                householdMemberWrapper
-                                                                    .task?.id,
-                                                            clientReferenceId:
-                                                                clientReferenceId,
-                                                            rowVersion:
-                                                                householdMemberWrapper
-                                                                        .task
-                                                                        ?.resources
-                                                                        ?.first
-                                                                        .rowVersion ??
-                                                                    1,
-                                                            isDelivered: true,
-                                                            tenantId: envConfig
-                                                                .variables
-                                                                .tenantId,
-                                                            quantity: form
-                                                                .control(
-                                                                  _quantityDistributedKey,
-                                                                )
-                                                                .value
-                                                                .toString(),
-                                                            productVariantId:
-                                                                productVariantModel
-                                                                    .id,
-                                                            deliveryComment:
-                                                                form
-                                                                    .control(
-                                                                      _deliveryCommentKey,
-                                                                    )
-                                                                    .value,
-                                                            auditDetails:
-                                                                AuditDetails(
-                                                              createdBy: context
-                                                                  .loggedInUserUuid,
-                                                              createdTime: householdMemberWrapper
+                                  child: SizedBox(
+                                    child: Column(
+                                      children: [
+                                        DigitOutlineIconButton(
+                                          onPressed: () {
+                                            context.router.push(QRScannerRoute(
+                                              quantity: form
+                                                  .control(
+                                                    _quantityDistributedKey,
+                                                  )
+                                                  .value,
+                                            ));
+                                          },
+                                          icon: Icons.scanner_outlined,
+                                          label: 'Scan the bednets',
+                                        ),
+                                        DigitElevatedButton(
+                                          onPressed: () async {
+                                            form.markAllAsTouched();
+                                            final List<AdditionalField> fields =
+                                                [];
+                                            for (var element in context
+                                                .read<DeliverInterventionBloc>()
+                                                .state
+                                                .barcodes!) {
+                                              for (var e
+                                                  in element.elements.entries) {
+                                                e.value.rawData;
+                                                fields.add(
+                                                  AdditionalField(
+                                                    e.key.toString(),
+                                                    e.value.data.toString(),
+                                                  ),
+                                                );
+                                              }
+                                            }
+
+                                            setState(() {
+                                              hasErrors = form
+                                                  .control(
+                                                    _quantityDistributedKey,
+                                                  )
+                                                  .hasErrors;
+                                            });
+                                            if (!form.valid) return;
+                                            final router = context.router;
+                                            final shouldSubmit =
+                                                await DigitDialog.show<bool>(
+                                              context,
+                                              options: DigitDialogOptions(
+                                                titleText:
+                                                    localizations.translate(
+                                                  i18.deliverIntervention
+                                                      .dialogTitle,
+                                                ),
+                                                contentText:
+                                                    localizations.translate(
+                                                  i18.deliverIntervention
+                                                      .dialogContent,
+                                                ),
+                                                primaryAction:
+                                                    DigitDialogActions(
+                                                  label:
+                                                      localizations.translate(
+                                                    i18.common.coreCommonSubmit,
+                                                  ),
+                                                  action: (ctx) {
+                                                    final clientReferenceId = state
+                                                                .householdMemberWrapper
+                                                                .task ==
+                                                            null
+                                                        ? IdGen.i.identifier
+                                                        : state
+                                                            .householdMemberWrapper
+                                                            .task!
+                                                            .clientReferenceId;
+                                                    context
+                                                        .read<
+                                                            DeliverInterventionBloc>()
+                                                        .add(
+                                                          DeliverInterventionSubmitEvent(
+                                                            TaskModel(
+                                                              id: householdMemberWrapper
+                                                                  .task?.id,
+                                                              clientReferenceId:
+                                                                  clientReferenceId,
+                                                              projectBeneficiaryClientReferenceId:
+                                                                  householdMemberWrapper
+                                                                      .projectBeneficiary
+                                                                      .clientReferenceId,
+                                                              tenantId:
+                                                                  envConfig
+                                                                      .variables
+                                                                      .tenantId,
+                                                              rowVersion:
+                                                                  householdMemberWrapper
+                                                                          .task
+                                                                          ?.rowVersion ??
+                                                                      1,
+                                                              projectId: context
+                                                                  .projectId,
+                                                              status: Status
+                                                                  .delivered
+                                                                  .name,
+                                                              createdDate: context
+                                                                  .millisecondsSinceEpoch(),
+                                                              resources: [
+                                                                TaskResourceModel(
+                                                                  id: householdMemberWrapper
                                                                       .task
                                                                       ?.resources
                                                                       ?.first
-                                                                      .auditDetails
-                                                                      ?.createdTime ??
-                                                                  context
-                                                                      .millisecondsSinceEpoch(),
-                                                              lastModifiedBy:
-                                                                  context
-                                                                      .loggedInUserUuid,
-                                                              lastModifiedTime:
-                                                                  context
-                                                                      .millisecondsSinceEpoch(),
+                                                                      .id,
+                                                                  taskId:
+                                                                      householdMemberWrapper
+                                                                          .task
+                                                                          ?.id,
+                                                                  clientReferenceId:
+                                                                      clientReferenceId,
+                                                                  rowVersion: householdMemberWrapper
+                                                                          .task
+                                                                          ?.resources
+                                                                          ?.first
+                                                                          .rowVersion ??
+                                                                      1,
+                                                                  isDelivered:
+                                                                      true,
+                                                                  tenantId: envConfig
+                                                                      .variables
+                                                                      .tenantId,
+                                                                  quantity: form
+                                                                      .control(
+                                                                        _quantityDistributedKey,
+                                                                      )
+                                                                      .value
+                                                                      .toString(),
+                                                                  productVariantId:
+                                                                      productVariantModel
+                                                                          .id,
+                                                                  deliveryComment:
+                                                                      form
+                                                                          .control(
+                                                                            _deliveryCommentKey,
+                                                                          )
+                                                                          .value,
+                                                                  auditDetails:
+                                                                      AuditDetails(
+                                                                    createdBy:
+                                                                        context
+                                                                            .loggedInUserUuid,
+                                                                    createdTime: householdMemberWrapper
+                                                                            .task
+                                                                            ?.resources
+                                                                            ?.first
+                                                                            .auditDetails
+                                                                            ?.createdTime ??
+                                                                        context
+                                                                            .millisecondsSinceEpoch(),
+                                                                    lastModifiedBy:
+                                                                        context
+                                                                            .loggedInUserUuid,
+                                                                    lastModifiedTime:
+                                                                        context
+                                                                            .millisecondsSinceEpoch(),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                              address:
+                                                                  householdMemberWrapper
+                                                                      .household
+                                                                      .address
+                                                                      ?.copyWith(
+                                                                relatedClientReferenceId:
+                                                                    clientReferenceId,
+                                                                id: state
+                                                                    .householdMemberWrapper
+                                                                    .task
+                                                                    ?.address
+                                                                    ?.id,
+                                                              ),
+                                                              additionalFields:
+                                                                  TaskAdditionalFields(
+                                                                version: 1,
+                                                                fields: fields,
+                                                              ),
+                                                              auditDetails:
+                                                                  AuditDetails(
+                                                                createdBy: context
+                                                                    .loggedInUserUuid,
+                                                                createdTime: householdMemberWrapper
+                                                                        .task
+                                                                        ?.address
+                                                                        ?.auditDetails
+                                                                        ?.createdTime ??
+                                                                    context
+                                                                        .millisecondsSinceEpoch(),
+                                                                lastModifiedBy:
+                                                                    context
+                                                                        .loggedInUserUuid,
+                                                                lastModifiedTime:
+                                                                    context
+                                                                        .millisecondsSinceEpoch(),
+                                                              ),
                                                             ),
+                                                            state.householdMemberWrapper
+                                                                        .task ==
+                                                                    null
+                                                                ? false
+                                                                : true,
+                                                            context.boundary,
                                                           ),
-                                                        ],
-                                                        address:
-                                                            householdMemberWrapper
-                                                                .household
-                                                                .address
-                                                                ?.copyWith(
-                                                          relatedClientReferenceId:
-                                                              clientReferenceId,
-                                                          id: state
-                                                              .householdMemberWrapper
-                                                              .task
-                                                              ?.address
-                                                              ?.id,
-                                                        ),
-                                                        auditDetails:
-                                                            AuditDetails(
-                                                          createdBy: context
-                                                              .loggedInUserUuid,
-                                                          createdTime: householdMemberWrapper
-                                                                  .task
-                                                                  ?.address
-                                                                  ?.auditDetails
-                                                                  ?.createdTime ??
-                                                              context
-                                                                  .millisecondsSinceEpoch(),
-                                                          lastModifiedBy: context
-                                                              .loggedInUserUuid,
-                                                          lastModifiedTime: context
-                                                              .millisecondsSinceEpoch(),
-                                                        ),
-                                                      ),
-                                                      state.householdMemberWrapper
-                                                                  .task ==
-                                                              null
-                                                          ? false
-                                                          : true,
-                                                      context.boundary,
-                                                    ),
-                                                  );
+                                                        );
 
-                                              Navigator.of(
-                                                context,
-                                                rootNavigator: true,
-                                              ).pop(true);
-                                            },
-                                          ),
-                                          secondaryAction: DigitDialogActions(
-                                            label: localizations.translate(
-                                              i18.common.coreCommonCancel,
+                                                    Navigator.of(
+                                                      context,
+                                                      rootNavigator: true,
+                                                    ).pop(true);
+                                                  },
+                                                ),
+                                                secondaryAction:
+                                                    DigitDialogActions(
+                                                  label:
+                                                      localizations.translate(
+                                                    i18.common.coreCommonCancel,
+                                                  ),
+                                                  action: (context) =>
+                                                      Navigator.of(
+                                                    context,
+                                                    rootNavigator: true,
+                                                  ).pop(false),
+                                                ),
+                                              ),
+                                            );
+
+                                            if (shouldSubmit ?? false) {
+                                              final parent = router.parent()
+                                                  as StackRouter;
+                                              parent.popUntilRouteWithName(
+                                                SearchBeneficiaryRoute.name,
+                                              );
+                                              router
+                                                  .push(AcknowledgementRoute());
+                                            }
+                                          },
+                                          child: Center(
+                                            child: Text(
+                                              localizations.translate(
+                                                i18.common.coreCommonSubmit,
+                                              ),
                                             ),
-                                            action: (context) => Navigator.of(
-                                              context,
-                                              rootNavigator: true,
-                                            ).pop(false),
                                           ),
                                         ),
-                                      );
-
-                                      if (shouldSubmit ?? false) {
-                                        final parent =
-                                            router.parent() as StackRouter;
-                                        parent.popUntilRouteWithName(
-                                          SearchBeneficiaryRoute.name,
-                                        );
-                                        router.push(AcknowledgementRoute());
-                                      }
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        localizations.translate(
-                                          i18.common.coreCommonSubmit,
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -445,6 +507,12 @@ class _DeliverInterventionPageState
                                                 1.8,
                                             3,
                                           ).round();
+                                          final bloc = context
+                                              .read<DeliverInterventionBloc>();
+                                          bloc.add(
+                                            const DeliverInterventionEvent
+                                                .handleScanner([]),
+                                          );
                                           if (int.parse(formValue) != count) {
                                             setState(() {
                                               form
@@ -560,6 +628,23 @@ class _DeliverInterventionPageState
                                                 _deliveryCommentKey,
                                           ),
                                         );
+                                      },
+                                    ),
+                                    BlocBuilder<DeliverInterventionBloc,
+                                        DeliverInterventionState>(
+                                      builder: (context, state) {
+                                        return state.barcodes != null
+                                            ? Padding(
+                                                padding: const EdgeInsets.all(
+                                                  kPadding,
+                                                ),
+                                                child: DigitInfoCard(
+                                                  description: null,
+                                                  title:
+                                                      'No of resources Scanner : ${state.barcodes!.length}',
+                                                ),
+                                              )
+                                            : const Offstage();
                                       },
                                     ),
                                   ],
