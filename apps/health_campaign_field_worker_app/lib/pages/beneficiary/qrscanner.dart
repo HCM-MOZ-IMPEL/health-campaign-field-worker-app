@@ -71,7 +71,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
                 height: 50,
                 child: DigitElevatedButton(
                   child: Text(localizations.translate(
-                    i18.common.coreCommonSubmit,
+                    i18.common.coreCommonBack,
                   )),
                   onPressed: () {
                     context.router.pop();
