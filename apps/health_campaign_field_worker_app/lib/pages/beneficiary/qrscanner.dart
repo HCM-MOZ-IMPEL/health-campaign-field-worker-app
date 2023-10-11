@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_toaster.dart';
@@ -44,24 +42,33 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
         builder: (context, state) {
           return Stack(
             children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.green[300],
-                child: _buildQrView(context),
+              GestureDetector(
+                onTap: () {
+                  controller?.pauseCamera();
+                  controller?.resumeCamera();
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  color: Colors.green[300],
+                  child: _buildQrView(context),
+                ),
               ),
-              const Positioned(
-                top: 20,
-                left: 150,
+              // [TODO : Need move to constants]
+              Positioned(
+                // top: MediaQuery.of(context).size.height / 20,
+                left: MediaQuery.of(context).size.width / 3,
                 width: 250,
                 height: 250,
                 child: SizedBox(
                   width: 150,
                   height: 150,
-                  // color: Colors.red[400],
+                  // [TODO: Localization need to be added]
                   child: Text(
-                    'Scan QR code',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    localizations.translate(
+                      i18.deliverIntervention.scannerLabel,
+                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
               ),
@@ -78,54 +85,99 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
                   },
                 ),
               ),
+
               Positioned(
                 bottom: 60,
                 height: state.barcodes != null
                     ? state.barcodes!.length < 10
-                        ? state.barcodes!.length * 48
+                        ? (state.barcodes!.length * 60) + 40
                         : MediaQuery.of(context).size.height / 2
                     : 0,
                 width: MediaQuery.of(context).size.width,
-                child: GestureDetector(
-                  onTap: () {
-                    controller?.pauseCamera();
-                    controller?.resumeCamera();
-                  },
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    color: Colors.white,
-                    child: ListView.builder(
-                      itemCount: state.barcodes?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          shape: const Border(),
-                          trailing: IconButton(
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
-                            onPressed: () {
-                              result = List.from(state.barcodes!);
-                              result.removeAt(index);
-                              final bloc =
-                                  context.read<DeliverInterventionBloc>();
-                              bloc.add(
-                                DeliverInterventionEvent.handleScanner(result),
-                              );
-                            },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.all(kPadding),
+                        width: MediaQuery.of(context).size.width,
+                        child: Text(
+                          '${state.barcodes?.length.toString()} Resources Scanned',
+                          style: const TextStyle(
+                            fontSize: 16,
                           ),
-                          title: Container(
-                            padding: const EdgeInsets.all(kPadding),
-                            child: state.barcodes != null
-                                ? Text(state.barcodes![index].elements.entries
-                                    .last.value.data
-                                    .toString())
-                                : const Offstage(),
-                          ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: state.barcodes?.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              shape: const Border(),
+                              title: Container(
+                                height: kPadding * 6,
+                                decoration: BoxDecoration(
+                                  color: DigitTheme
+                                      .instance.colorScheme.background,
+                                  border: Border.all(
+                                    color:
+                                        DigitTheme.instance.colorScheme.outline,
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(4.0),
+                                  ),
+                                ),
+                                padding: const EdgeInsets.all(kPadding),
+                                child: state.barcodes != null
+                                    ? Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(state.barcodes![index].elements
+                                              .entries.last.value.data
+                                              .toString()),
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                              bottom: kPadding,
+                                            ),
+                                            child: IconButton(
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                              ),
+                                              onPressed: () {
+                                                result =
+                                                    List.from(state.barcodes!);
+                                                result.removeAt(index);
+                                                setState(() {
+                                                  result = result;
+                                                });
+                                                final bloc = context.read<
+                                                    DeliverInterventionBloc>();
+                                                bloc.add(
+                                                  DeliverInterventionEvent
+                                                      .handleScanner(result),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : const Offstage(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -144,6 +196,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
 
     return Stack(
       children: [
+        // [TODO: Localization need to be added]
         const Positioned(top: 500, child: Text('coundnot scan the QR code')),
         QRView(
           key: qrKey,
@@ -167,65 +220,52 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
       this.controller = controller;
     });
 
-    await Future.delayed(const Duration(seconds: 3), () {
-      controller.scannedDataStream.listen((scanData) async {
-        try {
-          final parser = GS1BarcodeParser.defaultParser();
-          final parsedresult = parser.parse(scanData.code!);
-          final bloc = context.read<DeliverInterventionBloc>();
-          if (parsedresult.elements.entries
-                  .map((e) => e.key)
-                  .join('')
-                  .toString() ==
-              '01111021') {
-            if (bloc.state.barcodes != null) {
-              if (bloc.state.barcodes!
-                      .firstWhereOrNull(
-                        (element) =>
-                            element.elements.entries.last.value.data ==
-                            parsedresult.elements.entries.last.value.data,
-                      )
-                      ?.elements
-                      .entries
-                      .last
-                      .value
-                      .data !=
-                  null) {
-                handleError(controller, "Resource Already Scanned");
-              } else {
-                if (widget.quantity > result.length) {
-                  storeValue(scanData, controller);
-                } else {
-                  handleError(
-                    controller,
-                    'Resource quantity xceeded the entered value!',
-                  );
-                }
-              }
-            } else {
-              if (widget.quantity > result.length) {
-                storeValue(scanData, controller);
-              } else {
-                handleError(
-                  controller,
-                  'Resource quantity exceeded the entered value!',
-                );
-              }
-            }
+    controller.scannedDataStream.listen((scanData) async {
+      try {
+        final parser = GS1BarcodeParser.defaultParser();
+        final parsedResult = parser.parse(scanData.code!);
+        final bloc = context.read<DeliverInterventionBloc>();
+
+        if (parsedResult.elements.keys.join('') == '01111021') {
+          // Check if barcodes have been scanned and if the current one has already been scanned.
+          final alreadyScanned = bloc.state.barcodes != null &&
+              bloc.state.barcodes!.any((element) =>
+                  element.elements.entries.last.value.data ==
+                  parsedResult.elements.entries.last.value.data);
+
+          if (alreadyScanned) {
+            handleError(
+              controller,
+              i18.deliverIntervention.resourceAlreadyScanned,
+            );
+
+            return;
+          } else if (widget.quantity > result.length) {
+            storeValue(parsedResult, controller);
+
+            return;
           } else {
-            handleError(controller, 'Please Scan a valid Bednet');
+            handleError(
+              controller,
+              i18.deliverIntervention.scannedResourceCountMisMatch,
+            );
           }
-        } catch (e) {
-          handleError(controller, 'Unable to scan');
+        } else {
+          handleError(controller, i18.deliverIntervention.scanValidResource);
         }
-      });
+      } catch (e) {
+        handleError(controller, i18.deliverIntervention.unableToScan);
+      }
+
       // // controller.pauseCamera();
     });
   }
 
   void handleError(QRViewController controller, String message) async {
+    controller.pauseCamera();
     player.play(AssetSource("audio/buzzer.wav"));
-    if (player.state == PlayerState.completed) {
+
+    if (player.state == PlayerState.completed || result.isEmpty) {
       DigitToast.show(
         context,
         options: DigitToastOptions(
@@ -235,62 +275,34 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
         ),
       );
     }
-    player.onDurationChanged.listen((Duration d) {
-      controller.pauseCamera();
-    });
-    await Future.delayed(const Duration(seconds: 3), () async {
-      controller.resumeCamera();
-    });
+    Future.delayed(const Duration(seconds: 1), () => controller.resumeCamera());
   }
 
-  void storeValue(Barcode scanData, QRViewController controller) async {
-    final List<Barcode> barcodes = [];
-    barcodes.add(scanData);
+  void storeValue(GS1Barcode scanData, QRViewController controller) async {
+    controller.pauseCamera();
+    final parsedresult = scanData;
+    final bloc = context.read<DeliverInterventionBloc>();
 
-    final parser = GS1BarcodeParser.defaultParser();
-
-    for (var element in barcodes) {
-      try {
-        final parsedresult = parser.parse(element.code!);
-        final bloc = context.read<DeliverInterventionBloc>();
-
-        if (parsedresult.elements.isNotEmpty) {
-          player.play(AssetSource("audio/add.wav"));
-          Future.delayed(const Duration(seconds: 1));
-          if (bloc.state.barcodes != null) {
-            result = List.from(bloc.state.barcodes!);
-            result.removeDuplicates(
-              (element) => element.elements.entries.last.value.data,
-            );
-          }
-          result.add(parsedresult);
-
-          bloc.add(DeliverInterventionEvent.handleScanner(result));
-        }
-
-        await Future.delayed(const Duration(seconds: 3), () async {
-          controller.resumeCamera();
-        });
-        controller.pauseCamera();
-      } catch (E) {
-        DigitToast.show(
-          context,
-          options: DigitToastOptions(
-            localizations.translate('Unable to scan'),
-            true,
-            Theme.of(context),
-          ),
-        );
-        await Future.delayed(const Duration(seconds: 3), () async {
-          controller.resumeCamera();
-        });
-      }
+    player.play(AssetSource("audio/add.wav"));
+    Future.delayed(const Duration(seconds: 3));
+    if (bloc.state.barcodes != null) {
+      result = List.from(bloc.state.barcodes!);
+      result.removeDuplicates(
+        (element) => element.elements.entries.last.value.data,
+      );
     }
+    result.add(parsedresult);
+    bloc.add(DeliverInterventionEvent.handleScanner(result));
+    setState(() {
+      result = result;
+    });
+    Future.delayed(const Duration(seconds: 1), () => controller.resumeCamera());
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
+        // [TODO: Localization need to be added]
         const SnackBar(content: Text('no Permission')),
       );
     }
