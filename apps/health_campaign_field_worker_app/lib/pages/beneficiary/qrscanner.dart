@@ -94,7 +94,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
               ),
               // [TODO : Need move to constants]
               Positioned(
-                top: kPadding * 10,
+                top: kPadding * 8,
                 left: MediaQuery.of(context).size.width / 3.5,
                 width: 250,
                 height: 250,
@@ -114,7 +114,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
               Positioned(
                 bottom: 0,
                 width: MediaQuery.of(context).size.width,
-                height: kPadding * 13,
+                height: kPadding * 12,
                 child: DigitCard(
                   child: DigitElevatedButton(
                     child: Text(localizations.translate(
@@ -128,7 +128,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
               ),
 
               Positioned(
-                bottom: (kPadding * 10),
+                bottom: (kPadding * 8),
                 height: state.barcodes != null
                     ? state.barcodes!.length < 10
                         ? (state.barcodes!.length * 60) + 80
