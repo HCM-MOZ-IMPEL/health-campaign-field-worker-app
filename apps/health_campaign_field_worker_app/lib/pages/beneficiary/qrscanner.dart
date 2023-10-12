@@ -118,10 +118,49 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
                 child: DigitCard(
                   child: DigitElevatedButton(
                     child: Text(localizations.translate(
-                      i18.common.coreCommonBack,
+                      i18.deliverIntervention.saveScannedResource,
                     )),
-                    onPressed: () {
-                      context.router.pop();
+                    onPressed: () async {
+                      if (result.length < widget.quantity) {
+                        await DigitDialog.show<bool>(
+                          context,
+                          options: DigitDialogOptions(
+                            titleText: localizations.translate(
+                              i18.deliverIntervention.scannerDialogTitle,
+                            ),
+                            contentText: localizations.translate(
+                              i18.deliverIntervention.scannerDialogContent,
+                            ),
+                            primaryAction: DigitDialogActions(
+                              label: localizations.translate(
+                                i18.deliverIntervention
+                                    .scannerDialogPrimaryAction,
+                              ),
+                              action: (ctx) {
+                                Navigator.of(
+                                  context,
+                                  rootNavigator: true,
+                                ).pop(false);
+                              },
+                            ),
+                            secondaryAction: DigitDialogActions(
+                              label: localizations.translate(
+                                i18.deliverIntervention
+                                    .scannerDialogSecondaryAction,
+                              ),
+                              action: (ctx) {
+                                Navigator.of(
+                                  context,
+                                  rootNavigator: true,
+                                ).pop(true);
+                                context.router.pop();
+                              },
+                            ),
+                          ),
+                        );
+                      } else {
+                        context.router.pop();
+                      }
                     },
                   ),
                 ),
