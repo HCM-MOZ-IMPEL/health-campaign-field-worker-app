@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +33,12 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   List<GS1Barcode> result = [];
+  bool flashstatus = false;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       body: BlocBuilder<DeliverInterventionBloc, DeliverInterventionState>(
         builder: (context, state) {
@@ -54,10 +56,46 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
                   child: _buildQrView(context),
                 ),
               ),
+              Positioned(
+                top: kPadding * 2,
+                left: kPadding,
+                child: SizedBox(
+                  // [TODO: Localization need to be added]
+                  child: GestureDetector(
+                    onTap: () async {
+                      controller?.toggleFlash();
+                      var status = await controller?.getFlashStatus();
+                      if (status != null) {
+                        setState(() {
+                          flashstatus = status;
+                        });
+                      }
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Icon(
+                          Icons.flashlight_on,
+                          color: theme.colorScheme.secondary,
+                        ),
+                        Text(
+                          flashstatus
+                              ? i18.deliverIntervention.flashOff
+                              : i18.deliverIntervention.flashOn,
+                          style: TextStyle(
+                            color: theme.colorScheme.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               // [TODO : Need move to constants]
               Positioned(
-                // top: MediaQuery.of(context).size.height / 20,
-                left: MediaQuery.of(context).size.width / 3,
+                top: kPadding * 10,
+                left: MediaQuery.of(context).size.width / 3.5,
                 width: 250,
                 height: 250,
                 child: SizedBox(
@@ -72,45 +110,67 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
                   ),
                 ),
               ),
+
               Positioned(
                 bottom: 0,
                 width: MediaQuery.of(context).size.width,
-                height: 50,
-                child: DigitElevatedButton(
-                  child: Text(localizations.translate(
-                    i18.common.coreCommonBack,
-                  )),
-                  onPressed: () {
-                    context.router.pop();
-                  },
+                height: kPadding * 13,
+                child: DigitCard(
+                  child: DigitElevatedButton(
+                    child: Text(localizations.translate(
+                      i18.common.coreCommonBack,
+                    )),
+                    onPressed: () {
+                      context.router.pop();
+                    },
+                  ),
                 ),
               ),
 
               Positioned(
-                bottom: 60,
+                bottom: (kPadding * 10),
                 height: state.barcodes != null
                     ? state.barcodes!.length < 10
-                        ? (state.barcodes!.length * 60) + 40
+                        ? (state.barcodes!.length * 60) + 80
                         : MediaQuery.of(context).size.height / 2
                     : 0,
                 width: MediaQuery.of(context).size.width,
                 child: Container(
+                  margin: const EdgeInsets.all(kPadding),
                   width: 100,
-                  height: 100,
-                  color: Colors.white,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: DigitTheme.instance.colorScheme.outline,
+                      width: 1,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(12.0),
+                      topRight: Radius.circular(12.0),
+                    ),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
                       Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.all(kPadding),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.0),
+                            topRight: Radius.circular(12.0),
+                          ),
+                        ),
+                        padding: const EdgeInsets.only(
+                          bottom: kPadding * 2,
+                          top: kPadding * 2,
+                          left: kPadding * 2,
+                        ),
                         width: MediaQuery.of(context).size.width,
                         child: Text(
-                          '${state.barcodes?.length.toString()} Resources Scanned',
-                          style: const TextStyle(
-                            fontSize: 16,
-                          ),
+                          '${state.barcodes?.length.toString()} ${localizations.translate(i18.deliverIntervention.resourcesScanned)}',
+                          style: theme.textTheme.headlineMedium,
                         ),
                       ),
                       Expanded(
@@ -202,7 +262,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
           key: qrKey,
           onQRViewCreated: _onQRViewCreated,
           overlay: QrScannerOverlayShape(
-            cutOutBottomOffset: 200,
+            cutOutBottomOffset: 150,
             cutOutWidth: 250,
             cutOutHeight: 250,
           ),
