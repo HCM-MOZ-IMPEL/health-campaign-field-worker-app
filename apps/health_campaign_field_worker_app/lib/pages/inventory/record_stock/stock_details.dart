@@ -394,6 +394,9 @@ class _StockDetailsPageState extends LocalizedState<StockDetailsPage> {
                                           form
                                               .control(_transactionQuantityKey)
                                               .value = null;
+                                          form
+                                              .control(_waybillQuantityKey)
+                                              .value = null;
 
                                           return;
                                         }
