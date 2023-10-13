@@ -22,6 +22,7 @@ mixin _$DeliverInterventionEvent {
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)
         handleSubmit,
     required TResult Function(TaskSearchModel taskSearch) handleSearch,
+    required TResult Function(List<GS1Barcode> barcode) handleScanner,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$DeliverInterventionEvent {
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
         handleSubmit,
     TResult? Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult? Function(List<GS1Barcode> barcode)? handleScanner,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$DeliverInterventionEvent {
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
         handleSubmit,
     TResult Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult Function(List<GS1Barcode> barcode)? handleScanner,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,18 +50,22 @@ mixin _$DeliverInterventionEvent {
         handleSubmit,
     required TResult Function(DeliverInterventionSearchEvent value)
         handleSearch,
+    required TResult Function(DeliverInterventionScannerEvent value)
+        handleScanner,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DeliverInterventionSubmitEvent value)? handleSubmit,
     TResult? Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult? Function(DeliverInterventionScannerEvent value)? handleScanner,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DeliverInterventionSubmitEvent value)? handleSubmit,
     TResult Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult Function(DeliverInterventionScannerEvent value)? handleScanner,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -175,6 +182,7 @@ class _$DeliverInterventionSubmitEvent
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)
         handleSubmit,
     required TResult Function(TaskSearchModel taskSearch) handleSearch,
+    required TResult Function(List<GS1Barcode> barcode) handleScanner,
   }) {
     return handleSubmit(task, isEditing, boundaryModel);
   }
@@ -186,6 +194,7 @@ class _$DeliverInterventionSubmitEvent
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
         handleSubmit,
     TResult? Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult? Function(List<GS1Barcode> barcode)? handleScanner,
   }) {
     return handleSubmit?.call(task, isEditing, boundaryModel);
   }
@@ -197,6 +206,7 @@ class _$DeliverInterventionSubmitEvent
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
         handleSubmit,
     TResult Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult Function(List<GS1Barcode> barcode)? handleScanner,
     required TResult orElse(),
   }) {
     if (handleSubmit != null) {
@@ -212,6 +222,8 @@ class _$DeliverInterventionSubmitEvent
         handleSubmit,
     required TResult Function(DeliverInterventionSearchEvent value)
         handleSearch,
+    required TResult Function(DeliverInterventionScannerEvent value)
+        handleScanner,
   }) {
     return handleSubmit(this);
   }
@@ -221,6 +233,7 @@ class _$DeliverInterventionSubmitEvent
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DeliverInterventionSubmitEvent value)? handleSubmit,
     TResult? Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult? Function(DeliverInterventionScannerEvent value)? handleScanner,
   }) {
     return handleSubmit?.call(this);
   }
@@ -230,6 +243,7 @@ class _$DeliverInterventionSubmitEvent
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DeliverInterventionSubmitEvent value)? handleSubmit,
     TResult Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult Function(DeliverInterventionScannerEvent value)? handleScanner,
     required TResult orElse(),
   }) {
     if (handleSubmit != null) {
@@ -328,6 +342,7 @@ class _$DeliverInterventionSearchEvent
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)
         handleSubmit,
     required TResult Function(TaskSearchModel taskSearch) handleSearch,
+    required TResult Function(List<GS1Barcode> barcode) handleScanner,
   }) {
     return handleSearch(taskSearch);
   }
@@ -339,6 +354,7 @@ class _$DeliverInterventionSearchEvent
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
         handleSubmit,
     TResult? Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult? Function(List<GS1Barcode> barcode)? handleScanner,
   }) {
     return handleSearch?.call(taskSearch);
   }
@@ -350,6 +366,7 @@ class _$DeliverInterventionSearchEvent
             TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
         handleSubmit,
     TResult Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult Function(List<GS1Barcode> barcode)? handleScanner,
     required TResult orElse(),
   }) {
     if (handleSearch != null) {
@@ -365,6 +382,8 @@ class _$DeliverInterventionSearchEvent
         handleSubmit,
     required TResult Function(DeliverInterventionSearchEvent value)
         handleSearch,
+    required TResult Function(DeliverInterventionScannerEvent value)
+        handleScanner,
   }) {
     return handleSearch(this);
   }
@@ -374,6 +393,7 @@ class _$DeliverInterventionSearchEvent
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(DeliverInterventionSubmitEvent value)? handleSubmit,
     TResult? Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult? Function(DeliverInterventionScannerEvent value)? handleScanner,
   }) {
     return handleSearch?.call(this);
   }
@@ -383,6 +403,7 @@ class _$DeliverInterventionSearchEvent
   TResult maybeMap<TResult extends Object?>({
     TResult Function(DeliverInterventionSubmitEvent value)? handleSubmit,
     TResult Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult Function(DeliverInterventionScannerEvent value)? handleScanner,
     required TResult orElse(),
   }) {
     if (handleSearch != null) {
@@ -404,9 +425,171 @@ abstract class DeliverInterventionSearchEvent
 }
 
 /// @nodoc
+abstract class _$$DeliverInterventionScannerEventCopyWith<$Res> {
+  factory _$$DeliverInterventionScannerEventCopyWith(
+          _$DeliverInterventionScannerEvent value,
+          $Res Function(_$DeliverInterventionScannerEvent) then) =
+      __$$DeliverInterventionScannerEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<GS1Barcode> barcode});
+}
+
+/// @nodoc
+class __$$DeliverInterventionScannerEventCopyWithImpl<$Res>
+    extends _$DeliverInterventionEventCopyWithImpl<$Res,
+        _$DeliverInterventionScannerEvent>
+    implements _$$DeliverInterventionScannerEventCopyWith<$Res> {
+  __$$DeliverInterventionScannerEventCopyWithImpl(
+      _$DeliverInterventionScannerEvent _value,
+      $Res Function(_$DeliverInterventionScannerEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? barcode = null,
+  }) {
+    return _then(_$DeliverInterventionScannerEvent(
+      null == barcode
+          ? _value._barcode
+          : barcode // ignore: cast_nullable_to_non_nullable
+              as List<GS1Barcode>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DeliverInterventionScannerEvent
+    implements DeliverInterventionScannerEvent {
+  const _$DeliverInterventionScannerEvent(final List<GS1Barcode> barcode)
+      : _barcode = barcode;
+
+  final List<GS1Barcode> _barcode;
+  @override
+  List<GS1Barcode> get barcode {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_barcode);
+  }
+
+  @override
+  String toString() {
+    return 'DeliverInterventionEvent.handleScanner(barcode: $barcode)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeliverInterventionScannerEvent &&
+            const DeepCollectionEquality().equals(other._barcode, _barcode));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_barcode));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeliverInterventionScannerEventCopyWith<_$DeliverInterventionScannerEvent>
+      get copyWith => __$$DeliverInterventionScannerEventCopyWithImpl<
+          _$DeliverInterventionScannerEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)
+        handleSubmit,
+    required TResult Function(TaskSearchModel taskSearch) handleSearch,
+    required TResult Function(List<GS1Barcode> barcode) handleScanner,
+  }) {
+    return handleScanner(barcode);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
+    TResult? Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult? Function(List<GS1Barcode> barcode)? handleScanner,
+  }) {
+    return handleScanner?.call(barcode);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            TaskModel task, bool isEditing, BoundaryModel boundaryModel)?
+        handleSubmit,
+    TResult Function(TaskSearchModel taskSearch)? handleSearch,
+    TResult Function(List<GS1Barcode> barcode)? handleScanner,
+    required TResult orElse(),
+  }) {
+    if (handleScanner != null) {
+      return handleScanner(barcode);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(DeliverInterventionSubmitEvent value)
+        handleSubmit,
+    required TResult Function(DeliverInterventionSearchEvent value)
+        handleSearch,
+    required TResult Function(DeliverInterventionScannerEvent value)
+        handleScanner,
+  }) {
+    return handleScanner(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(DeliverInterventionSubmitEvent value)? handleSubmit,
+    TResult? Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult? Function(DeliverInterventionScannerEvent value)? handleScanner,
+  }) {
+    return handleScanner?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(DeliverInterventionSubmitEvent value)? handleSubmit,
+    TResult Function(DeliverInterventionSearchEvent value)? handleSearch,
+    TResult Function(DeliverInterventionScannerEvent value)? handleScanner,
+    required TResult orElse(),
+  }) {
+    if (handleScanner != null) {
+      return handleScanner(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeliverInterventionScannerEvent
+    implements DeliverInterventionEvent {
+  const factory DeliverInterventionScannerEvent(
+      final List<GS1Barcode> barcode) = _$DeliverInterventionScannerEvent;
+
+  List<GS1Barcode> get barcode;
+  @JsonKey(ignore: true)
+  _$$DeliverInterventionScannerEventCopyWith<_$DeliverInterventionScannerEvent>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$DeliverInterventionState {
   bool get loading => throw _privateConstructorUsedError;
   bool get isEditing => throw _privateConstructorUsedError;
+  List<GS1Barcode>? get barcodes => throw _privateConstructorUsedError;
   TaskModel? get task => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -420,7 +603,11 @@ abstract class $DeliverInterventionStateCopyWith<$Res> {
           $Res Function(DeliverInterventionState) then) =
       _$DeliverInterventionStateCopyWithImpl<$Res, DeliverInterventionState>;
   @useResult
-  $Res call({bool loading, bool isEditing, TaskModel? task});
+  $Res call(
+      {bool loading,
+      bool isEditing,
+      List<GS1Barcode>? barcodes,
+      TaskModel? task});
 }
 
 /// @nodoc
@@ -439,6 +626,7 @@ class _$DeliverInterventionStateCopyWithImpl<$Res,
   $Res call({
     Object? loading = null,
     Object? isEditing = null,
+    Object? barcodes = freezed,
     Object? task = freezed,
   }) {
     return _then(_value.copyWith(
@@ -450,6 +638,10 @@ class _$DeliverInterventionStateCopyWithImpl<$Res,
           ? _value.isEditing
           : isEditing // ignore: cast_nullable_to_non_nullable
               as bool,
+      barcodes: freezed == barcodes
+          ? _value.barcodes
+          : barcodes // ignore: cast_nullable_to_non_nullable
+              as List<GS1Barcode>?,
       task: freezed == task
           ? _value.task
           : task // ignore: cast_nullable_to_non_nullable
@@ -467,7 +659,11 @@ abstract class _$$_DeliverInterventionStateCopyWith<$Res>
       __$$_DeliverInterventionStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool loading, bool isEditing, TaskModel? task});
+  $Res call(
+      {bool loading,
+      bool isEditing,
+      List<GS1Barcode>? barcodes,
+      TaskModel? task});
 }
 
 /// @nodoc
@@ -484,6 +680,7 @@ class __$$_DeliverInterventionStateCopyWithImpl<$Res>
   $Res call({
     Object? loading = null,
     Object? isEditing = null,
+    Object? barcodes = freezed,
     Object? task = freezed,
   }) {
     return _then(_$_DeliverInterventionState(
@@ -495,6 +692,10 @@ class __$$_DeliverInterventionStateCopyWithImpl<$Res>
           ? _value.isEditing
           : isEditing // ignore: cast_nullable_to_non_nullable
               as bool,
+      barcodes: freezed == barcodes
+          ? _value._barcodes
+          : barcodes // ignore: cast_nullable_to_non_nullable
+              as List<GS1Barcode>?,
       task: freezed == task
           ? _value.task
           : task // ignore: cast_nullable_to_non_nullable
@@ -507,7 +708,11 @@ class __$$_DeliverInterventionStateCopyWithImpl<$Res>
 
 class _$_DeliverInterventionState implements _DeliverInterventionState {
   const _$_DeliverInterventionState(
-      {this.loading = false, this.isEditing = false, this.task});
+      {this.loading = false,
+      this.isEditing = false,
+      final List<GS1Barcode>? barcodes,
+      this.task})
+      : _barcodes = barcodes;
 
   @override
   @JsonKey()
@@ -515,12 +720,21 @@ class _$_DeliverInterventionState implements _DeliverInterventionState {
   @override
   @JsonKey()
   final bool isEditing;
+  final List<GS1Barcode>? _barcodes;
+  @override
+  List<GS1Barcode>? get barcodes {
+    final value = _barcodes;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final TaskModel? task;
 
   @override
   String toString() {
-    return 'DeliverInterventionState(loading: $loading, isEditing: $isEditing, task: $task)';
+    return 'DeliverInterventionState(loading: $loading, isEditing: $isEditing, barcodes: $barcodes, task: $task)';
   }
 
   @override
@@ -531,11 +745,13 @@ class _$_DeliverInterventionState implements _DeliverInterventionState {
             (identical(other.loading, loading) || other.loading == loading) &&
             (identical(other.isEditing, isEditing) ||
                 other.isEditing == isEditing) &&
+            const DeepCollectionEquality().equals(other._barcodes, _barcodes) &&
             (identical(other.task, task) || other.task == task));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, loading, isEditing, task);
+  int get hashCode => Object.hash(runtimeType, loading, isEditing,
+      const DeepCollectionEquality().hash(_barcodes), task);
 
   @JsonKey(ignore: true)
   @override
@@ -549,12 +765,15 @@ abstract class _DeliverInterventionState implements DeliverInterventionState {
   const factory _DeliverInterventionState(
       {final bool loading,
       final bool isEditing,
+      final List<GS1Barcode>? barcodes,
       final TaskModel? task}) = _$_DeliverInterventionState;
 
   @override
   bool get loading;
   @override
   bool get isEditing;
+  @override
+  List<GS1Barcode>? get barcodes;
   @override
   TaskModel? get task;
   @override
