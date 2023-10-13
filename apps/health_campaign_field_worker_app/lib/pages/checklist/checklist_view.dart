@@ -139,9 +139,9 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
 
                                     return null;
                                   },
-                                  label: localizations.translate(
-                                    '${value.selectedServiceDefinition?.code}.${e.code}',
-                                  ),
+                                  label: '${localizations.translate(
+                                        '${value.selectedServiceDefinition?.code}.${e.code}',
+                                      ).trim()} ${e.required == true ? '*' : ''}',
                                 ),
                               ] else if (e.dataType == 'Number' &&
                                   !(e.code ?? '').contains('.')) ...[
