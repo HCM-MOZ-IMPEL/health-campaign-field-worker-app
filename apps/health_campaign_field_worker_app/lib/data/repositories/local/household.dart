@@ -60,12 +60,24 @@ class HouseholdLocalRepository extends HouseholdLocalBaseRepository {
             memberCount: household.memberCount,
             rowVersion: household.rowVersion,
             isDeleted: household.isDeleted,
-            auditDetails: AuditDetails(
-              createdBy: household.auditCreatedBy!,
-              createdTime: household.auditCreatedTime!,
-              lastModifiedBy: household.auditModifiedBy,
-              lastModifiedTime: household.auditModifiedTime,
-            ),
+            auditDetails: (household.auditCreatedBy != null &&
+                    household.auditCreatedTime != null)
+                ? AuditDetails(
+                    createdBy: household.auditCreatedBy!,
+                    createdTime: household.auditCreatedTime!,
+                    lastModifiedBy: household.auditModifiedBy,
+                    lastModifiedTime: household.auditModifiedTime,
+                  )
+                : null,
+            clientAuditDetails: (household.clientCreatedBy != null &&
+                    household.clientCreatedTime != null)
+                ? ClientAuditDetails(
+                    createdBy: household.clientCreatedBy!,
+                    createdTime: household.clientCreatedTime!,
+                    lastModifiedBy: household.clientModifiedBy,
+                    lastModifiedTime: household.clientModifiedTime,
+                  )
+                : null,
             address: address == null
                 ? null
                 : AddressModel(
@@ -87,12 +99,24 @@ class HouseholdLocalRepository extends HouseholdLocalBaseRepository {
                       code: address.localityBoundaryCode ?? "",
                       name: address.localityBoundaryName,
                     ),
-                    auditDetails: AuditDetails(
-                      createdBy: household.auditCreatedBy!,
-                      createdTime: household.auditCreatedTime!,
-                      lastModifiedBy: household.auditModifiedBy,
-                      lastModifiedTime: household.auditModifiedTime,
-                    ),
+                    auditDetails: (household.auditCreatedBy != null &&
+                            household.auditCreatedBy != null)
+                        ? AuditDetails(
+                            createdBy: household.auditCreatedBy!,
+                            createdTime: household.auditCreatedTime!,
+                            lastModifiedBy: household.auditModifiedBy,
+                            lastModifiedTime: household.auditModifiedTime,
+                          )
+                        : null,
+                    clientAuditDetails: (household.clientCreatedBy != null &&
+                            household.clientCreatedTime != null)
+                        ? ClientAuditDetails(
+                            createdBy: household.clientCreatedBy!,
+                            createdTime: household.clientCreatedTime!,
+                            lastModifiedBy: household.clientModifiedBy,
+                            lastModifiedTime: household.clientModifiedTime,
+                          )
+                        : null,
                   ),
           );
         })
@@ -171,6 +195,15 @@ class HouseholdLocalRepository extends HouseholdLocalBaseRepository {
   }) async {
     final updated = entity.copyWith(
       isDeleted: true,
+      clientAuditDetails: (entity.clientAuditDetails?.createdBy != null &&
+              entity.clientAuditDetails?.createdTime != null)
+          ? ClientAuditDetails(
+              createdBy: entity.clientAuditDetails!.createdBy,
+              createdTime: entity.clientAuditDetails!.createdTime,
+              lastModifiedBy: entity.clientAuditDetails!.lastModifiedBy,
+              lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+            )
+          : null,
       rowVersion: entity.rowVersion,
     );
     await sql.batch((batch) {
