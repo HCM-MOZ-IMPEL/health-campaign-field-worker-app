@@ -61,6 +61,9 @@ dependencies:
   digit_firebase_services: ^0.0.1
   package_info_plus: ^4.1.0
   synchronized: ^3.1.0
+  qr_code_scanner: ^1.0.1
+  gs1_barcode_parser: ^1.0.5
+  audioplayers: ^5.2.0
 
 
 dev_dependencies:

@@ -436,6 +436,34 @@ class DeliverIntervention {
 
   String get bedNetsNonZero => 'BED_NETS_NON_ZERO';
 
+  String get unableToScan => 'UNABLE_TO_SCAN';
+
+  String get scanValidResource => 'SCAN_VALID_RESOURCE';
+
+  String get scannedResourceCountMisMatch => 'SCANNED_RESOURCE_COUNT_MISMATCH';
+
+  String get resourceAlreadyScanned => 'RESOURCE_ALREADY_SCANNED';
+
+  String get scannerLabel => 'SCANNER_LABEL';
+
+  String get noOfResourceScanned => 'NO_OF_RESOURCE_SCANNED';
+
+  String get resourcesScanned => 'RESOURCES_SCANNED';
+
+  String get saveScannedResource => 'SAVE_SCANNED_RESOURCE';
+
+  String get flashOn => 'FLASH_ON';
+
+  String get flashOff => 'FLASH_OFF';
+
+  String get scannerDialogTitle => 'SCANNER_DIALOG_TITLE';
+
+  String get scannerDialogContent => 'SCANNER_DIALOG_CONTENT';
+
+  String get scannerDialogPrimaryAction => 'SCANNER_DIALOG_PRIMARY_ACTION';
+
+  String get scannerDialogSecondaryAction => 'SCANNER_DIALOG_SECONDARY_ACTION';
+
   String get deliveryAlertTitle => 'DELIVER_INTERVENTION_ALERT_DIALOG_TITLE';
 
   String get deliveryAlertContent =>
