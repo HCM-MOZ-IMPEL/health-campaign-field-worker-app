@@ -111,7 +111,14 @@ class _DeliverInterventionPageState
                                             ));
                                           },
                                           icon: Icons.scanner_outlined,
-                                          label: 'Scan the bednets',
+                                          label: localizations.translate(
+                                            i18.deliverIntervention
+                                                .scannerLabel,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: kPadding,
+                                          width: kPadding,
                                         ),
                                         DigitElevatedButton(
                                           onPressed: () async {
@@ -641,7 +648,7 @@ class _DeliverInterventionPageState
                                                 child: DigitInfoCard(
                                                   description: null,
                                                   title:
-                                                      'No of resources Scanner : ${state.barcodes!.length}',
+                                                      '${localizations.translate(i18.deliverIntervention.noOfResourceScanned)}: ${state.barcodes!.length}',
                                                 ),
                                               )
                                             : const Offstage();
