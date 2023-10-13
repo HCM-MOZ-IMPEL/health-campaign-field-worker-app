@@ -13,6 +13,7 @@ import '../pages/beneficiary/beneficiary_wrapper.dart';
 import '../pages/beneficiary/deliver_intervention.dart';
 import '../pages/beneficiary/household_overview.dart';
 import '../pages/beneficiary/household_overview_wrapper.dart';
+import '../pages/beneficiary/qrscanner.dart';
 import '../pages/beneficiary_registration/beneficiary_registration_wrapper.dart';
 import '../pages/beneficiary_registration/household_details.dart';
 import '../pages/beneficiary_registration/household_location.dart';
@@ -91,6 +92,10 @@ part 'app_router.gr.dart';
               page: DeliverInterventionPage,
               path: 'deliver-intervention',
               initial: true,
+            ),
+            AutoRoute(
+              page: QRScannerPage,
+              path: 'qr-scanner',
             ),
           ],
         ),
