@@ -81,8 +81,10 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
                         ),
                         Text(
                           flashstatus
-                              ? i18.deliverIntervention.flashOff
-                              : i18.deliverIntervention.flashOn,
+                              ? localizations
+                                  .translate(i18.deliverIntervention.flashOff)
+                              : localizations
+                                  .translate(i18.deliverIntervention.flashOn),
                           style: TextStyle(
                             color: theme.colorScheme.secondary,
                           ),
