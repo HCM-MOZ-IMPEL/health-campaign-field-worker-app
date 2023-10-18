@@ -103,7 +103,6 @@ class _HomePageState extends LocalizedState<HomePage> {
               final debouncer = Debouncer(seconds: 5);
               debouncer.run(() async {
                 if (count != 0) {
-                  await localSecureStore.setManualSyncTrigger(false);
                   if (context.mounted) {
                     await performBackgroundService(
                       isBackground: false,
@@ -111,8 +110,6 @@ class _HomePageState extends LocalizedState<HomePage> {
                       context: context,
                     );
                   }
-                } else {
-                  await localSecureStore.setManualSyncTrigger(true);
                 }
               });
             },
