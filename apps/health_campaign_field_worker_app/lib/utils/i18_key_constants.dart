@@ -436,6 +436,8 @@ class DeliverIntervention {
 
   String get bedNetsNonZero => 'BED_NETS_NON_ZERO';
 
+  String get scannedSuccessfully => 'SCANNED_SUCCESSFULLY';
+
   String get unableToScan => 'UNABLE_TO_SCAN';
 
   String get scanValidResource => 'SCAN_VALID_RESOURCE';

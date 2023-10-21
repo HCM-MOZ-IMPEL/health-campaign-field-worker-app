@@ -660,7 +660,7 @@ class NetworkManager {
               if (syncedEntity.type == DataModelType.complaints) continue;
               await local.markSyncedUp(
                 entry: syncedEntity,
-                nonRecoverableError: syncedEntity.nonRecoverableError,
+                nonRecoverableError: true,
                 clientReferenceId: syncedEntity.clientReferenceId,
                 id: syncedEntity.id,
               );

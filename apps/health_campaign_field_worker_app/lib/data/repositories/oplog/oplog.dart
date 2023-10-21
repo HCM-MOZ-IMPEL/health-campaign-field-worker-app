@@ -288,7 +288,7 @@ abstract class OpLogManager<T extends EntityModel> {
 
     if (oplogs.first.syncDownRetryCount == 1) {
       await Future.delayed(const Duration(seconds: 1));
-    } else {
+    } else if (!markAsNonRecoverable) {
       await Future.delayed(Duration(
         seconds: envConfig.variables.retryTimeInterval *
             oplogs.first.syncDownRetryCount,
