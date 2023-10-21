@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:digit_components/digit_components.dart';
 import 'package:digit_components/utils/date_utils.dart';
 import 'package:digit_components/widgets/atoms/digit_divider.dart';
+import 'package:digit_components/widgets/atoms/digit_toaster.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,6 +113,25 @@ class _DeliverInterventionPageState
                                         children: [
                                           DigitOutlineIconButton(
                                             onPressed: () {
+                                              if (form
+                                                      .control(
+                                                        _quantityDistributedKey,
+                                                      )
+                                                      .value ==
+                                                  null) {
+                                                DigitToast.show(
+                                                  context,
+                                                  options: DigitToastOptions(
+                                                    localizations.translate(i18
+                                                        .deliverIntervention
+                                                        .bedNetsCountRequired),
+                                                    true,
+                                                    Theme.of(context),
+                                                  ),
+                                                );
+
+                                                return;
+                                              }
                                               context.router
                                                   .push(QRScannerRoute(
                                                 quantity: int.parse(
