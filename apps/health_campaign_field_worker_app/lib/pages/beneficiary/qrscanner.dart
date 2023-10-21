@@ -385,6 +385,16 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
     final bloc = context.read<DeliverInterventionBloc>();
 
     player.play(AssetSource("audio/add.wav"));
+    if (player.state == PlayerState.completed) {
+      DigitToast.show(
+        context,
+        options: DigitToastOptions(
+          localizations.translate(i18.deliverIntervention.scannedSuccessfully),
+          false,
+          Theme.of(context),
+        ),
+      );
+    }
     Future.delayed(const Duration(seconds: 3));
     if (bloc.state.barcodes != null) {
       result = List.from(bloc.state.barcodes!);
