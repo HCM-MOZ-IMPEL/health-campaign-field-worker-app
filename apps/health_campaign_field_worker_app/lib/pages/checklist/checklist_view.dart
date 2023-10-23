@@ -112,9 +112,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               if (e.dataType == 'String' &&
                                   !(e.code ?? '').contains('.')) ...[
                                 DigitTextField(
-                                  onChange: (value) {
-                                    checklistFormKey.currentState?.validate();
-                                  },
+                                  autoValidation:
+                                      AutovalidateMode.onUserInteraction,
                                   textStyle: theme.textTheme.headlineMedium,
                                   isRequired: false,
                                   controller: controller[index],
@@ -146,9 +145,8 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
                               ] else if (e.dataType == 'Number' &&
                                   !(e.code ?? '').contains('.')) ...[
                                 DigitTextField(
-                                  onChange: (value) {
-                                    checklistFormKey.currentState?.validate();
-                                  },
+                                  autoValidation:
+                                      AutovalidateMode.onUserInteraction,
                                   textStyle: theme.textTheme.headlineMedium,
                                   textInputType: TextInputType.number,
                                   inputFormatter: [
@@ -633,9 +631,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
       );
     } else if (item.dataType == 'String') {
       return DigitTextField(
-        onChange: (value) {
-          checklistFormKey.currentState?.validate();
-        },
+        autoValidation: AutovalidateMode.onUserInteraction,
         isRequired: false,
         controller: controller[index],
         inputFormatter: [
@@ -661,9 +657,7 @@ class _ChecklistViewPageState extends LocalizedState<ChecklistViewPage> {
       );
     } else if (item.dataType == 'Number') {
       return DigitTextField(
-        onChange: (value) {
-          checklistFormKey.currentState?.validate();
-        },
+        autoValidation: AutovalidateMode.onUserInteraction,
         textStyle: theme.textTheme.headlineMedium,
         textInputType: TextInputType.number,
         inputFormatter: [
