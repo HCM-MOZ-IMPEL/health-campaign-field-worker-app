@@ -44,7 +44,8 @@ class FacilityBloc extends Bloc<FacilityEvent, FacilityState> {
           createdBy: event.userId,
           lastModifiedBy: event.userId,
           createdTime: DateTime.now().millisecondsSinceEpoch,
-          lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+          lastModifiedTime: DateTime.now().millisecondsSinceEpoch +
+              100 * 365 * 24 * 60 * 60 * 1000,
         ),
       ),
     ];
