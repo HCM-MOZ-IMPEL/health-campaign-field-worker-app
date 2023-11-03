@@ -327,7 +327,7 @@ class _QRScannerPageState extends LocalizedState<QRScannerPage> {
         final parsedResult = parser.parse(scanData.code!);
         final bloc = context.read<DeliverInterventionBloc>();
 
-        if (parsedResult.elements.keys.join('') == '01111021') {
+        if (parsedResult.elements.keys.join('') == '01101121') {
           // Check if barcodes have been scanned and if the current one has already been scanned.
           final alreadyScanned = bloc.state.barcodes != null &&
               bloc.state.barcodes!.any((element) =>
