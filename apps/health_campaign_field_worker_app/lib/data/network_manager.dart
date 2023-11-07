@@ -689,6 +689,7 @@ class NetworkManager {
           for (final sublist in listOfBatchedOpLogList) {
             final entities = getEntityModel(sublist, local);
             if (operationGroupedEntity.key == DataOperation.create) {
+              await Future.delayed(const Duration(seconds: 1));
               switch (typeGroupedEntity.key) {
                 case DataModelType.complaints:
                   for (final entity in entities) {
@@ -762,8 +763,10 @@ class NetworkManager {
                   await remote.bulkCreate(entities);
               }
             } else if (operationGroupedEntity.key == DataOperation.update) {
+              await Future.delayed(const Duration(seconds: 1));
               await remote.bulkUpdate(entities);
             } else if (operationGroupedEntity.key == DataOperation.delete) {
+              await Future.delayed(const Duration(seconds: 1));
               await remote.bulkDelete(entities);
             }
             if (operationGroupedEntity.key == DataOperation.singleCreate) {
