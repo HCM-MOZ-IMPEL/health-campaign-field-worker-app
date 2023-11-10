@@ -1,7 +1,7 @@
 name: health_campaign_field_worker_app
 description: A new Flutter project.
 publish_to: 'none'
-version: 1.0.4+5
+version: 1.0.5+6
 
 environment:
   sdk: '>=3.0.0 <=4.0.0'
@@ -61,6 +61,9 @@ dependencies:
   digit_firebase_services: ^0.0.1
   package_info_plus: ^4.1.0
   synchronized: ^3.1.0
+  qr_code_scanner: ^1.0.1
+  gs1_barcode_parser: ^1.0.5
+  audioplayers: ^5.2.0
 
 
 dev_dependencies:
@@ -94,6 +97,8 @@ flutter_icons:
 flutter:
   assets:
     - ./
+    - ./assets/audio/add.wav
+    - ./assets/audio/buzzer.wav
   fonts:
     - family: Roboto
       fonts:

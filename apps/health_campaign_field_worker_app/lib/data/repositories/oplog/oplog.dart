@@ -52,7 +52,7 @@ abstract class OpLogManager<T extends EntityModel> {
     final errorOpLogs = await isar.opLogs
         .filter()
         .entityTypeEqualTo(type)
-        .syncedUpEqualTo(false)
+        .syncedDownEqualTo(false)
         .nonRecoverableErrorEqualTo(true)
         .createdByEqualTo(createdBy)
         .findAll();
@@ -276,6 +276,7 @@ abstract class OpLogManager<T extends EntityModel> {
       if (updatedEntry.syncDownRetryCount >=
           envConfig.variables.syncDownRetryCount) {
         markAsNonRecoverable = true;
+        updatedEntry = updatedEntry.copyWith(nonRecoverableError: true);
       }
 
       await isar.writeTxn(() async {
@@ -287,7 +288,7 @@ abstract class OpLogManager<T extends EntityModel> {
 
     if (oplogs.first.syncDownRetryCount == 1) {
       await Future.delayed(const Duration(seconds: 1));
-    } else {
+    } else if (!markAsNonRecoverable) {
       await Future.delayed(Duration(
         seconds: envConfig.variables.retryTimeInterval *
             oplogs.first.syncDownRetryCount,

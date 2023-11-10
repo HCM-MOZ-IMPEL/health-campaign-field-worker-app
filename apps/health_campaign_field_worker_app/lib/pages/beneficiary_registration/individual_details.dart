@@ -123,6 +123,37 @@ class _IndividualDetailsPageState
                                         oldIndividual: null,
                                       );
 
+                                      final locationBloc =
+                                          context.read<LocationBloc>();
+                                      final locationInitialState =
+                                          locationBloc.state;
+                                      final initialLat =
+                                          locationInitialState.latitude;
+                                      final initialLng =
+                                          locationInitialState.longitude;
+                                      final initialAccuracy =
+                                          locationInitialState.accuracy;
+                                      if (addressModel != null &&
+                                          (addressModel.latitude == null ||
+                                              addressModel.longitude == null ||
+                                              addressModel.locationAccuracy ==
+                                                  null)) {
+                                        bloc.add(
+                                          BeneficiaryRegistrationSaveAddressEvent(
+                                            addressModel.copyWith(
+                                              latitude: initialLat ??
+                                                  addressModel.locationAccuracy,
+                                              longitude: initialLng ??
+                                                  addressModel.locationAccuracy,
+                                              locationAccuracy:
+                                                  initialAccuracy ??
+                                                      addressModel
+                                                          .locationAccuracy,
+                                            ),
+                                          ),
+                                        );
+                                      }
+
                                       bloc.add(
                                         BeneficiaryRegistrationSaveIndividualDetailsEvent(
                                           model: individual,
@@ -154,7 +185,29 @@ class _IndividualDetailsPageState
                                       bloc.add(
                                         BeneficiaryRegistrationUpdateIndividualDetailsEvent(
                                           addressModel: addressModel,
-                                          model: individual,
+                                          model: individual.copyWith(
+                                            clientAuditDetails: (individual
+                                                            .clientAuditDetails
+                                                            ?.createdBy !=
+                                                        null &&
+                                                    individual
+                                                            .clientAuditDetails
+                                                            ?.createdTime !=
+                                                        null)
+                                                ? ClientAuditDetails(
+                                                    createdBy: individual
+                                                        .clientAuditDetails!
+                                                        .createdBy,
+                                                    createdTime: individual
+                                                        .clientAuditDetails!
+                                                        .createdTime,
+                                                    lastModifiedBy: context
+                                                        .loggedInUserUuid,
+                                                    lastModifiedTime: context
+                                                        .millisecondsSinceEpoch(),
+                                                  )
+                                                : null,
+                                          ),
                                         ),
                                       );
                                     },
@@ -188,7 +241,8 @@ class _IndividualDetailsPageState
                                       .translate(i18.common.coreCommonProceed),
                                 ) ??
                                 localizations.translate(
-                                    i18.householdLocation.actionLabel,),
+                                  i18.householdLocation.actionLabel,
+                                ),
                           ),
                         ),
                       );
@@ -386,6 +440,14 @@ class _IndividualDetailsPageState
       auditDetails: AuditDetails(
         createdBy: context.loggedInUserUuid,
         createdTime: context.millisecondsSinceEpoch(),
+        lastModifiedBy: context.loggedInUserUuid,
+        lastModifiedTime: context.millisecondsSinceEpoch(),
+      ),
+      clientAuditDetails: ClientAuditDetails(
+        createdBy: context.loggedInUserUuid,
+        createdTime: context.millisecondsSinceEpoch(),
+        lastModifiedBy: context.loggedInUserUuid,
+        lastModifiedTime: context.millisecondsSinceEpoch(),
       ),
     );
 
@@ -397,6 +459,14 @@ class _IndividualDetailsPageState
       auditDetails: AuditDetails(
         createdBy: context.loggedInUserUuid,
         createdTime: context.millisecondsSinceEpoch(),
+        lastModifiedBy: context.loggedInUserUuid,
+        lastModifiedTime: context.millisecondsSinceEpoch(),
+      ),
+      clientAuditDetails: ClientAuditDetails(
+        createdBy: context.loggedInUserUuid,
+        createdTime: context.millisecondsSinceEpoch(),
+        lastModifiedBy: context.loggedInUserUuid,
+        lastModifiedTime: context.millisecondsSinceEpoch(),
       ),
     );
 
@@ -411,6 +481,14 @@ class _IndividualDetailsPageState
       auditDetails: AuditDetails(
         createdBy: context.loggedInUserUuid,
         createdTime: context.millisecondsSinceEpoch(),
+        lastModifiedBy: context.loggedInUserUuid,
+        lastModifiedTime: context.millisecondsSinceEpoch(),
+      ),
+      clientAuditDetails: ClientAuditDetails(
+        createdBy: context.loggedInUserUuid,
+        createdTime: context.millisecondsSinceEpoch(),
+        lastModifiedBy: context.loggedInUserUuid,
+        lastModifiedTime: context.millisecondsSinceEpoch(),
       ),
     );
 

@@ -1,7 +1,8 @@
 import 'dart:async';
-
+import 'package:gs1_barcode_parser/gs1_barcode_parser.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../../data/data_repository.dart';
 import '../../models/data_model.dart';
@@ -20,6 +21,7 @@ class DeliverInterventionBloc
   }) {
     on(_handleSubmit);
     on(_handleSearch);
+    on(_handleScanner);
   }
 
   FutureOr<void> _handleSubmit(
@@ -29,7 +31,18 @@ class DeliverInterventionBloc
     emit(state.copyWith(loading: true));
     try {
       if (event.isEditing) {
-        await taskRepository.update(event.task);
+        await taskRepository.update(event.task.copyWith(
+          clientAuditDetails: (event.task.clientAuditDetails?.createdBy !=
+                      null &&
+                  event.task.clientAuditDetails?.createdTime != null)
+              ? ClientAuditDetails(
+                  createdBy: event.task.clientAuditDetails!.createdBy,
+                  createdTime: event.task.clientAuditDetails!.createdTime,
+                  lastModifiedBy: event.task.clientAuditDetails!.lastModifiedBy,
+                  lastModifiedTime: DateTime.now().millisecondsSinceEpoch,
+                )
+              : null,
+        ));
       } else {
         final code =
             event.task.address?.locality?.code ?? event.boundaryModel.code;
@@ -68,6 +81,18 @@ class DeliverInterventionBloc
       emit(state.copyWith(loading: false));
     }
   }
+
+  FutureOr<void> _handleScanner(
+    DeliverInterventionScannerEvent event,
+    BeneficiaryRegistrationEmitter emit,
+  ) async {
+    emit(state.copyWith(barcodes: event.barcode));
+    try {} catch (error) {
+      rethrow;
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
 }
 
 @freezed
@@ -81,6 +106,10 @@ class DeliverInterventionEvent with _$DeliverInterventionEvent {
   const factory DeliverInterventionEvent.handleSearch(
     TaskSearchModel taskSearch,
   ) = DeliverInterventionSearchEvent;
+
+  const factory DeliverInterventionEvent.handleScanner(
+    List<GS1Barcode> barcode,
+  ) = DeliverInterventionScannerEvent;
 }
 
 @freezed
@@ -88,6 +117,7 @@ class DeliverInterventionState with _$DeliverInterventionState {
   const factory DeliverInterventionState({
     @Default(false) bool loading,
     @Default(false) bool isEditing,
+    List<GS1Barcode>? barcodes,
     TaskModel? task,
   }) = _DeliverInterventionState;
 }

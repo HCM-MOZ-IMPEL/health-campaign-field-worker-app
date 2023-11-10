@@ -278,6 +278,18 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    QRScannerRoute.name: (routeData) {
+      final args = routeData.argsAs<QRScannerRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: QRScannerPage(
+          key: args.key,
+          appLocalizations: args.appLocalizations,
+          quantity: args.quantity,
+          isEditing: args.isEditing,
+        ),
+      );
+    },
     HouseholdOverviewRoute.name: (routeData) {
       final args = routeData.argsAs<HouseholdOverviewRouteArgs>(
           orElse: () => const HouseholdOverviewRouteArgs());
@@ -529,6 +541,11 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(
                   DeliverInterventionRoute.name,
                   path: 'deliver-intervention',
+                  parent: BeneficiaryWrapperRoute.name,
+                ),
+                RouteConfig(
+                  QRScannerRoute.name,
+                  path: 'qr-scanner',
                   parent: BeneficiaryWrapperRoute.name,
                 ),
               ],
@@ -1545,6 +1562,50 @@ class DeliverInterventionRouteArgs {
   @override
   String toString() {
     return 'DeliverInterventionRouteArgs{key: $key, appLocalizations: $appLocalizations, isEditing: $isEditing}';
+  }
+}
+
+/// generated route for
+/// [QRScannerPage]
+class QRScannerRoute extends PageRouteInfo<QRScannerRouteArgs> {
+  QRScannerRoute({
+    Key? key,
+    AppLocalizations? appLocalizations,
+    required int quantity,
+    bool isEditing = false,
+  }) : super(
+          QRScannerRoute.name,
+          path: 'qr-scanner',
+          args: QRScannerRouteArgs(
+            key: key,
+            appLocalizations: appLocalizations,
+            quantity: quantity,
+            isEditing: isEditing,
+          ),
+        );
+
+  static const String name = 'QRScannerRoute';
+}
+
+class QRScannerRouteArgs {
+  const QRScannerRouteArgs({
+    this.key,
+    this.appLocalizations,
+    required this.quantity,
+    this.isEditing = false,
+  });
+
+  final Key? key;
+
+  final AppLocalizations? appLocalizations;
+
+  final int quantity;
+
+  final bool isEditing;
+
+  @override
+  String toString() {
+    return 'QRScannerRouteArgs{key: $key, appLocalizations: $appLocalizations, quantity: $quantity, isEditing: $isEditing}';
   }
 }
 

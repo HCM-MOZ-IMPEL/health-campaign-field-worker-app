@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class DigitInfoCard extends StatelessWidget {
   final String title;
-  final String description;
+  final String? description;
   final Color? backgroundColor;
   final IconData? icon;
   final Color? iconColor;
@@ -13,7 +13,7 @@ class DigitInfoCard extends StatelessWidget {
   const DigitInfoCard({
     super.key,
     required this.title,
-    required this.description,
+    this.description,
     this.backgroundColor,
     this.iconColor,
     this.icon,
@@ -55,12 +55,15 @@ class DigitInfoCard extends StatelessWidget {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(kPadding),
-            child: Text(
-              description,
-              style: theme.textTheme.bodyLarge,
-              textAlign: TextAlign.start,
+          Offstage(
+            offstage: description == null,
+            child: Padding(
+              padding: const EdgeInsets.all(kPadding),
+              child: Text(
+                description.toString(),
+                style: theme.textTheme.bodyLarge,
+                textAlign: TextAlign.start,
+              ),
             ),
           )
         ],
