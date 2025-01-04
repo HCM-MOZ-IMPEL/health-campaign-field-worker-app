@@ -8,6 +8,8 @@ import '../../blocs/beneficiary_registration/beneficiary_registration.dart';
 import '../../blocs/delivery_intervention/deliver_intervention.dart';
 import '../../blocs/household_overview/household_overview.dart';
 import '../../blocs/search_households/search_households.dart';
+import '../../models/data_model.mapper.g.dart';
+import '../../models/entities/status.dart';
 import '../../router/app_router.dart';
 import '../../utils/i18_key_constants.dart' as i18;
 import '../../utils/utils.dart';
@@ -84,18 +86,18 @@ class _HouseholdOverviewPageState
                                         .deliveryStatus
                                         .buildWith(
                                       child: DigitIconButton(
-                                        icon: state.task?.status == 'delivered'
+                                        icon: state.task?.status == Status.delivered.toValue()
                                             ? Icons.check_circle
                                             : Icons.info_rounded,
                                         iconText: localizations.translate(
-                                          state.task?.status == 'delivered'
+                                          state.task?.status == Status.delivered.toValue()
                                               ? i18.householdOverView
                                                   .householdOverViewDeliveredIconLabel
                                               : i18.householdOverView
                                                   .householdOverViewNotDeliveredIconLabel,
                                         ),
                                         iconTextColor:
-                                            state.task?.status == 'delivered'
+                                            state.task?.status == Status.delivered.toValue()
                                                 ? DigitTheme
                                                     .instance
                                                     .colorScheme
@@ -103,7 +105,7 @@ class _HouseholdOverviewPageState
                                                 : DigitTheme
                                                     .instance.colorScheme.error,
                                         iconColor:
-                                            state.task?.status == 'delivered'
+                                            state.task?.status == Status.delivered.toValue()
                                                 ? DigitTheme
                                                     .instance
                                                     .colorScheme
