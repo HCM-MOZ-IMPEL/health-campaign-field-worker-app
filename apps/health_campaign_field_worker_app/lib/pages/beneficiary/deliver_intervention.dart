@@ -76,7 +76,7 @@ class _DeliverInterventionPageState
             bedNetRegex = RegExp(r'^[1]+$');
           }
           final isDelivered =
-              householdMemberWrapper.task?.status == 'delivered';
+              householdMemberWrapper.task?.status == Status.delivered.toValue();
 
           return WillPopScope(
             onWillPop: () => _onBackPressed(context, isDelivered),

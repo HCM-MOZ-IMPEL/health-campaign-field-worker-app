@@ -314,7 +314,7 @@ class _HouseholdOverviewPageState
                     DeliverInterventionState>(
                   builder: (ctx, state) => DigitCard(
                     margin: const EdgeInsets.only(left: 0, right: 0, top: 10),
-                    child: state.task?.status == 'delivered'
+                    child: state.task?.status == Status.delivered.toValue()
                         ? householdOverviewShowcaseData.deliverIntervention
                             .buildWith(
                             child: DigitOutLineButton(
