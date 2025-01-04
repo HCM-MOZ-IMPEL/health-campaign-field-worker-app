@@ -236,7 +236,7 @@ class _DeliverInterventionPageState
                                                                               .projectId,
                                                                       status: Status
                                                                           .delivered
-                                                                          .name,
+                                                                          .toValue(),
                                                                       createdDate:
                                                                           context
                                                                               .millisecondsSinceEpoch(),
