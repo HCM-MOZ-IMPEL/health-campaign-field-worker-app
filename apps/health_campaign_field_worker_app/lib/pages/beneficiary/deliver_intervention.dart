@@ -156,7 +156,14 @@ class _DeliverInterventionPageState
                                                     form.markAllAsTouched();
                                                     final List<AdditionalField>
                                                         fields = [];
-                                                    for (var element in context
+                                                     final r =       (   context
+                                                        .read<
+                                                            DeliverInterventionBloc>()
+                                                        .state
+                                                        .barcodes?.isNotEmpty );
+                                                        if(r == true){
+                                                  
+                                                    for (var element in   context
                                                         .read<
                                                             DeliverInterventionBloc>()
                                                         .state
@@ -172,6 +179,7 @@ class _DeliverInterventionPageState
                                                           ),
                                                         );
                                                       }
+                                                        }
                                                     }
                                                     if (!form.valid) return;
                                                     final router =
