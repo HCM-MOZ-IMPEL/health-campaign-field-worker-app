@@ -1,12 +1,12 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 
-part 'row_versions.g.dart';
+// part 'row_versions.g.dart';
 
-@Collection()
-class RowVersionList {
-  Id id = Isar.autoIncrement;
+// @Collection()
+// class RowVersionList {
+//   Id id = Isar.autoIncrement;
 
-  late String module;
+//   late String module;
 
-  late String version;
-}
+//   late String version;
+// }

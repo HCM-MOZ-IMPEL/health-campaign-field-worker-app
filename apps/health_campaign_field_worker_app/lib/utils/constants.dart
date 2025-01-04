@@ -84,7 +84,7 @@ class Constants {
           LocalizationWrapperSchema,
           AppConfigurationSchema,
           OpLogSchema,
-          RowVersionListSchema,
+          // RowVersionListSchema,
         ],
         inspector: true,
         directory: directory.path,

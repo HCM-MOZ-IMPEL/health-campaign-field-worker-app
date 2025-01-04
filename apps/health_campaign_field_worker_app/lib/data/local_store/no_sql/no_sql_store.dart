@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'schema/app_configuration.dart';
 import 'schema/localization.dart';
 import 'schema/oplog.dart';
-import 'schema/row_versions.dart';
+// import 'schema/row_versions.dart';
 import 'schema/service_registry.dart';
 
 /// Exposes an instance of [isar] object that can be used to access the system's
@@ -39,7 +39,7 @@ class NoSqlStore {
         LocalizationWrapperSchema,
         AppConfigurationSchema,
         OpLogSchema,
-        RowVersionListSchema,
+        // RowVersionListSchema,
       ],
       directory: directory.path,
       name: 'HCM',

@@ -9,13 +9,13 @@ class BoundarySearchModel extends EntitySearchModel {
   final String? boundaryType;
   final String? tenantId;
   final bool? isDeleted;
-  final String? code;
+  final List<String>? codes;
 
   BoundarySearchModel({
     this.boundaryType,
     this.tenantId,
     this.isDeleted,
-    this.code,
+    this.codes,
     super.boundaryCode,
   }) : super();
 }
@@ -31,6 +31,7 @@ class BoundaryModel extends EntityModel {
   final String? materializedPath;
   final String? tenantId;
   final bool? isDeleted;
+  final String? boundaryType;
   final int? rowVersion;
   final List<BoundaryModel> children;
 
@@ -45,6 +46,7 @@ class BoundaryModel extends EntityModel {
     this.isDeleted,
     this.boundaryNum,
     this.rowVersion,
+    this.boundaryType,
     this.children = const [],
     super.auditDetails,
   }) : super();

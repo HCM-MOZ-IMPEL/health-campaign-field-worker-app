@@ -139,7 +139,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     List<ProjectStaffModel> projectStaffList;
     try {
       projectStaffList = await projectStaffRemoteRepository.search(
-        ProjectStaffSearchModel(staffId: uuid),
+        ProjectStaffSearchModel(staffId: [uuid!]),
       );
     } on DioError catch (error) {
       if (error.response!.data['Errors'][0]['message']
@@ -405,10 +405,6 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
         ).toJson(),
       );
 
-      final rowversionList = await isar.rowVersionLists
-          .filter()
-          .moduleEqualTo('egov-location')
-          .findAll();
 
       final serverVersion = configResult.rowVersions?.rowVersionslist
           ?.where(
@@ -419,45 +415,36 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
           ?.version;
       final boundaryRefetched = await localSecureStore.boundaryRefetched;
 
-      if (rowversionList.firstOrNull?.version != serverVersion ||
+      if (
           boundaryRefetched) {
         boundaries = await boundaryRemoteRepository.search(
           BoundarySearchModel(
             boundaryType: event.model.address?.boundaryType,
-            code: event.model.address?.boundary,
+            codes: [event.model.address!.boundary!],
           ),
         );
         await boundaryLocalRepository.deleteAll();
         await boundaryLocalRepository.bulkCreate(boundaries);
         await localSecureStore.setSelectedProject(event.model);
         await localSecureStore.setBoundaryRefetch(false);
-        final List<RowVersionList> rowVersionList = [];
+
 
         final data = (configResult).rowVersions?.rowVersionslist;
 
-        for (final element in data ?? <app_configuration.RowVersions>[]) {
-          final rowVersion = RowVersionList();
-          rowVersion.module = element.module;
-          rowVersion.version = element.version;
-          rowVersionList.add(rowVersion);
-        }
-        await isar.writeTxn(() async {
-          await isar.rowVersionLists.clear();
-
-          await isar.rowVersionLists.putAll(rowVersionList);
-        });
+      
+      
       } else {
         boundaries = await boundaryLocalRepository.search(
           BoundarySearchModel(
             boundaryType: event.model.address?.boundaryType,
-            code: event.model.address?.boundary,
+            codes: [event.model.address!.boundary!],
           ),
         );
         if (boundaries.isEmpty) {
           boundaries = await boundaryRemoteRepository.search(
             BoundarySearchModel(
               boundaryType: event.model.address?.boundaryType,
-              code: event.model.address?.boundary,
+              codes: [event.model.address!.boundary!],
             ),
           );
           await boundaryLocalRepository.deleteAll();

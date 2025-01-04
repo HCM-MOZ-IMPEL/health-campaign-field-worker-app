@@ -60,7 +60,7 @@ class MdmsRepository {
       actions.add(Actions()
         ..entityName = 'Boundary'
         ..action = 'search'
-        ..path = '/egov-location/location/v11/boundarys/_search');
+        ..path = '/boundary-service/boundary-relationships/_search');
 
       newServiceRegistry.actions = actions;
       newServiceRegistryList.add(newServiceRegistry);
@@ -122,14 +122,14 @@ class MdmsRepository {
 
     final data = result.rowVersions?.rowVersionslist;
 
-    final List<RowVersionList> rowVersionList = [];
+    // final List<RowVersionList> rowVersionList = [];
 
-    for (final element in data ?? <app_configuration.RowVersions>[]) {
-      final rowVersion = RowVersionList();
-      rowVersion.module = element.module;
-      rowVersion.version = element.version;
-      rowVersionList.add(rowVersion);
-    }
+    // for (final element in data ?? <app_configuration.RowVersions>[]) {
+    //   // final rowVersion = RowVersionList();
+    //   rowVersion.module = element.module;
+    //   rowVersion.version = element.version;
+    //   rowVersionList.add(rowVersion);
+    // }
 
     result.appConfig?.appConfiglist?.forEach((element) {
       final backgroundServiceConfig = BackgroundServiceConfig()
@@ -257,7 +257,7 @@ class MdmsRepository {
 
     await isar.writeTxn(() async {
       await isar.appConfigurations.put(appConfiguration);
-      await isar.rowVersionLists.putAll(rowVersionList);
+      // await isar.rowVersionLists.putAll(rowVersionList);
     });
   }
 

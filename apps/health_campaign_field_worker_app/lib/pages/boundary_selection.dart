@@ -65,9 +65,10 @@ class _BoundarySelectionPageState extends State<BoundarySelectionPage> {
 
                             return false;
                           }).toList();
+                          print(filteredItems);
 
                           filteredItems
-                              .sort((a, b) => a.name!.compareTo(b.name!));
+                              .sort((a, b) => a.label!.compareTo(b.label!));
 
                           return Padding(
                             padding: const EdgeInsets.symmetric(

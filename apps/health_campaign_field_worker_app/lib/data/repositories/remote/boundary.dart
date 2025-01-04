@@ -28,6 +28,8 @@ class BoundaryRemoteRepository
           queryParameters: {
             'offset': 0,
             'limit': 100,
+            'includeChildren': true,
+            'hierarchyType': 'ADMIN',
             'tenantId': envConfig.variables.tenantId,
             ...query.toMap(),
           },
@@ -101,6 +103,7 @@ class BoundaryRemoteRepository
       final materializedPath = parent?.materializedPath?.split('.') ?? [];
       final boundary = e.copyWith(
         materializedPath: [...materializedPath, e.code ?? ''].join('.'),
+        label:  e.boundaryType,
       );
 
       boundaryModelList.add(boundary.copyWith(children: []));

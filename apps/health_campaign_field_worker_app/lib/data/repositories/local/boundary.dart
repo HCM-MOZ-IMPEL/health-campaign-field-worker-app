@@ -48,10 +48,10 @@ class BoundaryLocalRepository extends BoundaryLocalBaseRepository {
     final selectQuery = sql.select(sql.boundary).join([]);
     final results = await (selectQuery
           ..where(buildAnd([
-            if (query.code != null)
-              sql.boundary.materializedPath.like('%${query.code}%'),
-            if (query.boundaryType != null && query.boundaryType!.isNotEmpty)
-              sql.boundary.label.equals(query.boundaryType),
+            if (query.codes != null)
+              sql.boundary.materializedPath.like('%${query.codes?.first}%'),
+            // if (query.boundaryType != null && query.boundaryType!.isNotEmpty)
+            //   sql.boundary.label.equals(query.boundaryType),
             sql.boundary.materializedPath.isNotNull(),
             sql.boundary.materializedPath.isNotIn(['']),
             sql.boundary.code.isNotNull(),
