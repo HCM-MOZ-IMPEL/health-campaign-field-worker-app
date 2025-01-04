@@ -95,6 +95,8 @@ class ProjectModel extends EntityModel {
   final DateTime? startDateTime;
   final DateTime? endDateTime;
   final ProjectAdditionalFields? additionalFields;
+  @MappableField(key: 'additionalDetails')
+  final ProjectAdditionalDetails? additionalDetails;
 
   ProjectModel({
     this.additionalFields,
@@ -115,6 +117,7 @@ class ProjectModel extends EntityModel {
     this.address,
     this.targets,
     this.documents,
+    this.additionalDetails,
     int? startDate,
     int? endDate,
     super.auditDetails,super.clientAuditDetails,
@@ -172,4 +175,13 @@ class ProjectAdditionalFields extends AdditionalFields {
     required super.version,
     super.fields,
   });
+  
+}
+
+@MappableClass(ignoreNull: true, discriminatorValue: MappableClass.useAsDefault)
+class ProjectAdditionalDetails {
+  final ProjectTypeModel? projectType;
+  ProjectAdditionalDetails({
+    this.projectType,
+  }) : super();
 }

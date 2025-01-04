@@ -355,7 +355,7 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
   FutureOr<void> _loadProductVariants(List<ProjectModel> projects) async {
     for (final project in projects) {
       final projectResources = await projectResourceRemoteRepository.search(
-        ProjectResourceSearchModel(projectId: project.id),
+        ProjectResourceSearchModel(projectId: [project.id]),
       );
 
       for (final projectResource in projectResources) {
